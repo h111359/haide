@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "id": "EXAMPLE-001",
+  "skill": "answer-product-questions",
+  "instruction": "Complete the selected answer-product-questions task for the explicitly supplied fixture and write its evidence.",
+  "workspace_revision": 1,
+  "workspace": [
+    {
+      "id": "product",
+      "name": "Example product",
+      "path": "/absolute/path/to/fixture",
+      "purpose": "Explicit standalone fixture",
+      "access": "read-write"
+    }
+  ],
+  "inputs": [
+    {
+      "root": "product",
+      "path": "src"
+    }
+  ],
+  "output": {
+    "root": "product",
+    "path": "results/answer-product-questions"
+  },
+  "scope": [
+    {
+      "root": "product",
+      "path": "results/answer-product-questions"
+    }
+  ],
+  "effects": [
+    "scoped-output-records"
+  ],
+  "authorization": {
+    "mode": "read-only",
+    "instruction_reference": "invoking user message"
+  },
+  "constraints": [
+    "Host permissions remain authoritative",
+    "No network or product process execution is authorized by this example"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "adapter": "codex",
+  "confinement": "linux-landlock-seccomp",
+  "ended": "2026-09-22T20:17:59.973Z",
+  "events": [],
+  "live_agent": true,
+  "operation_id": "codex-live-smoke-3",
+  "process_identity": {
+    "pgid": 5,
+    "pid": 5,
+    "start_ticks": "81088337"
+  },
+  "resume_mode": "new-session",
+  "returncode": 1,
+  "session_id": null,
+  "started": "2026-09-22T20:17:59.786Z",
+  "status": "exited",
+  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Operation not permitted (os error 1)\nError: failed to initialize in-process app-server client: Read-only file system (os error 30)\n",
+  "stdout": "",
+  "termination_confirmed": true,
+  "text": "",
+  "usage": null,
+  "workspace_revision": 1
+}

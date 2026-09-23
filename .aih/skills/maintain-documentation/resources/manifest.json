@@ -1,0 +1,28 @@
+{
+  "bundle_version": "1.0.0",
+  "conventions_version": "1.0",
+  "files": {
+    "references/documentation.md": "00fac6c23c2a017b8d3617d36adc28bac3f3d3687816e6678b1cf11da05b8e3e",
+    "references/execution.md": "bfb4d26645d334ace7b57e3599c39eedb7680dcf566750af4b4cf8c1a35a92a9",
+    "references/questionnaires.md": "36fa03a09e4be03924467c810b87ae62a13ffa7d0d316c6f0a6e2e36dbc9edfe",
+    "references/records.md": "b594b68e1a1b3b9ca081c539301ed5950a2d039909b96ecc0057e26c824b24ca",
+    "references/semantic-results.md": "ddd0f83512a5c270bb9fbd8fbdb1468b5ab6cbe59bf2c2de2aa1cf2bc060c98f",
+    "references/standalone.md": "9bf59814700c400df196b1cf690289dd8164abebe3459d8bde2267c0da453076",
+    "references/workspace.md": "9e2772cd4e94aed83998f55f101dfb3a36c9a6c5adc8e3027425d52fbac5db57",
+    "resources/coverage.json": "eac0f94708b24e02cb39bae61e5263a8111507be3d4d886a86a74867af4da79a",
+    "resources/example-contract.json": "8367b84a80996270d38fe9231150b5f7b9f72d1bcd01e631e522b7b2556d0861",
+    "resources/runtime.schema.json": "d335220472903bb49d2a93438e04881ad310bd4a7329bd5a8f4c75423bcbbcb2",
+    "resources/schemas.json": "44e9a98e6b91619178be5f4029c69bde15f266c6e8251bb932b3900440f8cbb1",
+    "scripts/contracts.py": "ed40c8c81ff72f90b646779ba6b82d05e4ae79c4876b71d2bb402c5b32b64aa5",
+    "scripts/exchange.py": "52f97dcbdc958ca1896b3de56a4614480ee78a7a695cd9c487cf2815281653c8",
+    "scripts/execution.py": "943a04e2dfc3023951663818d3cc4e8f2e239bfa29a30ceb18f3208f45f8aa48",
+    "scripts/helper.py": "5c9df175036a08a87eed7df26d9d8ff67138e026288ee748cd7d325b620bb638",
+    "scripts/portable_edits.py": "ad2a80228e00ecbb95d2dafb3d3acee2c34fe5b67071ae244a651bc59dc1b772",
+    "scripts/portable_process.py": "955c25249d850a12c478983a36dbc3f7ef19b06cb4def78e6cf34cafc21dde5c",
+    "scripts/product_edits.py": "88fd211c7a94242a228aebd78742d112b6d58eafa95ba8a42c8afaf2dbf5c9df",
+    "scripts/security.py": "fbdf85c079c1e7633d773d46398c2e36805c930c2c80ee47ecb49603d6960da6",
+    "scripts/storage.py": "a64db57f989df7d92cb65769315e7ec9a8f1ccd2700730810342c845e86fa558"
+  },
+  "helper_version": "1.0.0",
+  "schema_version": "1.0"
+}

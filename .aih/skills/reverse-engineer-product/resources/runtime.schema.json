@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aih:runtime:1.0",
+  "$defs": {
+    "state": {"type":"object","required":["schema_version","revision","active_request","owner","setup","workspace_revision"],"properties":{"schema_version":{"enum":["1.0"]},"revision":{"type":"integer"},"workspace_revision":{"type":"integer"},"setup":{"type":"object"}}},
+    "config": {"type":"object","required":["schema_version","workspace","profiles","skills"],"properties":{"schema_version":{"enum":["1.0"]},"workspace":{"$ref":"#/$defs/workspace"},"profiles":{"type":"object"},"skills":{"type":"object"}}},
+    "workspace": {"type":"object","required":["revision","product_id","roots"],"properties":{"revision":{"type":"integer"},"product_id":{"type":"string","minLength":1},"roots":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/root"}}}},
+    "root": {"type":"object","required":["id","name","path","purpose","access"],"properties":{"id":{"type":"string","pattern":"[a-z][a-z0-9_-]{0,47}"},"name":{"type":"string","minLength":1},"path":{"type":"string","minLength":1},"purpose":{"type":"string","minLength":1},"access":{"enum":["read-write","read-only"]}}},
+    "request": {"type":"object","required":["schema_version","id","status","phase","created","scope_revision","workspace_revision","tasks","blockers"],"properties":{"schema_version":{"enum":["1.0"]},"status":{"enum":["open","blocked","ready-to-close","completed","cancelled","rejected"]},"scope_revision":{"type":"integer"},"tasks":{"type":"array"},"blockers":{"type":"array"}}},
+    "plan": {"type":"object","required":["id","revision","tasks","bindings"],"properties":{"revision":{"type":"integer"},"tasks":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/task"}},"bindings":{"type":"object"}}},
+    "task": {"type":"object","required":["id","sequence","kind","outcome","requirements","changes","dependencies","completion_criteria"],"properties":{"id":{"type":"string","minLength":1},"sequence":{"type":"integer"},"kind":{"enum":["investigate","implement","tests","verify","documentation","evidence"]},"outcome":{"type":"string","minLength":1},"requirements":{"type":"array","minItems":1},"changes":{"type":"array"},"dependencies":{"type":"array"},"completion_criteria":{"type":"array","minItems":1}}},
+    "submission": {"type":"object","required":["schema_version","id","action","created","request_id","workspace_revision","fingerprint","input","questionnaire","amendments","instructions"]},
+    "record": {"type":"object","required":["schema_version","id"]},
+    "operation": {"type":"object","required":["schema_version","id","action","status","created","workspace_revision","payload"]},
+    "approval": {"type":"object","required":["plan_id","plan_revision","bindings","by","created"]},
+    "test-contract": {"type":"object","required":["id","workspace_revision","runner","environment","working_directory","source_paths","write_paths","prerequisites","isolation","cleanup","authorization","required"]},
+    "documentation-increment": {"type":"object","required":["schema_version","request_id","status","topics","evidence"]},
+    "event": {"type":"object","required":["id","created","type","owner"]},
+    "amendment": {"type":"object","required":["id","revision","created","saved","text","source","status"]},
+    "receipt": {"type":"object","required":["schema_version","id","created","sha256","text","rows","review_revision","status"]},
+    "checkpoint": {"type":"object","required":["schema_version","id","owner","created","completed","outstanding","workspace_revision"]},
+    "evidence": {"type":"object","required":["schema_version","id","owner","created","workspace_revision","content_fingerprint","outcome"]},
+    "temporary": {"type":"object","required":["operation_id","path","created","status"]},
+    "handoff": {"type":"object","required":["schema_version","id","status","instruction","workspace","scope","created"]},
+    "implementation-event": {"type":"object","required":["time","run_id","event","workspace_revision"]},
+    "defect": {"type":"object","required":["id","symptoms","evidence","disposition","status"]},
+    "redaction": {"type":"object","required":["id","created","authorized_by","reason","affected","limits"]}
+  }
+}

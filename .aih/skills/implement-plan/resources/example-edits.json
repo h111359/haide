@@ -1,0 +1,11 @@
+{
+  "edits": [
+    {
+      "action": "create",
+      "content": "Hello, Ada!\n",
+      "expected_hash": null,
+      "path": "product:src/greeting.txt"
+    }
+  ],
+  "task_id": "T1"
+}

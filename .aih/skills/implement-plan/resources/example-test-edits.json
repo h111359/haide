@@ -1,0 +1,11 @@
+{
+  "edits": [
+    {
+      "action": "create",
+      "content": "from pathlib import Path\nimport unittest\n\nclass Greeting(unittest.TestCase):\n    def test_greeting(self):\n        observed=(Path(__file__).resolve().parents[1]/\"src/greeting.txt\").read_text()\n        self.assertEqual(observed,\"Hello, Ada!\\n\")\n",
+      "expected_hash": null,
+      "path": "product:tests/test_greeting.py"
+    }
+  ],
+  "task_id": "T2"
+}

@@ -1,0 +1,33 @@
+{
+  "bundle_version": "1.0.0",
+  "conventions_version": "1.0",
+  "files": {
+    "references/documentation.md": "00fac6c23c2a017b8d3617d36adc28bac3f3d3687816e6678b1cf11da05b8e3e",
+    "references/execution.md": "bfb4d26645d334ace7b57e3599c39eedb7680dcf566750af4b4cf8c1a35a92a9",
+    "references/planning.md": "b8fc941ed2a97193aeacf71c4642db0d5aa850c084babb0d5af573c0eadd5ebd",
+    "references/questionnaires.md": "36fa03a09e4be03924467c810b87ae62a13ffa7d0d316c6f0a6e2e36dbc9edfe",
+    "references/records.md": "b594b68e1a1b3b9ca081c539301ed5950a2d039909b96ecc0057e26c824b24ca",
+    "references/semantic-results.md": "ddd0f83512a5c270bb9fbd8fbdb1468b5ab6cbe59bf2c2de2aa1cf2bc060c98f",
+    "references/standalone.md": "b075bd0042526d8506ef3f641700fc82cd564378130c1dadcce0bafd2ba8aba9",
+    "references/workspace.md": "9e2772cd4e94aed83998f55f101dfb3a36c9a6c5adc8e3027425d52fbac5db57",
+    "resources/coverage.json": "eac0f94708b24e02cb39bae61e5263a8111507be3d4d886a86a74867af4da79a",
+    "resources/example-contract.json": "8f314b18bdb09cd9eea1626f7d4fd0cae8a91519eefa3708b0b4da1e95d782c9",
+    "resources/example-edits.json": "2a8b6b3d2f9c033a198df6ad2b4e93fbfc7fde131c002bd2bae98dbe7b86595d",
+    "resources/example-plan.json": "1df58ce80aa8b3d572be0181ce63bf53b06e3d6212184b34699c2582bcb060b2",
+    "resources/example-test-contract.json": "38d7f371e864cf311f7e3224c5bcb2a9432f60f8c006ffa40cd9e84ffc95cc14",
+    "resources/example-test-edits.json": "ad5f53a3befbc5878315549e0790d6d393244019a37da6c1cb386c4995cb3a77",
+    "resources/runtime.schema.json": "d335220472903bb49d2a93438e04881ad310bd4a7329bd5a8f4c75423bcbbcb2",
+    "resources/schemas.json": "44e9a98e6b91619178be5f4029c69bde15f266c6e8251bb932b3900440f8cbb1",
+    "scripts/contracts.py": "ed40c8c81ff72f90b646779ba6b82d05e4ae79c4876b71d2bb402c5b32b64aa5",
+    "scripts/exchange.py": "52f97dcbdc958ca1896b3de56a4614480ee78a7a695cd9c487cf2815281653c8",
+    "scripts/execution.py": "943a04e2dfc3023951663818d3cc4e8f2e239bfa29a30ceb18f3208f45f8aa48",
+    "scripts/helper.py": "5c9df175036a08a87eed7df26d9d8ff67138e026288ee748cd7d325b620bb638",
+    "scripts/portable_edits.py": "ad2a80228e00ecbb95d2dafb3d3acee2c34fe5b67071ae244a651bc59dc1b772",
+    "scripts/portable_process.py": "955c25249d850a12c478983a36dbc3f7ef19b06cb4def78e6cf34cafc21dde5c",
+    "scripts/product_edits.py": "88fd211c7a94242a228aebd78742d112b6d58eafa95ba8a42c8afaf2dbf5c9df",
+    "scripts/security.py": "fbdf85c079c1e7633d773d46398c2e36805c930c2c80ee47ecb49603d6960da6",
+    "scripts/storage.py": "a64db57f989df7d92cb65769315e7ec9a8f1ccd2700730810342c845e86fa558"
+  },
+  "helper_version": "1.0.0",
+  "schema_version": "1.0"
+}

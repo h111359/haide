@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="AI Harness — one workspace, one request, every decision traceable.">
+  <title>AIH · Product workspace</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div id="connection" class="portal-offline" role="status" hidden></div>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Workspace navigation">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">AIH</span><div><strong>AI Harness</strong><small>Product workspace</small></div></div>
+      <nav class="primary-nav" aria-label="Main navigation" id="navigation"></nav>
+      <div class="sidebar-note"><div class="eyebrow">YOUR WORKSPACE</div><strong id="workspace-name">Local product</strong><p class="hint">One active request.<br>Every decision traceable.</p><a href="#help/quick-start" class="hint">How this portal works →</a></div>
+    </aside>
+    <div class="mobile-scrim" id="mobile-scrim"></div>
+    <div class="workspace">
+      <header class="context-bar" id="context"></header>
+      <div class="busy-banner" id="busy-banner" hidden></div>
+      <main id="main" tabindex="-1"><div class="loading" role="status">Opening your workspace…</div></main>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <dialog id="modal" aria-labelledby="modal-title"><button class="dialog-close" aria-label="Close dialog" data-local="close-dialog">×</button><h2 id="modal-title"></h2><div id="modal-body"></div><div class="action-row" id="modal-actions"></div></dialog>
+</body>
+</html>

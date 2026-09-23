@@ -1,0 +1,11 @@
+{
+  "ended": "2026-09-22T20:17:59.973Z",
+  "identity": {
+    "pgid": 5,
+    "pid": 5,
+    "start_ticks": "81088337"
+  },
+  "operation_id": "codex-live-smoke-3",
+  "status": "exited",
+  "termination_confirmed": true
+}

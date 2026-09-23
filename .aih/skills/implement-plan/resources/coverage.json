@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "categories": [
+    {
+      "id": "purpose",
+      "title": "Product purpose, scope, users, stakeholders, terminology and domain"
+    },
+    {
+      "id": "requirements",
+      "title": "Business requirements, rules, processes, acceptance and traceability"
+    },
+    {
+      "id": "quality",
+      "title": "Nonfunctional requirements, service objectives, accessibility and platforms"
+    },
+    {
+      "id": "architecture",
+      "title": "Architecture, responsibilities, decisions, alternatives and tradeoffs"
+    },
+    {
+      "id": "workspace",
+      "title": "Workspace folder identities, ownership, paths and cross-folder dependencies"
+    },
+    {
+      "id": "data",
+      "title": "Data models, ownership, lineage, retention, privacy and migrations"
+    },
+    {
+      "id": "analytics",
+      "title": "ETL, transformations, orchestration, reporting and analytics"
+    },
+    {
+      "id": "interfaces",
+      "title": "Algorithms, APIs, contracts, integrations, events and external services"
+    },
+    {
+      "id": "experience",
+      "title": "User interfaces, visual design, navigation, flows, errors and help"
+    },
+    {
+      "id": "security",
+      "title": "Networking, authentication, authorization, secrets, threats and compliance"
+    },
+    {
+      "id": "dependencies",
+      "title": "Dependencies, versions, licenses, build, configuration and environments"
+    },
+    {
+      "id": "deployment",
+      "title": "Deployment, releases, infrastructure, resources and cost assumptions"
+    },
+    {
+      "id": "testing",
+      "title": "Test inventory, contracts, mappings, fixtures, expected results and evidence"
+    },
+    {
+      "id": "recovery",
+      "title": "Backup, disaster recovery, restore and reconstruction prerequisites"
+    },
+    {
+      "id": "observability",
+      "title": "Logging, monitoring, alerting, incidents, administration and support"
+    },
+    {
+      "id": "operations",
+      "title": "Operating processes, maintenance, data operations, escalation and handover"
+    },
+    {
+      "id": "support",
+      "title": "Guides, onboarding, known limitations, known defects and retirement"
+    },
+    {
+      "id": "additional",
+      "title": "Additional product-specific reconstruction knowledge"
+    }
+  ]
+}

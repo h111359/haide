@@ -1,0 +1,98 @@
+{
+  "bindings": {
+    "interpretation_revision": 1,
+    "workspace_revision": 1
+  },
+  "id": "EXAMPLE-PLAN",
+  "revision": 1,
+  "tasks": [
+    {
+      "changes": [
+        {
+          "action": "create",
+          "path": "product:src/greeting.txt"
+        }
+      ],
+      "completion_criteria": [
+        "Retain actual task evidence linked to AC-GREETING; do not infer verification from proposed content."
+      ],
+      "dependencies": [],
+      "id": "T1",
+      "kind": "implement",
+      "outcome": "Create the explicitly requested greeting fixture.",
+      "requirements": [
+        "AC-GREETING"
+      ],
+      "sequence": 1
+    },
+    {
+      "changes": [
+        {
+          "action": "create",
+          "path": "product:tests/test_greeting.py"
+        }
+      ],
+      "completion_criteria": [
+        "Retain actual task evidence linked to AC-GREETING; do not infer verification from proposed content."
+      ],
+      "dependencies": [
+        "T1"
+      ],
+      "id": "T2",
+      "kind": "tests",
+      "outcome": "Create the retained observable greeting regression.",
+      "requirements": [
+        "AC-GREETING"
+      ],
+      "sequence": 2
+    },
+    {
+      "changes": [],
+      "completion_criteria": [
+        "Retain actual task evidence linked to AC-GREETING; do not infer verification from proposed content."
+      ],
+      "dependencies": [
+        "T2"
+      ],
+      "id": "T3",
+      "kind": "verify",
+      "outcome": "Run the complete retained example suite and inspect its actual result.",
+      "requirements": [
+        "AC-GREETING"
+      ],
+      "sequence": 3
+    },
+    {
+      "changes": [],
+      "completion_criteria": [
+        "Retain actual task evidence linked to AC-GREETING; do not infer verification from proposed content."
+      ],
+      "dependencies": [
+        "T3"
+      ],
+      "id": "T4",
+      "kind": "documentation",
+      "outcome": "Write current behavior and observed verification with source references to the declared output.",
+      "requirements": [
+        "AC-GREETING"
+      ],
+      "sequence": 4
+    },
+    {
+      "changes": [],
+      "completion_criteria": [
+        "Retain actual task evidence linked to AC-GREETING; do not infer verification from proposed content."
+      ],
+      "dependencies": [
+        "T4"
+      ],
+      "id": "T5",
+      "kind": "evidence",
+      "outcome": "Summarize actual outcomes, incomplete work and limitations without inferring human closure.",
+      "requirements": [
+        "AC-GREETING"
+      ],
+      "sequence": 5
+    }
+  ]
+}

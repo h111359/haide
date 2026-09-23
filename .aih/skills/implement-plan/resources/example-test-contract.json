@@ -1,0 +1,22 @@
+{
+  "authorization": "invoking user message",
+  "cleanup": "retain",
+  "environment": "python3",
+  "id": "greeting-regression",
+  "isolation": "linux-landlock-seccomp",
+  "prerequisites": [],
+  "runner": "python-unittest",
+  "source_paths": [
+    {
+      "path": "tests",
+      "root": "product"
+    }
+  ],
+  "task_id": "T3",
+  "working_directory": {
+    "path": ".",
+    "root": "product"
+  },
+  "workspace_revision": 1,
+  "write_paths": []
+}

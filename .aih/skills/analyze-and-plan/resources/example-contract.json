@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "id": "EXAMPLE-001",
+  "skill": "analyze-and-plan",
+  "instruction": "Complete the selected analyze-and-plan task for the explicitly supplied fixture and write its evidence.",
+  "workspace_revision": 1,
+  "workspace": [
+    {
+      "id": "product",
+      "name": "Example product",
+      "path": "/absolute/path/to/fixture",
+      "purpose": "Explicit standalone fixture",
+      "access": "read-write"
+    }
+  ],
+  "inputs": [
+    {
+      "root": "product",
+      "path": "src"
+    }
+  ],
+  "output": {
+    "root": "product",
+    "path": "results/analyze-and-plan"
+  },
+  "scope": [
+    {
+      "root": "product",
+      "path": "results/analyze-and-plan"
+    }
+  ],
+  "effects": [
+    "scoped-output-records"
+  ],
+  "authorization": {
+    "mode": "analysis",
+    "instruction_reference": "invoking user message"
+  },
+  "constraints": [
+    "Host permissions remain authoritative",
+    "No network or product process execution is authorized by this example"
+  ]
+}

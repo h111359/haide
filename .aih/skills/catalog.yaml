@@ -1,0 +1,368 @@
+{
+  "bundle_version": "1.0.0",
+  "schema_version": "1.0",
+  "skills": [
+    {
+      "authorization": [
+        "analysis"
+      ],
+      "bundle_version": "1.0.0",
+      "capabilities": [
+        "analyze",
+        "planning",
+        "direct-planning"
+      ],
+      "compatibility": "AIH contract 1.0; Python 3.11+ standard library; secure POSIX writes. Other hosts require a compatible confinement backend.",
+      "default_enabled": true,
+      "dependencies": [
+        "python>=3.11"
+      ],
+      "display_name": "Analyze and plan",
+      "effects": [
+        "scoped-output-records"
+      ],
+      "excludes": [
+        "Product changes during Analysis",
+        "Inventing user approval"
+      ],
+      "id": "analyze-and-plan",
+      "input_contract": "references/standalone.md",
+      "metadata_sha256": "5368a9e78fb57e9d54288fe39475201ef4c7f2610ed04cf29022b12fc2a00f06",
+      "output_contract": "references/standalone.md#outputs",
+      "output_summary": "Separate assessment/questions/issues records, scoped sequential plan and documentation increment.",
+      "package": "skills/analyze-and-plan",
+      "prerequisites": [
+        "Explicit initiating instruction and applicable authority",
+        "Validated root-qualified inputs/outputs and current workspace revision"
+      ],
+      "purpose": "Evaluate implementation choices and generate or revise the sequential plan from current submitted requirements.",
+      "resources_sha256": "c4beb3343dfb7707848f8c2de64dddf13eb1c6d0f3aa5df6980d491fe8dd4375",
+      "standalone_parameters": [
+        "contract",
+        "data",
+        "artifact"
+      ],
+      "version": "1.0.0",
+      "write_scope": "Only explicit root-qualified invocation scope; no writes to read-only roots, human instructions, immutable core or outside folders."
+    },
+    {
+      "authorization": [
+        "read-only"
+      ],
+      "bundle_version": "1.0.0",
+      "capabilities": [
+        "ask",
+        "read-only-question"
+      ],
+      "compatibility": "AIH contract 1.0; Python 3.11+ standard library; secure POSIX writes. Other hosts require a compatible confinement backend.",
+      "default_enabled": true,
+      "dependencies": [
+        "python>=3.11"
+      ],
+      "display_name": "Answer product questions",
+      "effects": [
+        "scoped-output-records"
+      ],
+      "excludes": [
+        "Changing request scope or implementation",
+        "Writing durable product documentation"
+      ],
+      "id": "answer-product-questions",
+      "input_contract": "references/standalone.md",
+      "metadata_sha256": "2924004ef8b0829a57d0bfb679ee13b2a513f0201f4c4840c1fe3259694c2c32",
+      "output_contract": "references/standalone.md#outputs",
+      "output_summary": "Question-owned answer, evidence links and explicit uncertainty/freshness limitations.",
+      "package": "skills/answer-product-questions",
+      "prerequisites": [
+        "Explicit initiating instruction and applicable authority",
+        "Validated root-qualified inputs/outputs and current workspace revision"
+      ],
+      "purpose": "Answer an independent read-only question from current or explicitly requested historical product evidence.",
+      "resources_sha256": "ff9411f9edb4ebe0784184d67c962f04a01df1f8f6c26c5559ce112adec95054",
+      "standalone_parameters": [
+        "contract",
+        "data",
+        "artifact"
+      ],
+      "version": "1.0.0",
+      "write_scope": "Only explicit root-qualified invocation scope; no writes to read-only roots, human instructions, immutable core or outside folders."
+    },
+    {
+      "authorization": [
+        "requirements"
+      ],
+      "bundle_version": "1.0.0",
+      "capabilities": [
+        "clarify",
+        "requirements",
+        "requestor-exchange"
+      ],
+      "compatibility": "AIH contract 1.0; Python 3.11+ standard library; secure POSIX writes. Other hosts require a compatible confinement backend.",
+      "default_enabled": true,
+      "dependencies": [
+        "python>=3.11"
+      ],
+      "display_name": "Clarify requirements",
+      "effects": [
+        "scoped-output-records"
+      ],
+      "excludes": [
+        "Choosing implementation approaches",
+        "Product implementation"
+      ],
+      "id": "clarify-requirements",
+      "input_contract": "references/standalone.md",
+      "metadata_sha256": "c9d6adb3f6d2b7a9d161183811214aa75661e20d67b983bcd97908752dce6af0",
+      "output_contract": "references/standalone.md#outputs",
+      "output_summary": "Versioned interpretation, explained questions, exchange reviews, amendment dispositions and round results.",
+      "package": "skills/clarify-requirements",
+      "prerequisites": [
+        "Explicit initiating instruction and applicable authority",
+        "Validated root-qualified inputs/outputs and current workspace revision"
+      ],
+      "purpose": "Establish what must change and why; apply reviewed submitted answers and amendments in iterative clarification.",
+      "resources_sha256": "ee5ef06f8c01a0c9525b78ad849ff8005f6f11fc4872df3af403de056db766f1",
+      "standalone_parameters": [
+        "contract",
+        "data",
+        "artifact"
+      ],
+      "version": "1.0.0",
+      "write_scope": "Only explicit root-qualified invocation scope; no writes to read-only roots, human instructions, immutable core or outside folders."
+    },
+    {
+      "authorization": [
+        "git"
+      ],
+      "bundle_version": "1.0.0",
+      "capabilities": [
+        "git-inspect",
+        "git-branch",
+        "git-commit",
+        "git-publish"
+      ],
+      "compatibility": "AIH contract 1.0; Python 3.11+ standard library; secure POSIX writes. Other hosts require a compatible confinement backend.",
+      "default_enabled": false,
+      "dependencies": [
+        "python>=3.11",
+        "git",
+        "linux-landlock-abi>=3",
+        "libseccomp"
+      ],
+      "display_name": "Optional Git workflow",
+      "effects": [
+        "scoped-output-records",
+        "git-status",
+        "git-diff",
+        "git-log",
+        "git-branch",
+        "git-commit",
+        "git-push"
+      ],
+      "excludes": [
+        "Inferring authority from enablement",
+        "Making Git mandatory for ordinary AIH work"
+      ],
+      "id": "git-workflow",
+      "input_contract": "references/standalone.md",
+      "metadata_sha256": "c60ae6064f829e5ff6cd2682ff4fada25c1d6237f90398e780de6010fea16ca4",
+      "output_contract": "references/standalone.md#outputs",
+      "output_summary": "Authorized Git result and evidence with exact repository, effects and limitations.",
+      "package": "skills/git-workflow",
+      "prerequisites": [
+        "Explicit initiating instruction and applicable authority",
+        "Validated root-qualified inputs/outputs and current workspace revision"
+      ],
+      "purpose": "Inspect or perform specifically authorized Git operations in a configured repository with confined side effects.",
+      "resources_sha256": "31cb3714d4a5fc06ca3838fba6e93c4913081b44fea5a213de0d6538d05a8c74",
+      "standalone_parameters": [
+        "contract",
+        "data",
+        "artifact"
+      ],
+      "version": "1.0.0",
+      "write_scope": "Only explicit root-qualified invocation scope; no writes to read-only roots, human instructions, immutable core or outside folders."
+    },
+    {
+      "authorization": [
+        "approved-plan",
+        "direct-implementation"
+      ],
+      "bundle_version": "1.0.0",
+      "capabilities": [
+        "implement",
+        "implement-directly",
+        "repair",
+        "resume"
+      ],
+      "compatibility": "AIH contract 1.0; Python 3.11+ standard library; secure POSIX writes. Other hosts require a compatible confinement backend.",
+      "default_enabled": true,
+      "dependencies": [
+        "python>=3.11",
+        "linux-landlock-abi>=3",
+        "libseccomp"
+      ],
+      "display_name": "Implement a plan",
+      "effects": [
+        "scoped-output-records",
+        "implementation",
+        "test-execution"
+      ],
+      "excludes": [
+        "Unrelated unauthorized repairs",
+        "Implicit deployment or publication"
+      ],
+      "id": "implement-plan",
+      "input_contract": "references/standalone.md",
+      "metadata_sha256": "36e3ee4867f758dc2392a524447343d1b495aec3ef7fc435839a82f374bf9ffd",
+      "output_contract": "references/standalone.md#outputs",
+      "output_summary": "Scoped product changes, sequential task outcomes, incremental logs, checkpoints and verified results.",
+      "package": "skills/implement-plan",
+      "prerequisites": [
+        "Explicit initiating instruction and applicable authority",
+        "Validated root-qualified inputs/outputs and current workspace revision"
+      ],
+      "purpose": "Execute an authorized current plan sequentially or plan internally for explicitly authorized direct implementation.",
+      "resources_sha256": "75872e212bcff1298c9e50f7e04ab739723a09662e0d9258a527167eca54a93b",
+      "standalone_parameters": [
+        "contract",
+        "data",
+        "artifact"
+      ],
+      "version": "1.0.0",
+      "write_scope": "Only explicit root-qualified invocation scope; no writes to read-only roots, human instructions, immutable core or outside folders."
+    },
+    {
+      "authorization": [
+        "documentation"
+      ],
+      "bundle_version": "1.0.0",
+      "capabilities": [
+        "documentation",
+        "rebalancing",
+        "known-defects"
+      ],
+      "compatibility": "AIH contract 1.0; Python 3.11+ standard library; secure POSIX writes. Other hosts require a compatible confinement backend.",
+      "default_enabled": true,
+      "dependencies": [
+        "python>=3.11"
+      ],
+      "display_name": "Maintain documentation",
+      "effects": [
+        "scoped-output-records"
+      ],
+      "excludes": [
+        "Changing human business intent",
+        "Rewriting product implementation"
+      ],
+      "id": "maintain-documentation",
+      "input_contract": "references/standalone.md",
+      "metadata_sha256": "5eb2a6d933274b1de56e92167da5cb4c2b6352aa7591ee825ce0dab8b32061ea",
+      "output_contract": "references/standalone.md#outputs",
+      "output_summary": "Current knowledge, verified increments, known defects, catalogs, provenance and structural changes.",
+      "package": "skills/maintain-documentation",
+      "prerequisites": [
+        "Explicit initiating instruction and applicable authority",
+        "Validated root-qualified inputs/outputs and current workspace revision"
+      ],
+      "purpose": "Apply authorized documentation increments and organize current product knowledge into a balanced navigable tree.",
+      "resources_sha256": "893b37cf32fb9fb0650d7904a7f6e1532ccb94a4e664dd32665d077b53f06e5a",
+      "standalone_parameters": [
+        "contract",
+        "data",
+        "artifact"
+      ],
+      "version": "1.0.0",
+      "write_scope": "Only explicit root-qualified invocation scope; no writes to read-only roots, human instructions, immutable core or outside folders."
+    },
+    {
+      "authorization": [
+        "setup"
+      ],
+      "bundle_version": "1.0.0",
+      "capabilities": [
+        "reverse-engineer",
+        "baseline",
+        "incremental-extraction"
+      ],
+      "compatibility": "AIH contract 1.0; Python 3.11+ standard library; secure POSIX writes. Other hosts require a compatible confinement backend.",
+      "default_enabled": true,
+      "dependencies": [
+        "python>=3.11"
+      ],
+      "display_name": "Reverse engineer a product",
+      "effects": [
+        "scoped-output-records"
+      ],
+      "excludes": [
+        "Repairing implementation",
+        "Claiming static extraction demonstrates runtime behavior"
+      ],
+      "id": "reverse-engineer-product",
+      "input_contract": "references/standalone.md",
+      "metadata_sha256": "3f1e4a7492433db7007139565b3b3da2db87dfd19065a2e1ae59b8f0d72c4e39",
+      "output_contract": "references/standalone.md#outputs",
+      "output_summary": "Source fingerprints, observed facts, inferred knowledge, unknowns and baseline coverage evidence.",
+      "package": "skills/reverse-engineer-product",
+      "prerequisites": [
+        "Explicit initiating instruction and applicable authority",
+        "Validated root-qualified inputs/outputs and current workspace revision"
+      ],
+      "purpose": "Build or refresh evidence-backed understanding from registered product roots without changing implementation.",
+      "resources_sha256": "442f7942cc74ec25b9bf16733fb0788148647529880f7b176cfc79223d3ee6f8",
+      "standalone_parameters": [
+        "contract",
+        "data",
+        "artifact"
+      ],
+      "version": "1.0.0",
+      "write_scope": "Only explicit root-qualified invocation scope; no writes to read-only roots, human instructions, immutable core or outside folders."
+    },
+    {
+      "authorization": [
+        "approved-plan"
+      ],
+      "bundle_version": "1.0.0",
+      "capabilities": [
+        "test",
+        "verification",
+        "failure-diagnosis"
+      ],
+      "compatibility": "AIH contract 1.0; Python 3.11+ standard library; secure POSIX writes. Other hosts require a compatible confinement backend.",
+      "default_enabled": true,
+      "dependencies": [
+        "python>=3.11",
+        "linux-landlock-abi>=3",
+        "libseccomp"
+      ],
+      "display_name": "Test and verify",
+      "effects": [
+        "scoped-output-records",
+        "test-execution"
+      ],
+      "excludes": [
+        "Waiving failed required tests",
+        "Unrelated product repairs"
+      ],
+      "id": "test-and-verify",
+      "input_contract": "references/standalone.md",
+      "metadata_sha256": "a9ba379230c25113d263c4a5097b41e088c7c9356a123eb731343e11f6de3e7e",
+      "output_contract": "references/standalone.md#outputs",
+      "output_summary": "Test inventory and mappings, sanitized run evidence, failures, stale and unexecuted checks.",
+      "package": "skills/test-and-verify",
+      "prerequisites": [
+        "Explicit initiating instruction and applicable authority",
+        "Validated root-qualified inputs/outputs and current workspace revision"
+      ],
+      "purpose": "Design scoped tests, run the maintained required suites in authorized environments, and diagnose actual failures.",
+      "resources_sha256": "04799ee4e52a8dd862c3b7814be5fbc0304f4c9c83f8611c4513498da4f06c4e",
+      "standalone_parameters": [
+        "contract",
+        "data",
+        "artifact"
+      ],
+      "version": "1.0.0",
+      "write_scope": "Only explicit root-qualified invocation scope; no writes to read-only roots, human instructions, immutable core or outside folders."
+    }
+  ]
+}

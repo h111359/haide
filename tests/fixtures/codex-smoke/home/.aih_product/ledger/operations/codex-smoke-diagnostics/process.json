@@ -1,0 +1,11 @@
+{
+  "ended": "2026-09-22T20:14:40.914Z",
+  "identity": {
+    "pgid": 6,
+    "pid": 6,
+    "start_ticks": "81068437"
+  },
+  "operation_id": "codex-smoke-diagnostics",
+  "status": "exited",
+  "termination_confirmed": true
+}

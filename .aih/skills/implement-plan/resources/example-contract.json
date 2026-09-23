@@ -1,0 +1,66 @@
+{
+  "authorization": {
+    "instruction_reference": "invoking user message",
+    "mode": "approved-plan",
+    "plan_sha256": "1df58ce80aa8b3d572be0181ce63bf53b06e3d6212184b34699c2582bcb060b2"
+  },
+  "constraints": [
+    "Host permissions remain authoritative",
+    "Only this explicit synthetic fixture and declared Python regression effects are authorized; no network"
+  ],
+  "effects": [
+    "scoped-output-records",
+    "implementation",
+    "test-execution"
+  ],
+  "id": "EXAMPLE-001",
+  "inputs": [
+    {
+      "path": "src",
+      "root": "product"
+    }
+  ],
+  "instruction": "Complete the selected implement-plan task for the explicitly supplied fixture and write its evidence.",
+  "output": {
+    "path": "results/implement-plan",
+    "root": "product"
+  },
+  "plan": {
+    "path": "approved-plan.json",
+    "root": "product"
+  },
+  "runtime": {
+    "path": ".aih-runtime/standalone-example",
+    "root": "product"
+  },
+  "schema_version": "1.0",
+  "scope": [
+    {
+      "path": "results/implement-plan",
+      "root": "product"
+    },
+    {
+      "path": "src",
+      "root": "product"
+    },
+    {
+      "path": "tests",
+      "root": "product"
+    },
+    {
+      "path": ".aih-runtime/standalone-example",
+      "root": "product"
+    }
+  ],
+  "skill": "implement-plan",
+  "workspace": [
+    {
+      "access": "read-write",
+      "id": "product",
+      "name": "Example product",
+      "path": "/absolute/path/to/fixture",
+      "purpose": "Explicit standalone fixture"
+    }
+  ],
+  "workspace_revision": 1
+}

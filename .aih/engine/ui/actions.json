@@ -1,0 +1,716 @@
+{
+  "schema_version": "1.0",
+  "authority": "Engine.operations is the shared operation contract and authoritative availability source. This catalog maps human controls to those operations and passive local presentation actions.",
+  "operations": [
+    {
+      "id": "analyze",
+      "labels": [
+        "Analyze"
+      ],
+      "python_operation": "analyze",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "workflow"
+    },
+    {
+      "id": "ask",
+      "labels": [
+        "Ask"
+      ],
+      "python_operation": "ask",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "questions",
+      "help_anchor": "questions"
+    },
+    {
+      "id": "clarify",
+      "labels": [
+        "Clarify",
+        "Clarify with saved answers"
+      ],
+      "python_operation": "clarify",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "workflow"
+    },
+    {
+      "id": "cleanup",
+      "labels": [
+        "Clean abandoned inert temporary data"
+      ],
+      "python_operation": "cleanup",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "maintenance"
+    },
+    {
+      "id": "close",
+      "labels": [
+        "Close as cancelled",
+        "Close as rejected",
+        "Close successfully"
+      ],
+      "python_operation": "close",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "workflow"
+    },
+    {
+      "id": "defect-disposition",
+      "labels": [
+        "Save selection"
+      ],
+      "python_operation": "defect-disposition",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "tests"
+    },
+    {
+      "id": "doctor",
+      "labels": [
+        "Inspect diagnostics"
+      ],
+      "python_operation": "doctor",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "runs",
+      "help_anchor": "profiles"
+    },
+    {
+      "id": "export-questions",
+      "labels": [
+        "Generate requestor form"
+      ],
+      "python_operation": "export-questions",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "clarification"
+    },
+    {
+      "id": "extend-repair-budget",
+      "labels": [
+        "Extend repair budget"
+      ],
+      "python_operation": "extend-repair-budget",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "tests"
+    },
+    {
+      "id": "handoff",
+      "labels": [
+        "Prepare manual handoff"
+      ],
+      "python_operation": "handoff",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "workflow"
+    },
+    {
+      "id": "implement",
+      "labels": [
+        "Implement"
+      ],
+      "python_operation": "implement",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "workflow"
+    },
+    {
+      "id": "implement-directly",
+      "labels": [
+        "Implement directly"
+      ],
+      "python_operation": "implement-directly",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "workflow"
+    },
+    {
+      "id": "import-and-clarify",
+      "labels": [
+        "Import answers and clarify"
+      ],
+      "python_operation": "import-and-clarify",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "clarification"
+    },
+    {
+      "id": "instructions-save",
+      "labels": [
+        "Save my edits"
+      ],
+      "python_operation": "instructions-save",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "settings/instructions",
+      "help_anchor": "skills"
+    },
+    {
+      "id": "profile-diagnose",
+      "labels": [
+        "Run diagnostics"
+      ],
+      "python_operation": "doctor",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "settings/profiles",
+      "help_anchor": "profiles"
+    },
+    {
+      "id": "profile-save",
+      "labels": [
+        "Save capability assignments",
+        "Save profile"
+      ],
+      "python_operation": "profile-save",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "settings/profiles",
+      "help_anchor": "profiles"
+    },
+    {
+      "id": "receive-answers",
+      "labels": [
+        "Receive answers for review"
+      ],
+      "python_operation": "receive-answers",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "clarification"
+    },
+    {
+      "id": "recover",
+      "labels": [
+        "Inspect recovery",
+        "Recover interrupted operation"
+      ],
+      "python_operation": "recover",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "runs",
+      "help_anchor": "activity"
+    },
+    {
+      "id": "remove-attachment",
+      "labels": [
+        "Remove from draft"
+      ],
+      "python_operation": "remove-attachment",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "workflow"
+    },
+    {
+      "id": "resume",
+      "labels": [
+        "Resume"
+      ],
+      "python_operation": "resume",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "activity"
+    },
+    {
+      "id": "reverse-engineer",
+      "labels": [
+        "Reconcile workspace documentation",
+        "Resume setup"
+      ],
+      "python_operation": "reverse-engineer",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "documentation",
+      "help_anchor": "documentation"
+    },
+    {
+      "id": "review-answers",
+      "labels": [
+        "Save reviewed answers"
+      ],
+      "python_operation": "review-answers",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "clarification"
+    },
+    {
+      "id": "run-tests",
+      "labels": [
+        "Run required tests"
+      ],
+      "python_operation": "verify",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "tests"
+    },
+    {
+      "id": "save-amendment",
+      "labels": [
+        "Save amendment",
+        "Withdraw"
+      ],
+      "python_operation": "save-amendment",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "amendments"
+    },
+    {
+      "id": "save-draft",
+      "labels": [
+        "Save draft",
+        "Save question draft"
+      ],
+      "python_operation": "save-draft",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "workflow"
+    },
+    {
+      "id": "save-questionnaire",
+      "labels": [
+        "Save questionnaire draft"
+      ],
+      "python_operation": "save-questionnaire",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "clarification"
+    },
+    {
+      "id": "settings-save",
+      "labels": [
+        "Save appearance",
+        "Save product settings"
+      ],
+      "python_operation": "settings-save",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "settings",
+      "help_anchor": "appearance"
+    },
+    {
+      "id": "stop",
+      "labels": [
+        "Stop / release external handoff",
+        "Stop execution"
+      ],
+      "python_operation": "stop",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "request",
+      "help_anchor": "activity"
+    },
+    {
+      "id": "validate",
+      "labels": [
+        "Validate framework and state",
+        "Validate skills"
+      ],
+      "python_operation": "validate",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "settings/product",
+      "help_anchor": "maintenance"
+    },
+    {
+      "id": "workspace-save",
+      "labels": [
+        "Save workspace folder"
+      ],
+      "python_operation": "workspace-save",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "settings/workspace",
+      "help_anchor": "workspace"
+    },
+    {
+      "id": "workspace-validate",
+      "labels": [
+        "Validate candidate"
+      ],
+      "python_operation": "workspace-validate",
+      "input_source": "Saved explicit form values, current state revision, and a fresh idempotency identifier. See Engine.operations for the authoritative typed input contract.",
+      "prerequisites_source": "Engine.operations current availability; backend transaction rechecks ownership, scope, authorization, and revisions.",
+      "effects_source": "Engine.operations effect description; save controls do not submit or invoke semantic work.",
+      "feedback": "Specific server result with operation identity; conflict preserves local draft; failure provides recovery details.",
+      "destination": "settings/workspace",
+      "help_anchor": "workspace"
+    },
+    {
+      "id": "approve",
+      "labels": [
+        "Approve plan"
+      ],
+      "python_operation": "approve",
+      "input_source": "Engine.operations authoritative typed inputs; current revision and idempotency identity are required.",
+      "prerequisites_source": "Engine.operations availability, rechecked by the backend transaction.",
+      "effects_source": "Engine.operations authoritative effects.",
+      "feedback": "Specific server result, identified operation, actionable errors or preserved conflict draft.",
+      "destination": "request",
+      "help_anchor": "workflow",
+      "portal_exposure": true
+    },
+    {
+      "id": "register-test",
+      "labels": [
+        "Register required suite"
+      ],
+      "python_operation": "register-test",
+      "input_source": "Engine.operations authoritative typed inputs; current revision and idempotency identity are required.",
+      "prerequisites_source": "Engine.operations availability, rechecked by the backend transaction.",
+      "effects_source": "Engine.operations authoritative effects.",
+      "feedback": "Specific server result, identified operation, actionable errors or preserved conflict draft.",
+      "destination": "current page",
+      "help_anchor": "workflow",
+      "portal_exposure": false
+    },
+    {
+      "id": "redact",
+      "labels": [
+        "Redact retained sensitive material"
+      ],
+      "python_operation": "redact",
+      "input_source": "Engine.operations authoritative typed inputs; current revision and idempotency identity are required.",
+      "prerequisites_source": "Engine.operations availability, rechecked by the backend transaction.",
+      "effects_source": "Engine.operations authoritative effects.",
+      "feedback": "Specific server result, identified operation, actionable errors or preserved conflict draft.",
+      "destination": "current page",
+      "help_anchor": "workflow",
+      "portal_exposure": false
+    },
+    {
+      "id": "inventory",
+      "labels": [
+        "Inventory"
+      ],
+      "python_operation": "inventory",
+      "input_source": "Engine.operations authoritative typed inputs; current revision and idempotency identity are required.",
+      "prerequisites_source": "Engine.operations availability, rechecked by the backend transaction.",
+      "effects_source": "Engine.operations authoritative effects.",
+      "feedback": "Specific server result, identified operation, actionable errors or preserved conflict draft.",
+      "destination": "current page",
+      "help_anchor": "workflow",
+      "portal_exposure": false
+    },
+    {
+      "id": "add-attachment",
+      "labels": [
+        "Add attachment"
+      ],
+      "python_operation": "add-attachment",
+      "input_source": "Engine.operations authoritative typed inputs; current revision and idempotency identity are required.",
+      "prerequisites_source": "Engine.operations availability, rechecked by the backend transaction.",
+      "effects_source": "Engine.operations authoritative effects.",
+      "feedback": "Specific server result, identified operation, actionable errors or preserved conflict draft.",
+      "destination": "current page",
+      "help_anchor": "workflow",
+      "portal_exposure": true
+    }
+  ],
+  "presentation": [
+    {
+      "id": "open-nav",
+      "label": "\u2630",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "refresh",
+      "label": "Refresh status",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "discard-change",
+      "label": "Discard unsaved edits",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "compare-input",
+      "label": "Compare saved and submitted input",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "compare-plan",
+      "label": "Compare plan revisions",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "view-results",
+      "label": "View results summary",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "copy-handoff",
+      "label": "Copy instructions",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "view-test-contracts",
+      "label": "Review test contracts",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "documentation-form",
+      "label": "Refresh documentation",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "read-document",
+      "label": "View document",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "refresh",
+      "label": "Refresh status",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "read-document",
+      "label": "Read historical record",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "edit-root",
+      "label": "Edit",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "remove-root",
+      "label": "Remove membership",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "clear-root",
+      "label": "Clear form",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "edit-profile",
+      "label": "Edit",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "preview-instructions",
+      "label": "Preview instructions",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "system-theme",
+      "label": "Use system appearance",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "customize-theme",
+      "label": "Customize current theme",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "reset-theme",
+      "label": "Reset draft to Clear preset",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "delete-theme",
+      "label": "Delete custom theme",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "preview-theme",
+      "label": "Preview changes",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "discard-theme",
+      "label": "Discard preview",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": true,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "copy-command",
+      "label": "Copy CLI help command",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "quickstart",
+      "label": "Open quick start",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "refresh",
+      "label": "Retry status",
+      "python_operation": null,
+      "effect": "Local navigation, preview, clipboard, or pending form selection; does not submit or execute work.",
+      "operational_mutator": false,
+      "help_anchor": "portal"
+    },
+    {
+      "id": "accept-matched",
+      "label": "Accept all matched answers",
+      "python_operation": null,
+      "effect": "Select only unique non-conflicting matched receipt rows for explicit review; never saves, submits, or adopts an answer by itself.",
+      "operational_mutator": true,
+      "help_anchor": "clarification"
+    },
+    {
+      "id": "run-profile",
+      "label": "Next action profile",
+      "python_operation": null,
+      "effect": "Select an explicit profile override for the next user-invoked semantic operation. Existing default/capability settings and running operations remain unchanged.",
+      "operational_mutator": true,
+      "help_anchor": "profiles"
+    }
+  ]
+}

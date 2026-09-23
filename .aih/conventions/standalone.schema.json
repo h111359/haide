@@ -1,0 +1,226 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "skill",
+    "instruction",
+    "workspace",
+    "workspace_revision",
+    "inputs",
+    "output",
+    "scope",
+    "effects",
+    "authorization",
+    "constraints"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "1.0"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "skill": {
+      "type": "string",
+      "minLength": 1
+    },
+    "instruction": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "path",
+          "purpose",
+          "access"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          },
+          "access": {
+            "enum": [
+              "read-write",
+              "read-only"
+            ]
+          }
+        }
+      }
+    },
+    "workspace_revision": {
+      "type": "integer"
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "root",
+          "path"
+        ],
+        "properties": {
+          "root": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "workspace_revision": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "required": [
+        "root",
+        "path"
+      ],
+      "properties": {
+        "root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_revision": {
+          "type": "integer"
+        }
+      }
+    },
+    "scope": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "root",
+          "path"
+        ],
+        "properties": {
+          "root": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "workspace_revision": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "required": [
+        "mode",
+        "instruction_reference"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "read-only",
+            "requirements",
+            "analysis",
+            "documentation",
+            "setup",
+            "approved-plan",
+            "direct-implementation",
+            "git"
+          ]
+        },
+        "instruction_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "plan_sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "required": [
+        "root",
+        "path"
+      ],
+      "properties": {
+        "root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_revision": {
+          "type": "integer"
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "root",
+        "path"
+      ],
+      "properties": {
+        "root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_revision": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
