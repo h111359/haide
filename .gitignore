@@ -216,3 +216,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# AIH operation-owned local runtimes and generated test fixtures
+.aih_runtime/
+tests/runtime-fixtures/
+
+# Retain the requested build and validation evidence.
+!logs/**/*.log
+!logs/*.log
+
+.agents/
+.codex/
+logs/
