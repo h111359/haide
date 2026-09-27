@@ -228,3 +228,4 @@ tests/runtime-fixtures/
 .agents/
 .codex/
 logs/
+.sandbox/
