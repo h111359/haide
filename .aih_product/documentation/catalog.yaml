@@ -1,0 +1,386 @@
+format_version: 1
+collection:
+  kind: product
+  product_id: AIH
+  title: AIH framework product documentation
+  status: specified baseline with retained unresolved matters
+  implementation_status: not established by this documentation migration
+  coverage_status: existing definitions preserved; typed-extension applicability remains
+    explicit
+entry_files:
+- requirements.md
+- decisions.md
+- context.md
+unresolved_file: unresolved.md
+next_document_id: 6
+type_registry: extensions/data-dictionary/document-types.yaml
+documents:
+- id: D1
+  title: Documentation organization
+  type: architecture
+  format: md
+  maintenance: aih-managed
+  path: extensions/architecture/documentation-organization.md
+  authority: defining-detail
+  status: specified
+  freshness: content-fingerprinted
+  fingerprint:
+    algorithm: sha256
+    value: 845a62665fa6284a6bd8242d652d09a46ab683c2dca7c634e4399de4b94c63f3
+  representation: complete-document
+  provenance:
+  - path: sources/documentation-evolution.md
+    locator: sections "Accepted document organization and references", "Migration
+      and request-specific documentation", "Clarified request storage", "Product reference
+      boundary"
+    role: accepted design and subsequent user clarifications
+  related_entries:
+  - file: requirements.md
+    entry: 4.3.2
+  - file: requirements.md
+    entry: 11.5.1
+  - file: requirements.md
+    entry: 11.5.2
+  - file: requirements.md
+    entry: 11.5.3
+  - file: requirements.md
+    entry: 11.5.4
+  - file: requirements.md
+    entry: 11.9.1
+  - file: requirements.md
+    entry: 11.9.3
+  - file: requirements.md
+    entry: 11.9.4
+  - file: requirements.md
+    entry: 11.10.1
+  - file: requirements.md
+    entry: 11.10.2
+  - file: requirements.md
+    entry: 11.10.3
+  - file: requirements.md
+    entry: 11.10.4
+  - file: requirements.md
+    entry: 11.10.5
+  - file: requirements.md
+    entry: 11.10.6
+  - file: requirements.md
+    entry: 11.10.7
+  - file: requirements.md
+    entry: 11.12.1
+  - file: decisions.md
+    entry: 2.1.1
+  - file: decisions.md
+    entry: 5.1.7
+  - file: decisions.md
+    entry: 5.9.4
+  - file: decisions.md
+    entry: 9.5.1
+  - file: decisions.md
+    entry: 9.5.3
+  - file: decisions.md
+    entry: 9.5.7
+  - file: decisions.md
+    entry: 9.7.1
+  - file: decisions.md
+    entry: 9.7.3
+  - file: decisions.md
+    entry: 9.7.7
+  - file: decisions.md
+    entry: 9.8.5
+  - file: decisions.md
+    entry: 9.8.6
+  - file: decisions.md
+    entry: 9.10.5
+  - file: context.md
+    entry: '7.1'
+  - file: context.md
+    entry: '7.5'
+- id: D2
+  title: Documentation catalog contract
+  type: interface-contract
+  format: md
+  maintenance: aih-managed
+  path: extensions/interface-contract/documentation-catalog.md
+  authority: defining-detail
+  status: specified
+  freshness: content-fingerprinted
+  fingerprint:
+    algorithm: sha256
+    value: 12ca2b214b37968ddfc42d328194d50c39172fdbb220e8ada1ca627de9d36f55
+  representation: complete-document
+  provenance:
+  - path: sources/documentation-evolution.md
+    locator: sections "Accepted document organization and references", "Migration
+      and request-specific documentation", "Clarified request storage", "Product reference
+      boundary"
+    role: accepted design and subsequent user clarifications
+  related_entries:
+  - file: requirements.md
+    entry: 11.9.5
+  - file: requirements.md
+    entry: 11.9.6
+  - file: requirements.md
+    entry: 11.9.8
+  - file: requirements.md
+    entry: 11.11.3
+  - file: requirements.md
+    entry: 11.11.4
+  - file: requirements.md
+    entry: 11.11.6
+  - file: requirements.md
+    entry: 11.12.5
+  - file: decisions.md
+    entry: 5.1.1
+  - file: decisions.md
+    entry: 5.1.2
+  - file: decisions.md
+    entry: 5.9.2
+  - file: decisions.md
+    entry: 5.9.5
+  - file: decisions.md
+    entry: 5.9.7
+  - file: decisions.md
+    entry: 9.7.4
+  - file: decisions.md
+    entry: 9.7.5
+  - file: decisions.md
+    entry: 9.7.6
+  - file: decisions.md
+    entry: 9.8.1
+  - file: decisions.md
+    entry: 9.8.2
+  - file: decisions.md
+    entry: 9.8.3
+  - file: decisions.md
+    entry: 9.8.4
+  - file: decisions.md
+    entry: 9.8.7
+  - file: decisions.md
+    entry: 9.8.8
+  - file: decisions.md
+    entry: 9.9.1
+  - file: decisions.md
+    entry: 9.9.2
+  - file: decisions.md
+    entry: 9.9.3
+  - file: decisions.md
+    entry: 9.9.4
+  - file: decisions.md
+    entry: 9.9.5
+  - file: decisions.md
+    entry: 9.9.6
+  - file: decisions.md
+    entry: 9.10.1
+  - file: decisions.md
+    entry: 9.10.2
+  - file: context.md
+    entry: '7.2'
+- id: D3
+  title: Documentation extension types
+  type: data-dictionary
+  format: yaml
+  maintenance: aih-managed
+  path: extensions/data-dictionary/document-types.yaml
+  authority: defining-detail
+  status: specified
+  freshness: content-fingerprinted
+  fingerprint:
+    algorithm: sha256
+    value: 80380cf60bf3b63925548861997fcf92290063323567cd1aac6c38f5d3b08d68
+  representation: complete-document
+  provenance:
+  - path: sources/documentation-evolution.md
+    locator: sections "Accepted document organization and references", "Migration
+      and request-specific documentation", "Clarified request storage", "Product reference
+      boundary"
+    role: accepted design and subsequent user clarifications
+  related_entries:
+  - file: requirements.md
+    entry: 11.9.2
+  - file: requirements.md
+    entry: 11.9.7
+  - file: decisions.md
+    entry: 9.7.2
+  - file: context.md
+    entry: '7.3'
+- id: D4
+  title: Request documentation update flow
+  type: processing-flow
+  format: md
+  maintenance: aih-managed
+  path: extensions/processing-flow/request-documentation-update.md
+  authority: defining-detail
+  status: specified
+  freshness: content-fingerprinted
+  fingerprint:
+    algorithm: sha256
+    value: 0fda2ccae198a5d82f5f02d10d14f1a29215c63e88c84ab1ff9ead5f864753e7
+  representation: complete-document
+  provenance:
+  - path: sources/documentation-evolution.md
+    locator: sections "Accepted document organization and references", "Migration
+      and request-specific documentation", "Clarified request storage", "Product reference
+      boundary"
+    role: accepted design and subsequent user clarifications
+  related_entries:
+  - file: requirements.md
+    entry: 11.11.1
+  - file: requirements.md
+    entry: 11.11.2
+  - file: requirements.md
+    entry: 11.11.5
+  - file: requirements.md
+    entry: 11.11.7
+  - file: requirements.md
+    entry: 11.11.8
+  - file: requirements.md
+    entry: 11.12.2
+  - file: requirements.md
+    entry: 11.12.3
+  - file: requirements.md
+    entry: 11.12.4
+  - file: decisions.md
+    entry: 5.2.2
+  - file: decisions.md
+    entry: 5.4.7
+  - file: decisions.md
+    entry: 5.9.1
+  - file: decisions.md
+    entry: 5.9.3
+  - file: decisions.md
+    entry: 5.9.6
+  - file: decisions.md
+    entry: 9.9.7
+  - file: decisions.md
+    entry: 9.9.8
+  - file: decisions.md
+    entry: 9.9.9
+  - file: decisions.md
+    entry: 9.10.3
+  - file: decisions.md
+    entry: 9.10.4
+  - file: context.md
+    entry: '7.4'
+- id: D5
+  title: Illustrative portal theme demo
+  type: ui-specification
+  format: html
+  maintenance: external-request-controlled
+  path: ../../.sandbox/ARCHVE/20260922/AIH_Portal_Theme_Demo_v20260922_073542Z.html
+  authority: illustrative
+  status: observed-source-not-production-acceptance
+  freshness: content-fingerprinted
+  fingerprint:
+    algorithm: sha256
+    value: 6b68a0eb9a9a0ef7ca6940d24fd382b5a18b6416fd690c3069aba97069837f14
+  representation: reference-only
+  provenance:
+  - path: ../../.sandbox/ARCHVE/20260922/AIH_Portal_Theme_Demo_v20260922_073542Z.html
+    locator: lines 1-128
+    role: illustrative source; no production acceptance
+  related_entries:
+  - file: context.md
+    entry: '6.2'
+  - file: context.md
+    entry: '6.3'
+  - file: context.md
+    entry: '6.4'
+  workspace_ref:
+    root_id: home
+    relative_path: .sandbox/ARCHVE/20260922/AIH_Portal_Theme_Demo_v20260922_073542Z.html
+    access: read-reference; no modification authority
+retired_document_ids: []
+navigation:
+  root: C1
+  catalogs:
+  - id: C1
+    title: Documentation architecture and conventions
+    children:
+    - D1
+    - D2
+    - D3
+    - D4
+  external_references:
+  - D5
+  limits:
+    max_children: 8
+    max_leaf_depth_difference: 1
+    target_prose_words: 1500
+applicability:
+  architecture:
+    status: applicable
+    reason: Represented by the current documentation architecture contracts.
+  workspace-map:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  data-model:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  data-dictionary:
+    status: applicable
+    reason: Represented by the current documentation architecture contracts.
+  processing-flow:
+    status: applicable
+    reason: Represented by the current documentation architecture contracts.
+  algorithm-specification:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  interface-contract:
+    status: applicable
+    reason: Represented by the current documentation architecture contracts.
+  security-model:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  dependency-inventory:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  business-rules:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  glossary:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  ui-specification:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  deployment-guide:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  test-specification:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  recovery-guide:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  operations-guide:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+  user-guide:
+    status: unknown
+    reason: Coverage must be assessed from product evidence; this migration creates
+      no empty type template.
+retained_sources:
+- path: sources/AIH_Build_Prompt_v20260922_173409Z.md
+  original_filename: AIH_Build_Prompt_v20260922_173409Z.md
+  sha256: 4a4fe7203673eff8fa1cacc94ab1d18cb874a9f0e61b17ae8feafe00a83b39a0
+  retention: immutable source evidence; original preserved separately
+- path: sources/AIH_Portal_UX_Proposal_v20260922_073542Z.md
+  original_filename: AIH_Portal_UX_Proposal_v20260922_073542Z.md
+  sha256: 12d5bdcb4534ba1b5a2fe9e45eeca76abcf4c95acdce94ddf1be3e717e1485f3
+  retention: immutable source evidence; original preserved separately
+- path: sources/documentation-evolution.md
+  original_filename: documentation-evolution.md
+  sha256: aa428ccad02245738119c2a5c4e4439c93c7a6ee5324feec7a1174437515030b
+  retention: immutable source evidence; original preserved separately

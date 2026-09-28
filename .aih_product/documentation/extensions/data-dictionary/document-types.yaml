@@ -1,0 +1,215 @@
+document_id: D3
+type: data-dictionary
+title: Documentation extension types
+status: specified
+scope: Initial product documentation type convention; no runtime validator is claimed.
+rules:
+  primary_type: Exactly one predefined type per document.
+  formats: Select a listed inert format suitable for the actual content. HTML is never
+    executed as product-state content.
+  required_content: Cover listed fields where supported; explicitly record unknown
+    or inapplicable aspects rather than inventing them.
+  extension: Add or revise types through an explicit convention change, not an ad
+    hoc generic category.
+  provenance: Every document retains sources, exact locators, certainty, ownership,
+    and related entry references in native metadata or catalog.yaml.
+  creation: Create only applicable documents; do not generate empty templates.
+  size: Use meaningful splits; apply extension-navigation limits and type-appropriate
+    size checks; explain indivisible exceptions.
+types:
+  architecture:
+    formats:
+    - md
+    - mmd
+    content:
+    - components
+    - responsibilities
+    - relationships
+    - choices and rationale
+  workspace-map:
+    formats:
+    - md
+    - yaml
+    - json
+    content:
+    - root identities
+    - paths
+    - ownership
+    - access
+    - dependencies
+  data-model:
+    formats:
+    - md
+    - yaml
+    - json
+    - mmd
+    content:
+    - entities
+    - relationships
+    - constraints
+    - storage mapping
+  data-dictionary:
+    formats:
+    - md
+    - csv
+    - yaml
+    - json
+    content:
+    - field identity
+    - meaning
+    - type
+    - constraints
+    - ownership
+  processing-flow:
+    formats:
+    - md
+    - yaml
+    - json
+    - mmd
+    content:
+    - inputs
+    - steps
+    - outputs
+    - conditions
+    - failure handling
+  algorithm-specification:
+    formats:
+    - md
+    - yaml
+    - json
+    content:
+    - inputs
+    - logic
+    - conditions
+    - expected results
+  interface-contract:
+    formats:
+    - md
+    - yaml
+    - json
+    content:
+    - interfaces
+    - operations or fields
+    - constraints
+    - errors
+    - compatibility
+  security-model:
+    formats:
+    - md
+    - yaml
+    - json
+    - mmd
+    content:
+    - assets
+    - roles
+    - permissions
+    - trust boundaries
+    - threats and controls
+  dependency-inventory:
+    formats:
+    - md
+    - csv
+    - yaml
+    - json
+    content:
+    - dependency identities
+    - versions
+    - licenses
+    - environment
+    - availability
+  business-rules:
+    formats:
+    - md
+    - csv
+    - yaml
+    - json
+    content:
+    - scope
+    - rules
+    - conditions
+    - exceptions
+    - observable outcomes
+  glossary:
+    formats:
+    - md
+    - csv
+    - yaml
+    - json
+    content:
+    - terms
+    - definitions
+    - relationships
+  ui-specification:
+    formats:
+    - md
+    - html
+    - svg
+    - png
+    - yaml
+    - json
+    content:
+    - views
+    - interactions
+    - states
+    - accessibility
+    - acceptance status
+  deployment-guide:
+    formats:
+    - md
+    - yaml
+    - json
+    content:
+    - environments
+    - prerequisites
+    - procedure references
+    - rollback
+    - limits
+  test-specification:
+    formats:
+    - md
+    - csv
+    - yaml
+    - json
+    content:
+    - coverage
+    - acceptance
+    - environments
+    - expected results
+    - evidence references
+  recovery-guide:
+    formats:
+    - md
+    - yaml
+    - json
+    content:
+    - failure scenarios
+    - prerequisites
+    - recovery procedures
+    - validation
+    - limitations
+  operations-guide:
+    formats:
+    - md
+    - yaml
+    - json
+    content:
+    - operations
+    - monitoring
+    - maintenance
+    - ownership
+    - escalation
+  user-guide:
+    formats:
+    - md
+    - html
+    content:
+    - audience
+    - tasks
+    - instructions
+    - examples
+    - limitations
+sources:
+- path: ../../sources/documentation-evolution.md
+  locator: section "Accepted document organization and references"
+- path: ../../sources/AIH_Build_Prompt_v20260922_173409Z.md
+  locator: lines 424-445
