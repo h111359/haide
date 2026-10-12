@@ -229,3 +229,5 @@ tests/runtime-fixtures/
 .codex/
 logs/
 .sandbox/
+
+.aih_draft/
