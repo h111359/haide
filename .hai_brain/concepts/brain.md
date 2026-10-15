@@ -15,4 +15,5 @@
 
 ## References
 
-- [HAI]: defined in `.aih_brain/concepts/hai.md`
+- `.aih_brain/concepts/hai.md` - definition of [HAI] 
+- `.hai_brain\conventions\brain_conv.md` - folder structure of [brain]
