@@ -6,23 +6,11 @@
 
 ## Purpose
 
-The specification organizes the full product documentation so an AI can discover and read only the parts relevant to its current task. Navigation must describe content clearly without prescribing required or optional reading.
+[specification] organizes the full product documentation so an AI can discover and read only the parts relevant to its current task. Navigation must describe content clearly without prescribing required or optional reading.
 
 ## Explanation
 
-### 
-
-
-  
-
-
-
-Each leaf will be of a specific type. Different leaf types will be described by convention markdown files where the expected file purpose and format will be defined. 
-
-The root folder of the specification should be stored as value in JSON file in folder .aih_memory/
-
-
-### Physical tree
+### Physical representation
 
 - The specification should reside in a folder structure which to be organized in a way similar to a balanced tree. The nodes of the tree will be folders. The inheritors of a node will be subfolders in the node folder. And vice versa - the node folder will be located in the folder of its ancestor.
 - A folder can have subfolders in case it is not a leaf. In case of leaf the folder should have aditional file in it with the part of the specification. 
@@ -33,6 +21,7 @@ The root folder of the specification should be stored as value in JSON file in f
 - A branch contains __ncf__.md and child-node folders.
 - A leaf contains __ncf__.md and a file in format specific to the lead type.
 - A node is exclusively a branch or a leaf.
+- The root folder of the specification should be stored as value in the [state]
 
 ### Organization and balance
 - Organize upper levels by documentation subject families, such as product, architecture, engineering, operations, and user guidance.
