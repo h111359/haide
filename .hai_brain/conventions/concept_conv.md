@@ -34,3 +34,7 @@
 ```
 - <relative path to another file>: explanation in free text
 ```
+
+### Term format
+
+When a string is surrounded by symnbols [ and ] - this is emphasize that this is a term, explained in concepts. Aim is this term to be explained on one place and not repeatedly clarified in multiple files.
