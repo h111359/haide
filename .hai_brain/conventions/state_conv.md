@@ -6,7 +6,7 @@ JSON
 
 ## Location
 
-`.hai_brain/state.json`
+`.hai_memory/state.json`
 
 ## Content
 
