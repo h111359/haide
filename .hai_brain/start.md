@@ -18,18 +18,6 @@ Read `.hai_brain/agents/leader/knowledge.md` and act as {leader}.
 When instructed to become {name}, read
 `.hai_brain/agents/{name}/knowledge.md`.
 
-## Load workspace context
-
-Read `.hai_memory/agent_instructions.md` if it exists.
-
-Read `.hai_memory/state.json` if it exists.
-Use it to locate the current request and specification.
-Read only enough current-request context to understand its
-status and next action.
-
-If workspace memory is absent, report that fact.
-Do not create it merely because startup was invoked.
-
 ## Load further knowledge when needed
 
 Before performing a task, identify and read the concepts,
