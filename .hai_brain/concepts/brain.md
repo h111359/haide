@@ -15,10 +15,31 @@
 
 [brain] contains:
 
-- concepts folder
-- conventions folder
-- prompts folder
-- tools folder
+- agents
+- concepts
+- conventions
+- prompts
+- tools
+
+### Agents
+
+Agents are personalities with specific instructions and knowledge. Like different roles in a team. See definition of [agent]
+
+### Concepts
+
+Concepts are files containing common definitions, explanations, rules.
+
+### Conventions
+
+Conventions are files defining the formats, schemas, shapes, labels, names, enumerations.
+
+### Prompts
+
+Prompts are definition of behavior, actions that need to be performed.
+
+### Tools
+
+Tools are scripts, applications and other accelerators with their supporting data, media, documentation or other needed files.
 
 ## Supporting Terms
 
@@ -28,3 +49,4 @@
 
 - `.aih_brain/concepts/hai.md` - definition of [HAI] 
 - `.hai_brain\conventions\brain_conv.md` - folder structure of [brain]
+- `.hai_brain\concepts\agent.md` - definition of [agent]
