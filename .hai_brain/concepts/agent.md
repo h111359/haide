@@ -21,6 +21,17 @@ For example the "leader" is identified by `,hai_brain/agents/leader` and is defi
 Each agent has a file knowledge.md
 When AI should read this knowledge.md file so to become fully onboarded to act in this role.
 
+### Independence and ownership
+
+Agents are independent roles. Each agent's knowledge.md is the canonical
+definition of its own responsibilities and procedures.
+
+An agent may select another agent, delegate work to it, monitor execution,
+and use its results. Its instructions may identify the delegated role and
+the work being delegated, but MUST NOT define or duplicate that other
+agent's responsibilities or procedures. Those belong in the delegated
+agent's own knowledge.md.
+
 ## Supporting Terms
 
 N/A
