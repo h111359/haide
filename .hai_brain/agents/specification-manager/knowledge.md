@@ -45,11 +45,13 @@ request. Do not reread unchanged knowledge already available in context.
    does not by itself authorize creating a specification. Create a new
    tree only when the human's task authorizes it and meaningful content
    is available.
-3. Read the root `__ncf__.md`, then navigate descriptions to relevant
-   nodes. Load only the content and linked context needed for the task.
-   For structural changes, inspect enough node metadata to assess
-   tree-wide balance, node IDs, and affected references without loading
-   every leaf's content.
+3. Run the audit helper below before editing an existing tree to record
+   pre-existing issues. Read the root `__ncf__.md`, then navigate
+   descriptions to relevant nodes. Load only the content and linked
+   context needed for the task. Use the audit helper below for structural
+   inspection; add `--inventory`
+   when node paths, IDs, types, or depths are needed instead of manually
+   listing and reading every node configuration.
 4. Inspect the affected nodes and their leaf-type conventions before
    editing. Report existing inconsistencies and distinguish requested
    changes from unrelated repairs.
@@ -80,8 +82,10 @@ request. Do not reread unchanged knowledge already available in context.
 
 ## Organize, split, and balance
 
-1. Plan the affected tree before moving content. Use meaningful subject
-   families at upper levels and subjects, domains, or modules below
+1. Run the audit helper with `--inventory` before restructuring. Keep an
+   error-free baseline outside the specification tree when identity
+   comparison will help. Plan the affected tree before moving content.
+   Use meaningful subject families at upper levels and subjects, domains, or modules below
    them; navigation categories do not determine leaf types.
 2. Keep each node exclusively a branch or a leaf. Maintain at most eight
    immediate children per branch and a difference of at most one between
@@ -108,21 +112,29 @@ request. Do not reread unchanged knowledge already available in context.
 
 ## Verification and handoff
 
-Before reporting completion, verify:
+Read [the audit helper instructions](scripts/README.md) on first use.
+Choose a working Python interpreter as described there. From the
+workspace root, supply the established specification location:
 
-- Every affected folder has valid `__ncf__.md` YAML metadata, including a
-  unique permanent UUID, title, and branch or leaf kind. Leaves also have
-  one registered type and a valid status.
-- Branch contents and Children tables match immediate child folders;
-  leaves have one content file that satisfies their type convention.
-- The resulting tree respects the child-count and global leaf-depth
-  limits. Check unchanged branches' metadata when needed to establish
-  this, rather than assuming local balance proves global balance.
-- Node configuration sizes satisfy the specification's limits: branch
-  maximum 4,000 Unicode code points; leaf target 8,000 and maximum 12,000,
-  counting the whole file after normalizing line endings to LF.
-- Affected relative links resolve, stable identifiers are preserved,
-  and requested information remains complete and canonical.
+```text
+python -B .hai_brain/agents/specification-manager/scripts/audit_specification.py --root path/to/specification
+```
+
+Rerun this read-only helper after the final edits and before handoff.
+Use it for metadata, IDs, topology, global balance,
+configuration sizes, Children-table coverage, content filenames, and
+simple relative-link checks. Use `--inventory` for structural context and
+`--baseline <saved-inventory.json>` after restructuring to compare IDs.
+Resolve or report each error and review warnings; do not repeat the
+helper's supported checks by manually reading every file.
+
+Manually verify changed leaf content against its type convention,
+classification, sources, approval status, preservation of meaning,
+canonical facts, navigation descriptions, and references from outside
+the tree. Review syntax the helper cannot parse and the meaning of
+identity changes. A zero exit code is not proof of full specification
+validity. Run [fixture tests](scripts/test_audit_specification.py) when modifying the
+helper itself, rather than on every specification edit.
 
 Return the changed paths, content and organization changes, verification
 results, and unresolved decisions to the leader. If pre-existing issues

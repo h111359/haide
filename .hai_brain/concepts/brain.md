@@ -41,6 +41,11 @@ Prompts are definition of behavior, actions that need to be performed.
 
 Tools are scripts, applications and other accelerators with their supporting data, media, documentation or other needed files.
 
+HAI automation scripts are written in Python and support Windows, Linux,
+and macOS. This applies to both shared tools and scripts owned by
+individual agents. Runtime, dependency, placement, and testing details
+are defined in the [Tooling convention](../conventions/tooling_conv.md).
+
 ## Supporting Terms
 
 - [concept]: general explanation of element of [HAI] without details for behavior, structure or format 
@@ -50,3 +55,4 @@ Tools are scripts, applications and other accelerators with their supporting dat
 - `.aih_brain/concepts/hai.md` - definition of [HAI] 
 - `.hai_brain\conventions\brain_conv.md` - folder structure of [brain]
 - `.hai_brain\concepts\agent.md` - definition of [agent]
+- `.hai_brain/conventions/tooling_conv.md` - automation tooling conventions

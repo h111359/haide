@@ -32,6 +32,13 @@ the work being delegated, but MUST NOT define or duplicate that other
 agent's responsibilities or procedures. Those belong in the delegated
 agent's own knowledge.md.
 
+### Supporting scripts
+
+An agent may own supporting scripts inside its agent folder. Its
+knowledge.md explains when to use them and links to their usage
+instructions. Shared tools remain separate from individual agents.
+Scripts follow the framework's [tooling convention](../conventions/tooling_conv.md).
+
 ## Supporting Terms
 
 N/A
@@ -39,3 +46,4 @@ N/A
 ## References
 
 - `.hai_brain\concepts\brain.md`: definition of [brain]
+- `.hai_brain/conventions/tooling_conv.md`: runtime and placement of supporting scripts
