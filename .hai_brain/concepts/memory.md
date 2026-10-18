@@ -21,9 +21,12 @@
 - optionnaly [specification] folder
 
 Initialized [memory] is valid with an empty requests folder, no current
-[request], and no linked [specification]. Initialization creates empty
-memory by default; linking an existing [specification] is a separate,
-explicitly requested choice.
+[request], and a configured [specification] location whose folder may
+not exist yet. The default location is `.hai_memory/specifications`.
+During initialization, the memory-manager asks whether to keep that
+default or use another location. Recording a location does not create
+[specification] folders or content; linking an existing [specification]
+is a separate, explicitly requested choice.
 
 ## Supporting Terms
 
