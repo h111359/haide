@@ -137,10 +137,10 @@ class Audit:
         return values
 
     def registry(self) -> dict[str, str | None]:
-        concept = read_text(self.workspace / ".hai_brain/concepts/specification.md")
+        concept = read_text(self.workspace / ".hai/concepts/specification.md")
         registry = {}
         for type_name in re.findall(r"\]\(\.\./conventions/([a-z]+(?:-[a-z]+)*)_conv\.md\)", concept):
-            body = read_text(self.workspace / f".hai_brain/conventions/{type_name}_conv.md")
+            body = read_text(self.workspace / f".hai/conventions/{type_name}_conv.md")
             match = re.search(r"^## Content file\s*\n\s*`([^`\r\n/\\]+)`", body, re.MULTILINE)
             registry[type_name] = match[1] if match else None
             if not match:

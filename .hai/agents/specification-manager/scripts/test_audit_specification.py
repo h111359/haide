@@ -23,8 +23,8 @@ class AuditTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory(prefix="hai-spec-audit-")
         self.addCleanup(self.temporary.cleanup)
         self.workspace = Path(self.temporary.name)
-        self.write(".hai_brain/concepts/specification.md", "[Requirements](../conventions/functional-requirements_conv.md)\n")
-        self.write(".hai_brain/conventions/functional-requirements_conv.md", "## Content file\n\n`content.md`, in Markdown.\n")
+        self.write(".hai/concepts/specification.md", "[Requirements](../conventions/functional-requirements_conv.md)\n")
+        self.write(".hai/conventions/functional-requirements_conv.md", "## Content file\n\n`content.md`, in Markdown.\n")
 
     def write(self, path, text):
         target = self.workspace / path
@@ -149,7 +149,7 @@ class AuditTests(unittest.TestCase):
 
     def test_dynamic_convention_content_filename(self):
         self.node()
-        self.write(".hai_brain/conventions/functional-requirements_conv.md", "## Content file\n\n`payload.json`\n")
+        self.write(".hai/conventions/functional-requirements_conv.md", "## Content file\n\n`payload.json`\n")
         (self.workspace / "spec/content.md").rename(self.workspace / "spec/payload.json")
         self.assertEqual(self.audit()["summary"]["errors"], 0)
 

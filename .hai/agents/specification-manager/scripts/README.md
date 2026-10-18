@@ -13,10 +13,10 @@ quoted interpreter path with `&`. Check the chosen interpreter with
 `--version` first; no executable location is embedded in these tools.
 
 From the workspace root, supply the location established by the human
-or memory-manager. The tool never discovers a location or changes state:
+or environment-manager. The tool never discovers a location or changes state:
 
 ```text
-python -B .hai_brain/agents/specification-manager/scripts/audit_specification.py --root path/to/specification
+python -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification
 ```
 
 The compact JSON result reports counts, depth range, actionable issues,
@@ -37,14 +37,14 @@ specification tree. The caller saves this file; the auditor never writes.
 For example, on Linux/macOS:
 
 ```sh
-python3 -B .hai_brain/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --inventory > /tmp/spec-before.json
+python3 -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --inventory > /tmp/spec-before.json
 ```
 
 In Windows PowerShell, use explicit UTF-8 (its `>` operator may write UTF-16):
 
 ```powershell
 $baseline = Join-Path $env:TEMP ('spec-before-' + [guid]::NewGuid() + '.json')
-$report = python -B .hai_brain/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --inventory
+$report = python -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --inventory
 if ($LASTEXITCODE -ne 0) { throw 'Resolve or report audit errors before capturing a baseline.' }
 $report | Set-Content -LiteralPath $baseline -Encoding UTF8
 ```
@@ -52,7 +52,7 @@ $report | Set-Content -LiteralPath $baseline -Encoding UTF8
 After authorized edits, pass the saved file:
 
 ```text
-python -B .hai_brain/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --baseline /path/to/spec-before.json
+python -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --baseline /path/to/spec-before.json
 ```
 
 `--baseline` accepts an error-free format-1 inventory for the same root
@@ -75,7 +75,7 @@ rules rather than ignoring case on Unix.
   required values, registered leaf types/statuses, branch/leaf exclusivity,
   expected content filenames, and branch contents.
 - Registered types come from convention links in
-  `.hai_brain/concepts/specification.md`. Expected content filenames are
+  `.hai/concepts/specification.md`. Expected content filenames are
   read from each convention's Content file section rather than assumed.
 - Branch child limits, global leaf-depth range, and Unicode code-point
   counts for whole configuration files after LF normalization. Astral
@@ -115,7 +115,7 @@ approvals, and preservation of meaning remain the agent's responsibility.
 ## Fixture tests
 
 ```text
-python -B .hai_brain/agents/specification-manager/scripts/test_audit_specification.py
+python -B .hai/agents/specification-manager/scripts/test_audit_specification.py
 ```
 
 Tests use standard-library `unittest` and temporary workspaces with scoped

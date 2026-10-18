@@ -21,5 +21,5 @@ Definition and classification scope: [Module specification](../concepts/specific
 ## Writing rules
 
 - Describe one bounded component; link system-wide context rather than repeating architecture.
-- For AI modules, identify model dependencies, prompt assembly, retrieval context, memory boundaries, and tool access where applicable.
+- For AI modules, identify model dependencies, prompt assembly, retrieval context, environment boundaries, and tool access where applicable.
 - Separate intended design from observations about current implementation and identify discrepancies explicitly.

@@ -3,7 +3,7 @@
 ## Scope
 
 Implementation details for the Python automation policy in
-[Brain](../concepts/brain.md#tools). Applies to framework automation,
+[HAI](../concepts/hai.md#tools). Applies to framework automation,
 including agent-owned scripts; it does not choose the product's runtime.
 
 ## Runtime and dependencies
@@ -23,8 +23,8 @@ including agent-owned scripts; it does not choose the product's runtime.
 
 ## Placement and usage
 
-- Shared framework tools live under `.hai_brain/tools/`.
-- Agent-owned tools live under `.hai_brain/agents/<name>/scripts/`.
+- Shared framework tools live under `.hai/tools/`.
+- Agent-owned tools live under `.hai/agents/<name>/scripts/`.
 - Use descriptive `snake_case.py` filenames and `test_*.py` test files.
 - Keep the owning agent's knowledge.md focused on when to run tools.
   Put detailed arguments, examples, side effects, dependencies, exit

@@ -22,21 +22,21 @@ can navigate without reading unrelated material.
 
 Read these before working on a specification:
 
-- `.hai_brain/concepts/specification.md`: authoritative structure,
+- `.hai/concepts/specification.md`: authoritative structure,
   classification, navigation, and content lifecycle rules.
-- `.hai_brain/concepts/memory.md` and
-  `.hai_brain/conventions/state_conv.md`: specification location and
+- `.hai/concepts/environment.md` and
+  `.hai/conventions/state_conv.md`: specification location and
   workspace state boundaries.
 
-Read only the conventions in `.hai_brain/conventions/<type>_conv.md`
+Read only the conventions in `.hai/conventions/<type>_conv.md`
 for leaf types being created or changed. Read
-`.hai_brain/concepts/request.md` when promoting information from a
+`.hai/concepts/request.md` when promoting information from a
 request. Do not reread unchanged knowledge already available in context.
 
 ## Locate and inspect the specification
 
 1. Use workspace instructions and validated state references returned by
-   {memory-manager}. If those are unavailable, ask the leader to obtain
+   {environment-manager}. If those are unavailable, ask the leader to obtain
    them through that role. An explicitly supplied workspace-relative
    specification location may also be used; surface any conflict with
    configured state before writing.
@@ -117,7 +117,7 @@ Choose a working Python interpreter as described there. From the
 workspace root, supply the established specification location:
 
 ```text
-python -B .hai_brain/agents/specification-manager/scripts/audit_specification.py --root path/to/specification
+python -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification
 ```
 
 Rerun this read-only helper after the final edits and before handoff.
@@ -145,8 +145,8 @@ whole specification is valid.
 
 - Work within the human's requested scope; obtain decisions through the
   leader when meaning, approval, or a structural conflict is unresolved.
-- Memory initialization, memory repair, and workspace state management
-  remain with {memory-manager}. Do not initialize memory, select a current
+- HAI environment initialization, environment repair, and workspace state management
+  remain with {environment-manager}. Do not initialize environment, select a current
   request, or change the configured specification location yourself.
 - Keep this role's procedures here. Other agents may delegate
   specification work without duplicating these instructions.

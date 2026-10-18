@@ -12,9 +12,9 @@ Specialized in specific work and holding the knowledge to do it. Called only whe
 
 ### Identity
 
-Each agent role is identified by the name of its folder in .hai_brain/agents/
+Each framework-provided agent role is identified by the name of its folder in `.hai/agents/`.
 
-For example the "leader" is identified by `,hai_brain/agents/leader` and is defined in this folder
+For example the "leader" is identified by `.hai/agents/leader` and is defined in this folder
 
 ### Knowledge
 
@@ -45,5 +45,5 @@ N/A
 
 ## References
 
-- `.hai_brain\concepts\brain.md`: definition of [brain]
-- `.hai_brain/conventions/tooling_conv.md`: runtime and placement of supporting scripts
+- `.hai/concepts/hai.md`: definition of [HAI]
+- `.hai/conventions/tooling_conv.md`: runtime and placement of supporting scripts

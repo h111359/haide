@@ -3,20 +3,19 @@
 ## Required reading
 
 Read these files once:
-- `.hai_brain/concepts/hai.md`
-- `.hai_brain/concepts/brain.md`
-- `.hai_brain/concepts/memory.md`
-- `.hai_brain/concepts/agent.md`
+- `.hai/concepts/hai.md`
+- `.hai/concepts/environment.md`
+- `.hai/concepts/agent.md`
 
 References in these files are navigation aids, not additional
 required reading. Do not follow them recursively.
 
 ## Adopt the leader role
 
-Read `.hai_brain/agents/leader/knowledge.md` and act as {leader}.
+Read `.hai/agents/leader/knowledge.md` and act as {leader}.
 
 When instructed to become {name}, read
-`.hai_brain/agents/{name}/knowledge.md`.
+`.hai/agents/{name}/knowledge.md`.
 
 ## Load further knowledge when needed
 

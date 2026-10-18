@@ -68,7 +68,7 @@ Size limits
 - The 8,000-character target is advisory; the maximums are mandatory.
 
 Leaf-type conventions
-- Put each leaf-type convention in its own <type>_conv.md file in `.hai_brain/conventions`.
+- Put each leaf-type convention in its own <type>_conv.md file in `.hai/conventions`.
 - Convention files are outside the specification tree and do not require __ncf__.md.
 - Each leaf has exactly one type.
 - Allow multiple leaves of the same type.
@@ -84,7 +84,7 @@ Leaf-type conventions
 - Separate desired behavior, design, observed state, rationale, and procedures. They can concern the same feature while belonging to different types.
 - Product-specific AI prompts, model behavior, retrieval, and evaluation belong to the same types as other product behavior, design, and tests. Instructions for AI working on the repository belong in Development guide.
 - Domain terminology belongs in Glossary; domain policies and constraints belong in Business rules; domain entities and relationships belong in Data model. Supporting domain explanations stay with the rule, model, or behavior they explain.
-- Request inputs, temporary analysis, implementation plans, execution logs, and conversations remain in [memory]. Promote only durable product knowledge into the specification and link to its supporting request when useful.
+- Request inputs, temporary analysis, implementation plans, execution logs, and conversations remain in [environment]. Promote only durable product knowledge into the specification and link to its supporting request when useful.
 - If scope remains uncertain, record the ambiguity and request a classification decision rather than silently duplicating content or inventing a type. Add a type only when no existing scope reasonably covers the material.
 
 ### Leaf types
@@ -461,7 +461,7 @@ Workspace-specific instructions for humans and AI agents developing and maintain
 
 ##### Scope
 
-Use for repository navigation, local setup, toolchain commands, coding conventions, contribution and review workflow, documentation maintenance, and durable AI working instructions or context-discovery guidance. Put product runtime AI behavior in Functional requirements, Module specification, or Algorithm specification; automated pipelines in CI/CD; technical rationale in Architectural decision; and temporary task records in [memory]. Framework-wide HAI instructions remain in [brain].
+Use for repository navigation, local setup, toolchain commands, coding conventions, contribution and review workflow, documentation maintenance, and durable AI working instructions or context-discovery guidance. Put product runtime AI behavior in Functional requirements, Module specification, or Algorithm specification; automated pipelines in CI/CD; technical rationale in Architectural decision; and temporary task records in [environment]. Framework-wide HAI instructions remain in the reusable framework in `.hai/`.
 
 ##### Specification
 
@@ -485,7 +485,7 @@ Use for repository navigation, local setup, toolchain commands, coding conventio
 
 ## References
 
-- `.aih_brain/concepts/memory.md`: definition of [memory]
-- `.hai_brain/conventions/state_conv.md`: state file where the location of the specification is stored
+- `.hai/concepts/environment.md`: definition of [environment]
+- `.hai/conventions/state_conv.md`: state file where the location of the specification is stored
 
 

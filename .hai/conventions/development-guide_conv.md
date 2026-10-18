@@ -20,6 +20,6 @@ Definition and classification scope: [Development guide](../concepts/specificati
 
 ## Writing rules
 
-- Keep instructions specific to development of this product; framework-wide instructions remain in [brain](../concepts/brain.md).
+- Keep instructions specific to development of this product; framework-wide instructions remain in the [reusable HAI framework](../concepts/hai.md#framework-and-environment).
 - Link authoritative instruction files instead of creating conflicting copies; identify which instructions apply to which workspace areas.
-- Keep temporary requests and execution records in [memory](../concepts/memory.md), and runtime product AI behavior in its relevant product specification leaves.
+- Keep temporary requests and execution records in [environment](../concepts/environment.md), and runtime product AI behavior in its relevant product specification leaves.

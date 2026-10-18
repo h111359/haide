@@ -6,7 +6,7 @@ Advise what is the next logical steps I have to do in this repo
 
 ## Input
 
-Read all the files in `.hai_brain/` starting with `.hai_brain\concepts\hai.md`
+Read all the files in `.hai/` starting with `.hai/concepts/hai.md`
 
 ## Output
 

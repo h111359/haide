@@ -4,7 +4,7 @@
 
 [request] is an iteration of [HAI] in which the user starts with rough idea what [HA] should do, uses [HAI] for clarification of the intent and agreement of the expected outcome and the implementation of the agreed actions. It consist of files for definition of the needed outcome, analysis of the impact, plan for action, log of the executed actions.
 
-[request] is part of [memory]
+[request] is part of [environment]
 
 ## Purpose
 
@@ -14,7 +14,7 @@
 
 ### Location
 
-Every request consist of a folder in .hai_memory/requests/ with all of its components located directly or in subfolders of this request folder
+Every request consist of a folder in .hai_env/requests/ with all of its components located directly or in subfolders of this request folder
 
 The folder of the only not closed request have a special preffix in its name to distinguish clearly from the folders of the closed requests.
 
@@ -74,4 +74,4 @@ N/A
 
 ## References
 
-- `.aih_brain/concepts/memory.md`: definition of [memory]
+- `.hai/concepts/environment.md`: definition of [environment]

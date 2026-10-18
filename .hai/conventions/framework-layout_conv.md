@@ -1,6 +1,6 @@
 ## Folder structure
 
-.hai_brain/ - contains the [brain] elements
+.hai/ - contains the reusable [HAI] framework components
   agents/ - contains subfolders with agents
   concepts/ - contains the concepts definition files
   conventions/ - contains the convention definition files
