@@ -2,63 +2,43 @@
 
 ## Definition
 
-[environment] is the persistent, installation-specific collection of
-[HAI] state, work records, custom instructions, and references. It lives
-in `.hai_env/`, separately from the reusable framework in `.hai/`.
+[environment] is the persistent, installation-specific collection of [HAI] state, optional work records, custom instructions, and references. Its mandatory state lives in `.hai_env/`, separately from the reusable framework in `.hai/`. Optional feature locations are configurable within the workspace.
 
 ## Purpose
 
-[environment] preserves the setup and continuity of HAI's work in a
-[workspace], including current and completed [request] records. It
-contains HAI's local working material; product implementation belongs
-in the workspace.
+[environment] preserves the setup and continuity of HAI's work in a [workspace]. It holds HAI's local working material; product implementation belongs in the workspace.
 
 ## Explanation
 
 ### Components
 
-[environment] contains:
+The only mandatory component is `.hai_env/state.json`. The state contains on/off flags and configurable locations for four optional features:
 
-- [state].
-- [agent_instructions].
-- a requests folder containing zero or more [request] records.
-- optionally, a [specification] folder; its location is configurable.
+- Requests, defaulting to `.hai_env/requests`.
+- Specification, defaulting to `.hai_env/specifications`.
+- Agent instructions, defaulting to `.hai_env/agent_instructions.md`.
+- Chronicles, defaulting to `.hai_env/chronicles`.
 
-The environment may also hold local references and custom agent definitions
-under `.hai_env/agents/<name>/`. Environment state's optional `agents` object
-is their authoritative catalogue and registration list, with each entry
-holding a canonical definition path and short actionable selection guide.
-The guide is a verbatim copy of the canonical Selection guide section in
-the definition; normal selection reads the catalogue copy.
-Unregistered agents
-are unavailable for normal selection, although an explicit human call may
-load one without registering it. The [agent convention](../conventions/agent_conv.md)
-defines identity, common knowledge structure, and selection rules. The
-workspace-agent-creator creates and registers workspace specialists only in
-an already initialized environment. These possibilities do not require
-creating agent files or folders during initialization.
+All optional features are off in a new environment. On leader startup, environment-manager automatically creates an absent `.hai_env/` containing state only. No requests directory, specification content, instructions file, chronicles directory, or agent scaffold is created. The leader then recommends additional setup through chat, where the human chooses which features to enable and which locations to retain or change. Setup may be deferred and all features may remain disabled.
 
-Initialized [environment] is valid with an empty requests folder, no
-current [request], and a configured [specification] location whose folder
-may not exist yet. The default location is `.hai_env/specifications`.
-During initialization, the environment-manager asks whether to keep that
-default or use another workspace-relative location. A specification may
-therefore live outside `.hai_env/`. Recording a location does not create
-specification folders or content; linking an existing specification is
-a separate, explicitly requested choice.
+The [state convention](../conventions/state_conv.md) defines configuration, safe workspace paths, compatibility, and validation. State is loaded before optional instructions or current-request context. Optional feature locations may be outside `.hai_env/` but must remain safe inside the workspace. Disabling a feature preserves its files and stops its use through environment configuration; changing its location does not move existing contents. Independent workspace and session instructions still apply. An active request must be resolved before requests can be disabled or relocated.
 
-The environment is persistent HAI material, including active state and
-historical work records. It is not a Python virtual environment or a
-collection of environment variables.
+Enabling specification records a location without fabricating contents or asserting that a specification already exists. Linking an existing specification requires explicitly supplied intent and a verified folder. Chronicles-manager owns session transcripts when recording is enabled; environment-manager owns configuration. Chronicles are distinct from request-specific discussion and do not require requests to be enabled.
+
+The environment may also hold local references and custom agent definitions under `.hai_env/agents/<name>/`. State's `agents` object is their authoritative catalogue and registry, containing canonical definition paths and verbatim copies of canonical Selection guide sections. Normal selection reads catalogue copies. Unregistered agents are unavailable for normal selection, although an explicit human call may load one without registering it. The [agent convention](../conventions/agent_conv.md) defines identity, format, and selection. Workspace-agent-creator creates and registers specialists only in initialized environment; initialization creates no agent files or folders. Framework agents remain available independently of optional features.
+
+Existing incomplete or incompatible environment is preserved and reported, rather than silently reinitialized or migrated. Environment is persistent HAI material, not a Python virtual environment or collection of environment variables.
 
 ## Supporting Terms
 
-- [state]: a file holding installation-specific HAI parameters, including the specification location and current-request reference.
-- [agent_instructions]: a file holding custom instructions that apply whenever an AI agent works in this workspace.
+- [state]: mandatory installation-specific HAI configuration, including optional-feature flags and locations, agent catalogue, and current-request reference.
+- [agent_instructions]: optional custom workspace instructions file loaded from its configured location only when its environment feature is enabled, without overriding independent session instructions.
+- [chronicles]: optional verbatim session transcripts owned by chronicles-manager, independent of request records.
 
 ## References
 
 - `hai.md`: definition of [HAI] and [workspace].
 - `request.md`: definition and lifecycle of [request].
 - `specification.md`: definition of [specification].
-- `../conventions/state_conv.md`: convention of [state].
+- `../conventions/state_conv.md`: required state and optional-feature configuration.
+- `../agents/chronicles-manager/knowledge.md`: ownership and recording rules for chronicles.

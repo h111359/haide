@@ -28,7 +28,8 @@ without duplicating framework roles or inventing operational requirements.
 
 The human's role idea and authorization to create the agent; an initialized,
 readable environment with valid compatible state and applicable workspace
-instructions; and sufficient clarified purpose, scope, inputs, rules,
+instructions, including the configured agent-instructions file when enabled;
+and sufficient clarified purpose, scope, inputs, rules,
 procedures, and expected outcomes to write a meaningful definition.
 The agreed role must be a specialist that does not delegate.
 
@@ -61,9 +62,12 @@ supporting folder without a demonstrated need within the requested task.
 ## Procedures
 
 1. Read governing references and supplied environment context. Verify the
-   workspace root, environment directory, instructions, readable state,
+   workspace root, environment directory, readable state,
    duplicate-free JSON, required fields, compatible version, registry, and
-   path rules. Missing registry means empty; malformed registry blocks writes.
+   path rules. Load `features.agent_instructions.location` only when that
+   feature is enabled; disabled optional instructions are not a missing
+   prerequisite. Enabled but absent or invalid instructions block dependent
+   creation. Malformed registry blocks writes.
 2. Clarify the intended trigger, purpose, boundaries, necessary knowledge,
    mandatory and optional inputs, failure behavior, procedures, and measurable
    outcome. Distinguish settled decisions from proposed assumptions. Ask only
@@ -102,9 +106,8 @@ supporting folder without a demonstrated need within the requested task.
    version, stop and report the concurrent change rather than overwriting it.
    Add only `agents[name] = {"path": ".hai_env/agents/<name>/knowledge.md",
    "selection_guide": "<verbatim canonical guide body>"}`, using the actual
-   canonical text rather than a literal placeholder and creating the optional
-   catalogue object when absent. Preserve unrelated properties and write valid
-   UTF-8 JSON. Use a temporary sibling file and replace state only after
+   canonical text rather than a literal placeholder. Preserve unrelated
+   properties and write valid UTF-8 JSON. Use a temporary sibling file and replace state only after
    validating the prepared content and rechecking the original, when the
    available filesystem supports that workflow; do not claim multi-file atomicity.
 8. Reread state and the definition, verify exact guide-copy equality, the

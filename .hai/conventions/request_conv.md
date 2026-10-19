@@ -2,7 +2,11 @@
 
 ## Location and active folder
 
-Every [request] occupies one folder directly under `.hai_env/requests/`.
+Requests must be enabled in environment state before creating or loading
+them through environment configuration. Every [request] occupies one folder
+directly under `features.requests.location` (default `.hai_env/requests`).
+Resolve and validate this workspace-relative location using the state
+convention; do not assume the default or scan for another location.
 At most one request may be in a stage other than `Closed`. Its folder
 MUST be named `00000000_000000_active`. This name sorts before closed
 request folders in ascending name order.
@@ -10,7 +14,13 @@ request folders in ascending name order.
 Creating a request MUST fail if the active path already exists; never
 overwrite or reuse its contents. When a current request is selected,
 `current_request` in environment state points to
-`.hai_env/requests/00000000_000000_active`.
+`<features.requests.location>/00000000_000000_active`.
+
+Disabled requests require `current_request: null` and do not authorize
+creating request files. Before disabling or relocating requests with an
+active request, resolve its lifecycle and references explicitly. A flag or
+location change does not close, move, delete, or clear an active request.
+Disabling preserves request history. Enabling creates no request by itself.
 
 ## Closed folder name
 

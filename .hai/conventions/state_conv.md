@@ -6,7 +6,7 @@ JSON
 
 ## Location
 
-`.hai_env/state.json`
+`.hai_env/state.json` is mandatory in every initialized environment and cannot be disabled or relocated through optional-feature settings.
 
 ## Content
 
@@ -14,31 +14,37 @@ The root MUST be a JSON object with these required properties:
 
 | Property | Type | Meaning and initial value |
 | --- | --- | --- |
-| `specification_location` | string or null | Configured path to the [specification] root folder, which may not exist yet. Default: `.hai_env/specifications`. `null` means no location is configured. |
-| `current_request` | string or null | Path to the current [request] folder under `.hai_env/requests/`; `null` when none is selected. |
-| `compatible_version` | positive integer | HAI environment format version, not the HAI framework or product version. Use the version supplied by the canonical template. |
+| `compatible_version` | positive integer | Environment format version from the canonical template; currently `2`. |
+| `current_request` | string or null | Workspace-relative path to the active request under the configured requests location; initially `null`. |
+| `agents` | object | Workspace agent catalogue; initially `{}`. |
+| `features` | object | Required configuration entries for `requests`, `specification`, `agent_instructions`, and `chronicles`. |
 
-Paths MUST be non-empty, relative to the workspace root, and use `/`
-as the separator. A non-null `current_request` MUST resolve to an existing
-folder. A configured `specification_location` may be absent; if the path
-exists, it MUST be a folder. Selecting a location does not create or
-verify a specification. Explicitly linking an existing specification
-requires verifying the supplied folder before recording its location.
-Additional properties may hold workspace parameters; preserve them when
-updating existing state. Duplicate JSON property names are invalid.
+Each required feature is an object with required `enabled` (Boolean) and `location` (nonempty workspace-relative string) properties. Disabled features retain their location for later setup. All four flags are initially `false`:
 
-A selected current request MUST be nonclosed and use
-`.hai_env/requests/00000000_000000_active`, following the
-[request convention](request_conv.md). On closure, clear
-`current_request` to `null` as part of the coordinated folder rename
-and reference updates defined there. Naming or status inconsistencies
-must be reported; they do not authorize automatic renaming or repair.
+| Feature | Default location | Target type |
+| --- | --- | --- |
+| `requests` | `.hai_env/requests` | Directory containing request folders |
+| `specification` | `.hai_env/specifications` | Specification root directory |
+| `agent_instructions` | `.hai_env/agent_instructions.md` | Custom workspace instructions file |
+| `chronicles` | `.hai_env/chronicles` | Directory containing session transcripts |
+
+`specification_location` is the former version-1 field; version 2 uses `features.specification.location`. Do not use a legacy field as a fallback. Preserve unrelated additional root, feature, and catalogue properties when updating state; duplicate JSON property names are invalid. Unknown properties do not implicitly enable a feature.
+
+### Paths and validation
+
+All state paths use `/` separators and are relative to the workspace root. Reject absolute, drive-qualified, UNC, blank, and parent-traversal paths. Resolve existing ancestors, symlinks, and junctions before validation and again before writing; even an absent target must remain inside the workspace after resolution. Reject workspace-root targets and paths inside `.hai/` or `.git/`. A feature path must not overlap `.hai_env/state.json` or `.hai_env/agents/`, contain those reserved locations, or collide with another feature path. Directory feature locations must not equal, contain, or be contained by another feature location; an instructions file must not equal or fall inside a configured feature directory. Validate paths even for disabled entries so saved locations remain safe when enabled. Existing target types must match the table.
+
+An enabled feature whose target is missing needs feature-specific handling: requests and agent instructions require their directory or readable file before reporting setup complete; an absent configured specification folder is valid and does not assert a specification exists. Chronicles-manager may create its directory on the first authorized transcript write. Disabled targets need not exist and their contents are preserved without loading them as active context. A location reference alone does not authorize moving, deleting, overwriting, or inventing content. Explicitly linking an existing specification requires verifying the supplied folder.
+
+A non-null `current_request` requires enabled requests and MUST resolve to the existing `<features.requests.location>/00000000_000000_active` directory. Its request state must be nonclosed under the [request convention](request_conv.md). Disabled requests require `current_request: null`. Close or explicitly resolve an active request before disabling or relocating requests; a configuration toggle never silently clears or moves it. On closure clear `current_request` to null with the coordinated rename and reference updates defined there. Report naming or status inconsistencies without automatic repair.
+
+### Feature configuration
+
+Environment-manager owns feature flags and locations. State-only initialization creates no optional resources. Subsequent chat setup records explicit human choices, retaining unmentioned values. Enabling requests may create its empty directory; enabling instructions may create its empty file, with supplied instructions only when explicitly provided. Enabling specification does not fabricate specification contents. Chronicles-manager owns transcript contents after the leader routes enabled recording. Disabling a feature stops using that feature through environment configuration and preserves all files; it does not override independent higher-priority workspace or session instructions. Moving existing contents requires separately scoped authorization. State remains present with all optional features disabled.
 
 ## Workspace agent catalogue
 
-The optional `agents` property is the authoritative workspace agent catalogue
-and registry. It is a JSON object mapping agent names to entry objects
-with required string properties `path` and `selection_guide`, for example:
+The `agents` property is the authoritative workspace agent catalogue and registry. It maps agent names to entry objects with required string properties `path` and `selection_guide`, for example:
 
 ```json
 {
@@ -51,69 +57,18 @@ with required string properties `path` and `selection_guide`, for example:
 }
 ```
 
-Names and collisions follow the [agent convention](agent_conv.md). Each
-`path` MUST be exactly `.hai_env/agents/<name>/knowledge.md` for its key
-and resolve to a readable file inside the workspace. Reject symlink/junction
-resolution outside the workspace. It is a knowledge-file path, not a folder.
-`selection_guide` MUST contain non-whitespace, short actionable text stating
-when to call the role and its expected result, consistent with the definition's
-scope and ownership. Its value MUST be a verbatim copy of the canonical
-Selection guide body in `knowledge.md`, as defined by the agent convention.
-Author that section first, then copy it into state and validate exact equality
-when creating or updating the definition or entry. Do not store procedures here.
-Ordinary selection uses the copy without scanning all definitions; startup
-validates entry structure and references without verifying every copy's equality.
-Report a discovered stale copy without silently repairing it.
-The fixed path records explicit registration rather than allowing arbitrary
-external agent locations. Preserve additional entry properties when updating.
+Names and collisions follow the [agent convention](agent_conv.md). Each `path` MUST be exactly `.hai_env/agents/<name>/knowledge.md` for its key and resolve to a readable file inside the workspace. Reject symlink or junction resolution outside the workspace. It is a knowledge-file path, not a folder. `selection_guide` MUST contain non-whitespace, short actionable text consistent with the definition's scope and ownership, copied verbatim from its canonical Selection guide body. Author that section first, then copy and validate exact equality when creating or updating the definition or entry. Normal selection uses the catalogue copy; ordinary startup validates structure and references without loading every definition to compare guide equality. Report discovered stale copies without silently repairing them. Preserve additional entry properties during updates.
 
-Absent `agents` means an empty registry for existing version-1 environments;
-`null`, arrays, invalid entry objects or field types, blank guides,
-invalid names/paths, duplicate names,
-missing definitions, and framework-name collisions are invalid. Report invalid
-entries, exclude them from selection, and preserve them without repair. Valid
-entries remain usable when their own references validate. Malformed registry
-structure blocks registry writes; framework agents remain available. Other
-environment operations must preserve invalid registry data and report it,
-and must not claim complete environment validity.
+Missing `agents`, null, arrays, invalid entries or field types, blank guides, invalid names or paths, duplicate names, missing definitions, and framework-name collisions are invalid in version 2. Report invalid entries, exclude them from selection, and preserve them without repair. Valid independent entries remain usable when their own references validate. Malformed registry structure blocks registry writes; framework agents remain available. Other environment operations preserve invalid registry data and report it without claiming complete environment validity.
 
-The workspace-agent-creator owns creation-time registrations after definition
-validation; environment-manager validates and reports them while owning general
-state. Preserve unrelated properties during either kind of update. Explicitly
-calling an unregistered agent never registers it. New environments include
-`agents: {}`. This optional additive field retains format version 1 and requires
-no rewriting or migration of existing states without it or with an empty object.
+Workspace-agent-creator owns creation-time registrations after definition validation; environment-manager validates and reports them while owning general state. Preserve unrelated properties during either kind of update. Explicitly calling an unregistered agent does not register it. Framework agents, including chronicles-manager, do not require workspace registrations or enabled optional features to be selectable.
 
-Earlier string-valued entries are legacy registrations without selection
-guides. Preserve and report them, exclude them from normal selection, and
-do not read their definitions to infer guides or silently convert them.
-Explicit human invocation may still select a valid canonical definition
-under the agent convention without modifying its registration. Report that
-normal selection requires an explicitly authorized catalogue update supplying
-a validated canonical definition path and agreed selection guide. Such an
-existing-registration update is outside the creator's default new-agent
-workflow and requires a separately scoped authorization. This transitional
-read-only handling retains environment format version 1; it does not declare
-legacy entries valid or migrate live state. Missing and empty registries
-remain fully readable; framework agents remain available in every case.
+Earlier string-valued entries are legacy registrations without guides. Preserve and report them, exclude them from normal selection, and do not infer guides or silently convert them. Explicit human invocation may still select a valid canonical definition under the agent convention without changing registration. An existing-registration update needs separately scoped authorization and validated canonical path and guide; it is outside the creator's default new-agent workflow.
 
 ## Initialization template and compatibility
 
-The canonical initialization template is
-[state.json](../agents/environment-manager/templates/state.json).
-It is the authoritative source of the currently supported environment format
-version. Read that version from the template; do not ask the human to
-supply it or infer it from a framework release.
+The canonical [state template](../agents/environment-manager/templates/state.json) supplies the supported environment format version and initialization defaults. Read its version; do not ask the human to supply it or infer it from a framework release.
 
-A new environment uses the template's default `specification_location` unless
-the human chooses another location during initialization. The
-environment-manager resolves that choice before writing state, following its
-initialization procedure. No current request is selected. Recording the
-chosen location does not create a specification or assert that one
-already exists. Existing states with `specification_location: null`
-remain valid; do not replace their value automatically.
+Leader startup delegates initialization when `.hai_env/` is absent. Environment-manager creates only `.hai_env/state.json` from the template, with no selected request, empty catalogue, and four disabled features. No feature-location questions or additional authorization precede this minimal startup action. The leader then recommends additional chat setup and offers available next actions. The human may defer setup or keep all features off.
 
-When changing the environment format incompatibly, update this convention
-and increment the template's version together. An existing state whose
-version differs from the template's version requires a compatibility
-decision or migration; do not silently rewrite or treat it as absent.
+Existing but incomplete environment is not absent. Missing, malformed, or unreadable state and conflicting `.hai_env` paths require reporting and scoped repair rather than reinitialization. Version 1 is incompatible with version 2: report the compatibility issue and preserve live state. Do not silently migrate, reinterpret legacy defaults as opted-in features, or create optional resources. An explicitly authorized migration must settle feature choices, locations, and active-request handling before writing. Future incompatible format changes update this convention and increment the template version together.

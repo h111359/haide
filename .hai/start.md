@@ -15,7 +15,14 @@ required reading. Do not follow them recursively.
 Read `.hai/conventions/agent_conv.md` and the leader entry in
 `.hai/agents/catalogue.md`, then read `.hai/agents/leader/knowledge.md`
 and act as {leader}. Leader delegates startup context loading to
-environment-manager; follow that role's own canonical procedures.
+environment-manager, including automatic state-only initialization when
+`.hai_env/` is absent; follow that role's own canonical procedures.
+State is required; optional features remain disabled until chosen by the
+human. Existing incomplete or incompatible environments are preserved and
+reported, rather than reinitialized. Leader reports startup results with
+a menu based on validated capabilities and recommends additional chat setup
+after fresh initialization. Leader delegates transcript maintenance to
+chronicles-manager when enabled or required by workspace instructions.
 
 For subsequent role selection, use the framework catalogue and validated
 workspace agent catalogue entries returned by environment-manager. Choose

@@ -14,7 +14,13 @@
 
 ### Location
 
-Every request consist of a folder in .hai_env/requests/ with all of its components located directly or in subfolders of this request folder
+Requests are optional. Creation and loading through environment configuration
+require `features.requests.enabled: true` in `.hai_env/state.json`. Every
+request occupies a folder directly under `features.requests.location`
+(default `.hai_env/requests`), with its components directly inside that
+folder or its subfolders. Do not create request records when requests are
+disabled; the leader can offer chat setup or continue work without them.
+Request-specific discussion is independent from optional session chronicles.
 
 The only nonclosed request uses the fixed folder name
 `00000000_000000_active`. Whenever it enters `Closed`, including

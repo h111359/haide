@@ -10,7 +10,8 @@ Paths below are relative to this catalogue.
 | Agent | Selection guide | Definition |
 | --- | --- | --- |
 | `leader` | Call to coordinate a user task, choose specialists, monitor their work, and report their results. Leader is the only role that delegates to other agents. | [knowledge.md](leader/knowledge.md) |
-| `environment-manager` | Call to inspect or load workspace environment, validate state and registered-agent availability, or initialize an absent environment when authorized. Returns context and unresolved issues. | [knowledge.md](environment-manager/knowledge.md) |
+| `environment-manager` | Call to load or validate workspace environment, initialize an absent environment with state only, or configure optional features through chat. Returns validated context, setup choices, and unresolved issues. | [knowledge.md](environment-manager/knowledge.md) |
+| `chronicles-manager` | Call to maintain a session's exact Markdown transcript when chronicles are enabled or required by workspace instructions. Returns the verified transcript location and any synchronization issues. | [knowledge.md](chronicles-manager/knowledge.md) |
 | `specification-manager` | Call to enter, update, organize, or validate durable product specification information. Returns changes, verification evidence, and unresolved decisions. | [knowledge.md](specification-manager/knowledge.md) |
 | `workspace-agent-creator` | Call to clarify a new workspace specialist role, create its definition, and register it in an initialized environment. Returns validated files and registration evidence, or the decisions or prerequisites still needed. | [knowledge.md](workspace-agent-creator/knowledge.md) |
 

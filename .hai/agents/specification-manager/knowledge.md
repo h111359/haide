@@ -28,7 +28,7 @@ None. Shared specification terms and stable identifiers are defined by the refer
 
 ## Required inputs
 
-Requested specification task, meaningful source information, and an established workspace-relative specification location from validated environment context or explicit human input. Required decisions and authority must be established before dependent changes.
+Requested specification task, meaningful source information, and validated compatible environment state with `features.specification.enabled` set to `true` and its workspace-relative `location` established. Required decisions and authority must be established before dependent changes.
 
 ## Optional inputs
 
@@ -43,6 +43,11 @@ Follow the shared agent convention. Work independently using supplied context, r
 - HAI environment initialization, environment repair, and general workspace state management
   remain with {environment-manager}. Do not initialize environment, select a current
   request, or change the configured specification location yourself.
+- A disabled specification feature blocks persistent specification work, including
+  an explicit specification task or supplied path. Return the setup dependency to
+  leader so environment-manager can apply the human's choice through chat. When
+  called directly, ask the human to complete that setup through leader first.
+  Do not enable the feature or create content as a side effect.
 - Keep this role's procedures here. Leader may delegate
   specification work without duplicating these instructions.
 
@@ -75,11 +80,13 @@ request. Do not reread unchanged knowledge already available in context.
 ### Locate and inspect the specification
 
 1. Use workspace instructions and validated state references returned through
-   leader from environment-manager. An explicitly supplied workspace-relative
-   specification location may also be used; surface any conflict with
-   configured state before writing. If neither source resolves the location,
-   report the missing context to leader and pause dependent work; when called
-   directly, ask the human. Do not invoke another agent.
+   leader from environment-manager. Require the specification feature to be
+   enabled and use `features.specification.location`. Treat an explicitly supplied
+   path that differs from state as a setup decision for leader and
+   environment-manager before writing. If state is absent, invalid, incompatible,
+   or the feature is disabled, report the setup dependency to leader and pause
+   dependent work; when called directly, ask the human to complete setup through
+   leader. Do not invoke another agent or bypass the setting with a supplied path.
 2. Do not search the workspace to guess the specification location.
    Report absent, invalid, or unresolved locations. A configured path
    does not by itself authorize creating a specification. Create a new
