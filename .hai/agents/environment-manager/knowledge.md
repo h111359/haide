@@ -17,14 +17,15 @@ You manage the installation's HAI environment and preserve its existing contents
 
 Read `.hai/concepts/environment.md` and
 `.hai/conventions/state_conv.md` before loading or initializing
-environment. Read `.hai/concepts/request.md` when loading a current
-request. Do not reread unchanged files already available in context.
+environment. Read `.hai/concepts/request.md` and the
+[request convention](../../conventions/request_conv.md) when loading a
+current request. Do not reread unchanged files already available in context.
 
 ## Load existing environment
 
 1. Distinguish absent environment from an existing directory or a conflicting non-directory `.hai_env` path. Report the latter as invalid; do not replace it. For an existing directory, read `.hai_env/agent_instructions.md` if it exists and provide its instructions to the leader for subsequent work.
 2. Read `.hai_env/state.json` if it exists and validate it against the state convention and template version. Use valid references to locate the current request and specification. If the configured specification folder is absent, report that no specification exists at that location; this alone does not invalidate environment or authorize creating it. Report incompatible versions without rewriting or migrating state.
-3. For a referenced current request, read its state first, then only the context needed to understand its status and next action.
+3. For a referenced current request, read its state first and check that its folder name and nonclosed status satisfy the request convention. Report inconsistent or legacy naming and a referenced request whose stage is `Closed`; do not rename folders or repair state during startup. Then read only the context needed to understand its status and next action.
 4. Report missing or unreadable state, unresolved references, or inconsistent request context. Do not guess a current request or silently repair environment. If no current request is recorded, report that none is selected.
 5. Return the loaded context and any unresolved issues to the leader. Existing but incomplete environment is not absent environment and does not authorize reinitialization.
 

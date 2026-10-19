@@ -27,6 +27,13 @@ requires verifying the supplied folder before recording its location.
 Additional properties may hold workspace parameters; preserve them when
 updating existing state. Duplicate JSON property names are invalid.
 
+A selected current request MUST be nonclosed and use
+`.hai_env/requests/00000000_000000_active`, following the
+[request convention](request_conv.md). On closure, clear
+`current_request` to `null` as part of the coordinated folder rename
+and reference updates defined there. Naming or status inconsistencies
+must be reported; they do not authorize automatic renaming or repair.
+
 ## Initialization template and compatibility
 
 The canonical initialization template is

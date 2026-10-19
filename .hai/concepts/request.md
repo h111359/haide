@@ -16,7 +16,12 @@
 
 Every request consist of a folder in .hai_env/requests/ with all of its components located directly or in subfolders of this request folder
 
-The folder of the only not closed request have a special preffix in its name to distinguish clearly from the folders of the closed requests.
+The only nonclosed request uses the fixed folder name
+`00000000_000000_active`. Whenever it enters `Closed`, including
+cancellation or early closure, its folder is renamed using the UTC
+closure timestamp and a short descriptive label. The
+[request convention](../conventions/request_conv.md) defines naming,
+collision handling, and coordinated state and reference updates.
 
 ### Request components
 
@@ -75,3 +80,4 @@ N/A
 ## References
 
 - `.hai/concepts/environment.md`: definition of [environment]
+- `../conventions/request_conv.md`: request folder naming and closure rules
