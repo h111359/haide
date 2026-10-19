@@ -33,15 +33,15 @@ collision handling, and coordinated state and reference updates.
 
 input: Human writes here the initial idea or change request. The request MUST have only one input. 
 
-definition: AI written file containing the request definition after the initial idea from input.md is clarified in stage Clarification. The request MUST have only one definition.
+definition: AI written file containing the request definition after the initial idea from input.md is clarified in stage Clarification. A request has one definition when clarification has been completed and not invalidated; otherwise it may be absent.
 
-analysis: AI written file containing the scope, the affected files of the workspace, edge cases. The request MUST have only one analysis.
+analysis: AI written file containing the scope, the affected files of the workspace, edge cases. A request has one analysis when analysis has been completed and not invalidated; otherwise it may be absent.
 
-decisions: Catalogue of questions from AI to human and the answers human has given during Clarification or Analysis stages. The request must have only one decisions catalogue file.
+decisions: Catalogue of questions from AI to human and the answers human has given, with their stage and source. The request has one decisions catalogue, initially empty.
 
 questionnaire: A file containing questions which AI asks to human to take decision or to explain further. A request CAN have multiple questionnaires.
 
-plan: finalized set of steps to be executed during Implement stage. The request MUST have only one plan.
+plan: finalized set of steps to be executed during Implement stage. A request has one plan when planning has been completed and not invalidated; otherwise it may be absent.
 
 log: list of records for every action AI has taken during any of the stages. The request MUST have only one log file.
 
@@ -51,7 +51,7 @@ discussion: A file with human prompts and AI answers which is independent from t
 
 ### Request stages
 
-Initial: The request is initialized with input, log, state, discussion and is ready for human input.
+Initial: The request is initialized with input, decisions, log, state, discussion and is ready for human input.
 
 Clarified: Refine intent defined in the input, scope, constraints, and acceptance criteria. Result is creation of a definition.
 
@@ -59,7 +59,7 @@ Analysed: Inspect the workspace and assess impact, risks, and unknowns. Result i
 
 Planned: Define implementation and verification steps. Result is creation of a plan.
 
-Implemented: Apply changes and record progress. Create new tests. Run tests and improves until all tests are passed. Compare results with acceptance criteria and update relevant specification.
+Implemented: Requested changes and relevant verification have succeeded. Implementation includes appropriate test changes and running relevant checks, comparing results with available acceptance criteria or meaningful input when earlier stages were skipped. Failed or blocked work retains the last completed stage and its actual progress in the log. Relevant specification updates go through leader to specification-manager when that feature is enabled; disabled specification is recorded as unavailable and does not implicitly enable it.
 
 Closed: Completion of the request and leaving it in final state
 
@@ -71,13 +71,27 @@ Initialization -> Clarification -> Analysis -> Planning -> Implement -> Closure
 
 Transition to Closure can be made from any stage in any moment of request life
 
-Implement can be invoked in any stage except when the request is closed. In case Implement is requested during Initialization and no input is defined - the execution stops and the human is notified.
+Implement can be invoked in any stage except when the request is closed. It skips missing Clarification, Analysis, and Planning stages without creating their artifacts. Meaningful human input is required regardless of the current stage; if absent, execution stops and the human is notified. Ask only for missing information necessary to execute the requested work.
 
-Clarification can be invoked multiple times before Implementation. It replaces the previous definition if exist. After Implmentation - it should remain fixed forever. New clarification invalidates Analysis and Plan if exist.
+Clarification can be invoked multiple times before implementation starts. It replaces the previous definition if present. New clarification invalidates Analysis and Plan if present.
 
-Analysis can be invoked multiple times before Implementation. It replaces previous analysis if exists. After Implmentation - it should remain fixed forever. New analysis invalidates Plan if exists.
+Analysis can be invoked multiple times before implementation starts. It replaces previous analysis if present. New analysis invalidates Plan if present.
 
-Analysis can be invoked multiple times before Implementation. It replaces previous plan if exists. After Implmentation - it should remain fixed forever. 
+Planning can be invoked multiple times before implementation starts. It replaces the previous plan if present.
+
+The first implementation attempt permanently freezes the existing definition,
+analysis, and plan, even if implementation fails or is interrupted. Skipped
+artifacts remain absent; they are not backfilled on retries. Subsequent decisions
+and deviations are recorded in decisions and log. Normal analysis requires a
+definition and normal planning requires definition and analysis; explicit Implement
+is the path that skips missing stages.
+
+Request-manager owns the request records, lifecycle, implementation, and testing.
+It sets or clears the environment's current-request reference only as part of
+initialization or closure. Leader coordinates other specialists; environment-manager
+retains ownership of general environment configuration, and specification-manager
+retains ownership of durable specification edits. Creating an agent does not enable
+requests or create a live request.
 
 ## Supporting Terms
 

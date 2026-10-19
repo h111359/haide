@@ -40,6 +40,11 @@ A non-null `current_request` requires enabled requests and MUST resolve to the e
 
 ### Feature configuration
 
+Request-manager owns setting `current_request` during request initialization and
+clearing it during closure, under the request convention. This narrow lifecycle
+ownership does not authorize feature configuration or unrelated state changes.
+Environment-manager retains general environment state and validation ownership.
+
 Environment-manager owns feature flags and locations. State-only initialization creates no optional resources. Subsequent chat setup records explicit human choices, retaining unmentioned values. Enabling requests may create its empty directory; enabling instructions may create its empty file, with supplied instructions only when explicitly provided. Enabling specification does not fabricate specification contents. Chronicles-manager owns transcript contents after the leader routes enabled recording. Disabling a feature stops using that feature through environment configuration and preserves all files; it does not override independent higher-priority workspace or session instructions. Moving existing contents requires separately scoped authorization. State remains present with all optional features disabled.
 
 ## Workspace agent catalogue
