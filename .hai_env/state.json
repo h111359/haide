@@ -1,0 +1,23 @@
+{
+  "current_request": null,
+  "compatible_version": 2,
+  "agents": {},
+  "features": {
+    "requests": {
+      "enabled": false,
+      "location": ".hai_env/requests"
+    },
+    "specification": {
+      "enabled": false,
+      "location": ".hai_env/specifications"
+    },
+    "agent_instructions": {
+      "enabled": false,
+      "location": ".hai_env/agent_instructions.md"
+    },
+    "chronicles": {
+      "enabled": true,
+      "location": ".hai_env/chronicles"
+    }
+  }
+}
