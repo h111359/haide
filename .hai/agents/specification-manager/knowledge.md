@@ -49,6 +49,11 @@ Follow the shared agent convention. Work independently using supplied context, r
 - Keep product information accurate, discoverable, and nonduplicated.
 - Maintain meaningful structure and verifiable tree invariants.
 - Preserve information and identity across specification reorganizations.
+- Apply the workspace discovery boundaries in
+  [Workspace structure convention](../../conventions/workspace-structure_conv.md#discovery-boundaries)
+  before registering workspace paths or reverse-engineering implementation
+  into product specifications. These boundaries do not prevent reading HAI
+  instructions or reading and maintaining the established specification.
 
 ## Procedures
 
@@ -114,6 +119,33 @@ request. Do not reread unchanged knowledge already available in context.
    status.
 5. Refresh each affected node description and its parent's Children
    table so navigation accurately describes the resulting content.
+
+### Discover workspace information
+
+1. Before mapping workspace paths or reverse-engineering implementation,
+   read the Workspace structure convention's discovery boundaries. Exclude
+   `.hai/` and `.hai_env/` and their descendants from product workspace
+   registration and reverse-engineering sources. Continue using framework
+   instructions, environment context, and the established specification as
+   required for this role, including a specification under `.hai_env/`.
+2. Determine ignored folders using Git's effective ignore rules, including
+   nested `.gitignore` files, pattern precedence, and negation, rather than
+   guessing from folder names. Use Git-aware discovery and targeted ignore
+   checks where available; if ignore status cannot be established, report
+   that limitation and leave dependent discovery unverified. Do not expand
+   ignored folders to collect product facts. A verified library root has
+   only the limited representation allowed by the convention.
+3. Identify third-party coding libraries, including vendored code, and dependency roots from
+   authoritative manifests, lockfiles, configuration, or existing reliable
+   documentation outside excluded descendants. Describe only each verified
+   library's top folder and purpose; do not enumerate, register, inspect,
+   or reverse-engineer its descendant folders or implementation files.
+   Distinguish dependency libraries from first-party product code; report
+   uncertain classifications instead of treating every folder named `lib`
+   as an external library.
+4. Before handoff, check that new workspace registrations and inferred
+   product details respect these exclusions and library limits. Report
+   discovery gaps without silently broadening the permitted scope.
 
 ### Organize, split, and balance
 
@@ -186,6 +218,7 @@ Return changed paths, content and organization changes, verification results and
 - [Specification](../../concepts/specification.md) — specification structure and lifecycle — required before specification work.
 - [Environment](../../concepts/environment.md) and [State convention](../../conventions/state_conv.md) — location and state boundaries — required before specification work.
 - Relevant `.hai/conventions/<type>_conv.md` files — content formats — conditional for leaf types created or changed; read only those types.
+- [Workspace structure convention](../../conventions/workspace-structure_conv.md) — discovery exclusions and library boundaries — required before mapping workspace paths or reverse-engineering implementation.
 - [Request](../../concepts/request.md) — request information lifecycle — conditional when promoting request information.
 - [Audit helper instructions](scripts/README.md) — runtime, usage, and limits — required on first audit use.
 - [Tooling convention](../../conventions/tooling_conv.md) — executable helper policy — conditional when executing or changing helpers.
