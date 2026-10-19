@@ -461,11 +461,25 @@ Workspace-specific instructions for humans and AI agents developing and maintain
 
 ##### Scope
 
-Use for repository navigation, local setup, toolchain commands, coding conventions, contribution and review workflow, documentation maintenance, and durable AI working instructions or context-discovery guidance. Put product runtime AI behavior in Functional requirements, Module specification, or Algorithm specification; automated pipelines in CI/CD; technical rationale in Architectural decision; and temporary task records in [environment]. Framework-wide HAI instructions remain in the reusable framework in `.hai/`.
+Use for local setup, toolchain commands, coding conventions, contribution and review workflow, documentation maintenance, and durable AI working instructions or context-discovery procedures. Put the directory map and path-based discovery guidance in Workspace structure; product runtime AI behavior in Functional requirements, Module specification, or Algorithm specification; automated pipelines in CI/CD; technical rationale in Architectural decision; and temporary task records in [environment]. Framework-wide HAI instructions remain in the reusable framework in `.hai/`.
 
 ##### Specification
 
 [Development guide convention](../conventions/development-guide_conv.md)
+
+#### Workspace structure
+
+##### Definition
+
+A concise description of the workspace's folders and files that helps humans and AI agents locate relevant material and choose what to examine further.
+
+##### Scope
+
+Use for the meaning of top-level folders and files, important descendants, groups of same-purpose files, and task-oriented pointers into the workspace. Describe the observed layout with enough detail for discovery without an exhaustive file inventory. Put development procedures and working instructions in Development guide, logical components and their relationships in Architecture overview, and detailed asset, dependency, and version registers in Inventory; link these sources rather than duplicating them.
+
+##### Specification
+
+[Workspace structure convention](../conventions/workspace-structure_conv.md)
 
 ### References and selective reading
 - Use ordinary relative Markdown links with descriptive explanations of relationships.

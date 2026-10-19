@@ -12,7 +12,7 @@ Definition and classification scope: [Development guide](../concepts/specificati
 
 ## Required content
 
-- **Working context:** repository responsibilities, directory map, relevant architecture links, and applicable contributor roles.
+- **Working context:** repository responsibilities, relevant architecture links, applicable contributor roles, and a link to a [Workspace structure](../concepts/specification.md#workspace-structure) leaf when available.
 - **Local setup and commands:** toolchain versions, environment preparation, build, run, test, formatting, and troubleshooting instructions as applicable.
 - **Engineering conventions:** naming, coding, dependency, review, and documentation practices for this workspace.
 - **Human and AI workflow:** context discovery, instruction-file locations, task handoff, verification expectations, and workspace-specific action boundaries.
@@ -22,4 +22,5 @@ Definition and classification scope: [Development guide](../concepts/specificati
 
 - Keep instructions specific to development of this product; framework-wide instructions remain in the [reusable HAI framework](../concepts/hai.md#framework-and-environment).
 - Link authoritative instruction files instead of creating conflicting copies; identify which instructions apply to which workspace areas.
+- Keep the directory map and path-based discovery guidance in Workspace structure; link it rather than maintaining a second map here.
 - Keep temporary requests and execution records in [environment](../concepts/environment.md), and runtime product AI behavior in its relevant product specification leaves.
