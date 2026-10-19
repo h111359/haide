@@ -24,10 +24,19 @@ in the workspace.
 - a requests folder containing zero or more [request] records.
 - optionally, a [specification] folder; its location is configurable.
 
-The environment may also hold local references and, in the future,
-custom agent definitions. Their layout and loading rules are not
-specified here. These possibilities do not require creating additional
-files or folders during initialization.
+The environment may also hold local references and custom agent definitions
+under `.hai_env/agents/<name>/`. Environment state's optional `agents` object
+is their authoritative catalogue and registration list, with each entry
+holding a canonical definition path and short actionable selection guide.
+The guide is a verbatim copy of the canonical Selection guide section in
+the definition; normal selection reads the catalogue copy.
+Unregistered agents
+are unavailable for normal selection, although an explicit human call may
+load one without registering it. The [agent convention](../conventions/agent_conv.md)
+defines identity, common knowledge structure, and selection rules. The
+workspace-agent-creator creates and registers workspace specialists only in
+an already initialized environment. These possibilities do not require
+creating agent files or folders during initialization.
 
 Initialized [environment] is valid with an empty requests folder, no
 current [request], and a configured [specification] location whose folder

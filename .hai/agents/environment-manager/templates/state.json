@@ -1,5 +1,6 @@
 {
   "specification_location": ".hai_env/specifications",
   "current_request": null,
-  "compatible_version": 1
+  "compatible_version": 1,
+  "agents": {}
 }

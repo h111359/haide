@@ -34,6 +34,69 @@ A selected current request MUST be nonclosed and use
 and reference updates defined there. Naming or status inconsistencies
 must be reported; they do not authorize automatic renaming or repair.
 
+## Workspace agent catalogue
+
+The optional `agents` property is the authoritative workspace agent catalogue
+and registry. It is a JSON object mapping agent names to entry objects
+with required string properties `path` and `selection_guide`, for example:
+
+```json
+{
+  "agents": {
+    "release-reviewer": {
+      "path": ".hai_env/agents/release-reviewer/knowledge.md",
+      "selection_guide": "Call to review a proposed release against its readiness criteria and report unresolved release issues."
+    }
+  }
+}
+```
+
+Names and collisions follow the [agent convention](agent_conv.md). Each
+`path` MUST be exactly `.hai_env/agents/<name>/knowledge.md` for its key
+and resolve to a readable file inside the workspace. Reject symlink/junction
+resolution outside the workspace. It is a knowledge-file path, not a folder.
+`selection_guide` MUST contain non-whitespace, short actionable text stating
+when to call the role and its expected result, consistent with the definition's
+scope and ownership. Its value MUST be a verbatim copy of the canonical
+Selection guide body in `knowledge.md`, as defined by the agent convention.
+Author that section first, then copy it into state and validate exact equality
+when creating or updating the definition or entry. Do not store procedures here.
+Ordinary selection uses the copy without scanning all definitions; startup
+validates entry structure and references without verifying every copy's equality.
+Report a discovered stale copy without silently repairing it.
+The fixed path records explicit registration rather than allowing arbitrary
+external agent locations. Preserve additional entry properties when updating.
+
+Absent `agents` means an empty registry for existing version-1 environments;
+`null`, arrays, invalid entry objects or field types, blank guides,
+invalid names/paths, duplicate names,
+missing definitions, and framework-name collisions are invalid. Report invalid
+entries, exclude them from selection, and preserve them without repair. Valid
+entries remain usable when their own references validate. Malformed registry
+structure blocks registry writes; framework agents remain available. Other
+environment operations must preserve invalid registry data and report it,
+and must not claim complete environment validity.
+
+The workspace-agent-creator owns creation-time registrations after definition
+validation; environment-manager validates and reports them while owning general
+state. Preserve unrelated properties during either kind of update. Explicitly
+calling an unregistered agent never registers it. New environments include
+`agents: {}`. This optional additive field retains format version 1 and requires
+no rewriting or migration of existing states without it or with an empty object.
+
+Earlier string-valued entries are legacy registrations without selection
+guides. Preserve and report them, exclude them from normal selection, and
+do not read their definitions to infer guides or silently convert them.
+Explicit human invocation may still select a valid canonical definition
+under the agent convention without modifying its registration. Report that
+normal selection requires an explicitly authorized catalogue update supplying
+a validated canonical definition path and agreed selection guide. Such an
+existing-registration update is outside the creator's default new-agent
+workflow and requires a separately scoped authorization. This transitional
+read-only handling retains environment format version 1; it does not declare
+legacy entries valid or migrate live state. Missing and empty registries
+remain fully readable; framework agents remain available in every case.
+
 ## Initialization template and compatibility
 
 The canonical initialization template is
