@@ -12,7 +12,7 @@ without duplicating framework roles or inventing operational requirements.
 ## Scope
 
 - Create new workspace agent definitions and necessary supporting files.
-- Own creation-time registrations in environment state's `agents` registry.
+- Own creation-time registrations in `.hai_env/agents/catalogue.md`.
 - Do not initialize or repair environment, change general state settings,
   replace framework agents, overwrite existing definitions, or coordinate
   other agents. Existing-agent changes require a separately scoped task.
@@ -55,7 +55,7 @@ supporting folder without a demonstrated need within the requested task.
 - Refuse name collisions with framework or workspace definitions, including
   unregistered definitions and case-insensitive collisions. Do not overwrite
   existing paths, follow escaping symlinks/junctions, or silently rename them.
-- Preserve all unrelated state properties and registrations. Do not generate
+- Preserve all state properties and unrelated catalogue rows and prose. Do not generate
   implementation scripts merely because the target role could eventually use
   them. Never invent human approval or external permissions.
 
@@ -63,11 +63,14 @@ supporting folder without a demonstrated need within the requested task.
 
 1. Read governing references and supplied environment context. Verify the
    workspace root, environment directory, readable state,
-   duplicate-free JSON, required fields, compatible version, registry, and
-   path rules. Load `features.agent_instructions.location` only when that
+   duplicate-free JSON, required fields, compatible version, and path rules.
+   Read `.hai_env/agents/catalogue.md` together with the framework catalogue; validate
+   its structure, rows, and references under the state convention. Its absence
+   means an empty registry and does not block creation.
+   Load `features.agent_instructions.location` only when that
    feature is enabled; disabled optional instructions are not a missing
    prerequisite. Enabled but absent or invalid instructions block dependent
-   creation. Malformed registry blocks writes.
+   creation. Malformed or invalid catalogue contents block registration writes.
 2. Clarify the intended trigger, purpose, boundaries, necessary knowledge,
    mandatory and optional inputs, failure behavior, procedures, and measurable
    outcome. Distinguish settled decisions from proposed assumptions. Ask only
@@ -86,8 +89,10 @@ supporting folder without a demonstrated need within the requested task.
 4. Prepare a definition using the common ten-heading template. Author its
    canonical Selection guide first: a short actionable paragraph describing
    the role's trigger and result, consistent with its scope and ownership.
-   Prepare a separate catalogue entry with `path` and `selection_guide`, copying
-   the canonical guide body verbatim rather than rewriting it. Define local
+   Prepare a separate Markdown catalogue row with the backticked name,
+   guide cell, and `[knowledge.md](<name>/knowledge.md)` link. Copy
+   the canonical guide body verbatim using the table encoding defined by the
+   state convention rather than rewriting it. Define local
    terms and aliases explicitly; annotate References by purpose and reading
    condition. Keep shared rules linked and ensure the specialist can perform
    its work without delegation. Use optional `scripts/` or `conventions/`
@@ -99,20 +104,21 @@ supporting folder without a demonstrated need within the requested task.
 6. Validate the written definition and prepared catalogue entry together against
    the agent and state conventions: headings, canonical definition-file path,
    guide-to-scope consistency, exact equality of the guide body and decoded
-   catalogue `selection_guide`, inputs/defaults, aliases, procedures, outcomes, references,
+   catalogue guide cell, inputs/defaults, aliases, procedures, outcomes, references,
    independence, and name/path containment. Verify relevant supporting helpers
    under the tooling convention. Do not register a definition that fails.
-7. Reread state immediately before registration; if it changed since the checked
-   version, stop and report the concurrent change rather than overwriting it.
-   Add only `agents[name] = {"path": ".hai_env/agents/<name>/knowledge.md",
-   "selection_guide": "<verbatim canonical guide body>"}`, using the actual
-   canonical text rather than a literal placeholder. Preserve unrelated
-   properties and write valid UTF-8 JSON. Use a temporary sibling file and replace state only after
-   validating the prepared content and rechecking the original, when the
-   available filesystem supports that workflow; do not claim multi-file atomicity.
-8. Reread state and the definition, verify exact guide-copy equality, the
-   registration, and unchanged
-   unrelated values, and report success only after both pass. On any failure,
+7. Reread state and the catalogue immediately before registration; if either
+   changed since inspection, stop and report the concurrent change. Add only
+   the validated row to `.hai_env/agents/catalogue.md`, preserving all unrelated rows
+   and prose. If the catalogue was absent, create its title and the three-column
+   table from the state convention using an operation that fails if it exists.
+   Recheck path containment, table validity, and target before writing. For an
+   existing catalogue, use a temporary sibling file and replace only after
+   validating the prepared content and rechecking the original when supported.
+   Do not write state or claim multi-file atomicity.
+8. Reread the catalogue and definition, verify exact decoded guide-copy equality,
+   canonical link, registration, unchanged state, and preserved unrelated
+   catalogue contents. Report success only after these checks pass. On failure,
    stop, preserve created material, and report exactly what was created,
    whether registration occurred, and what remains invalid. No automatic
    cleanup, repair, overwrite, or retry of partial results.
@@ -120,7 +126,7 @@ supporting folder without a demonstrated need within the requested task.
 ## Expected outcome
 
 A meaningful definition at `.hai_env/agents/<name>/knowledge.md`, any justified
-supporting files, and its validated state catalogue entry with the canonical
+supporting files, and its validated `.hai_env/agents/catalogue.md` row with the canonical
 definition path and verbatim copy of the canonical knowledge selection guide. Return created
 paths, clarified decisions, validation evidence and limits, registration
 status, and unresolved issues. If blocked, report the missing prerequisite

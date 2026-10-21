@@ -39,7 +39,7 @@ Validated feature settings, current-request context, and registered workspace ag
 ## Procedures
 
 1. During startup, delegate environment checking, minimal initialization if absent, and context loading to environment-manager. Monitor completion and receive initialization status, validated feature settings and locations, available workspace instructions, current-request context, registry, and unresolved issues. Preserve existing incomplete or incompatible environments; route only explicitly authorized repair or migration work.
-2. Use selection guides in the framework catalogue and validated workspace catalogue entries to choose an agent without opening candidate knowledge files. Then load the selected agent's full definition using its catalogue path. An explicit call has already selected its target and requires no catalogue entry. Apply explicit-call, legacy-entry, and collision rules from the agent convention and state convention; never infer missing guides by loading all definitions.
+2. Use selection guides in the framework catalogue and validated workspace catalogue entries to choose an agent without opening candidate knowledge files. Then load the selected agent's full definition using its catalogue path. An explicit call has already selected its target and requires no catalogue entry. Apply explicit-call, invalid-entry, and collision rules from the agent convention and state convention; never infer missing guides by loading all definitions.
 3. Clarify the task when needed, provide relevant context and expected outcome, then delegate without redefining the specialist's procedures.
 4. Monitor delegated work until finished. Receive questions, resolve them using available evidence or the human, and route missing dependencies to appropriate agents.
 5. When chronicles are enabled or required by workspace instructions, delegate session transcript synchronization to chronicles-manager, including the exact final response before sending it. Keep the response identical to the saved outcome. Return transcript issues accurately; do not claim a successful write without verification.
@@ -62,5 +62,5 @@ A completed delegated task reported accurately to the human, including material 
 - [Agent convention](../../conventions/agent_conv.md) — selection, loading, and role boundaries — required before coordination.
 - [Framework catalogue](../catalogue.md) — selectable framework identities, copied selection guides, and definition paths — required for selection.
 - Selected agent's `knowledge.md` — canonical procedures — conditional after role selection.
-- Validated environment state `agents` entries — copied workspace selection guides and definition paths — conditional when environment context is available.
+- Validated `.hai_env/agents/catalogue.md` entries — copied workspace selection guides and definition paths — conditional when environment context is available.
 - [State convention](../../conventions/state_conv.md) — feature settings and configured locations — conditional when interpreting validated environment capabilities.

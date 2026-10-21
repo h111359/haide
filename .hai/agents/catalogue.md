@@ -17,5 +17,5 @@ Paths below are relative to this catalogue.
 | `workspace-agent-creator` | Call to clarify a new workspace specialist role, create its definition, and register it in an initialized environment. Returns validated files and registration evidence, or the decisions or prerequisites still needed. | [knowledge.md](workspace-agent-creator/knowledge.md) |
 
 Workspace agents and copies of their selection guides are listed exclusively
-in environment state's `agents` catalogue, not here. Availability, validation,
+in `.hai_env/agents/catalogue.md`, not here. Read both catalogues together for selection. Availability, validation,
 and explicit-call rules follow the [agent convention](../conventions/agent_conv.md).

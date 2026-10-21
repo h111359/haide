@@ -1,0 +1,8 @@
+# Workspace agent catalogue
+
+Read this catalogue together with `.hai/agents/catalogue.md` for role selection.
+Entries follow the [state convention](../../.hai/conventions/state_conv.md).
+
+| Agent | Selection guide | Definition |
+| --- | --- | --- |
+| `advisor` | Call to review this repository's HAI framework and recommend the top three logical next actions in chat without changing files. | [knowledge.md](advisor/knowledge.md) |

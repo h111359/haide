@@ -1,7 +1,6 @@
 {
   "current_request": null,
-  "compatible_version": 2,
-  "agents": {},
+  "compatible_version": 3,
   "features": {
     "requests": {
       "enabled": false,

@@ -37,7 +37,7 @@ explicit aliases; References identifies supporting resources and when to read th
 Framework roles are always selectable through the separate
 [framework catalogue](../agents/catalogue.md). Workspace roles are normally
 selectable only when registered with a valid definition path and selection
-guide in environment state's `agents` catalogue.
+guide in `.hai_env/agents/catalogue.md`, read together with the framework catalogue.
 An explicit human call may select an unregistered workspace role without
 registering it. Selection, validation, and collision handling follow the
 agent convention. Discovery does not require loading every definition.

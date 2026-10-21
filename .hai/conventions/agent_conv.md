@@ -13,7 +13,7 @@ Names use lowercase ASCII words separated by single hyphens, matching
 `[a-z][a-z0-9]*(?:-[a-z0-9]+)*`. Names must be unique across both origins,
 also when compared case-insensitively on supported platforms.
 
-Only workspace agents registered in environment state's `agents` object
+Only workspace agents registered in `.hai_env/agents/catalogue.md`
 are normally selectable. An explicit human call may select an unregistered
 workspace definition at `.hai_env/agents/<name>/knowledge.md`; a supplied
 path must identify that canonical folder or its knowledge file and remain
@@ -29,8 +29,9 @@ entry does not make framework agents unavailable.
 
 ## Selection and loading
 
-Select from the guides in the framework catalogue and valid environment-state
-catalogue entries. Each catalogue guide is a verbatim copy of the canonical
+Read `.hai/agents/catalogue.md` and valid `.hai_env/agents/catalogue.md` entries together
+to select from their guides. A missing workspace catalogue means no registrations.
+Each catalogue guide is a verbatim copy of the canonical
 Selection guide section in its agent's knowledge.md. A guide briefly states when to call the role and what
 it produces; it must agree with the definition's scope and ownership. Do not
 read every knowledge file to choose a role or recover missing guides. Read the
@@ -138,10 +139,11 @@ references, specialist independence, and consistency with shared rules.
 Validate the canonical guide against scope, then validate its catalogue copy
 for exact equality when creating or updating an agent or its entry. Author
 the knowledge section first and copy its text verbatim into the framework
-catalogue or workspace state's `selection_guide`; do not independently rewrite
+catalogue or workspace catalogue guide cell; do not independently rewrite
 the copy. Exclude the heading and surrounding separator blank lines from the
 copied body, but preserve its text, punctuation, escaping, and internal whitespace.
-Use a short single paragraph compatible with a Markdown table cell; JSON escapes
-must decode to exactly that same text. Knowledge definitions have ten required
+Use a short single paragraph compatible with a Markdown table cell; encode
+and decode table characters using the state convention so the copied body
+remains exactly equal. Knowledge definitions have ten required
 headings. Startup does not require scanning all definitions to verify copies.
 Verify only meaningful supporting scripts with the tooling convention.

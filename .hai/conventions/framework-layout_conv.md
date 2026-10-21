@@ -27,7 +27,7 @@ resources. Shared concepts and conventions remain at framework level.
 ## Workspace agent structure
 
 Workspace agents use `.hai_env/agents/<name>/knowledge.md` with the same
-knowledge template and optional resources. Environment state's `agents`
-object is their authoritative catalogue, following [state_conv.md](state_conv.md).
+knowledge template and optional resources. `.hai_env/agents/catalogue.md`
+is their authoritative Markdown catalogue, following [state_conv.md](state_conv.md).
 Do not initialize environment or create agent scaffolding merely to make
 framework definitions available.

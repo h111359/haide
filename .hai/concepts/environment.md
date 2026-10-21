@@ -25,13 +25,13 @@ The [state convention](../conventions/state_conv.md) defines configuration, safe
 
 Enabling specification records a location without fabricating contents or asserting that a specification already exists. Linking an existing specification requires explicitly supplied intent and a verified folder. Chronicles-manager owns session transcripts when recording is enabled; environment-manager owns configuration. Chronicles are distinct from request-specific discussion and do not require requests to be enabled.
 
-The environment may also hold local references and custom agent definitions under `.hai_env/agents/<name>/`. State's `agents` object is their authoritative catalogue and registry, containing canonical definition paths and verbatim copies of canonical Selection guide sections. Normal selection reads catalogue copies. Unregistered agents are unavailable for normal selection, although an explicit human call may load one without registering it. The [agent convention](../conventions/agent_conv.md) defines identity, format, and selection. Workspace-agent-creator creates and registers specialists only in initialized environment; initialization creates no agent files or folders. Framework agents remain available independently of optional features.
+The environment may also hold local references and custom agent definitions under `.hai_env/agents/<name>/`. The separate `.hai_env/agents/catalogue.md` Markdown file is their authoritative catalogue and registry, containing definition links and verbatim copies of canonical Selection guide sections. Read it together with `.hai/agents/catalogue.md` for selection; its absence means no registered workspace agents. Normal selection reads catalogue copies. Unregistered agents are unavailable for normal selection, although an explicit human call may load one without registering it. The [agent convention](../conventions/agent_conv.md) defines identity, format, and selection. Workspace-agent-creator creates and registers specialists only in initialized environment; initialization creates no agent files or folders. Framework agents remain available independently of optional features.
 
 Existing incomplete or incompatible environment is preserved and reported, rather than silently reinitialized or migrated. Environment is persistent HAI material, not a Python virtual environment or collection of environment variables.
 
 ## Supporting Terms
 
-- [state]: mandatory installation-specific HAI configuration, including optional-feature flags and locations, agent catalogue, and current-request reference.
+- [state]: mandatory installation-specific HAI configuration, including optional-feature flags and locations and current-request reference.
 - [agent_instructions]: optional custom workspace instructions file loaded from its configured location only when its environment feature is enabled, without overriding independent session instructions.
 - [chronicles]: optional verbatim session transcripts owned by chronicles-manager, independent of request records.
 

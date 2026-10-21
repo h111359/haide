@@ -29,7 +29,8 @@ workspace agent catalogue entries returned by environment-manager. Choose
 from their catalogue selection guides before loading the selected definition
 in full; do not open every role definition for selection.
 Framework agents remain selectable without environment. Registered workspace
-definitions resolve through environment state's `agents` object; explicit
+definitions resolve through `.hai_env/agents/catalogue.md`, read together with
+`.hai/agents/catalogue.md`; explicit
 human calls may use unregistered definitions only at
 `.hai_env/agents/<name>/knowledge.md`, with supplied paths identifying that
 canonical folder or file, without registering them. Follow the agent convention
