@@ -2,62 +2,71 @@
 
 ## Identity and availability
 
-Framework definitions live at `.hai/agents/<name>/knowledge.md` and are
-always selectable, including without environment. The separate
-[framework catalogue](../agents/catalogue.md) contains their names, short
-actionable selection guides, and definition paths. Its guides are verbatim
-copies of canonical Selection guide sections in knowledge definitions;
-it does not duplicate their procedures.
-Workspace definitions live at `.hai_env/agents/<name>/knowledge.md`.
-Names use lowercase ASCII words separated by single hyphens, matching
-`[a-z][a-z0-9]*(?:-[a-z0-9]+)*`. Names must be unique across both origins,
-also when compared case-insensitively on supported platforms.
+Framework definitions live at `.hai/agents/<name>/SKILL.md` and are always
+selectable, including without environment. Workspace definitions live at
+`.hai_env/agents/<name>/SKILL.md`. Names match
+`[a-z][a-z0-9]*(?:-[a-z0-9]+)*`, are at most 64 characters, and match their
+parent directory exactly. Names must be unique across both origins, including
+case-insensitive comparison on supported platforms. Framework definitions take
+precedence over conflicting workspace names; report conflicts without renaming,
+overriding, unregistering, or repairing them.
 
-Only workspace agents registered in `.hai_env/agents/catalogue.md`
-are normally selectable. An explicit human call may select an unregistered
-workspace definition at `.hai_env/agents/<name>/knowledge.md`; a supplied
-path must identify that canonical folder or its knowledge file and remain
-inside the workspace after resolution. This neither registers it nor
-authorizes registration. Do not search
-unrelated locations. Ask for a path when the target is ambiguous.
-
-Report conflicting workspace definitions or registrations as invalid.
-The framework definition takes precedence for a conflicting name, including
-after upgrades; explicit invocation cannot bypass this rule. Never silently
-rename, override, unregister, or repair definitions. An invalid workspace
-entry does not make framework agents unavailable.
+The [framework catalogue](../agents/catalogue.md) and
+`.hai_env/agents/catalogue.md` contain names, copied descriptions, and definition
+links. Only registered workspace agents are normally selectable. An explicit
+human call may select an unregistered definition without registering it; supplied
+paths must identify its canonical folder or `SKILL.md` and resolve inside the
+workspace. Do not search unrelated locations. Ask for a path when ambiguous.
 
 ## Selection and loading
 
-Read `.hai/agents/catalogue.md` and valid `.hai_env/agents/catalogue.md` entries together
-to select from their guides. A missing workspace catalogue means no registrations.
-Each catalogue guide is a verbatim copy of the canonical
-Selection guide section in its agent's knowledge.md. A guide briefly states when to call the role and what
-it produces; it must agree with the definition's scope and ownership. Do not
-read every knowledge file to choose a role or recover missing guides. Read the
-full `knowledge.md` only for a selected role, or when a specific ownership
-question requires its procedures, then follow conditional references.
-Catalogue-only ordinary selection does not require opening definitions to
-compare every guide copy. If a mismatch is discovered while loading or
-reviewing a definition, report it; do not silently repair a catalogue or state.
-An explicit call has already selected its target and needs no catalogue entry;
-validate its identity and load its definition without registering it.
-Load shared workspace instructions and this
-convention before executing a role. References are not recursive read-all
-instructions.
+Read the framework catalogue and valid workspace entries together. Catalogue
+Selection guide cells are exact copies of the decoded YAML `description` value,
+which is canonical selection text. Descriptions briefly state when to call a role
+and what it produces, consistent with its scope and ownership. Select from copies
+before loading the selected `SKILL.md`; do not open every definition to choose a
+role or recover missing descriptions. An explicit call already selects its target.
 
-## Required knowledge format
+Validate a selected definition's identity, format, references, and description
+copy. Report discovered stale copies without repairing them. Ordinary startup
+validates catalogue structure and references without loading all definitions.
+Load applicable workspace instructions and this convention before execution;
+follow supporting references only when needed. An invalid workspace entry does
+not make framework roles unavailable.
 
-Every definition has one title and exactly these level-two headings, once
-each and in this order. Use subheadings for task-specific detail. Write
-`None` when a section has no applicable content; do not omit headings.
-This skeleton is the common knowledge template:
+These definitions reuse the [Agent Skills format](https://agentskills.io/specification).
+The filename alone does not install a skill, add it to a runtime's discovery
+paths, select a model, create a subprocess, or spawn an agent. HAI catalogue
+selection and leader orchestration remain explicit.
+
+## Required definition format
+
+Use YAML frontmatter followed by Markdown. Required fields are `name` and
+`description`; description is a nonblank string of at most 1024 characters,
+expressed as one short paragraph with no line breaks after YAML decoding.
+HAI names follow the stricter identity rule above. Preserve applicable Agent
+Skills optional fields (`license`, `compatibility`, `metadata`, `allowed-tools`);
+metadata maps string keys to string values. YAML duplicate keys are invalid.
+
+Spawned specialists MUST declare both HAI extension keys under `metadata`:
+`hai-model-class` is `light`, `standard`, or `advanced`, and
+`hai-reasoning-effort` is a standard effort label (`low`, `medium`, `high`,
+`xhigh`, `max`, or `ultra`). Quote metadata values as strings. The leader omits
+both keys: it remains the root chat using the interface-selected model and effort.
+Concrete model IDs belong only in local model profiles, never agent declarations.
+
+There is no agent H1 title or Selection guide body section. Include exactly these
+nine level-two headings once each, in order; use subheadings for task detail and
+write `None` for an inapplicable section:
 
 ```markdown
-# <Agent name>
-
-## Selection guide
-<Briefly say when to call this role and what it produces.>
+---
+name: example-specialist
+description: "Call to perform a specific task and return its verified result."
+metadata:
+  hai-model-class: "standard"
+  hai-reasoning-effort: "high"
+---
 
 ## Purpose
 <Why this role exists.>
@@ -75,7 +84,7 @@ This skeleton is the common knowledge template:
 <Optional inputs and declared defaults, or None.>
 
 ## Rules
-<Constraints and any role-specific missing-input behavior.>
+<Constraints and role-specific missing-input behavior.>
 
 ## Procedures
 <Actions and conditional workflows.>
@@ -87,63 +96,118 @@ This skeleton is the common knowledge template:
 <Path — purpose — required, conditional with trigger, or optional.>
 ```
 
-Definitions apply to the agent definition and its supporting files. Link
-shared terminology instead of redefining it. Aliases must identify their
-target and scope explicitly; they abbreviate references or names, not
-grant authority or invent runtime values. Do not implicitly expand aliases
-into commands or paths. Validate supplied paths before using them.
+Definitions apply to the agent and its supporting files. Link shared terminology
+instead of redefining it. Aliases identify their target and local scope; they do
+not grant authority or supply runtime values. Validate paths before use. Retrieve
+missing mandatory inputs from available authorized context first, then return the
+dependency to leader or ask the human when called directly. Continue independent
+work; optional inputs use declared defaults or remain absent. Never invent values,
+decisions, permissions, or approval. References give reading conditions; a folder
+reference identifies relevant content rather than requiring recursive loading.
 
-Inputs may be user decisions, task context, existing files, permissions,
-or tool prerequisites. Unless a role specifies its own response, first
-retrieve missing mandatory inputs from already available, authorized
-context; then report or ask through the leader and pause dependent work.
-Continue meaningful independent work. When called directly, ask the human
-directly. Optional inputs use declared defaults; otherwise they remain
-absent. Never fabricate values, decisions, or approval.
+## Model resolution and orchestration
 
-Rules state constraints; Procedures describe actions. References list
-additional files or folders with purpose and reading conditions. A folder
-reference must identify what relevant content to read; it does not require
-loading every descendant. References may point to existing resources beyond
-the standard folders.
+Follow [model-profiles_conv.md](model-profiles_conv.md) before spawning. Resolve
+the selected specialist's class through `.hai_env/model_profiles.json` and check
+the exact model/effort pair against the current runtime's advertised capabilities.
+Report missing or unavailable settings; do not silently substitute a model, class,
+or effort. Direct role use in the root chat does not change its interface settings.
+Startup bootstrap and explicit human overrides follow the named exceptions in the
+model-profile convention. They must be reported and never rewrite declarations.
 
-## Independence and supporting resources
+Only leader selects, delegates to, monitors, and coordinates other agents.
+Specialists execute their own procedures using inputs, references, and tools;
+they return missing dependencies to leader and do not invoke agents. Each role
+owns its procedures in `SKILL.md`; callers describe the task without duplicating
+those procedures. Runtime spawn interfaces may impose additional constraints:
+when explicit model/effort overrides require an empty history fork (for example
+`fork_turns="none"`), use that supported combination and pass the definition path,
+workspace instructions, relevant task context, and expected outcome explicitly.
+Do not assume inherited history, settings, or automatic skill discovery.
 
-Only leader selects, delegates to, and coordinates other agents.
-Specialists perform their own procedures using their inputs, shared
-references, and tools; they do not invoke other agents. They return missing
-dependencies to leader instead of coordinating specialists themselves.
-Each role owns its procedures in its `knowledge.md`; callers describe the
-delegated task without duplicating the receiving role's procedures.
+## Context handoff and input checks
 
-Optional standard folders are `scripts/` for owned executable helpers and
-usage documentation, and `conventions/` for role-specific formats and rules.
-Create them only when needed. Other justified resources and folders are
-permitted, including existing `templates/`; no empty scaffold is required.
-Shared concepts and conventions retain their canonical framework location.
-Scripts follow [tooling_conv.md](tooling_conv.md).
+For every specialist handoff, including startup and follow-up assignments, leader
+MUST explicitly cover this checklist in the task message:
+
+1. **Objective and acceptance criteria:** the user's objective and the agreed
+   criteria for completing the delegated work.
+2. **Constraints and decisions:** applicable constraints and explicit decisions,
+   distinguishing settled decisions from assumptions.
+3. **Relevant context:** relevant files, verified findings, and completed work
+   the specialist needs to use or preserve.
+4. **Open dependencies:** unresolved questions, conflicts, and dependencies.
+5. **Scope and authorization:** allowed changes, task boundaries, and established
+   authorization, including any actions that still require a decision.
+
+Identify missing information or not-applicable items explicitly; never silently
+omit a checklist field or fabricate context, decisions, or approval. Include the
+selected definition path, applicable workspace instructions and context, expected
+output, and relevant verification requirements. Supply concise facts and precise
+references the receiver can access; do not reproduce full conversation history
+or duplicate the specialist's procedures. Inherited history does not replace this
+handoff, and a follow-up must make retained context and changed requirements clear.
+
+Before dependent work, the receiving specialist MUST load its definition and
+applicable instructions, compare the handoff with its own **Required inputs**,
+and check for missing or conflicting inputs. First retrieve needed context from
+available, authorized sources within scope. If a required input remains missing
+or conflicting, report the specific issue and dependent work to leader, pause that
+work, and continue meaningful independent work. When called directly, report or
+ask the human instead. Do not treat an assumption as a settled decision or infer
+authorization from missing context. Shared checks supplement each role's own
+input requirements and failure behavior; they do not replace them.
+
+Leader monitors requests for context or decisions, resolves them from authorized
+evidence or the human, and sends the resulting clarification to the receiver.
+Before reporting completion, review the returned output and verification against
+the objective, agreed acceptance criteria, and authorized scope; route remaining
+gaps rather than claim dependent work is complete.
+
+## Supporting resources
+
+Optional standard folders are `scripts/` for owned helpers and usage documentation
+and `conventions/` for role-specific formats. Other justified resources, including
+existing `templates/`, remain permitted. Create no unused scaffold. Shared concepts
+and conventions retain their canonical framework location. Scripts follow
+[tooling_conv.md](tooling_conv.md).
 
 ## Registration ownership and verification
 
-The workspace-agent-creator owns creation-time workspace registrations;
-environment-manager owns general environment state and validation. Neither
-may silently repair the other's data. Preserve unrelated state properties.
-Registration follows definition validation, never precedes it. Coordinate
-definition and state writes without claiming filesystem transactionality:
-on failure report completed changes and remaining inconsistencies, preserve
-partial results, and do not retry, remove, or overwrite them silently.
+Workspace-agent-creator owns creation-time registrations; environment-manager owns
+general environment validation. Neither silently repairs the other's data. Preserve
+unrelated state, rows, and prose. Register only after validating the definition.
+Coordinate writes without claiming multi-file transactionality: stop on changed
+inputs, preserve partial results on failure, and report inconsistencies without
+automatic retries, removal, or overwrite.
 
-Validate names, canonical paths, collisions, all required headings and their
-order, local aliases, required inputs, output criteria, conditional
-references, specialist independence, and consistency with shared rules.
-Validate the canonical guide against scope, then validate its catalogue copy
-for exact equality when creating or updating an agent or its entry. Author
-the knowledge section first and copy its text verbatim into the framework
-catalogue or workspace catalogue guide cell; do not independently rewrite
-the copy. Exclude the heading and surrounding separator blank lines from the
-copied body, but preserve its text, punctuation, escaping, and internal whitespace.
-Use a short single paragraph compatible with a Markdown table cell; encode
-and decode table characters using the state convention so the copied body
-remains exactly equal. Knowledge definitions have ten required
-headings. Startup does not require scanning all definitions to verify copies.
-Verify only meaningful supporting scripts with the tooling convention.
+Validate names, canonical paths, collisions, YAML fields, string metadata,
+model/effort declarations, all nine headings and their order, local aliases,
+inputs/defaults, outcome criteria, conditional references, independence, and shared
+rules. Author `description` first, then copy its decoded value into the catalogue
+using the state convention's table encoding. Compare decoded strings exactly,
+including punctuation and whitespace; do not copy YAML quotes or scalar syntax.
+
+For authoring or migration verification, use the shared
+[agent tools](../tools/agents/README.md), then review semantic ownership and
+procedures manually. Their full audit is not a startup requirement.
+
+## Legacy definitions and authorized migration
+
+A previous `knowledge.md` definition or catalogue link is legacy agent-format
+material even when core state is compatible version 3. Report its registered name
+and path and preserve the registration as a pending migration; exclude it from
+execution without silently unregistering or reinterpreting it. Do not scan folders
+to reconstruct registrations or prefer one file when both old and new files exist.
+Core-state compatibility remains governed separately by the state convention.
+
+An explicitly authorized agent-format migration validates every affected existing
+registration and definition, retains each name and exact Selection guide text as
+the new YAML description, agrees or assigns justified specialist class/effort
+settings within scope, renames the definition to `SKILL.md`, and updates its
+catalogue link and owned references together. Preserve other sections, supporting
+resources, optional-feature settings, current request, and unrelated work. Do not
+silently drop invalid registrations, extra metadata, missing descriptions, or
+conflicting old/new files: resolve them within the authorized scope before writing.
+Verify all affected links and decoded catalogue equality after writes; report any
+partial failure. Historical transcripts are records and are not rewritten.

@@ -10,11 +10,11 @@
 
 agents/ folder contains one and only one subfolder per agent - the [agent-folder]
 
-[agent-folder] MUST contain exactly one file named knowledge.md and other optional files and subfolders 
+[agent-folder] MUST contain exactly one file named SKILL.md and other optional files and subfolders
 
-`knowledge.md` follows the required template in [agent_conv.md](agent_conv.md).
+`SKILL.md` follows the required template in [agent_conv.md](agent_conv.md).
 The framework's separate [agent catalogue](../agents/catalogue.md) lives
-directly in `agents/` and contains each name, verbatim selection-guide copy,
+directly in `agents/` and contains each name, verbatim description copy,
 and definition link so selection does not require opening role files. It is
 not an agent definition or a workspace registry.
 
@@ -26,8 +26,8 @@ resources. Shared concepts and conventions remain at framework level.
 
 ## Workspace agent structure
 
-Workspace agents use `.hai_env/agents/<name>/knowledge.md` with the same
-knowledge template and optional resources. `.hai_env/agents/catalogue.md`
+Workspace agents use `.hai_env/agents/<name>/SKILL.md` with the same
+definition template and optional resources. `.hai_env/agents/catalogue.md`
 is their authoritative Markdown catalogue, following [state_conv.md](state_conv.md).
 Do not initialize environment or create agent scaffolding merely to make
 framework definitions available.

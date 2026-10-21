@@ -1,8 +1,10 @@
-# Specification manager
-
-## Selection guide
-
-Call to enter, update, organize, or validate durable product specification information. Returns changes, verification evidence, and unresolved decisions.
+---
+name: specification-manager
+description: "Call to enter, update, organize, or validate durable product specification information. Returns changes, verification evidence, and unresolved decisions."
+metadata:
+  hai-model-class: "standard"
+  hai-reasoning-effort: "high"
+---
 
 ## Purpose
 

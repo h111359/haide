@@ -1,8 +1,10 @@
-# Chronicles manager
-
-## Selection guide
-
-Call to maintain a session's exact Markdown transcript when chronicles are enabled or required by workspace instructions. Returns the verified transcript location and any synchronization issues.
+---
+name: chronicles-manager
+description: "Call to maintain a session's exact Markdown transcript when chronicles are enabled or required by workspace instructions. Returns the verified transcript location and any synchronization issues."
+metadata:
+  hai-model-class: "light"
+  hai-reasoning-effort: "high"
+---
 
 ## Purpose
 

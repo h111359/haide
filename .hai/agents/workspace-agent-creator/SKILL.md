@@ -1,8 +1,10 @@
-# Workspace agent creator
-
-## Selection guide
-
-Call to clarify a new workspace specialist role, create its definition, and register it in an initialized environment. Returns validated files and registration evidence, or the decisions or prerequisites still needed.
+---
+name: workspace-agent-creator
+description: "Call to clarify a new workspace specialist role, create its definition, and register it in an initialized environment. Returns validated files and registration evidence, or the decisions or prerequisites still needed."
+metadata:
+  hai-model-class: "standard"
+  hai-reasoning-effort: "high"
+---
 
 ## Purpose
 
@@ -35,8 +37,11 @@ The agreed role must be a specialist that does not delegate.
 
 ## Optional inputs
 
-Proposed name and catalogue selection guide, local terms and aliases, reference resources, input defaults,
-and helper requirements. Omitted input defaults remain absent. Suggest a
+Proposed name, canonical description, specialist model class and reasoning effort,
+local terms and aliases, reference resources, input defaults, and helper requirements.
+Choose a justified class and effort from the role's complexity and verification
+needs when unspecified, explain the choices, and report unavailable runtime
+settings instead of substituting. Omitted input defaults remain absent. Suggest a
 descriptive name for agreement if none is supplied. Create no helper or
 supporting folder without a demonstrated need within the requested task.
 
@@ -83,27 +88,35 @@ supporting folder without a demonstrated need within the requested task.
 3. Resolve a valid name and canonical target folder. Check framework catalogue,
    registry, and immediate `.hai_env/agents/` folder names for collisions; this
    is a targeted identity check, not permission to load every definition.
-   Require `.hai_env/agents/<name>` and its canonical `knowledge.md`, including
+   Require `.hai_env/agents/<name>` and its canonical `SKILL.md`, including
    for any human-supplied path; verify containment after filesystem resolution.
    Reject invalid existing references rather than repairing them.
-4. Prepare a definition using the common ten-heading template. Author its
-   canonical Selection guide first: a short actionable paragraph describing
+4. Prepare a definition using the common YAML-frontmatter and nine-heading
+   template. Author its
+   canonical YAML `description` first: a short actionable paragraph describing
    the role's trigger and result, consistent with its scope and ownership.
+   Set `name` equal to the directory name and declare string `hai-model-class`
+   and `hai-reasoning-effort` metadata; do not write concrete model IDs into the
+   definition. Include no agent H1 or Selection guide section.
    Prepare a separate Markdown catalogue row with the backticked name,
-   guide cell, and `[knowledge.md](<name>/knowledge.md)` link. Copy
-   the canonical guide body verbatim using the table encoding defined by the
+   guide cell, and `[SKILL.md](<name>/SKILL.md)` link. Copy
+   the decoded description value verbatim using the table encoding defined by the
    state convention rather than rewriting it. Define local
    terms and aliases explicitly; annotate References by purpose and reading
-   condition. Keep shared rules linked and ensure the specialist can perform
-   its work without delegation. Use optional `scripts/` or `conventions/`
+   condition. Make Required inputs specific to the role, and require the shared
+   Agent convention in the target's References before role execution so its
+   receiver input checks apply. Keep the handoff checklist canonical in that
+   convention rather than duplicating it in the target. Ensure the specialist
+   can perform its work without delegation. Use optional `scripts/` or `conventions/`
    only when needed; other justified resources are permitted.
 5. Before writing, recheck target absence and state validity. Create only the
    necessary parent directory, then the target directory and files with
    operations that fail if targets already exist. Preserve existing parents.
    Do not create requests, specifications, or an environment as a side effect.
 6. Validate the written definition and prepared catalogue entry together against
-   the agent and state conventions: headings, canonical definition-file path,
-   guide-to-scope consistency, exact equality of the guide body and decoded
+   the agent and state conventions: YAML fields, metadata types, class/effort
+   labels, headings, canonical definition-file path,
+   description-to-scope consistency, exact equality of the decoded description and decoded
    catalogue guide cell, inputs/defaults, aliases, procedures, outcomes, references,
    independence, and name/path containment. Verify relevant supporting helpers
    under the tooling convention. Do not register a definition that fails.
@@ -116,7 +129,7 @@ supporting folder without a demonstrated need within the requested task.
    existing catalogue, use a temporary sibling file and replace only after
    validating the prepared content and rechecking the original when supported.
    Do not write state or claim multi-file atomicity.
-8. Reread the catalogue and definition, verify exact decoded guide-copy equality,
+8. Reread the catalogue and definition, verify exact decoded description-copy equality,
    canonical link, registration, unchanged state, and preserved unrelated
    catalogue contents. Report success only after these checks pass. On failure,
    stop, preserve created material, and report exactly what was created,
@@ -125,9 +138,9 @@ supporting folder without a demonstrated need within the requested task.
 
 ## Expected outcome
 
-A meaningful definition at `.hai_env/agents/<name>/knowledge.md`, any justified
+A meaningful definition at `.hai_env/agents/<name>/SKILL.md`, any justified
 supporting files, and its validated `.hai_env/agents/catalogue.md` row with the canonical
-definition path and verbatim copy of the canonical knowledge selection guide. Return created
+definition path and verbatim copy of the canonical YAML description. Return created
 paths, clarified decisions, validation evidence and limits, registration
 status, and unresolved issues. If blocked, report the missing prerequisite
 or decisions without claiming creation or registration.
@@ -140,6 +153,7 @@ or decisions without claiming creation or registration.
 - [Environment](../../concepts/environment.md) and [State convention](../../conventions/state_conv.md)
   — environment prerequisites and authoritative registry — required before writes.
 - [Framework catalogue](../catalogue.md) — reserved framework names — required for identity checks.
+- [Model profiles](../../conventions/model-profiles_conv.md) — class/effort declarations and current-runtime resolution — required when choosing execution defaults.
 - [Framework layout](../../conventions/framework-layout_conv.md) — resource placement — required before creation.
 - [Tooling convention](../../conventions/tooling_conv.md) — helper implementation and verification
   — conditional when creating or executing scripts.

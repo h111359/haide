@@ -1,8 +1,10 @@
-# Advisor
-
-## Selection guide
-
-Call to review this repository's HAI framework and recommend the top three logical next actions in chat without changing files.
+---
+name: advisor
+description: "Call to review this repository's HAI framework and recommend the top three logical next actions in chat without changing files."
+metadata:
+  hai-model-class: "advanced"
+  hai-reasoning-effort: "high"
+---
 
 ## Purpose
 

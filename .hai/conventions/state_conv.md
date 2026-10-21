@@ -46,6 +46,15 @@ Environment-manager retains general environment state and validation ownership.
 
 Environment-manager owns feature flags and locations. State-only initialization creates no optional resources. Subsequent chat setup records explicit human choices, retaining unmentioned values. Enabling requests may create its empty directory; enabling instructions may create its empty file, with supplied instructions only when explicitly provided. Enabling specification does not fabricate specification contents. Chronicles-manager owns transcript contents after the leader routes enabled recording. Disabling a feature stops using that feature through environment configuration and preserves all files; it does not override independent higher-priority workspace or session instructions. Moving existing contents requires separately scoped authorization. State remains present with all optional features disabled.
 
+## Local model profiles
+
+Optional `.hai_env/model_profiles.json` is separate from state and catalogue.
+Its absence is valid for core state; never add it to state-only initialization or
+infer profile choices from feature flags. Environment-manager owns explicitly
+requested profile setup under [model-profiles_conv.md](model-profiles_conv.md).
+The leader reports exact runtime availability and bootstrap/override use there.
+Preserve unrelated profiles during state and catalogue updates.
+
 ## Workspace agent catalogue
 
 `.hai_env/agents/catalogue.md` is the fixed authoritative workspace agent catalogue and registry, separate from state. Read it together with the [framework catalogue](../agents/catalogue.md) for selection, after validating state. State has no `agents` property in version 3; a present legacy `agents` property is incompatible registration data, not a fallback. Report and preserve it pending explicitly scoped migration.
@@ -57,12 +66,20 @@ A missing catalogue means no registered workspace agents and is valid, including
 
 | Agent | Selection guide | Definition |
 | --- | --- | --- |
-| `release-reviewer` | Call to review a proposed release against its readiness criteria and report unresolved release issues. | [knowledge.md](release-reviewer/knowledge.md) |
+| `release-reviewer` | Call to review a proposed release against its readiness criteria and report unresolved release issues. | [SKILL.md](release-reviewer/SKILL.md) |
 ```
 
-Use exactly one table with these three columns. A header-only table is an empty catalogue; surrounding prose is allowed and preserved. Each row registers one unique name, enclosed in backticks, a nonblank short actionable guide, and one definition link. Names and collisions follow the [agent convention](agent_conv.md). Definition destinations MUST be exactly `<name>/knowledge.md`, relative to `.hai_env/agents/catalogue.md`, and resolve to readable files inside the workspace; reject absolute paths, traversal, queries, fragments, and escaped separators. Reject case-insensitive duplicate names and framework-name collisions.
+Use exactly one table with these three columns. A header-only table is an empty catalogue; surrounding prose is allowed and preserved. Each row registers one unique name, enclosed in backticks, a nonblank short actionable guide, and one definition link. Names and collisions follow the [agent convention](agent_conv.md). Current-format definition destinations MUST be exactly `<name>/SKILL.md`, relative to `.hai_env/agents/catalogue.md`, and resolve to readable files inside the workspace; reject absolute paths, traversal, queries, fragments, and escaped separators. Reject case-insensitive duplicate names and framework-name collisions.
 
-Author the canonical Selection guide first and copy its body verbatim into the guide cell. Preserve its characters when encoding table syntax: encode `&`, `\`, and `|` as `&amp;`, `&#92;`, and `&#124;` respectively, in that order; decode those entities once when comparing with the canonical body. Literal Markdown punctuation is retained as source text, not rendered away. Guides must be a single paragraph without line breaks. Existing framework table copies follow the same encoding rule when needed. Validate exact decoded equality when creating or updating a definition or entry; ordinary startup validates table structure and references without loading every definition to compare guide copies. Report discovered stale copies without rewriting them.
+Author the canonical YAML `description` first and copy its decoded string value verbatim into the guide cell. Preserve its characters when encoding table syntax: encode `&`, `\`, and `|` as `&amp;`, `&#92;`, and `&#124;` respectively, in that order; decode those entities once when comparing with the canonical description. Literal Markdown punctuation is retained as source text, not rendered away. Guides must be a single paragraph without line breaks. Existing framework table copies follow the same encoding rule when needed. Validate exact decoded equality when creating or updating a definition or entry; ordinary startup validates table structure and references without loading every definition to compare guide copies. Report discovered stale copies without rewriting them.
+
+Legacy `<name>/knowledge.md` links must be identified as pending agent-format
+migration, with their names and paths reported and rows preserved. They are not
+executed or silently unregistered; other valid independent entries remain
+selectable. Do not treat legacy links as current-format definitions or guess a
+replacement. Coordinated authorized migration follows the agent convention.
+The legacy version-2 migration described below preserves those links until that
+separate or coordinated agent-format migration is authorized.
 
 Malformed table structure, unreadable catalogue, or conflicting catalogue target blocks catalogue writes and excludes its entries. Isolated invalid rows are reported and excluded; valid independent rows remain selectable. Duplicate-name rows are all excluded. Preserve invalid material without repair, and keep framework agents available. Catalogue problems do not invalidate otherwise valid core state or prevent independent feature loading.
 

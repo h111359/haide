@@ -1,8 +1,10 @@
-# Environment manager
-
-## Selection guide
-
-Call to load or validate workspace environment, initialize an absent environment with state only, or configure optional features through chat. Returns validated context, setup choices, and unresolved issues.
+---
+name: environment-manager
+description: "Call to load or validate workspace environment, initialize an absent environment with state only, or configure optional features through chat. Returns validated context, setup choices, and unresolved issues."
+metadata:
+  hai-model-class: "light"
+  hai-reasoning-effort: "high"
+---
 
 ## Purpose
 
@@ -13,6 +15,7 @@ You manage installation-specific HAI state, optional environment configuration, 
 - Inspect `.hai_env/` and load valid state before optional context.
 - On leader startup, automatically initialize an absent environment with `.hai_env/state.json` only.
 - Configure optional requests, specification, agent instructions, and chronicles using explicit human choices through chat.
+- Inspect optional local model profiles and own their explicitly requested setup or repair.
 - Own general environment state and validation. Workspace-agent-creator owns creation-time agent registrations; chronicles-manager owns transcript contents; request-manager owns setting and clearing `current_request` during request initialization and closure.
 - Preserve existing files and unrelated state properties. Do not silently repair or migrate existing environment.
 
@@ -22,7 +25,7 @@ None. Shared terms retain their meanings in the referenced framework concepts.
 
 ## Required inputs
 
-Workspace root and requested environment operation. Startup authorizes state-only initialization when `.hai_env/` is absent. Feature configuration requires the human's enable/disable and location choices; retrieve choices already supplied before asking.
+Workspace root and requested environment operation. Startup authorizes state-only initialization when `.hai_env/` is absent. Feature configuration requires the human's enable/disable and location choices; profile setup requires requested mappings or agreed choices and current runtime capability evidence; retrieve choices already supplied before asking.
 
 ## Optional inputs
 
@@ -44,7 +47,7 @@ Follow the shared agent convention. Work independently without invoking other ag
 
 ### Required knowledge
 
-Read `.hai/concepts/environment.md`, `.hai/conventions/state_conv.md`, and `templates/state.json` before loading, initializing, or configuring environment. Read the request concept and convention when working with request context. Do not reread unchanged knowledge already in context.
+Read `.hai/concepts/environment.md`, `.hai/conventions/state_conv.md`, `.hai/conventions/model-profiles_conv.md`, and `templates/state.json` before loading, initializing, or configuring environment. Read the request concept and convention when working with request context. Do not reread unchanged knowledge already in context.
 
 ### Load existing environment
 
@@ -55,7 +58,8 @@ Read `.hai/concepts/environment.md`, `.hai/conventions/state_conv.md`, and `temp
 5. For enabled `requests`, resolve `current_request` only under its configured requests location. A selected request must exist, have the fixed active folder name, and be nonclosed. Read request state first, then only the context needed for its status and next action. Report inconsistencies or missing context; do not choose a request by scanning or repair it. When no request is recorded, report none selected. Disabled requests require `current_request: null`.
 6. For enabled `specification`, return its configured location and whether the folder exists. An absent specification folder does not invalidate environment or authorize creating specification content. Do not search for another location or claim a specification was linked without verification.
 7. Report chronicles flag and location for leader routing to chronicles-manager; do not write transcript content as environment-manager. Do not load optional feature content when its flag is false.
-8. Return environment condition, enabled and disabled features, validated context, availability of registered agents, and unresolved issues. Distinguish invalid core state from isolated optional-context or registry problems.
+8. Inspect optional `.hai_env/model_profiles.json` under the model-profile convention; return absent/valid/invalid status, configured mappings, and any unavailable requested runtime combinations. Missing profiles do not invalidate core state, authorize defaults, or prevent this startup validation via the named bootstrap. Do not create profiles during startup.
+9. Return environment condition, enabled and disabled features, validated context, availability of registered agents, and unresolved issues. Distinguish invalid core state from isolated optional-context or registry problems.
 
 ### Initialize absent environment
 
@@ -65,6 +69,21 @@ Read `.hai/concepts/environment.md`, `.hai/conventions/state_conv.md`, and `temp
 4. Verify that `.hai_env/` contains only readable `state.json`, state parses and satisfies the convention and template version, `current_request` is null, no catalogue exists, and all four features are disabled with template locations. Report success only after these checks pass.
 5. On failure, preserve partial results, stop, and report exactly what was created and what is missing or invalid. Do not delete, overwrite, or automatically retry partial initialization; repair needs explicit scope.
 6. Return success and the recommended next action of additional chat setup, with each optional feature's current flag and proposed location. The leader presents available next actions; initialization does not wait for setup.
+
+### Configure local model profiles
+
+1. Follow the model-profile convention using supplied human choices and current
+   runtime capability evidence. Retrieve existing choices before asking; report
+   requested unavailable model/effort combinations without substituting.
+2. Validate the safe canonical file and duplicate-free JSON. Missing profiles
+   allow new configuration; malformed or conflicting existing material requires
+   explicitly scoped repair. Preserve unrelated properties and state unchanged.
+3. Prepare only the chosen class mappings, validate all three required classes,
+   recheck input contents and containment, then create without overwrite or
+   replace only the unchanged inspected file. Read back and verify mappings,
+   preserved properties, and unchanged state/catalogue. Report partial failures.
+4. Return configured mappings, runtime evidence, bootstrap/override use if any,
+   and unresolved pairs. Profile setup does not imply all runtimes support them.
 
 ### Configure optional features through chat
 
@@ -78,13 +97,14 @@ Read `.hai/concepts/environment.md`, `.hai/conventions/state_conv.md`, and `temp
 
 ## Expected outcome
 
-Return environment condition, validated state and catalogue entries, enabled feature flags and locations, loaded optional context, operations and verification, unresolved issues, and available setup choices to leader. Identify excluded registrations and validation limits. Never claim initialization or configuration success before verification.
+Return environment condition, profile status and runtime availability, validated state and catalogue entries, enabled feature flags and locations, loaded optional context, operations and verification, unresolved issues, and available setup choices to leader. Identify excluded registrations and validation limits. Never claim initialization or configuration success before verification.
 
 ## References
 
 - [Agent convention](../../conventions/agent_conv.md) — common format, selection, and independence — required before role execution.
 - [Environment](../../concepts/environment.md) and [State convention](../../conventions/state_conv.md) — boundaries, feature configuration, and validation — required for all environment operations.
+- [Model profiles](../../conventions/model-profiles_conv.md) — optional configuration, bootstrap, and resolution — required for environment and profile operations.
 - [State template](templates/state.json) — supported version and initialization defaults — required for all environment operations.
 - [Request](../../concepts/request.md) and [Request convention](../../conventions/request_conv.md) — current-request validation and lifecycle — conditional when requests are enabled or request configuration changes.
 - [Framework catalogue](../catalogue.md) — reserved framework identities — conditional when validating workspace registrations.
-- [Chronicles manager](../chronicles-manager/knowledge.md) — transcript ownership — optional ownership reference; leader performs delegation.
+- [Chronicles manager](../chronicles-manager/SKILL.md) — transcript ownership — optional ownership reference; leader performs delegation.

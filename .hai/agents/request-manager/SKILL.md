@@ -1,8 +1,10 @@
-# Request manager
-
-## Selection guide
-
-Call to create or manage a request through clarification, analysis, planning, implementation, testing, and closure. Returns maintained request records, workspace changes, verification results, and unresolved dependencies.
+---
+name: request-manager
+description: "Call to create or manage a request through clarification, analysis, planning, implementation, testing, and closure. Returns maintained request records, workspace changes, verification results, and unresolved dependencies."
+metadata:
+  hai-model-class: "advanced"
+  hai-reasoning-effort: "high"
+---
 
 ## Purpose
 

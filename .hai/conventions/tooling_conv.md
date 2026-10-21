@@ -29,7 +29,7 @@ the product's runtime.
 - Workspace agent-owned tools live under `.hai_env/agents/<name>/scripts/`
   and follow the same runtime, documentation, and verification rules.
 - Use descriptive `snake_case.py` filenames and `test_*.py` test files.
-- Keep the owning agent's knowledge.md focused on when to run tools.
+- Keep the owning agent's SKILL.md focused on when to run tools.
   Put detailed arguments, examples, side effects, dependencies, exit
   codes, and parsing or validation limits in the adjacent README.md.
 - Document machine-readable output and exit codes for automated callers.
