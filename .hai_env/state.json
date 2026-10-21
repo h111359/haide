@@ -1,7 +1,12 @@
 {
   "current_request": null,
   "compatible_version": 2,
-  "agents": {},
+  "agents": {
+    "advisor": {
+      "path": ".hai_env/agents/advisor/knowledge.md",
+      "selection_guide": "Call to review this repository's HAI framework and recommend the top three logical next actions in chat without changing files."
+    }
+  },
   "features": {
     "requests": {
       "enabled": false,

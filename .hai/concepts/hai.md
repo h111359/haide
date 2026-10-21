@@ -30,7 +30,6 @@ The reusable framework contains:
 - agents: roles with specific instructions and knowledge; see [agent].
 - concepts: common definitions, explanations, and rules.
 - conventions: formats, schemas, structures, labels, and naming rules.
-- prompts: definitions of behavior and actions to perform.
 - tools: scripts and applications with their supporting data,
   documentation, media, and other required files.
 
