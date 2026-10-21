@@ -4,7 +4,7 @@
 
 `architectural-decision`
 
-Definition and classification scope: [Architectural decision](../concepts/specification.md#architectural-decision).
+Definition and classification scope: [Architectural decision](../references/specification.md#architectural-decision).
 
 ## Content file
 

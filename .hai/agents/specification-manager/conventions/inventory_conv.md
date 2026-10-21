@@ -4,7 +4,7 @@
 
 `inventory`
 
-Definition and classification scope: [Inventory](../concepts/specification.md#inventory).
+Definition and classification scope: [Inventory](../references/specification.md#inventory).
 
 ## Content file
 

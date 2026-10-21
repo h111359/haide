@@ -4,7 +4,7 @@
 
 `observability`
 
-Definition and classification scope: [Observability](../concepts/specification.md#observability).
+Definition and classification scope: [Observability](../references/specification.md#observability).
 
 ## Content file
 

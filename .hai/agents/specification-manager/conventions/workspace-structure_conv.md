@@ -4,7 +4,7 @@
 
 `workspace-structure`
 
-Definition and classification scope: [Workspace structure](../concepts/specification.md#workspace-structure).
+Definition and classification scope: [Workspace structure](../references/specification.md#workspace-structure).
 
 ## Content file
 
@@ -23,11 +23,14 @@ Apply these boundaries to workspace registration, directory maps, and
 reverse-engineering implementation into product specifications, in this
 order:
 
-1. Exclude workspace-root `.hai/` and `.hai_env/` and all their descendants.
-   Do not register these folders or infer product behavior from their
-   contents. This does not prevent reading governing HAI instructions,
-   using environment context, or reading and maintaining the established
-   specification, including one stored under `.hai_env/`.
+1. Exclude reusable agent/framework packages and their working-record or
+   configuration folders, using locations established by the caller or
+   applicable workspace instructions. For HAI invocation, these include
+   workspace-root `.hai/` and `.hai_env/` and all their descendants.
+   Do not register those folders or infer product behavior from their
+   contents. This does not prevent reading governing instructions, using
+   supplied context, or reading and maintaining the established specification,
+   including one located inside an excluded working-record folder.
 2. Represent third-party coding libraries, including vendored code, and dependency trees only by
    their top folder and a brief purpose. This limited root entry is
    permitted even when that library folder is gitignored; never enumerate,

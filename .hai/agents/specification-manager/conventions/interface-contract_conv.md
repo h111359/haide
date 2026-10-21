@@ -4,7 +4,7 @@
 
 `interface-contract`
 
-Definition and classification scope: [Interface contract](../concepts/specification.md#interface-contract).
+Definition and classification scope: [Interface contract](../references/specification.md#interface-contract).
 
 ## Content file
 

@@ -14,6 +14,7 @@ import uuid
 
 
 FORMAT = 1
+PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 
 
 def read_text(path: Path) -> str:
@@ -39,7 +40,18 @@ def inside(path: Path, parent: Path) -> bool:
     return os.path.normcase(common) == os.path.normcase(str(parent))
 
 
-def locate_root(workspace: Path, root: str) -> tuple[Path, Path]:
+def locate_root(workspace: Path | None, root: str) -> tuple[Path, Path]:
+    if not root.strip():
+        raise ValueError("Root must be a nonempty specification folder.")
+    if workspace is None:
+        # An explicit standalone root trusts its parent, just as --workspace
+        # trusts its supplied boundary. Never infer a product workspace.
+        if ".." in Path(root).parts or (PureWindowsPath(root).drive and not Path(root).is_absolute()):
+            raise ValueError("Standalone root must not contain parent traversal or a foreign/drive-relative path.")
+        target = Path(os.path.abspath(root))
+        if target == target.parent:
+            raise ValueError("Specification root must not be a filesystem root.")
+        workspace, root = target.parent, target.name
     # Explicit Workspace is trusted; canonicalize OS aliases such as macOS /tmp.
     workspace = workspace.resolve(strict=True)
     if not workspace.is_dir():
@@ -82,7 +94,7 @@ def without_code(text: str) -> str:
 
 
 class Audit:
-    def __init__(self, workspace: Path, root: str):
+    def __init__(self, workspace: Path | None, root: str):
         self.workspace, self.root = locate_root(workspace, root)
         self.root_argument = root
         self.issues: list[dict] = []
@@ -137,10 +149,10 @@ class Audit:
         return values
 
     def registry(self) -> dict[str, str | None]:
-        concept = read_text(self.workspace / ".hai/concepts/specification.md")
+        concept = read_text(PACKAGE_ROOT / "references/specification.md")
         registry = {}
         for type_name in re.findall(r"\]\(\.\./conventions/([a-z]+(?:-[a-z]+)*)_conv\.md\)", concept):
-            body = read_text(self.workspace / f".hai/conventions/{type_name}_conv.md")
+            body = read_text(PACKAGE_ROOT / f"conventions/{type_name}_conv.md")
             match = re.search(r"^## Content file\s*\n\s*`([^`\r\n/\\]+)`", body, re.MULTILINE)
             registry[type_name] = match[1] if match else None
             if not match:
@@ -355,8 +367,8 @@ class ArgumentParser(argparse.ArgumentParser):
 
 def main(argv: list[str] | None = None) -> int:
     parser = ArgumentParser(description=__doc__)
-    parser.add_argument("--root", required=True, help="Explicit workspace-relative specification folder")
-    parser.add_argument("--workspace", type=Path, default=Path.cwd())
+    parser.add_argument("--root", required=True, help="Existing specification folder; absolute or relative to the current directory, or workspace-relative with --workspace")
+    parser.add_argument("--workspace", type=Path, help="Optional trusted workspace boundary; root must then be relative and strictly inside it")
     parser.add_argument("--inventory", action="store_true")
     parser.add_argument("--baseline", type=Path)
     root = None

@@ -4,7 +4,7 @@
 
 `cloud`
 
-Definition and classification scope: [Cloud](../concepts/specification.md#cloud).
+Definition and classification scope: [Cloud](../references/specification.md#cloud).
 
 ## Content file
 

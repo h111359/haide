@@ -4,7 +4,7 @@
 
 `module-specification`
 
-Definition and classification scope: [Module specification](../concepts/specification.md#module-specification).
+Definition and classification scope: [Module specification](../references/specification.md#module-specification).
 
 ## Content file
 

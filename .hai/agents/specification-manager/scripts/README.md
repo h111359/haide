@@ -2,8 +2,11 @@
 
 `audit_specification.py` is a read-only Python 3.11+ helper for Windows,
 Linux, and macOS. It uses only the standard library; no packages or
-installation steps run automatically. See the framework
-[tooling convention](../../../conventions/tooling_conv.md).
+installation steps run automatically. Copy the entire `specification-manager/`
+folder, including `SKILL.md`, `references/`, `conventions/`, and `scripts/`,
+to use it independently. No HAI framework, environment state, leader, request
+records, or model profiles are required. The format does not install or activate
+a runtime skill; invoke the instructions and script using their installed paths.
 
 `python` in these examples means a working Python 3.11+ interpreter. On
 Linux/macOS, usually use `python3`; on Windows use a working `python`,
@@ -12,12 +15,31 @@ alias can exist without a working command. In PowerShell, invoke a
 quoted interpreter path with `&`. Check the chosen interpreter with
 `--version` first; no executable location is embedded in these tools.
 
-From the workspace root, supply the location established by the human
-or environment-manager. The tool never discovers a location or changes state:
+Supply an existing specification folder established by the caller. In standalone
+mode, `--root` accepts an absolute path or a path relative to the current working
+directory. The script can live elsewhere; knowledge and conventions are loaded
+relative to the script's package, never from the target workspace. For example:
+
+```sh
+python3 -B /opt/specification-manager/scripts/audit_specification.py --root /work/product/specification
+```
+
+```powershell
+python -B C:/tools/specification-manager/scripts/audit_specification.py --root 'C:/work/product/specification'
+```
+
+The tool never discovers a location, creates a tree, or changes state. An explicit
+path does not authorize content edits. For HAI invocation, caller validation of
+the enabled feature and configured location happens before running the tool;
+the tool itself does not load or validate HAI state. From the HAI workspace root,
+retain the explicit workspace containment boundary:
 
 ```text
-python -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification
+python -B .hai/agents/specification-manager/scripts/audit_specification.py --workspace . --root path/to/specification
 ```
+
+Earlier workspace-root commands without `--workspace` still locate the same
+relative root, but standalone mode has no product-workspace containment claim.
 
 The compact JSON result reports counts, depth range, actionable issues,
 and manual-review boundaries. Exit codes: `0` means no detected errors
@@ -37,14 +59,14 @@ specification tree. The caller saves this file; the auditor never writes.
 For example, on Linux/macOS:
 
 ```sh
-python3 -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --inventory > /tmp/spec-before.json
+python3 -B .hai/agents/specification-manager/scripts/audit_specification.py --workspace . --root path/to/specification --inventory > /tmp/spec-before.json
 ```
 
 In Windows PowerShell, use explicit UTF-8 (its `>` operator may write UTF-16):
 
 ```powershell
 $baseline = Join-Path $env:TEMP ('spec-before-' + [guid]::NewGuid() + '.json')
-$report = python -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --inventory
+$report = python -B .hai/agents/specification-manager/scripts/audit_specification.py --workspace . --root path/to/specification --inventory
 if ($LASTEXITCODE -ne 0) { throw 'Resolve or report audit errors before capturing a baseline.' }
 $report | Set-Content -LiteralPath $baseline -Encoding UTF8
 ```
@@ -52,22 +74,34 @@ $report | Set-Content -LiteralPath $baseline -Encoding UTF8
 After authorized edits, pass the saved file:
 
 ```text
-python -B .hai/agents/specification-manager/scripts/audit_specification.py --root path/to/specification --baseline /path/to/spec-before.json
+python -B .hai/agents/specification-manager/scripts/audit_specification.py --workspace . --root path/to/specification --baseline /path/to/spec-before.json
 ```
 
-`--baseline` accepts an error-free format-1 inventory for the same root
+`--baseline` accepts an error-free format-1 inventory for the same exact root
 argument and reports added, removed, and moved IDs. Baseline warnings
 make the comparison provisional. Interpret these changes: the helper
 cannot prove identity continuity, identify retired-node replacements,
 or distinguish a legitimate split from lost content. Existing error-free
-UTF-8 format-1 PowerShell inventories remain readable.
+UTF-8 format-1 PowerShell inventories remain readable. Keep the same root
+argument and workspace when reusing an existing baseline. Switching between
+absolute and relative spellings requires a fresh baseline; the tool does not
+guess whether differently spelled roots identify the same tree.
 
-Use `--workspace /path/to/workspace` when running elsewhere. This explicit
-workspace is trusted and canonicalized, accommodating OS aliases such
-as macOS `/tmp` and `/var`. The supplied root must remain strictly inside
-that workspace; symlinks/junctions within the root path or tree are
-rejected or skipped with errors. Containment uses native platform case
-rules rather than ignoring case on Unix.
+With `--workspace /path/to/workspace`, `--root` must be a nonempty relative
+folder strictly inside that workspace, preserving the existing containment
+contract. Absolute, drive-qualified, outside-workspace, and workspace-root
+arguments are rejected. This explicit workspace is trusted and canonicalized,
+accommodating OS aliases such as macOS `/tmp` and `/var`. Aliases between the
+workspace and specification root are rejected.
+
+Without `--workspace`, the explicitly supplied root's parent is the trusted,
+canonicalized boundary, not an inferred product workspace. The root itself and
+all tree descendants still reject symlinks/junctions; ancestor aliases outside
+the root are trusted in this mode. Empty roots, parent-traversal components,
+foreign/drive-relative paths, and filesystem roots are rejected. Use
+`--workspace` when containment within a known workspace must be enforced.
+Both modes reject or skip tree aliases with errors and use native platform case
+rules rather than ignoring case on Unix. Neither mode follows tree aliases.
 
 ## Automated checks
 
@@ -75,7 +109,7 @@ rules rather than ignoring case on Unix.
   required values, registered leaf types/statuses, branch/leaf exclusivity,
   expected content filenames, and branch contents.
 - Registered types come from convention links in
-  `.hai/concepts/specification.md`. Expected content filenames are
+  this package's `references/specification.md`. Expected content filenames are
   read from each convention's Content file section rather than assumed.
 - Branch child limits, global leaf-depth range, and Unicode code-point
   counts for whole configuration files after LF normalization. Astral
@@ -115,12 +149,14 @@ approvals, and preservation of meaning remain the agent's responsibility.
 ## Fixture tests
 
 ```text
-python -B .hai/agents/specification-manager/scripts/test_audit_specification.py
+python -B /path/to/specification-manager/scripts/test_audit_specification.py
 ```
 
 Tests use standard-library `unittest` and temporary workspaces with scoped
-cleanup. They cover CLI output/exit codes and absence of mutations,
-metadata, topology, sizes, links, baselines, paths, and alias/cycle cases.
+cleanup. They cover extraction/relocation of the complete package without HAI,
+execution from unrelated working directories, CLI output/exit codes, absence
+of mutations, metadata, topology, sizes, links, baselines, paths, and alias/cycle
+cases.
 Windows junction tests run only on Windows; symbolic-link tests report a
 skip if creation privileges are unavailable. Target support is Windows,
 Linux, and macOS; this migration was executed on Windows with Python

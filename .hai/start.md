@@ -52,8 +52,10 @@ Examples:
 - Creating or editing a concept: read
   `conventions/concept_conv.md`.
 - Working with specification content: read
-  `concepts/specification.md`, navigate the relevant node files,
-  and read the conventions for the leaf types being changed.
+  `concepts/specification.md` for HAI integration and
+  `agents/specification-manager/references/specification.md` for the
+  authoritative format and type registry; navigate the relevant node files,
+  and read that package's conventions for the leaf types being changed.
 
 Follow a reference when its content is necessary to understand
 or perform the current task. Do not read unrelated references.

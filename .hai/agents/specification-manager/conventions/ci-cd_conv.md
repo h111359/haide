@@ -4,7 +4,7 @@
 
 `ci-cd`
 
-Definition and classification scope: [CI/CD](../concepts/specification.md#cicd).
+Definition and classification scope: [CI/CD](../references/specification.md#cicd).
 
 ## Content file
 

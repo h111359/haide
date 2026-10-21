@@ -4,7 +4,7 @@
 
 `test-specification`
 
-Definition and classification scope: [Test specification](../concepts/specification.md#test-specification).
+Definition and classification scope: [Test specification](../references/specification.md#test-specification).
 
 ## Content file
 

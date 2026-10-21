@@ -4,7 +4,7 @@
 
 `algorithm-specification`
 
-Definition and classification scope: [Algorithm specification](../concepts/specification.md#algorithm-specification).
+Definition and classification scope: [Algorithm specification](../references/specification.md#algorithm-specification).
 
 ## Content file
 

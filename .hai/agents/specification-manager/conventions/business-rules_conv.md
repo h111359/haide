@@ -4,7 +4,7 @@
 
 `business-rules`
 
-Definition and classification scope: [Business rules](../concepts/specification.md#business-rules).
+Definition and classification scope: [Business rules](../references/specification.md#business-rules).
 
 ## Content file
 

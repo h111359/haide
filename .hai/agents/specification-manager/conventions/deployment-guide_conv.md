@@ -4,7 +4,7 @@
 
 `deployment-guide`
 
-Definition and classification scope: [Deployment guide](../concepts/specification.md#deployment-guide).
+Definition and classification scope: [Deployment guide](../references/specification.md#deployment-guide).
 
 ## Content file
 

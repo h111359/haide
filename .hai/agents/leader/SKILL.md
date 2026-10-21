@@ -36,6 +36,14 @@ Validated feature settings, current-request context, and registered workspace ag
 - Specialists do not coordinate one another. Receive their missing dependencies and route any further work yourself.
 - Startup authorizes environment-manager to initialize an absent `.hai_env/` with required state only. Optional features stay disabled until the human chooses them; startup does not authorize repairing an existing environment or migrating an incompatible state.
 - Use validated settings to decide which optional context is available. Disabled features do not prevent ordinary tasks or framework-agent selection. Do not invent setup choices or turn optional features on implicitly.
+- Before handing off HAI-managed specification work, obtain validated compatible
+  state and enabled specification/location context from environment-manager.
+  Supply the workspace root, configured specification root, and validated
+  enabled-feature assurance with the task. Missing, invalid, incompatible,
+  disabled, or differing supplied location context requires setup through
+  environment-manager before dependent tree work. A supplied path is not a
+  bypass into standalone mode. Reading or maintaining the reusable framework
+  does not require enabling the product specification feature.
 - Delegate transcript maintenance to chronicles-manager when enabled by validated state or required by applicable workspace instructions. Mandatory workspace transcript instructions take precedence over optional feature settings and location defaults.
 
 ## Procedures

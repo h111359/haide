@@ -4,7 +4,7 @@
 
 `product-charter`
 
-Definition and classification scope: [Product charter](../concepts/specification.md#product-charter).
+Definition and classification scope: [Product charter](../references/specification.md#product-charter).
 
 ## Content file
 

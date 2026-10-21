@@ -4,7 +4,7 @@
 
 `data-dictionary`
 
-Definition and classification scope: [Data dictionary](../concepts/specification.md#data-dictionary).
+Definition and classification scope: [Data dictionary](../references/specification.md#data-dictionary).
 
 ## Content file
 

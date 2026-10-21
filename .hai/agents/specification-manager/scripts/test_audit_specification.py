@@ -5,10 +5,12 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import uuid
 
 sys.dont_write_bytecode = True
@@ -23,8 +25,12 @@ class AuditTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory(prefix="hai-spec-audit-")
         self.addCleanup(self.temporary.cleanup)
         self.workspace = Path(self.temporary.name)
-        self.write(".hai/concepts/specification.md", "[Requirements](../conventions/functional-requirements_conv.md)\n")
-        self.write(".hai/conventions/functional-requirements_conv.md", "## Content file\n\n`content.md`, in Markdown.\n")
+        self.package = self.workspace / "package"
+        self.write("package/references/specification.md", "[Requirements](../conventions/functional-requirements_conv.md)\n")
+        self.write("package/conventions/functional-requirements_conv.md", "## Content file\n\n`content.md`, in Markdown.\n")
+        resource_patch = patch("audit_specification.PACKAGE_ROOT", self.package)
+        resource_patch.start()
+        self.addCleanup(resource_patch.stop)
 
     def write(self, path, text):
         target = self.workspace / path
@@ -149,7 +155,7 @@ class AuditTests(unittest.TestCase):
 
     def test_dynamic_convention_content_filename(self):
         self.node()
-        self.write(".hai/conventions/functional-requirements_conv.md", "## Content file\n\n`payload.json`\n")
+        self.write("package/conventions/functional-requirements_conv.md", "## Content file\n\n`payload.json`\n")
         (self.workspace / "spec/content.md").rename(self.workspace / "spec/payload.json")
         self.assertEqual(self.audit()["summary"]["errors"], 0)
 
@@ -226,6 +232,61 @@ class AuditTests(unittest.TestCase):
         upper = lower.with_name("PARENTLOWER") / "child"
         self.assertEqual(inside(upper, lower), os.name == "nt")
 
+    def test_standalone_root_and_invalid_paths(self):
+        self.node()
+        _, root = locate_root(None, str(self.workspace / "spec"))
+        self.assertEqual(root, self.workspace.resolve() / "spec")
+        self.assertEqual(Audit(None, str(root)).run()["summary"]["errors"], 0)
+        for invalid in ("", "..", "spec/../spec", str(self.workspace.anchor)):
+            with self.assertRaises((ValueError, OSError), msg=invalid):
+                locate_root(None, invalid)
+
+    def test_missing_packaged_registry_does_not_fall_back_to_workspace(self):
+        self.node()
+        self.write(".hai/concepts/specification.md", "[Requirements](../conventions/functional-requirements_conv.md)\n")
+        (self.package / "references/specification.md").unlink()
+        with self.assertRaises(FileNotFoundError):
+            self.audit()
+
+    def test_relocated_package_without_hai_from_unrelated_directory(self):
+        # Copy the complete distributable package; the target tree contains no
+        # HAI state, framework, registry, or installation-specific metadata.
+        copied = self.workspace / "relocated agent"
+        shutil.copytree(SCRIPT.parent.parent, copied)
+        self.node("product sp\u00e9cification")
+        root = self.workspace / "product sp\u00e9cification"
+        unrelated = self.workspace / "unrelated"
+        unrelated.mkdir()
+        command = [sys.executable, "-B", str(copied / "scripts/audit_specification.py")]
+        original = {path.relative_to(self.workspace): path.read_bytes() for path in self.workspace.rglob("*") if path.is_file()}
+        cases = (
+            (unrelated, ["--root", str(root), "--inventory"]),
+            (unrelated, ["--workspace", str(self.workspace), "--root", root.name]),
+            (self.workspace, ["--root", root.name]),
+            (root, ["--root", "."]),
+        )
+        for cwd, arguments in cases:
+            with self.subTest(cwd=cwd, arguments=arguments):
+                run = subprocess.run(command + arguments, cwd=cwd, capture_output=True, text=True, encoding="utf-8", check=False)
+                self.assertEqual(run.returncode, 0, run.stdout + run.stderr)
+                result = json.loads(run.stdout)
+                self.assertEqual(result["summary"]["errors"], 0)
+                self.assertEqual(result["root"], arguments[arguments.index("--root") + 1])
+        self.assertFalse((self.workspace / ".hai").exists())
+        self.assertFalse((self.workspace / ".hai_env").exists())
+        after = {path.relative_to(self.workspace): path.read_bytes() for path in self.workspace.rglob("*") if path.is_file()}
+        self.assertEqual(original, after)
+
+    def test_packaged_registry_covers_all_conventions(self):
+        self.node()
+        package = SCRIPT.parent.parent
+        with patch("audit_specification.PACKAGE_ROOT", package):
+            registry = Audit(self.workspace, "spec").registry()
+        conventions = {file.name.removesuffix("_conv.md") for file in (package / "conventions").glob("*_conv.md")}
+        self.assertEqual(set(registry), conventions)
+        self.assertEqual(len(registry), 28)
+        self.assertTrue(all(registry.values()))
+
     def test_symlink_cycle_and_root_alias(self):
         self.branch("spec", ["loop"])
         link = self.workspace / "spec/loop"
@@ -237,6 +298,8 @@ class AuditTests(unittest.TestCase):
         self.assertIn("reparse-point", self.codes(self.audit()))
         with self.assertRaisesRegex(ValueError, "Symlink/reparse-point"):
             locate_root(self.workspace, "spec/loop")
+        with self.assertRaisesRegex(ValueError, "Symlink/reparse-point"):
+            locate_root(None, str(link))
 
     def test_explicit_workspace_can_have_alias(self):
         self.node()
@@ -261,6 +324,8 @@ class AuditTests(unittest.TestCase):
         self.assertIn("reparse-point", self.codes(self.audit()))
         with self.assertRaisesRegex(ValueError, "Symlink/reparse-point"):
             locate_root(self.workspace, "spec/loop")
+        with self.assertRaisesRegex(ValueError, "Symlink/reparse-point"):
+            locate_root(None, str(link))
 
     def test_utf8_errors_are_actionable(self):
         self.node()

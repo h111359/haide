@@ -25,6 +25,13 @@ The [state convention](../conventions/state_conv.md) defines configuration, safe
 
 Enabling specification records a location without fabricating contents or asserting that a specification already exists. Linking an existing specification requires explicitly supplied intent and a verified folder. Chronicles-manager owns session transcripts when recording is enabled; environment-manager owns configuration. Chronicles are distinct from request-specific discussion and do not require requests to be enabled.
 
+HAI callers validate specification availability and location here before passing
+the explicit root and enabled-feature assurance to specification-manager. Its
+self-contained package also supports standalone invocation outside HAI; that
+capability does not bypass feature governance for HAI-managed work. See the
+[specification concept](specification.md) for the integration boundary and
+authoritative package resources.
+
 The environment may also hold local references and custom agent definitions under `.hai_env/agents/<name>/`. The separate `.hai_env/agents/catalogue.md` Markdown file is their authoritative catalogue and registry, containing definition links and verbatim copies of canonical YAML descriptions. Read it together with `.hai/agents/catalogue.md` for selection; its absence means no registered workspace agents. Normal selection reads catalogue copies. Unregistered agents are unavailable for normal selection, although an explicit human call may load one without registering it. The [agent convention](../conventions/agent_conv.md) defines identity, format, and selection. Workspace-agent-creator creates and registers specialists only in initialized environment; initialization creates no agent files or folders. Framework agents remain available independently of optional features.
 
 Optional `.hai_env/model_profiles.json` maps specialist capability classes to

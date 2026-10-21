@@ -4,7 +4,7 @@
 
 `architecture-overview`
 
-Definition and classification scope: [Architecture overview](../concepts/specification.md#architecture-overview).
+Definition and classification scope: [Architecture overview](../references/specification.md#architecture-overview).
 
 ## Content file
 
