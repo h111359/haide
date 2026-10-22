@@ -168,8 +168,10 @@ gaps rather than claim dependent work is complete.
 
 Optional standard folders are `scripts/` for owned helpers and usage documentation
 and `conventions/` for role-specific formats. Other justified resources, including
-existing `templates/`, remain permitted. Create no unused scaffold. Shared concepts
-and conventions retain their canonical framework location. Scripts follow
+existing `templates/`, remain permitted. Create no unused scaffold. Framework-wide
+concepts and conventions retain their canonical framework location. A role's domain
+knowledge may live in its package as the single public authority, with shared readers
+linking to it rather than duplicating it. Scripts follow
 [tooling_conv.md](tooling_conv.md).
 
 ## Registration ownership and verification
@@ -195,7 +197,7 @@ procedures manually. Their full audit is not a startup requirement.
 ## Legacy definitions and authorized migration
 
 A previous `knowledge.md` definition or catalogue link is legacy agent-format
-material even when core state is compatible version 3. Report its registered name
+material even when core state has the supported version. Report its registered name
 and path and preserve the registration as a pending migration; exclude it from
 execution without silently unregistering or reinterpreting it. Do not scan folders
 to reconstruct registrations or prefer one file when both old and new files exist.
@@ -206,7 +208,7 @@ registration and definition, retains each name and exact Selection guide text as
 the new YAML description, agrees or assigns justified specialist class/effort
 settings within scope, renames the definition to `SKILL.md`, and updates its
 catalogue link and owned references together. Preserve other sections, supporting
-resources, optional-feature settings, current request, and unrelated work. Do not
+resources, optional-feature settings, existing work records, and unrelated work. Do not
 silently drop invalid registrations, extra metadata, missing descriptions, or
 conflicting old/new files: resolve them within the authorized scope before writing.
 Verify all affected links and decoded catalogue equality after writes; report any

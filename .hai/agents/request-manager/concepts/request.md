@@ -2,32 +2,40 @@
 
 ## Definition
 
-[request] is an iteration of [HAI] in which the user starts with rough idea what [HA] should do, uses [HAI] for clarification of the intent and agreement of the expected outcome and the implementation of the agreed actions. It consist of files for definition of the needed outcome, analysis of the impact, plan for action, log of the executed actions.
-
-[request] is part of [environment]
+[request] is a tracked unit of work that carries human intent through clarification,
+impact analysis, planning, implementation, verification, and an explicit recorded
+outcome. Its files preserve initial input, decisions, work history, and lifecycle state.
 
 ## Purpose
 
-[request] is the way [HAI] makes consequent chanes to the workspace in auditable from human way. 
+A request makes workspace changes and their reasoning understandable and auditable
+without requiring a particular coordinating agent or environment system.
 
 ## Explanation
 
 ### Location
 
-Requests are optional. Creation and loading through environment configuration
-require `features.requests.enabled: true` in `.hai_env/state.json`. Every
-request occupies a folder directly under `features.requests.location`
-(default `.hai_env/requests`), with its components directly inside that
-folder or its subfolders. Do not create request records when requests are
-disabled; the leader can offer chat setup or continue work without them.
-Request-specific discussion is independent from optional session chronicles.
+Requests are managed on demand in an explicitly selected request store. Standalone
+use defaults to `.hai_env/requests` under the supplied workspace, with an explicit
+folder override allowed. HAI-managed use requires the caller's validated assurance
+of enabled requests and the configured store; the manager does not read HAI state.
+A disabled or conflicting HAI configuration cannot be bypassed using standalone mode.
+Each request occupies one direct child folder of its store. Request-specific
+discussion is independent from optional session transcripts.
+
+The human must clearly intend to create a tracked request before its store or
+records are initialized. Selecting the role, ordinary use of the word "request",
+or asking for analysis does not authorize creation. Ambiguity requires clarification.
+If existing active work is absent, report that condition rather than create a fallback.
 
 The only nonclosed request uses the fixed folder name
 `00000000_000000_active`. Whenever it enters `Closed`, including
 cancellation or early closure, its folder is renamed using the UTC
 closure timestamp and a short descriptive label. The
 [request convention](../conventions/request_conv.md) defines naming,
-collision handling, and coordinated state and reference updates.
+collision handling, path safety, and coordinated record and reference updates.
+The active folder and its own `state.json` identify active work. There is no
+collection-level state file or external active-request pointer.
 
 ### Request components
 
@@ -59,13 +67,14 @@ Analysed: Inspect the workspace and assess impact, risks, and unknowns. Result i
 
 Planned: Define implementation and verification steps. Result is creation of a plan.
 
-Implemented: Requested changes and relevant verification have succeeded. Implementation includes appropriate test changes and running relevant checks, comparing results with available acceptance criteria or meaningful input when earlier stages were skipped. Failed or blocked work retains the last completed stage and its actual progress in the log. Relevant specification updates go through leader to specification-manager when that feature is enabled; disabled specification is recorded as unavailable and does not implicitly enable it.
+Implemented: Requested changes and relevant verification have succeeded. Implementation includes appropriate test changes and running relevant checks, comparing results with available acceptance criteria or meaningful input when earlier stages were skipped. Failed or blocked work retains the last completed stage and its actual progress in the log. Required specification or other external work is reported to the caller and must be resolved before this stage is recorded; the manager invokes no other agents.
 
 Closed: Completion of the request and leaving it in final state
 
 ### Request lifecycle
 
-Only one request could be in stage different from Closed at a given moment.
+At most one request in a supplied store may be in a stage other than Closed.
+This invariant is local to that store; it does not require discovering other stores.
 
 Initialization -> Clarification -> Analysis -> Planning -> Implement -> Closure
 
@@ -87,17 +96,17 @@ definition and normal planning requires definition and analysis; explicit Implem
 is the path that skips missing stages.
 
 Request-manager owns the request records, lifecycle, implementation, and testing.
-It sets or clears the environment's current-request reference only as part of
-initialization or closure. Leader coordinates other specialists; environment-manager
-retains ownership of general environment configuration, and specification-manager
-retains ownership of durable specification edits. Creating an agent does not enable
-requests or create a live request.
+The caller supplies authority, applicable instructions, integration context, and
+results of required external work. Request management does not change global
+configuration, register agents, or maintain session transcripts. Creating or
+selecting an agent does not create a live request.
 
 ## Supporting Terms
 
-N/A
+- [request store]: the selected directory holding request folders and defining the
+  scope of the one-nonclosed-request invariant.
 
 ## References
 
-- `.hai/concepts/environment.md`: definition of [environment]
 - `../conventions/request_conv.md`: request folder naming and closure rules
+- `../SKILL.md`: request-manager procedures and invocation contract

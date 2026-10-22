@@ -22,7 +22,9 @@ Optional standard subfolders are `scripts/` for executable helpers and
 their usage documentation, and `conventions/` for role-specific rules and
 formats. Other justified files and folders are permitted; existing resources
 such as environment-manager's `templates/` remain valid. Create only needed
-resources. Shared concepts and conventions remain at framework level.
+resources. Framework-wide concepts and conventions remain at framework level;
+role-owned domain knowledge may live in the owning package as the single public
+authority. Other readers link to that authority rather than keeping shared copies.
 
 ## Workspace agent structure
 

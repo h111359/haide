@@ -1,6 +1,5 @@
 {
-  "current_request": null,
-  "compatible_version": 3,
+  "compatible_version": 4,
   "features": {
     "requests": {
       "enabled": false,

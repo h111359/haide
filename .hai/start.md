@@ -17,10 +17,11 @@ Read `.hai/conventions/agent_conv.md` and the leader entry in
 and act as {leader} in the root chat with the interface-selected model and effort.
 Before spawning specialists, read `.hai/conventions/model-profiles_conv.md`.
 Leader delegates startup context loading to environment-manager, including
-automatic state-only initialization when
-`.hai_env/` is absent; follow that role's own canonical procedures.
+automatic state-only initialization when `.hai_env/state.json` is safely absent,
+preserving an existing container and unrelated resources; follow that role's own
+canonical procedures.
 State is required; optional features remain disabled until chosen by the
-human. Existing incomplete or incompatible environments are preserved and
+human. Existing invalid or incompatible state is preserved and
 reported, rather than reinitialized. Leader reports startup results with
 a menu based on validated capabilities and recommends additional chat setup
 after fresh initialization. Leader delegates transcript maintenance to
@@ -48,7 +49,9 @@ Before performing a task, identify and read the concepts,
 conventions, and role instructions that govern that task.
 
 Examples:
-- Managing a request: read `concepts/request.md`.
+- Managing a request when asked: select its role through the catalogue and follow
+  that package's local references. Startup reads request configuration only and
+  does not scan or resume request records.
 - Creating or editing a concept: read
   `conventions/concept_conv.md`.
 - Working with specification content: read

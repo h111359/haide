@@ -19,9 +19,26 @@ The only mandatory component is `.hai_env/state.json`. The state contains on/off
 - Agent instructions, defaulting to `.hai_env/agent_instructions.md`.
 - Chronicles, defaulting to `.hai_env/chronicles`.
 
-All optional features are off in a new environment. On leader startup, environment-manager automatically creates an absent `.hai_env/` containing state only. No requests directory, specification content, instructions file, chronicles directory, or agent scaffold is created. The leader then recommends additional setup through chat, where the human chooses which features to enable and which locations to retain or change. Setup may be deferred and all features may remain disabled.
+All optional features are off in a newly initialized core state. On leader startup,
+environment-manager creates safely absent `.hai_env/state.json` only, creating its
+container if needed. An existing `.hai_env/` may hold independent resources; preserve
+them without treating the container alone as initialized core state. Initialization
+creates no optional resources or agent scaffold. The leader then recommends chat
+setup, where the human chooses features and locations. Setup may be deferred.
 
-The [state convention](../conventions/state_conv.md) defines configuration, safe workspace paths, compatibility, and validation. State is loaded before optional instructions or current-request context. Optional feature locations may be outside `.hai_env/` but must remain safe inside the workspace. Disabling a feature preserves its files and stops its use through environment configuration; changing its location does not move existing contents. Independent workspace and session instructions still apply. An active request must be resolved before requests can be disabled or relocated.
+The [state convention](../conventions/state_conv.md) defines configuration, safe workspace paths, compatibility, and validation. State is loaded before configured optional context. Optional feature locations may be outside `.hai_env/` but must remain safe inside the workspace. Disabling a feature preserves its files and stops its use through environment configuration; changing its location does not move existing contents. Independent workspace and session instructions still apply.
+
+Request configuration contains only enablement and the store location, with no
+global active-request pointer. Environment validation checks its path and type,
+not request records or stages; an absent store is valid configuration. Startup
+does not discover or resume requests. For requested record work, the caller supplies
+validated enabled-feature and location context to the selected role. The package's
+[request concept](../agents/request-manager/concepts/request.md) and
+[convention](../agents/request-manager/conventions/request_conv.md) are the single
+authorities for request knowledge, loaded only when needed. Standalone invocation
+does not bypass HAI feature configuration for HAI-managed work. Explicit enablement
+may create an empty store; it never creates request records. Configuration changes
+preserve records, and any requested record handling is a separate task.
 
 Enabling specification records a location without fabricating contents or asserting that a specification already exists. Linking an existing specification requires explicitly supplied intent and a verified folder. Chronicles-manager owns session transcripts when recording is enabled; environment-manager owns configuration. Chronicles are distinct from request-specific discussion and do not require requests to be enabled.
 
@@ -43,11 +60,14 @@ specialist spawning waits for valid runtime-supported resolution or an explicit
 human override. Agent definitions and catalogue registration remain independent
 of runtime skill discovery.
 
-Existing incomplete or incompatible environment is preserved and reported, rather than silently reinitialized or migrated. Environment is persistent HAI material, not a Python virtual environment or collection of environment variables.
+Existing malformed, unreadable, conflicting, or incompatible core state is preserved
+and reported rather than silently reinitialized or migrated. A known partial
+initialization is not automatically retried. Environment is persistent HAI material,
+not a Python virtual environment or collection of environment variables.
 
 ## Supporting Terms
 
-- [state]: mandatory installation-specific HAI configuration, including optional-feature flags and locations and current-request reference.
+- [state]: mandatory installation-specific HAI configuration, including optional-feature flags and locations.
 - [agent_instructions]: optional custom workspace instructions file loaded from its configured location only when its environment feature is enabled, without overriding independent session instructions.
 - [chronicles]: optional verbatim session transcripts owned by chronicles-manager, independent of request records.
 
@@ -55,7 +75,7 @@ Existing incomplete or incompatible environment is preserved and reported, rathe
 
 - `../conventions/model-profiles_conv.md`: optional local specialist model mapping.
 - `hai.md`: definition of [HAI] and [workspace].
-- `request.md`: definition and lifecycle of [request].
+- `../agents/request-manager/concepts/request.md`: authoritative request definition and lifecycle; conditional on request work.
 - `specification.md`: definition of [specification].
 - `../conventions/state_conv.md`: required state and optional-feature configuration.
 - `../agents/chronicles-manager/SKILL.md`: ownership and recording rules for chronicles.

@@ -112,7 +112,8 @@ supporting folder without a demonstrated need within the requested task.
 5. Before writing, recheck target absence and state validity. Create only the
    necessary parent directory, then the target directory and files with
    operations that fail if targets already exist. Preserve existing parents.
-   Do not create requests, specifications, or an environment as a side effect.
+   Do not initialize unrelated work records, product documentation, or environment
+   configuration as a side effect.
 6. Validate the written definition and prepared catalogue entry together against
    the agent and state conventions: YAML fields, metadata types, class/effort
    labels, headings, canonical definition-file path,

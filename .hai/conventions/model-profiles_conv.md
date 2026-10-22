@@ -6,7 +6,7 @@ Agent definitions declare generic capability class and reasoning effort; local
 `.hai_env/model_profiles.json` maps classes to concrete runtime model IDs. Leader
 remains the root chat using the interface-selected model and effort. Model profiles
 are separate from `.hai_env/state.json` and optional-feature flags; they do not
-change core state format version 3 or enable a feature. An absent profile file is
+change the core state format version or enable a feature. An absent profile file is
 valid environment state, but normal specialist spawning requires configuration.
 
 ## Format

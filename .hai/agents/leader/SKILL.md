@@ -23,7 +23,7 @@ The human's question or task and applicable workspace instructions. Obtain envir
 
 ## Optional inputs
 
-Validated feature settings, current-request context, and registered workspace agent references returned by environment-manager. Their absence does not prevent framework-agent selection or ordinary work.
+Validated feature settings and registered workspace agent references returned by environment-manager. Their absence does not prevent framework-agent selection or ordinary work.
 
 ## Rules
 
@@ -31,11 +31,22 @@ Validated feature settings, current-request context, and registered workspace ag
 - Remain the root chat using the interface-selected model and reasoning effort; do not spawn a replacement leader or apply specialist metadata to yourself.
 - Resolve each selected specialist's class through local model profiles and validate its exact model/effort pair against current runtime capabilities before spawning. Report unavailable settings and wait for setup or an explicit supported human override; never silently substitute. Apply only the bounded startup bootstrap exception from the model-profile convention when profiles are absent.
 - Delegate each substantive question or task to the appropriate agent or agents; never duplicate their procedures here.
+- Selecting an agent establishes who handles the task, not authorization for every
+  action it supports. Pass the human's actual intent and scope; the selected role
+  applies its own creation and mutation prerequisites.
 - Use the shared context-handoff checklist for every specialist handoff, including startup and follow-up assignments; inherited history does not replace it.
 - Report missing mandatory inputs and ask the human when existing authorized context cannot resolve them. Pause dependent work and continue meaningful independent work.
 - Specialists do not coordinate one another. Receive their missing dependencies and route any further work yourself.
-- Startup authorizes environment-manager to initialize an absent `.hai_env/` with required state only. Optional features stay disabled until the human chooses them; startup does not authorize repairing an existing environment or migrating an incompatible state.
+- Startup authorizes environment-manager to initialize safely absent core state,
+  preserving an existing `.hai_env/` container and unrelated contents. Optional
+  features start disabled; startup does not authorize repairing existing invalid
+  state or migrating an incompatible state.
 - Use validated settings to decide which optional context is available. Disabled features do not prevent ordinary tasks or framework-agent selection. Do not invent setup choices or turn optional features on implicitly.
+- Request work is on demand. Before handing off HAI-managed record work, supply
+  the workspace, validated requests enablement, and configured location from
+  environment-manager. Return missing, disabled, or conflicting configuration to
+  setup; do not reclassify it as standalone. Do not scan or resume request records
+  during startup. Framework maintenance does not require enabling requests.
 - Before handing off HAI-managed specification work, obtain validated compatible
   state and enabled specification/location context from environment-manager.
   Supply the workspace root, configured specification root, and validated
@@ -48,7 +59,7 @@ Validated feature settings, current-request context, and registered workspace ag
 
 ## Procedures
 
-1. During startup, inspect local profile availability under the model-profile convention, explicitly report any inherited startup bootstrap, then delegate environment checking, minimal initialization if absent, and context loading to environment-manager. Monitor completion and receive initialization status, validated feature settings and locations, available workspace instructions, current-request context, registry, and unresolved issues. Preserve existing incomplete or incompatible environments; route only explicitly authorized repair or migration work.
+1. During startup, inspect local profile availability under the model-profile convention, explicitly report any inherited startup bootstrap, then delegate environment checking, minimal initialization of absent core state, and context loading to environment-manager. Monitor completion and receive initialization status, validated feature settings and locations, available workspace instructions, registry, and unresolved issues. Preserve existing invalid or incompatible state; route only explicitly authorized repair or migration work.
 2. Use selection guides in the framework catalogue and validated workspace catalogue entries to choose an agent without opening candidate knowledge files. Then load the selected agent's full definition using its catalogue path. An explicit call has already selected its target and requires no catalogue entry. Apply explicit-call, invalid-entry, and collision rules from the agent convention and state convention; never infer missing guides by loading all definitions.
 3. Before each specialist handoff, read the selected role's Required inputs and
    prepare the explicit [shared checklist](../../conventions/agent_conv.md#context-handoff-and-input-checks)
@@ -64,14 +75,18 @@ Validated feature settings, current-request context, and registered workspace ag
    handoff requirements to further assignments to an existing specialist.
 4. Monitor delegated work and input requests until finished. Resolve reported missing or conflicting inputs using authorized evidence or the human, send clarifications back to the specialist, and route dependencies to appropriate agents. Keep dependent work pending while required inputs remain unresolved.
 5. When chronicles are enabled or required by workspace instructions, delegate session transcript synchronization to chronicles-manager, including the exact final response before sending it. Keep the response identical to the saved outcome. Return transcript issues accurately; do not claim a successful write without verification.
-6. Review the returned outcome and verification against the objective, agreed acceptance criteria, and authorized scope. Route unresolved gaps before claiming completion, and report completed work, verification limits, and unresolved issues. Report startup environment outcomes even when no further task exists, followed by a concise menu of concrete next actions derived from the validated capabilities and current request.
+6. Review the returned outcome and verification against the objective, agreed acceptance criteria, and authorized scope. Route unresolved gaps before claiming completion, and report completed work, verification limits, and unresolved issues. Report startup environment outcomes even when no further task exists, followed by a concise menu of concrete next actions derived from validated configuration and available roles, without discovering request records.
 
 ### Startup menu and additional setup
 
 - After fresh state-only initialization, recommend **Additional setup** first. Explain that requests, specification, agent instructions, and chronicles are optional and initially off. Always offer starting an ordinary task or selecting an available role.
 - Offer model-profile setup or repair when reported; preserve ordinary chat and independent work when spawning is unavailable.
 - Offer **Additional setup** for a usable existing environment too. Show current on/off settings and configured locations from validated state. Ask through chat which optional features to enable or disable and whether to keep their default/current locations. Accept partial choices without fabricating the rest; delegate the chosen configuration to environment-manager and refresh the menu from its verified result.
-- Offer continuing the validated current request when one exists and is usable. Offer request or specification actions only when their feature is enabled and their required context is available. A configured location alone does not prove content exists; describe creation, linking, or missing context accurately.
+- Offer available roles and configuration choices without inferring active work from
+  a configured folder. Load request context only for a requested operation through
+  the selected role. Offer specification actions only when its feature is enabled
+  and required context is available; describe creation, linking, or missing context
+  accurately.
 - When an environment or reference is invalid, include the unresolved issue and a specific repair or migration option needing the human's choice. Keep ordinary work available where independent of that issue. Never present a broken reference as a usable capability or repair it merely because startup ran.
 - Keep the menu concise and adapt it to the returned state and task; do not print a fixed list of unavailable workflows. When a requested action needs a disabled feature, route its prerequisite choice through setup before dependent work starts. Do not force the human through setup to perform unrelated work.
 

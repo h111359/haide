@@ -57,7 +57,7 @@ and plan; repeated analysis records `Analysed` and invalidates plan; repeated pl
 records `Planned`. An explicit early Implement skips missing stages. Write the first
 implementation-start timestamp before implementation changes or tests; frozen artifacts
 stay unchanged even on failure. Record `Implemented` only after successful requested
-work and relevant verification, including required enabled specification handoffs.
+work and relevant verification, including required external completion work.
 Further implementation attempts retain the start timestamp; failed attempts retain
 the preceding completed stage and log the failure. Before new work invalidates an
 existing `Implemented` result, restore the last completed preparatory stage supported
@@ -66,34 +66,62 @@ Closure records `Closed` regardless of the preceding stage.
 
 ## Location and active folder
 
-Requests must be enabled in environment state before creating or loading
-them through environment configuration. Every [request] occupies one folder
-directly under `features.requests.location` (default `.hai_env/requests`).
-Resolve and validate this workspace-relative location using the state
-convention; do not assume the default or scan for another location.
-At most one request may be in a stage other than `Closed`. Its folder
+Every [request] occupies one folder directly under the selected store. For standalone
+use, accept an explicit folder override or default to `.hai_env/requests` beneath
+the supplied workspace. Resolve relative overrides against that workspace; an
+absolute override must also resolve within it. Do not search for other stores.
+HAI-managed use requires the caller's validated enabled-feature assurance and
+configured workspace-relative store; a different override or missing assurance is
+a dependency returned to the caller. Do not inspect or change HAI state or bypass
+its configuration by declaring the invocation standalone.
+
+At most one request in this store may be in a stage other than `Closed`. Its folder
 MUST be named `00000000_000000_active`. This name sorts before closed
 request folders in ascending name order.
 
-Creating a request MUST fail if the active path already exists; never
-overwrite or reuse its contents. When a current request is selected,
-`current_request` in environment state points to
-`<features.requests.location>/00000000_000000_active`.
+The fixed active folder and its own `state.json` are the complete active-work
+reference. Do not create or consult collection-level state or an external pointer.
+For an operation on existing active work, require that folder and valid nonclosed
+state. For an explicit inspection of history, use the selected closed folder.
+Do not interpret an absent active folder as authorization to create a request.
 
-Request-manager owns request artifacts and lifecycle changes to `current_request`:
-set it during successful initialization and clear it during closure. Environment-manager
-owns general environment state, feature flags, and locations. Initialization requires
-no selected request and no other nonclosed request in the configured directory.
-Create files without overwriting, reread environment state before updating its
-reference, preserve unrelated properties, and stop on concurrent changes. Verify
-records and reference together. Partial creation or reference updates must be reported
-and preserved, not silently reused or repaired.
+Creating a request requires clear human intent to create tracked work. Selecting
+the role, mentioning "request", or requesting analysis alone is insufficient;
+ask the caller when intent is ambiguous. That creation authority includes creating
+an absent store, without a separate standalone setup step. Caller-validated HAI
+enablement remains required, but enabling a feature by itself creates no request.
 
-Disabled requests require `current_request: null` and do not authorize
-creating request files. Before disabling or relocating requests with an
-active request, resolve its lifecycle and references explicitly. A flag or
-location change does not close, move, delete, or clear an active request.
-Disabling preserves request history. Enabling creates no request by itself.
+Creating a request MUST fail if the active path already exists; never overwrite
+or reuse its contents. Inspect only direct child request-folder states before
+creation and before mutating existing work. Require no other nonclosed request;
+report a nonclosed folder under another name, multiple nonclosed records, a closed
+record at the active path, or unreadable/missing state that prevents the check.
+Do not load unrelated historical content, silently select another record, or repair
+inconsistencies. An unexpected collection-level `state.json` is unsupported material;
+report it without using, replacing, or deleting it.
+
+Create files without overwriting, reread affected records before writes, preserve
+unrelated properties, and stop on concurrent changes. Verify files, state, and store
+consistency together. Partial creation must be reported and preserved, not silently
+reused or repaired. Caller configuration changes do not close, move, or delete
+records; record relocation or repair requires its own explicit scope.
+
+### Safe paths
+
+Validate the explicit workspace as an existing directory. Resolve the store,
+existing ancestors, and selected record paths before reading and again before
+writing. Reject blank paths, parent traversal, workspace-root stores, and targets
+escaping the workspace through symlinks or junctions, including absent targets
+whose existing ancestors escape. Use native path handling and account for platform
+case rules. Reject stores or record paths inside version-control metadata or this
+reusable package, and any overlap with caller-supplied protected/configuration paths.
+For HAI-managed use, the caller supplies a store already checked against HAI's
+reserved paths and other feature locations; this does not replace local containment
+and target-type checks. Existing stores and request folders must be directories;
+canonical artifacts must be regular files, not directories or symlinks/junctions.
+Reject symlinked/junction request folders to prevent aliases to the same record.
+Validate canonical paths again before invalidation deletes, archive renames, and
+reference updates. Supplied paths never authorize moving or overwriting contents.
 
 ## Closed folder name
 
@@ -130,11 +158,11 @@ Treat closure as one coordinated operation:
 1. Prepare the closure outcome, UTC timestamp, available destination,
    and affected persistent references before changing the request.
 2. Rename the active folder, record the request's `Closed` stage and
-   closure outcome, update affected references to its final folder, and
-   clear environment state's `current_request` to `null`. Preserve
-   unrelated state properties and request contents.
-3. Verify the archived folder and request state agree, `current_request`
-   is `null`, the active path is absent, and affected references resolve
+   closure outcome, and update affected references to its final folder. Preserve
+   unrelated request-state properties and request contents. There is no external
+   pointer or collection state to clear.
+3. Verify the archived folder and request state agree, the active path is absent,
+   no other nonclosed request violates store consistency, and affected references resolve
    to the archived request before reporting successful closure or
    creating another request.
 
@@ -152,4 +180,4 @@ check references affected by its rename.
 ## References
 
 - [Request concept](../concepts/request.md): components, stages, and lifecycle.
-- [State convention](state_conv.md): environment state and current-request reference.
+- [Request-manager](../SKILL.md): invocation, authority, and stage procedures.
