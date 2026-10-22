@@ -4,7 +4,7 @@
 
 `adr-catalogue`
 
-Definition and classification scope: [ADR catalogue](../references/specification.md#adr-catalogue).
+Definition and classification scope: [ADR catalogue](../concepts/specification.md#adr-catalogue).
 
 ## Content file
 

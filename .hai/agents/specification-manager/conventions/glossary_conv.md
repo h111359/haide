@@ -4,7 +4,7 @@
 
 `glossary`
 
-Definition and classification scope: [Glossary](../references/specification.md#glossary).
+Definition and classification scope: [Glossary](../concepts/specification.md#glossary).
 
 ## Content file
 

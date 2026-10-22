@@ -3,7 +3,7 @@
 `audit_specification.py` is a read-only Python 3.11+ helper for Windows,
 Linux, and macOS. It uses only the standard library; no packages or
 installation steps run automatically. Copy the entire `specification-manager/`
-folder, including `SKILL.md`, `references/`, `conventions/`, and `scripts/`,
+folder, including `SKILL.md`, `concepts/`, `conventions/`, and `scripts/`,
 to use it independently. No HAI framework, environment state, leader, request
 records, or model profiles are required. The format does not install or activate
 a runtime skill; invoke the instructions and script using their installed paths.
@@ -109,7 +109,7 @@ rules rather than ignoring case on Unix. Neither mode follows tree aliases.
   required values, registered leaf types/statuses, branch/leaf exclusivity,
   expected content filenames, and branch contents.
 - Registered types come from convention links in
-  this package's `references/specification.md`. Expected content filenames are
+  this package's `concepts/specification.md`. Expected content filenames are
   read from each convention's Content file section rather than assumed.
 - Branch child limits, global leaf-depth range, and Unicode code-point
   counts for whole configuration files after LF normalization. Astral

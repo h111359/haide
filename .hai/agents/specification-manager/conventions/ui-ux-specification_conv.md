@@ -4,7 +4,7 @@
 
 `ui-ux-specification`
 
-Definition and classification scope: [UI/UX specification](../references/specification.md#uiux-specification).
+Definition and classification scope: [UI/UX specification](../concepts/specification.md#uiux-specification).
 
 ## Content file
 

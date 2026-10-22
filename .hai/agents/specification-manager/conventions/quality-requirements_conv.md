@@ -4,7 +4,7 @@
 
 `quality-requirements`
 
-Definition and classification scope: [Quality requirements](../references/specification.md#quality-requirements).
+Definition and classification scope: [Quality requirements](../concepts/specification.md#quality-requirements).
 
 ## Content file
 

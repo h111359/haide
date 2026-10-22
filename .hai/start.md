@@ -45,20 +45,9 @@ for conflicts and invalid references; never implicitly override framework roles.
 
 ## Load further knowledge when needed
 
-Before performing a task, identify and read the concepts,
-conventions, and role instructions that govern that task.
-
-Examples:
-- Managing a request when asked: select its role through the catalogue and follow
-  that package's local references. Startup reads request configuration only and
-  does not scan or resume request records.
-- Creating or editing a concept: read
-  `conventions/concept_conv.md`.
-- Working with specification content: read
-  `concepts/specification.md` for HAI integration and
-  `agents/specification-manager/references/specification.md` for the
-  authoritative format and type registry; navigate the relevant node files,
-  and read that package's conventions for the leaf types being changed.
+After selecting a role, follow its required knowledge and task-specific
+references before performing the task. Read applicable shared authoring
+conventions when creating or changing framework resources.
 
 Follow a reference when its content is necessary to understand
 or perform the current task. Do not read unrelated references.

@@ -4,7 +4,7 @@
 
 `recovery-guide`
 
-Definition and classification scope: [Recovery guide](../references/specification.md#recovery-guide).
+Definition and classification scope: [Recovery guide](../concepts/specification.md#recovery-guide).
 
 ## Content file
 

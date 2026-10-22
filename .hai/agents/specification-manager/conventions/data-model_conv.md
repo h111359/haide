@@ -4,7 +4,7 @@
 
 `data-model`
 
-Definition and classification scope: [Data model](../references/specification.md#data-model).
+Definition and classification scope: [Data model](../concepts/specification.md#data-model).
 
 ## Content file
 

@@ -44,12 +44,12 @@ are defined in the [Tooling convention](../conventions/tooling_conv.md).
 
 - [workspace]: one or several folders and their subfolder structures where the product is located.
 - [concept]: a general explanation of an element of [HAI]; detailed behavior, structures, and formats belong in the relevant instructions and conventions.
+- [specification]: durable product documentation describing its intended behavior, structure, constraints, and relevant domain knowledge.
 
 ## References
 
 - `environment.md`: definition of [environment].
 - `agent.md`: definition of [agent].
-- `specification.md`: definition of [specification].
 - `../conventions/framework-layout_conv.md`: reusable framework folder structure.
 - `../conventions/state_conv.md`: environment state and compatibility rules.
 - `../conventions/tooling_conv.md`: automation tooling conventions.

@@ -28,7 +28,7 @@ can navigate without reading unrelated material.
 
 Caller means the human invoking this role directly or the coordinating agent
 that supplied the task. Specification terms, registered types, and stable
-identifiers are defined in [Specification format](references/specification.md).
+identifiers are defined in [Specification format](concepts/specification.md).
 
 ## Required inputs
 
@@ -87,7 +87,7 @@ supplied for an HAI invocation.
 
 Read these before working on a specification:
 
-- [Specification format](references/specification.md): authoritative structure,
+- [Specification format](concepts/specification.md): authoritative structure,
   classification, navigation, leaf-type registry, and content lifecycle rules.
 
 Read only this package's `conventions/<type>_conv.md` files for leaf types
@@ -250,7 +250,7 @@ Return changed paths, content and organization changes, verification results and
 
 ## References
 
-- [Specification format](references/specification.md) - structure, classification, type registry, and lifecycle - required before specification work.
+- [Specification format](concepts/specification.md) - structure, classification, type registry, and lifecycle - required before specification work.
 - This package's `conventions/<type>_conv.md` files - leaf content formats - conditional for types created or changed; read only those types.
 - [Workspace structure convention](conventions/workspace-structure_conv.md#discovery-boundaries) - discovery exclusions and library boundaries - required before mapping workspace paths or reverse-engineering implementation.
 - [Audit helper instructions](scripts/README.md) - runtime, paths, usage, and limits - required on first audit use.

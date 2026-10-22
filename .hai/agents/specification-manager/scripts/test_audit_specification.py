@@ -26,7 +26,7 @@ class AuditTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.workspace = Path(self.temporary.name)
         self.package = self.workspace / "package"
-        self.write("package/references/specification.md", "[Requirements](../conventions/functional-requirements_conv.md)\n")
+        self.write("package/concepts/specification.md", "[Requirements](../conventions/functional-requirements_conv.md)\n")
         self.write("package/conventions/functional-requirements_conv.md", "## Content file\n\n`content.md`, in Markdown.\n")
         resource_patch = patch("audit_specification.PACKAGE_ROOT", self.package)
         resource_patch.start()
@@ -243,8 +243,9 @@ class AuditTests(unittest.TestCase):
 
     def test_missing_packaged_registry_does_not_fall_back_to_workspace(self):
         self.node()
+        # A historical shared-concept path must never act as a fallback registry.
         self.write(".hai/concepts/specification.md", "[Requirements](../conventions/functional-requirements_conv.md)\n")
-        (self.package / "references/specification.md").unlink()
+        (self.package / "concepts/specification.md").unlink()
         with self.assertRaises(FileNotFoundError):
             self.audit()
 

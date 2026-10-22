@@ -4,7 +4,7 @@
 
 `security`
 
-Definition and classification scope: [Security](../references/specification.md#security).
+Definition and classification scope: [Security](../concepts/specification.md#security).
 
 ## Content file
 

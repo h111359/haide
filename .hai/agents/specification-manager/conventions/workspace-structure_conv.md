@@ -4,7 +4,7 @@
 
 `workspace-structure`
 
-Definition and classification scope: [Workspace structure](../references/specification.md#workspace-structure).
+Definition and classification scope: [Workspace structure](../concepts/specification.md#workspace-structure).
 
 ## Content file
 

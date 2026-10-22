@@ -4,7 +4,7 @@
 
 `development-guide`
 
-Definition and classification scope: [Development guide](../references/specification.md#development-guide).
+Definition and classification scope: [Development guide](../concepts/specification.md#development-guide).
 
 ## Content file
 
@@ -12,7 +12,7 @@ Definition and classification scope: [Development guide](../references/specifica
 
 ## Required content
 
-- **Working context:** repository responsibilities, relevant architecture links, applicable contributor roles, and a link to a [Workspace structure](../references/specification.md#workspace-structure) leaf when available.
+- **Working context:** repository responsibilities, relevant architecture links, applicable contributor roles, and a link to a [Workspace structure](../concepts/specification.md#workspace-structure) leaf when available.
 - **Local setup and commands:** toolchain versions, environment preparation, build, run, test, formatting, and troubleshooting instructions as applicable.
 - **Engineering conventions:** naming, coding, dependency, review, and documentation practices for this workspace.
 - **Human and AI workflow:** context discovery, instruction-file locations, task handoff, verification expectations, and workspace-specific action boundaries.

@@ -4,7 +4,7 @@
 
 `operations-guide`
 
-Definition and classification scope: [Operations guide](../references/specification.md#operations-guide).
+Definition and classification scope: [Operations guide](../concepts/specification.md#operations-guide).
 
 ## Content file
 

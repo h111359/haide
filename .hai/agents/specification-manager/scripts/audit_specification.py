@@ -149,7 +149,7 @@ class Audit:
         return values
 
     def registry(self) -> dict[str, str | None]:
-        concept = read_text(PACKAGE_ROOT / "references/specification.md")
+        concept = read_text(PACKAGE_ROOT / "concepts/specification.md")
         registry = {}
         for type_name in re.findall(r"\]\(\.\./conventions/([a-z]+(?:-[a-z]+)*)_conv\.md\)", concept):
             body = read_text(PACKAGE_ROOT / f"conventions/{type_name}_conv.md")

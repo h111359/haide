@@ -4,7 +4,7 @@
 
 `processing-flow`
 
-Definition and classification scope: [Processing flow](../references/specification.md#processing-flow).
+Definition and classification scope: [Processing flow](../concepts/specification.md#processing-flow).
 
 ## Content file
 

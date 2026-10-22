@@ -4,7 +4,7 @@
 
 `infrastructure`
 
-Definition and classification scope: [Infrastructure](../references/specification.md#infrastructure).
+Definition and classification scope: [Infrastructure](../concepts/specification.md#infrastructure).
 
 ## Content file
 

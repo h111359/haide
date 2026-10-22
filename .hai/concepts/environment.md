@@ -31,23 +31,14 @@ The [state convention](../conventions/state_conv.md) defines configuration, safe
 Request configuration contains only enablement and the store location, with no
 global active-request pointer. Environment validation checks its path and type,
 not request records or stages; an absent store is valid configuration. Startup
-does not discover or resume requests. For requested record work, the caller supplies
-validated enabled-feature and location context to the selected role. The package's
-[request concept](../agents/request-manager/concepts/request.md) and
-[convention](../agents/request-manager/conventions/request_conv.md) are the single
-authorities for request knowledge, loaded only when needed. Standalone invocation
-does not bypass HAI feature configuration for HAI-managed work. Explicit enablement
-may create an empty store; it never creates request records. Configuration changes
-preserve records, and any requested record handling is a separate task.
+does not discover or resume requests. Explicit enablement may create an empty
+store; it never creates request records. Record handling is a separate task.
 
 Enabling specification records a location without fabricating contents or asserting that a specification already exists. Linking an existing specification requires explicitly supplied intent and a verified folder. Chronicles-manager owns session transcripts when recording is enabled; environment-manager owns configuration. Chronicles are distinct from request-specific discussion and do not require requests to be enabled.
 
-HAI callers validate specification availability and location here before passing
-the explicit root and enabled-feature assurance to specification-manager. Its
-self-contained package also supports standalone invocation outside HAI; that
-capability does not bypass feature governance for HAI-managed work. See the
-[specification concept](specification.md) for the integration boundary and
-authoritative package resources.
+HAI-managed feature work requires validated enablement and location context.
+Standalone capabilities do not bypass that configuration. Detailed content rules
+and procedures belong to the selected role; leader owns handoff and setup routing.
 
 The environment may also hold local references and custom agent definitions under `.hai_env/agents/<name>/`. The separate `.hai_env/agents/catalogue.md` Markdown file is their authoritative catalogue and registry, containing definition links and verbatim copies of canonical YAML descriptions. Read it together with `.hai/agents/catalogue.md` for selection; its absence means no registered workspace agents. Normal selection reads catalogue copies. Unregistered agents are unavailable for normal selection, although an explicit human call may load one without registering it. The [agent convention](../conventions/agent_conv.md) defines identity, format, and selection. Workspace-agent-creator creates and registers specialists only in initialized environment; initialization creates no agent files or folders. Framework agents remain available independently of optional features.
 
@@ -75,7 +66,5 @@ not a Python virtual environment or collection of environment variables.
 
 - `../conventions/model-profiles_conv.md`: optional local specialist model mapping.
 - `hai.md`: definition of [HAI] and [workspace].
-- `../agents/request-manager/concepts/request.md`: authoritative request definition and lifecycle; conditional on request work.
-- `specification.md`: definition of [specification].
 - `../conventions/state_conv.md`: required state and optional-feature configuration.
-- `../agents/chronicles-manager/SKILL.md`: ownership and recording rules for chronicles.
+- `../conventions/agent_conv.md`: agent identity, catalogue selection, and registration contract.

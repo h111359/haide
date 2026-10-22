@@ -4,7 +4,7 @@
 
 `user-documentation`
 
-Definition and classification scope: [User documentation](../references/specification.md#user-documentation).
+Definition and classification scope: [User documentation](../concepts/specification.md#user-documentation).
 
 ## Content file
 

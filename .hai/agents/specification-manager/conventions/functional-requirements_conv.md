@@ -4,7 +4,7 @@
 
 `functional-requirements`
 
-Definition and classification scope: [Functional requirements](../references/specification.md#functional-requirements).
+Definition and classification scope: [Functional requirements](../concepts/specification.md#functional-requirements).
 
 ## Content file
 
