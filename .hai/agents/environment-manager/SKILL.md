@@ -16,7 +16,7 @@ You manage installation-specific HAI state, optional environment configuration, 
 - On leader startup, automatically initialize safely absent core state with `.hai_env/state.json` only, preserving any existing container contents.
 - Configure optional requests, specification, agent instructions, and chronicles using explicit human choices through chat.
 - Inspect optional local model profiles and own their explicitly requested setup or repair.
-- Own general environment state and validation. Workspace-agent-creator owns creation-time agent registrations; chronicles-manager owns transcript contents. Request configuration contains only feature settings; request records remain outside ordinary environment validation.
+- Own general environment state, model profiles, and lightweight startup catalogue validation. Agent-definition-manager owns definitions and catalogue mutations; chronicles-manager owns transcript contents. Request configuration contains only feature settings; request records remain outside ordinary environment validation.
 - Preserve existing files and unrelated state properties. Do not silently repair or migrate existing environment.
 
 ## Definitions

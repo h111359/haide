@@ -88,7 +88,15 @@ separate or coordinated agent-format migration is authorized.
 
 Malformed table structure, unreadable catalogue, or conflicting catalogue target blocks catalogue writes and excludes its entries. Isolated invalid rows are reported and excluded; valid independent rows remain selectable. Duplicate-name rows are all excluded. Preserve invalid material without repair, and keep framework agents available. Catalogue problems do not invalidate otherwise valid core state or prevent independent feature loading.
 
-Workspace-agent-creator owns creation-time registrations after definition validation; environment-manager validates the catalogue while owning general state. Preserve unrelated rows, prose, and state settings during updates. Explicitly calling an unregistered agent does not register it. Framework agents need neither workspace registrations nor enabled optional features.
+Agent-definition-manager owns explicitly requested registration and synchronization
+of existing entries after definition updates. Creation alone does not register an
+agent; updating an unregistered definition leaves it unregistered. Workspace
+mutations require valid initialized environment context. Environment-manager owns
+general state, model profiles, and lightweight startup catalogue validation, without
+repairing definitions or registrations. Preserve unrelated rows, prose, and state
+settings during updates. Explicitly calling an allowed unregistered workspace agent
+does not register it. Framework roles require their framework catalogue entry for
+selection but need neither workspace registration nor enabled optional features.
 
 ## Initialization template and compatibility
 

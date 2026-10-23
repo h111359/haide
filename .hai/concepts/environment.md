@@ -40,7 +40,19 @@ HAI-managed feature work requires validated enablement and location context.
 Standalone capabilities do not bypass that configuration. Detailed content rules
 and procedures belong to the selected role; leader owns handoff and setup routing.
 
-The environment may also hold local references and custom agent definitions under `.hai_env/agents/<name>/`. The separate `.hai_env/agents/catalogue.md` Markdown file is their authoritative catalogue and registry, containing definition links and verbatim copies of canonical YAML descriptions. Read it together with `.hai/agents/catalogue.md` for selection; its absence means no registered workspace agents. Normal selection reads catalogue copies. Unregistered agents are unavailable for normal selection, although an explicit human call may load one without registering it. The [agent convention](../conventions/agent_conv.md) defines identity, format, and selection. Workspace-agent-creator creates and registers specialists only in initialized environment; initialization creates no agent files or folders. Framework agents remain available independently of optional features.
+The environment may also hold local references and custom agent definitions under
+`.hai_env/agents/<name>/`. The separate `.hai_env/agents/catalogue.md` is their
+authoritative catalogue and registry, containing definition links and verbatim
+copies of canonical YAML descriptions. Read it together with the framework catalogue
+for selection; its absence means no registered workspace agents. Both origins use
+catalogue entries for normal selection. An explicit human call may load an
+unregistered workspace definition without registering it. The
+[agent convention](../conventions/agent_conv.md) defines identity, format, and selection.
+Agent-definition-manager owns definitions and catalogue mutations; workspace mutations
+require valid initialized environment context. Framework maintenance and read-only
+definition inspection do not require environment initialization. Creating a definition
+does not register it, and environment initialization creates no agent resources.
+Registered framework agents remain available independently of optional features.
 
 Optional `.hai_env/model_profiles.json` maps specialist capability classes to
 concrete model IDs. Environment-manager owns explicitly requested profile setup;

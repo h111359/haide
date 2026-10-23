@@ -37,18 +37,26 @@ resources and when to read them.
 
 ### Availability
 
-Framework roles are always selectable through the separate
-[framework catalogue](../agents/catalogue.md). Workspace roles are normally
-selectable only when registered with a valid definition path and description
-copy in `.hai_env/agents/catalogue.md`, read together with the framework catalogue.
+Normal selection requires a valid entry in the corresponding catalogue for both
+origins: the [framework catalogue](../agents/catalogue.md) or
+`.hai_env/agents/catalogue.md`. Read both together. Registered framework roles
+remain selectable without initialized environment. Creating a definition alone
+does not register it; registration must be explicitly requested.
 An explicit human call may select an unregistered workspace role without
-registering it. Selection, validation, and collision handling follow the
+registering it. Unregistered framework definitions can be inspected and maintained,
+but require registration before execution. Selection, validation, and collision handling follow the
 agent convention. Discovery does not require loading every definition.
 
 ### Independence and ownership
 
 Agents are independent roles. Each agent's SKILL.md is the canonical
 definition of its own responsibilities and procedures.
+
+Agent-definition-manager maintains definitions and their necessary resources in
+both origins, owns explicitly requested registration, and synchronizes an existing
+entry when its definition changes. Audits are read-only; updating an unregistered
+definition does not register it. Environment-manager owns configuration and
+lightweight startup catalogue validation, while leader retains execution ownership.
 
 Only leader may select another agent, delegate work to it, monitor execution,
 and use its results. Leader's instructions may identify the delegated role and

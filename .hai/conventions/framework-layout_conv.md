@@ -18,6 +18,11 @@ directly in `agents/` and contains each name, verbatim description copy,
 and definition link so selection does not require opening role files. It is
 not an agent definition or a workspace registry.
 
+Creating a framework or workspace definition does not create a catalogue entry.
+Registration is a separate explicit operation; normal selection uses the
+corresponding catalogue rather than discovering folders. Agent-definition-manager
+owns definition maintenance and catalogue mutations for both origins.
+
 Optional standard subfolders are `scripts/` for executable helpers and
 their usage documentation, and `conventions/` for role-specific rules and
 formats. Other justified files and folders are permitted; existing resources

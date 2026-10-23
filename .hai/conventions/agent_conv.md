@@ -2,8 +2,8 @@
 
 ## Identity and availability
 
-Framework definitions live at `.hai/agents/<name>/SKILL.md` and are always
-selectable, including without environment. Workspace definitions live at
+Framework definitions live at `.hai/agents/<name>/SKILL.md`; registered framework
+roles are selectable without environment initialization. Workspace definitions live at
 `.hai_env/agents/<name>/SKILL.md`. Names match
 `[a-z][a-z0-9]*(?:-[a-z0-9]+)*`, are at most 64 characters, and match their
 parent directory exactly. Names must be unique across both origins, including
@@ -13,10 +13,16 @@ overriding, unregistering, or repairing them.
 
 The [framework catalogue](../agents/catalogue.md) and
 `.hai_env/agents/catalogue.md` contain names, copied descriptions, and definition
-links. Only registered workspace agents are normally selectable. An explicit
-human call may select an unregistered definition without registering it; supplied
+links. Normal selection requires registration in the corresponding catalogue for
+both origins. Creation alone does not register a definition. An explicit
+human call may select an unregistered workspace definition without registering it; supplied
 paths must identify its canonical folder or `SKILL.md` and resolve inside the
-workspace. Do not search unrelated locations. Ask for a path when ambiguous.
+workspace. Unregistered framework definitions may be maintained or inspected but
+must be registered before execution. Do not search unrelated locations. Ask for a
+path when ambiguous. Before definition creation or registration, check both
+catalogues and immediate folder names in both origins for case-insensitive
+collisions, including unregistered folders; this does not authorize loading every
+definition or discovering unregistered roles during ordinary selection.
 
 ## Selection and loading
 
@@ -176,9 +182,17 @@ linking to it rather than duplicating it. Scripts follow
 
 ## Registration ownership and verification
 
-Workspace-agent-creator owns creation-time registrations; environment-manager owns
-general environment validation. Neither silently repairs the other's data. Preserve
-unrelated state, rows, and prose. Register only after validating the definition.
+Agent-definition-manager owns framework and workspace definition creation, updates,
+audits, and explicitly requested catalogue registrations. Creation and registration
+are separate; an explicit combined operation may perform both. Updating a registered
+definition synchronizes its existing catalogue description and canonical reference;
+updating an unregistered definition never adds a row. Framework maintenance and
+read-only definition inspection need no initialized environment; workspace mutations
+retain the valid initialized environment prerequisite. Environment-manager owns
+configuration, model profiles, and lightweight startup catalogue validation; leader
+owns selection and execution. Audits do not repair, rename, unregister, or delete.
+Neither role silently repairs the other's data. Preserve unrelated state, rows,
+and prose. Register only after validating the definition.
 Coordinate writes without claiming multi-file transactionality: stop on changed
 inputs, preserve partial results on failure, and report inconsistencies without
 automatic retries, removal, or overwrite.

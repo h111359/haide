@@ -35,12 +35,13 @@ Resolve specialist class and effort against local profiles and current runtime
 capabilities before spawning; report unavailable settings without substitutions.
 An absent profile uses only the explicitly reported environment-manager inherited
 startup bootstrap. Missing profiles remain a setup choice, not invalid core state.
-Framework agents remain selectable without environment. Registered workspace
+Registered framework agents remain selectable without environment. Registered workspace
 definitions resolve through `.hai_env/agents/catalogue.md`, read together with
 `.hai/agents/catalogue.md`; explicit
 human calls may use unregistered definitions only at
 `.hai_env/agents/<name>/SKILL.md`, with supplied paths identifying that
-canonical folder or file, without registering them. Follow the agent convention
+canonical folder or file, without registering them. Unregistered framework definitions
+may be inspected or maintained, but require registration before execution. Follow the agent convention
 for conflicts and invalid references; never implicitly override framework roles.
 
 ## Load further knowledge when needed

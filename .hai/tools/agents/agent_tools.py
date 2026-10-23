@@ -8,11 +8,6 @@ from pathlib import Path
 import re
 import sys
 
-try:
-    import yaml
-except ImportError:
-    raise SystemExit("PyYAML 6.x is required; see .hai/tools/agents/README.md")
-
 NAMES = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*\Z")
 CLASSES = {"light", "standard", "advanced"}
 EFFORTS = {"low", "medium", "high", "xhigh", "max", "ultra"}
@@ -25,6 +20,14 @@ class Invalid(ValueError):
     pass
 
 
+class InputInvalid(Invalid):
+    """A selected input cannot be read, rather than failing format validation."""
+
+
+class UnsupportedYAML(ValueError):
+    """Valid YAML may use this syntax, but this tool cannot verify it."""
+
+
 def unique_pairs(pairs):
     result = {}
     for key, value in pairs:
@@ -34,15 +37,204 @@ def unique_pairs(pairs):
     return result
 
 
-class UniqueLoader(yaml.SafeLoader):
-    pass
+def parse_frontmatter(source):
+    """Parse the documented mapping/string subset, never a general YAML document.
 
+    Line numbers include SKILL.md's opening frontmatter delimiter. Unsupported
+    constructs are distinct from malformed supported syntax and schema failures.
+    """
+    lines = source.split('\n')
+    terminal_break = source.endswith('\n')
+    if terminal_break:
+        lines.pop()
 
-def yaml_mapping(loader, node):
-    return unique_pairs(loader.construct_pairs(node, deep=True))
+    def fail(message, index, unsupported=False):
+        error = UnsupportedYAML if unsupported else Invalid
+        raise error(f"Frontmatter line {index + 2}: {message}")
 
+    def indent(index):
+        line = lines[index]
+        prefix = line[:len(line) - len(line.lstrip(' \t'))]
+        if any(ch != ' ' for ch in prefix):
+            fail("Only spaces are supported for indentation", index, True)
+        return len(prefix)
 
-UniqueLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, yaml_mapping)
+    def quoted(text, index):
+        quote, out, pos = text[0], [], 1
+        escapes = {'0': '\0', 'a': '\a', 'b': '\b', 't': '\t', 'n': '\n',
+                   'v': '\v', 'f': '\f', 'r': '\r', 'e': '\x1b', ' ': ' ',
+                   '"': '"', '/': '/', '\\': '\\', 'N': '\x85', '_': '\xa0',
+                   'L': '\u2028', 'P': '\u2029'}
+        while pos < len(text):
+            ch = text[pos]
+            pos += 1
+            if ch == quote:
+                if quote == "'" and pos < len(text) and text[pos] == "'":
+                    out.append("'")
+                    pos += 1
+                    continue
+                return ''.join(out), text[pos:]
+            if ch == '\\' and quote == '"':
+                if pos == len(text):
+                    fail("Multiline quoted scalars are unsupported", index, True)
+                escape = text[pos]
+                pos += 1
+                if escape in escapes:
+                    ch = escapes[escape]
+                elif escape in 'xuU':
+                    width = {'x': 2, 'u': 4, 'U': 8}[escape]
+                    digits = text[pos:pos + width]
+                    if len(digits) != width or not re.fullmatch('[0-9a-fA-F]+', digits):
+                        fail("Malformed Unicode escape", index)
+                    number = int(digits, 16)
+                    if number > 0x10ffff or 0xd800 <= number <= 0xdfff:
+                        fail("Escape is not a Unicode scalar value", index)
+                    ch = chr(number)
+                    pos += width
+                else:
+                    fail(f"Unknown quoted escape: \\{escape}", index)
+            out.append(ch)
+        fail("Unterminated or multiline quoted scalar", index, True)
+
+    def scalar(text, index):
+        if text.startswith(('"', "'")):
+            value, tail = quoted(text, index)
+            if tail and not (not tail.strip(' \t') or re.match(r'^[ \t]+#', tail)):
+                fail("Unexpected content after quoted scalar", index)
+            return value
+        text = re.split(r'[ \t]+#', text, maxsplit=1)[0].rstrip(' \t')
+        if not text or text.startswith('#'):
+            return None
+        if text[0] in '&*!{[}],?|>@`%' or text == '<<' or re.match(r'^[-:](?:[ \t]|$)', text):
+            fail("Unsupported YAML construct; use a quoted string or block mapping", index, True)
+        if re.search(r':(?:[ \t]|$)', text):
+            fail("A plain scalar cannot contain colon followed by whitespace", index)
+        if text in ('null', 'Null', 'NULL', '~'):
+            return None
+        if text in ('true', 'True', 'TRUE', 'yes', 'Yes', 'YES', 'on', 'On', 'ON'):
+            return True
+        if text in ('false', 'False', 'FALSE', 'no', 'No', 'NO', 'off', 'Off', 'OFF'):
+            return False
+        if re.fullmatch(r'[-+]?(?:0|[1-9][0-9]*)', text):
+            return int(text)
+        # Numeric/timestamp spellings vary across YAML schemas. Do not silently
+        # turn an ambiguous implicit type into a string accepted by HAI metadata.
+        if re.match(r'[-+]?(?:[0-9]|\.[0-9]|\.(?:inf|Inf|INF|nan|NaN|NAN)$)', text):
+            fail("Ambiguous numeric/timestamp scalar; quote a string value", index, True)
+        if text in ('---', '...'):
+            fail("Multiple documents/document markers are unsupported", index, True)
+        return text
+
+    def skip(index):
+        while index < len(lines) and (not lines[index].strip(' \t') or lines[index].lstrip(' \t').startswith('#')):
+            index += 1
+        return index
+
+    def block(index, parent, header):
+        header = re.split(r'[ \t]+#', header, maxsplit=1)[0].rstrip(' \t')
+        if not re.fullmatch(r'[>|][-+]?', header):
+            fail("Unsupported block scalar header (indent indicators are unsupported)", index, True)
+        start = index + 1
+        first = start
+        while first < len(lines) and not lines[first].strip(' \t'):
+            first += 1
+        if first == len(lines) or indent(first) <= parent:
+            breaks = first - start
+            if first == len(lines) and not terminal_break and breaks:
+                breaks -= 1
+            return ('\n' * breaks if header.endswith('+') else ''), first
+        width, end = indent(first), first
+        if any(len(line) > width for line in lines[start:first]):
+            fail("Leading blank block lines exceed content indentation", index)
+        while end < len(lines) and (not lines[end].strip(' \t') or indent(end) > parent):
+            if lines[end].strip(' \t') and indent(end) < width:
+                fail("Inconsistent block scalar indentation", end)
+            end += 1
+        content = [line[width:] if line.strip(' \t') else '' for line in lines[start:end]]
+        if any(not line.strip(' \t') and len(line) > width for line in lines[start:end]):
+            fail("Space-only block content beyond indentation is unsupported", index, True)
+        if header[0] == '>' and any(
+                not content[n] and (content[n - 1].startswith(' ')
+                                   or (n + 1 < len(content) and content[n + 1].startswith(' ')))
+                for n in range(1, len(content))):
+            fail("Folded blank lines beside more-indented content are unsupported", index, True)
+        result = ''
+        seen_text = False
+        for offset, line in enumerate(content):
+            result += line
+            following = content[offset + 1] if offset + 1 < len(content) else None
+            if following is None and end == len(lines) and not terminal_break:
+                pass
+            elif header[0] == '|' or following is None:
+                result += '\n'
+            elif line and following and not line.startswith(' ') and not following.startswith(' '):
+                result += ' '
+            elif not line and following and seen_text and not following.startswith(' '):
+                pass
+            else:
+                result += '\n'
+            seen_text = seen_text or bool(line)
+        if header.endswith('-'):
+            result = result.rstrip('\n')
+        elif not header.endswith('+'):
+            result = result.rstrip('\n') + ('\n' if any(content) and result.endswith('\n') else '')
+        return result, end
+
+    def mapping(index, width):
+        result = {}
+        while True:
+            index = skip(index)
+            if index == len(lines) or indent(index) < width:
+                return result, index
+            if indent(index) > width:
+                fail("Unexpected indentation or unsupported multiline plain scalar", index, True)
+            text = lines[index][width:]
+            if text.startswith(('"', "'")):
+                key, tail = quoted(text, index)
+                tail = tail.lstrip(' \t')
+                if not tail.startswith(':') or (len(tail) > 1 and tail[1] not in ' \t'):
+                    fail("Expected mapping colon after quoted key", index)
+                value_text = tail[1:].strip(' \t')
+            else:
+                match = re.match(r'^([^:]+):(?:[ \t]+(.*)|$)', text)
+                if not match:
+                    fail("Expected a block mapping entry; other YAML forms are unsupported", index, True)
+                if re.search(r'[ \t]+#', match[1]):
+                    fail('Mapping colon occurs inside a comment', index)
+                key = scalar(match[1].rstrip(' \t'), index)
+                value_text = (match[2] or '').strip(' \t')
+            if key == '<<':
+                fail("YAML merge keys are unsupported", index, True)
+            if not isinstance(key, str) or key in result:
+                fail(f"Nonstring or duplicate property: {key!r}", index)
+            if value_text.startswith(('>', '|')):
+                result[key], index = block(index, width, value_text)
+            elif not value_text or value_text.startswith('#'):
+                next_index = skip(index + 1)
+                if next_index < len(lines) and indent(next_index) > width:
+                    result[key], index = mapping(next_index, indent(next_index))
+                else:
+                    result[key], index = None, next_index
+            else:
+                result[key] = scalar(value_text, index)
+                index += 1
+
+    for index, line in enumerate(lines):
+        if any(not (ch == '\t' or 0x20 <= ord(ch) <= 0x7e or ord(ch) == 0x85
+                        or 0xa0 <= ord(ch) <= 0xd7ff or 0xe000 <= ord(ch) <= 0xfffd
+                        or 0x10000 <= ord(ch) <= 0x10ffff) for ch in line):
+            fail("Nonprintable character in YAML input", index)
+        if any(ch in '\x85\u2028\u2029' for ch in line):
+            fail("Unicode line separators must use quoted escapes", index, True)
+    start = skip(0)
+    if start == len(lines):
+        return {}
+    if indent(start):
+        fail("Indented root mapping is unsupported", start, True)
+    result, end = mapping(start, 0)
+    if end != len(lines):
+        fail("Unexpected trailing content", end)
+    return result
 
 
 def load_json(path):
@@ -72,18 +264,18 @@ def contained(workspace, relative):
 def read_definition(path):
     try:
         if not path.is_file():
-            raise Invalid("Expected a readable regular definition file")
+            raise InputInvalid("Expected a readable regular definition file")
         text = path.read_text(encoding="utf-8-sig")
     except (OSError, UnicodeError) as exc:
-        raise Invalid(f"Cannot read definition: {exc}") from exc
-    lines = text.splitlines()
+        raise InputInvalid(f"Cannot read definition: {exc}") from exc
+    lines = text.split('\n')
     if not lines or lines[0] != "---":
         raise Invalid("Definition requires YAML frontmatter")
     try:
         end = lines.index("---", 1)
-        fields = yaml.load("\n".join(lines[1:end]), Loader=UniqueLoader)
-    except (ValueError, yaml.YAMLError) as exc:
+    except ValueError as exc:
         raise Invalid(f"Invalid YAML frontmatter: {exc}") from exc
+    fields = parse_frontmatter("\n".join(lines[1:end]) + '\n')
     if not isinstance(fields, dict):
         raise Invalid("Frontmatter must be a mapping")
     if set(fields) - {"name", "description", "metadata", "license", "compatibility", "allowed-tools"}:
@@ -123,6 +315,28 @@ def read_definition(path):
     if headings != HEADINGS:
         raise Invalid("Body must contain exactly the nine required headings in order")
     return fields
+
+
+def validate(workspace, definition):
+    """Validate one canonical definition without loading its catalogue or environment."""
+    path = contained(workspace, definition)
+    if not re.fullmatch(r"(?:\.hai|\.hai_env)/agents/[^/]+/SKILL\.md", definition):
+        raise InputInvalid("Definition must use a canonical HAI agent path")
+    try:
+        if path.with_name("knowledge.md").exists():
+            raise Invalid("Both legacy and current definitions exist; explicit conflict resolution required")
+        fields = read_definition(path)
+        if fields["name"] != definition.split("/")[-2]:
+            raise Invalid("Resolved definition identity differs from the selected canonical agent path")
+    except UnsupportedYAML as exc:
+        return {"ok": False, "definition": definition,
+                "issues": [{"code": "unsupported", "path": definition, "message": str(exc)}]}
+    except InputInvalid:
+        raise
+    except Invalid as exc:
+        return {"ok": False, "definition": definition,
+                "issues": [{"code": "definition", "path": definition, "message": str(exc)}]}
+    return {"ok": True, "definition": definition, "agent": fields["name"], "issues": []}
 
 
 def read_profiles(path):
@@ -222,6 +436,8 @@ def audit(workspace):
                     if decode_cell(row[1]) != definition["description"]:
                         raise Invalid("Catalogue copy differs from canonical decoded description")
                     agents.append({"name": name, "definition": f"{origin}/agents/{name}/SKILL.md"})
+                except UnsupportedYAML as exc:
+                    issues.append({"code": "unsupported", "path": relative, "agent": name, "message": str(exc)})
                 except (Invalid, OSError, UnicodeError) as exc:
                     issues.append({"code": "agent", "path": relative, "agent": name, "message": str(exc)})
         except (Invalid, OSError, UnicodeError) as exc:
@@ -243,6 +459,8 @@ def main():
     parser.add_argument("--workspace", default=".")
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("audit")
+    checked = commands.add_parser("validate")
+    checked.add_argument("--definition", required=True)
     selected = commands.add_parser("resolve")
     selected.add_argument("--definition", required=True)
     selected.add_argument("--runtime", required=True, help="Explicit JSON runtime capability snapshot")
@@ -251,8 +469,16 @@ def main():
         workspace = Path(args.workspace).resolve(strict=True)
         if not workspace.is_dir():
             raise Invalid("Workspace must be a directory")
-        result = audit(workspace) if args.command == "audit" else resolve(
-            workspace, args.definition, load_json(Path(args.runtime)))
+        if args.command == "audit":
+            result = audit(workspace)
+        elif args.command == "validate":
+            result = validate(workspace, args.definition)
+        else:
+            result = resolve(workspace, args.definition, load_json(Path(args.runtime)))
+    except UnsupportedYAML as exc:
+        result = {"ok": False, "issues": [{"code": "unsupported", "message": str(exc)}]}
+        print(json.dumps(result, ensure_ascii=True, indent=2))
+        return 2
     except (Invalid, OSError, UnicodeError) as exc:
         result = {"ok": False, "issues": [{"code": "input", "message": str(exc)}]}
         print(json.dumps(result, ensure_ascii=True, indent=2))
