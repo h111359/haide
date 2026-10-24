@@ -30,9 +30,10 @@ be integer `1`. Preserve unrelated additional properties when updating the file;
 unknown properties never grant implicit runtime support. Profile configuration
 must resolve inside the workspace, be a readable regular file, and not escape via
 symlinks/junctions. Before setup or use, ensure the profile file does not overlap
-any configured optional-feature location, including disabled ones. Report a profile
+any configured optional-feature location, including disabled ones, or the fixed
+mandatory `.hai_env/agent_instructions.md`, including aliases. Report a profile
 configuration conflict without invalidating previously compatible core state or
-overwriting feature content. Do not create it during state-only initialization.
+overwriting feature content. Do not create it during minimal initialization.
 
 Environment-manager owns profile inspection and explicitly requested setup or
 repair policy. Leader may obtain read-only profile status and mappings through
@@ -80,7 +81,8 @@ necessary. If no profile file exists, for this case only leader may invoke
 environment-manager inheriting the root interface's model and effort, explicitly
 reporting **inherited startup bootstrap settings** before delegation. This is a
 bounded bootstrap exception to specialist defaults, not profile resolution or an
-implicit mapping. Limit it to environment validation, state-only initialization,
+implicit mapping. Limit it to environment validation, minimal initialization of
+state and fixed mandatory instructions,
 and returning profile setup status; create no model profiles or optional resources.
 Use a runtime-supported inherited-settings spawn without explicit overrides. If
 that runtime cannot inherit settings, report the limitation and request an explicit

@@ -23,7 +23,12 @@ independent results and report isolated issues without treating a nonzero exit a
 absent state. Delegate safely absent state initialization, or validation when the
 helper cannot run, to environment-manager under its canonical procedures. Only
 that role initializes state, preserving existing containers and unrelated resources.
-State is required; optional features remain disabled until chosen by the
+State and the fixed `.hai_env/agent_instructions.md` are mandatory. Always load the
+safe instructions file independently of state validity; empty content is valid,
+while missing/unreadable content blocks dependent work and must be reported.
+Initialization or explicitly authorized migration may create the empty file;
+startup validation never silently repairs an initialized environment.
+Optional requests, specification, and chronicles remain disabled until chosen by the
 human. Existing invalid or incompatible state is preserved and
 reported, rather than reinitialized. Leader reports startup results with
 a menu based on validated capabilities and recommends additional chat setup

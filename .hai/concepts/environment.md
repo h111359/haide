@@ -12,23 +12,28 @@
 
 ### Components
 
-The only mandatory component is `.hai_env/state.json`. The state contains on/off flags and configurable locations for four optional features:
+The mandatory components are `.hai_env/state.json` and the fixed
+`.hai_env/agent_instructions.md`. Always load safe readable instructions before
+dependent work, independently of state validity. Empty content adds no instructions;
+missing or unreadable content is a reported failure, not an implicit empty file.
+Instructions have no state flag or configurable location. State contains on/off
+flags and configurable locations for three optional features:
 
 - Requests, defaulting to `.hai_env/requests`.
 - Specification, defaulting to `.hai_env/specifications`.
-- Agent instructions, defaulting to `.hai_env/agent_instructions.md`.
 - Chronicles, defaulting to `.hai_env/chronicles`.
 
 All optional features are off in a newly initialized core state. On leader startup,
 leader uses the shared read-only startup helper for existing-state validation and
 bounded context loading without an environment-manager round trip. When state is
-safely absent, environment-manager creates `.hai_env/state.json` only, creating its
-container if needed. An existing `.hai_env/` may hold independent resources; preserve
+safely absent, environment-manager creates state and an empty fixed instructions
+file when absent, creating the container if needed and preserving existing readable
+instructions. An existing `.hai_env/` may hold independent resources; preserve
 them without treating the container alone as initialized core state. Initialization
 creates no optional resources or agent scaffold. The leader then recommends chat
 setup, where the human chooses features and locations. Setup may be deferred.
 
-The [state convention](../conventions/state_conv.md) defines configuration, safe workspace paths, compatibility, and validation. State is loaded before configured optional context. Optional feature locations may be outside `.hai_env/` but must remain safe inside the workspace. Disabling a feature preserves its files and stops its use through environment configuration; changing its location does not move existing contents. Independent workspace and session instructions still apply.
+The [state convention](../conventions/state_conv.md) defines configuration, safe workspace paths, compatibility, validation, and explicit version-4 to version-5 migration. Mandatory instructions load independently; state still precedes optional-feature context. Optional feature locations may be outside `.hai_env/` but must remain safe inside the workspace and avoid mandatory instructions. Disabling a feature preserves its files and stops its use through environment configuration; changing its location does not move existing contents. Independent workspace and session instructions still apply.
 
 Request configuration contains only enablement and the store location, with no
 global active-request pointer. Environment validation checks its path and type,
@@ -66,7 +71,7 @@ Registered framework agents remain available independently of optional features.
 
 Optional `.hai_env/model_profiles.json` maps specialist capability classes to
 concrete model IDs. Environment-manager owns explicitly requested profile setup;
-state-only initialization creates no profiles. Missing profiles do not invalidate
+minimal initialization creates no profiles. Missing profiles do not invalidate
 core state: the read-only helper requires no specialist profile. Delegated startup
 uses the explicitly reported inherited-settings bootstrap when applicable under
 the [model-profile convention](../conventions/model-profiles_conv.md), and normal
@@ -82,7 +87,7 @@ not a Python virtual environment or collection of environment variables.
 ## Supporting Terms
 
 - [state]: mandatory installation-specific HAI configuration, including optional-feature flags and locations.
-- [agent_instructions]: optional custom workspace instructions file loaded from its configured location only when its environment feature is enabled, without overriding independent session instructions.
+- [agent_instructions]: mandatory fixed `.hai_env/agent_instructions.md`, always loaded before dependent work; empty means no extra instructions, without overriding higher-priority session instructions.
 - [chronicles]: optional verbatim session transcripts owned by chronicles-manager, independent of request records.
 
 ## References

@@ -12,8 +12,8 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "agents"))
 from agent_tools import Invalid, NAMES, decode_cell, load_json, read_profiles
 
-FEATURES = {"requests": "directory", "specification": "directory",
-            "agent_instructions": "file", "chronicles": "directory"}
+FEATURES = {"requests": "directory", "specification": "directory", "chronicles": "directory"}
+INSTRUCTIONS = ".hai_env/agent_instructions.md"
 TEMPLATE = ".hai/agents/environment-manager/templates/state.json"
 
 
@@ -69,6 +69,21 @@ def readable_file(path: Path) -> None:
         source.read(0)  # Check access, without loading a definition's content.
 
 
+def instruction_path(workspace: Path) -> Path:
+    target = safe_path(workspace, INSTRUCTIONS)
+    for relative in (".hai", ".git", ".hai_env/state.json", ".hai_env/agents",
+                     ".hai_env/model_profiles.json"):
+        reserved_paths = [workspace / relative]
+        try:
+            reserved_paths.append(safe_path(workspace, relative))
+        except Invalid:
+            # An unrelated bad state/profile/registry path must not suppress safe instructions.
+            pass
+        if any(overlaps(target, reserved) for reserved in reserved_paths):
+            raise Invalid("Mandatory instructions alias a reserved framework/environment location")
+    return target
+
+
 def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, dict]:
     if (not isinstance(template, dict)
             or type(template.get("compatible_version")) is not int
@@ -83,9 +98,10 @@ def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, d
     if (not isinstance(state, dict) or type(state.get("compatible_version")) is not int
             or state["compatible_version"] != template["compatible_version"]
             or "agents" in state or "current_request" in state
-            or not isinstance(state.get("features"), dict)):
-        raise Invalid("Incompatible core state: expected template version and features; no legacy agents/current_request")
-    reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agents"]
+            or not isinstance(state.get("features"), dict)
+            or "agent_instructions" in state["features"]):
+        raise Invalid("Incompatible core state: expected template version and features; no legacy agents/current_request or retired agent_instructions setting")
+    reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agents", INSTRUCTIONS]
     # Validate both the spelling and resolved location, including aliases to reserved paths.
     reserved_paths = [workspace / name for name in reserved]
     reserved_paths += [safe_path(workspace, name) for name in reserved]
@@ -191,11 +207,27 @@ def check(workspace: Path) -> dict:
     if not workspace.is_dir():
         raise Invalid("Workspace must be an existing directory")
     result = {"ok": False, "environment": "invalid", "features": {},
-              "agent_instructions": None, "agents": [], "catalogues": {},
+              "agent_instructions": None, "instructions_status": "unverified",
+              "agents": [], "catalogues": {},
               "profiles": {"status": "unverified", "runtime_availability": "not_checked"},
               "issues": []}
     issues = result["issues"]
     locations = {}
+    # A fixed mandatory file is independent of state validity, flags, and version.
+    try:
+        path = instruction_path(workspace)
+        if not path.exists():
+            result["instructions_status"] = "missing"
+            raise Invalid("Mandatory instructions file is missing; only an existing empty file means no extra instructions")
+        readable_file(path)
+        with path.open(encoding="utf-8-sig", newline="") as source:
+            result["agent_instructions"] = {"path": INSTRUCTIONS, "text": source.read()}
+        result["instructions_status"] = "loaded"
+    except (Invalid, OSError, UnicodeError) as exc:
+        if result["instructions_status"] != "missing":
+            result["instructions_status"] = "invalid"
+        issues.append({"code": "agent_instructions", "path": INSTRUCTIONS, "message": str(exc)})
+
     try:
         container = safe_path(workspace, ".hai_env")
         if container.exists() and not container.is_dir():
@@ -211,6 +243,7 @@ def check(workspace: Path) -> dict:
                           compatible_version=state["compatible_version"])
     except (Invalid, OSError, UnicodeError) as exc:
         issues.append({"code": "state", "path": ".hai_env/state.json", "message": str(exc)})
+    result["state_status"] = result["environment"]
 
     framework = catalogue(workspace, ".hai")
     result["catalogues"]["framework"] = framework["status"]
@@ -230,6 +263,11 @@ def check(workspace: Path) -> dict:
                for candidate in (workspace / ".hai_env/model_profiles.json", path)
                for feature_pair in locations.values() for feature_path in feature_pair):
             raise Invalid("Model profiles overlap a configured feature location")
+        instructions = safe_path(workspace, INSTRUCTIONS)
+        if any(overlaps(candidate, target) for candidate in
+               (workspace / ".hai_env/model_profiles.json", path)
+               for target in (workspace / INSTRUCTIONS, instructions)):
+            raise Invalid("Model profiles overlap the mandatory instructions file")
         if path.exists():
             profiles = read_profiles(path)
             result["profiles"].update(status="valid", models=profiles["models"],
@@ -240,15 +278,8 @@ def check(workspace: Path) -> dict:
         result["profiles"]["status"] = "invalid"
         issues.append({"code": "profiles", "path": ".hai_env/model_profiles.json", "message": str(exc)})
 
-    if result["environment"] == "valid" and result["features"]["agent_instructions"]["enabled"]:
-        relative = result["features"]["agent_instructions"]["location"]
-        try:
-            path = safe_path(workspace, relative)
-            readable_file(path)
-            with path.open(encoding="utf-8-sig", newline="") as source:
-                result["agent_instructions"] = {"path": relative, "text": source.read()}
-        except (Invalid, OSError, UnicodeError) as exc:
-            issues.append({"code": "agent_instructions", "path": relative, "message": str(exc)})
+    if result["environment"] == "valid" and result["instructions_status"] != "loaded":
+        result["environment"] = "invalid"
     result["ok"] = result["environment"] == "valid" and not issues
     return result
 

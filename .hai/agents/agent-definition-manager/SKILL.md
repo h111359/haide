@@ -42,8 +42,9 @@ scope of authority. Creation needs a meaningful role purpose and enough agreed
 scope, inputs, procedures, and outcomes to define it. Existing-definition work
 needs an identified canonical target; registration needs the existing definition.
 
-Workspace mutations additionally require valid initialized environment context
-and applicable configured instructions when enabled. Retrieve authorized context
+Workspace mutations additionally require valid initialized environment context.
+Always load the fixed mandatory `.hai_env/agent_instructions.md` before dependent
+work, independently of state validity; an existing empty file is valid. Retrieve authorized context
 before asking; return missing or invalid prerequisites without initializing or
 repairing them. Framework maintenance and read-only inspection of either origin
 do not require initialized or compatible environment state.
@@ -90,9 +91,10 @@ model mappings remain outside this role. Omitted input defaults remain absent.
 1. Resolve the operation, origin, target, and authority. A request to audit does
    not authorize edits. An update does not authorize renaming, registration, or
    changes to unrelated definitions. Clarify only unresolved necessary decisions.
-2. Read the shared agent convention and relevant supplied instructions. For workspace
-   mutations, validate compatible environment context and load enabled configured
-   instructions; an enabled missing instructions file blocks dependent writes.
+2. Read the shared agent convention and relevant supplied instructions. Always load
+   safe readable fixed mandatory instructions; missing/unreadable content blocks
+   dependent work, while read-only diagnosis remains available. For workspace
+   mutations, additionally validate compatible environment context.
    Framework work and read-only audits use applicable supplied instructions without
    making environment setup a prerequisite. Never modify state or profiles.
 3. Validate the target under its canonical origin. Read relevant catalogue entries

@@ -1,5 +1,5 @@
 {
-  "compatible_version": 4,
+  "compatible_version": 5,
   "features": {
     "requests": {
       "enabled": false,
@@ -8,10 +8,6 @@
     "specification": {
       "enabled": false,
       "location": ".hai_env/specifications"
-    },
-    "agent_instructions": {
-      "enabled": false,
-      "location": ".hai_env/agent_instructions.md"
     },
     "chronicles": {
       "enabled": true,

@@ -36,7 +36,12 @@ role or recover missing descriptions. An explicit call already selects its targe
 Validate a selected definition's identity, format, references, and description
 copy. Report discovered stale copies without repairing them. Ordinary startup
 validates catalogue structure and references without loading all definitions.
-Load applicable workspace instructions and this convention before execution;
+Always load safe readable `.hai_env/agent_instructions.md` independently of state
+validity before dependent work, as well as applicable higher-priority workspace
+instructions and this convention. An existing empty file adds no instructions;
+missing/unreadable content blocks dependent work, allowing diagnosis and authorized
+initialization, migration, or repair under the state convention. Preserve this
+instruction context in specialist handoffs. Then
 follow supporting references only when needed. An invalid workspace entry does
 not make framework roles unavailable.
 

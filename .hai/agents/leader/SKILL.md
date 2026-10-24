@@ -48,9 +48,10 @@ framework-agent selection or ordinary work.
 - Report missing mandatory inputs and ask the human when existing authorized context cannot resolve them. Pause dependent work and continue meaningful independent work.
 - Specialists do not coordinate one another. Receive their missing dependencies and route any further work yourself.
 - Startup authorizes environment-manager to initialize safely absent core state,
-  preserving an existing `.hai_env/` container and unrelated contents. Optional
-  features start disabled; startup does not authorize repairing existing invalid
-  state or migrating an incompatible state.
+  including an empty mandatory fixed instructions file when absent, preserving
+  existing instructions, containers, and unrelated contents. Three optional features
+  start disabled. Startup does not authorize repairing existing invalid state,
+  recreating missing initialized instructions, or migrating incompatible state.
 - Use validated settings to decide which optional context is available. Disabled features do not prevent ordinary tasks or framework-agent selection. Do not invent setup choices or turn optional features on implicitly.
 - Request work is on demand. Before handing off HAI-managed record work, supply
   the workspace, validated requests enablement, and configured location from
@@ -80,8 +81,11 @@ framework-agent selection or ordinary work.
 
 1. During startup, read the startup helper README before first use and run its
    read-only check with a working interpreter and explicit workspace. Use its
-   validated context and valid independent registrations; load the enabled
-   instructions it returns before dependent work. Existing valid state needs no
+   validated context and valid independent registrations. Always load its fixed
+   mandatory instructions independently of state validity before dependent work;
+   empty content is valid, missing/unreadable instructions are not. Report unavailable
+   instructions and route only authorized initialization, migration, or repair.
+   Existing valid state and readable instructions need no
    environment-manager round trip, even when profiles are missing or invalid.
    Report invalid/incompatible state and isolated issues without repair. Route only
    safely absent state to environment-manager for minimal initialization. If the
@@ -116,7 +120,10 @@ framework-agent selection or ordinary work.
 
 ### Startup menu and additional setup
 
-- After fresh state-only initialization, recommend **Additional setup** first. Explain that requests, specification, agent instructions, and chronicles are optional and initially off. Always offer starting an ordinary task or selecting an available role.
+- After fresh minimal initialization, recommend **Additional setup** first. Requests,
+  specification, and chronicles are optional and initially off. Fixed instructions
+  are mandatory and always loaded; an empty file adds no instructions. Always offer
+  starting an ordinary task or selecting an available role.
 - Offer model-profile setup or repair when reported; preserve ordinary chat and independent work when spawning is unavailable.
 - Offer **Additional setup** for a usable existing environment too. Show current on/off settings and configured locations from validated state. Ask through chat which optional features to enable or disable and whether to keep their default/current locations. Accept partial choices without fabricating the rest; delegate the chosen configuration to environment-manager and refresh the menu from its verified result.
 - Offer available roles and configuration choices without inferring active work from
