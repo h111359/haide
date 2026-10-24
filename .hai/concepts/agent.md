@@ -56,7 +56,9 @@ Agent-definition-manager maintains definitions and their necessary resources in
 both origins, owns explicitly requested registration, and synchronizes an existing
 entry when its definition changes. Audits are read-only; updating an unregistered
 definition does not register it. Environment-manager owns configuration and
-lightweight startup catalogue validation, while leader retains execution ownership.
+lightweight startup-validation policy. Leader retains execution ownership and may
+run the shared read-only startup helper directly for existing-state validation;
+initialization and configuration changes remain environment-manager work.
 
 Only leader may select another agent, delegate work to it, monitor execution,
 and use its results. Leader's instructions may identify the delegated role and

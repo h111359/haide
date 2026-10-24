@@ -20,7 +20,9 @@ The only mandatory component is `.hai_env/state.json`. The state contains on/off
 - Chronicles, defaulting to `.hai_env/chronicles`.
 
 All optional features are off in a newly initialized core state. On leader startup,
-environment-manager creates safely absent `.hai_env/state.json` only, creating its
+leader uses the shared read-only startup helper for existing-state validation and
+bounded context loading without an environment-manager round trip. When state is
+safely absent, environment-manager creates `.hai_env/state.json` only, creating its
 container if needed. An existing `.hai_env/` may hold independent resources; preserve
 them without treating the container alone as initialized core state. Initialization
 creates no optional resources or agent scaffold. The leader then recommends chat
@@ -35,6 +37,14 @@ does not discover or resume requests. Explicit enablement may create an empty
 store; it never creates request records. Record handling is a separate task.
 
 Enabling specification records a location without fabricating contents or asserting that a specification already exists. Linking an existing specification requires explicitly supplied intent and a verified folder. Chronicles-manager owns session transcripts when recording is enabled; environment-manager owns configuration. Chronicles are distinct from request-specific discussion and do not require requests to be enabled.
+
+Chronicles synchronize asynchronously from completed messages in the durable saved
+session source by default, without a new state flag or schema migration. Response
+delivery does not wait for optional recording. If the runtime cannot continue after
+delivery, leader routes catch-up at the next active turn and reports recording as
+deferred. Missing sources and existing divergence remain unresolved issues, not
+permission to reconstruct or repair records. Mandatory workspace timing requirements
+take precedence; chronicles-manager defines synchronization and verification.
 
 HAI-managed feature work requires validated enablement and location context.
 Standalone capabilities do not bypass that configuration. Detailed content rules
@@ -57,7 +67,8 @@ Registered framework agents remain available independently of optional features.
 Optional `.hai_env/model_profiles.json` maps specialist capability classes to
 concrete model IDs. Environment-manager owns explicitly requested profile setup;
 state-only initialization creates no profiles. Missing profiles do not invalidate
-core state: startup uses the explicitly reported inherited-settings bootstrap in
+core state: the read-only helper requires no specialist profile. Delegated startup
+uses the explicitly reported inherited-settings bootstrap when applicable under
 the [model-profile convention](../conventions/model-profiles_conv.md), and normal
 specialist spawning waits for valid runtime-supported resolution or an explicit
 human override. Agent definitions and catalogue registration remain independent

@@ -238,10 +238,13 @@ def parse_frontmatter(source):
 
 
 def load_json(path):
+    def reject_constant(value):
+        raise Invalid(f"Non-JSON numeric constant: {value}")
     try:
         if not path.is_file():
             raise Invalid("Expected a readable regular JSON file")
-        return json.loads(path.read_text(encoding="utf-8-sig"), object_pairs_hook=unique_pairs)
+        return json.loads(path.read_text(encoding="utf-8-sig"), object_pairs_hook=unique_pairs,
+                          parse_constant=reject_constant)
     except (OSError, UnicodeError, ValueError) as exc:
         raise Invalid(f"Cannot read valid JSON: {exc}") from exc
 

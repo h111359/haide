@@ -30,7 +30,7 @@ Each required feature is an object with required `enabled` (Boolean) and `locati
 
 ### Paths and validation
 
-All state paths use `/` separators and are relative to the workspace root. Reject absolute, drive-qualified, UNC, blank, and parent-traversal paths. Resolve existing ancestors, symlinks, and junctions before validation and again before writing; even an absent target must remain inside the workspace after resolution. Reject workspace-root targets and paths inside `.hai/` or `.git/`. A feature path must not overlap `.hai_env/state.json` or `.hai_env/agents/` (including its `catalogue.md`), contain those reserved locations, or collide with another feature path. Directory feature locations must not equal, contain, or be contained by another feature location; an instructions file must not equal or fall inside a configured feature directory. Validate paths even for disabled entries so saved locations remain safe when enabled. Existing target types must match the table.
+All state paths use `/` separators and are relative to the workspace root. Reject absolute, drive-qualified, UNC, blank, and parent-traversal paths, dangling links, and nonportable Windows device names or trailing-dot/space aliases. Resolve existing ancestors, symlinks, and junctions before validation and again before writing; even an absent target must remain inside the workspace after resolution. Reject workspace-root targets and paths inside `.hai/` or `.git/`. A feature path must not overlap `.hai_env/state.json` or `.hai_env/agents/` (including its `catalogue.md`), contain those reserved locations, or collide with another feature path. Directory feature locations must not equal, contain, or be contained by another feature location; an instructions file must not equal or fall inside a configured feature directory. Validate paths even for disabled entries so saved locations remain safe when enabled. Existing target types must match the table.
 
 An enabled feature whose target is missing needs feature-specific handling: agent instructions require their readable file before reporting setup complete; absent configured requests or specification folders are valid configuration and do not assert records exist. Explicit requests enablement may create its empty directory; otherwise creation waits for an authorized operation. Chronicles-manager may create its directory on the first authorized transcript write. Disabled targets need not exist and their contents are preserved without loading them as active context. A location reference alone does not authorize moving, deleting, overwriting, or inventing content. Explicitly linking an existing specification requires verifying the supplied folder.
 
@@ -43,13 +43,23 @@ package. There is no global active selection to load or clear.
 
 ### Feature configuration
 
-Environment-manager owns environment state, feature configuration, and validation.
+Environment-manager owns environment state, feature configuration, and validation
+policy. Leader may run the shared read-only
+[startup helper](../tools/startup/README.md) directly for existing-state validation
+and context loading. This exception changes no mutation ownership; unavailable
+checks remain unverified and absent state still goes to environment-manager.
 Request lifecycle operations never change this state. A configuration toggle or
 location change preserves existing records and does not close, move, or delete
 them. Report the old and new location when a location changes; any record handling
 is a separate authorized task, not an implicit part of configuration.
 
 Environment-manager owns feature flags and locations. State-only initialization creates no optional resources. Subsequent chat setup records explicit human choices, retaining unmentioned values. Enabling requests may create its empty directory; enabling instructions may create its empty file, with supplied instructions only when explicitly provided. Enabling specification does not fabricate specification contents. Chronicles-manager owns transcript contents after the leader routes enabled recording. Disabling a feature stops using that feature through environment configuration and preserves all files; it does not override independent higher-priority workspace or session instructions. Moving existing contents requires separately scoped authorization. State remains present with all optional features disabled.
+
+Chronicles synchronization is asynchronous by default under chronicles-manager's
+procedures, with mandatory workspace timing instructions taking precedence. This
+workflow does not introduce a feature flag, change configured locations, or require
+a state version migration. Only verified source-backed transcript writes may be
+reported as completed; deferred catch-up does not disable recording.
 
 ## Local model profiles
 

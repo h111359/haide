@@ -189,8 +189,11 @@ definition synchronizes its existing catalogue description and canonical referen
 updating an unregistered definition never adds a row. Framework maintenance and
 read-only definition inspection need no initialized environment; workspace mutations
 retain the valid initialized environment prerequisite. Environment-manager owns
-configuration, model profiles, and lightweight startup catalogue validation; leader
-owns selection and execution. Audits do not repair, rename, unregister, or delete.
+configuration, model profiles, and the lightweight startup-validation policy; leader
+may execute the shared read-only startup helper directly under its bounded exception
+and otherwise owns selection and execution. Initialization, configuration changes,
+repairs, and migration remain environment-manager work. Audits do not repair, rename,
+unregister, or delete.
 Neither role silently repairs the other's data. Preserve unrelated state, rows,
 and prose. Register only after validating the definition.
 Coordinate writes without claiming multi-file transactionality: stop on changed

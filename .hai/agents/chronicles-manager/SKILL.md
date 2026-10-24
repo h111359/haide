@@ -1,6 +1,6 @@
 ---
 name: chronicles-manager
-description: "Call to maintain a session's exact Markdown transcript when chronicles are enabled or required by workspace instructions. Returns the verified transcript location and any synchronization issues."
+description: "Call to synchronize a session's exact Markdown transcript asynchronously when chronicles are enabled or required by workspace instructions. Returns verified recording status, transcript location, and unresolved synchronization issues."
 metadata:
   hai-model-class: "light"
   hai-reasoning-effort: "high"
@@ -23,7 +23,12 @@ A session chronicle is one Markdown transcript identified by its source session 
 
 ## Required inputs
 
-Workspace root, applicable workspace instructions, the recording requirement or validated chronicles settings, source session ID, session start time, saved local transcript path and readable source messages. An outcome awaiting delivery additionally requires its exact final text from leader. Retrieve available source metadata before reporting missing inputs; never invent source identity, times, paths, or message text.
+Workspace root, applicable workspace instructions, the recording requirement or
+validated chronicles settings, source session ID, session start time, durable saved
+local transcript path and readable completed source messages. Retrieve available
+source metadata before reporting missing inputs; never invent source identity,
+times, paths, or message text. A mandatory pre-delivery recording requirement
+additionally needs the exact final text from leader for the synchronous exception.
 
 ## Optional inputs
 
@@ -36,6 +41,16 @@ An existing transcript identified by the session ID and verified commit evidence
 - If `.hai_env/state.json` is absent, invalid, or incompatible, report the unresolved chronicles setting to leader instead of assuming recording is enabled. Pause recording that depends on that setting; continue only when an independent applicable mandatory workspace instruction supplies the recording requirement and destination.
 - If recording is disabled and no applicable instruction requires it, return that status without creating a transcript or directory. State-only environment initialization does not itself authorize optional transcript files.
 - Maintain one Markdown transcript per source session and update it during the conversation without waiting for an export request, following the synchronization and verification procedures below. Identify an existing file by the recorded source session ID, not the current date or filename alone; continue it without duplicating recorded messages.
+- Synchronize asynchronously by default from completed messages in the durable
+  saved source. Final response delivery does not wait for a transcript write. This
+  is a workflow default, not a new state flag or schema version. Mandatory workspace
+  timing instructions, including a required pre-delivery save, take precedence.
+- Leader owns scheduling. A runtime must explicitly support continuation after the
+  root turn before work can be promised then. Otherwise return deferred recording
+  for leader to route at the next active turn. The saved session source supplies
+  durable catch-up; a proposed outcome or an in-memory promise is not that source.
+  Missing/inaccessible source blocks dependent recording and is reported. Do not
+  create a scheduler, background process, queue file, or replacement source implicitly.
 - Record user prompts and final assistant responses verbatim, chronologically, under repeated `## Prompt:` and `## Outcome:` headings. Include clarification questions and user answers in their recorded order, including a clarification question delivered before the final outcome. Preserve spelling, escaping, whitespace, and Markdown formatting; never summarize, normalize, correct, or shorten text.
 - Exclude system/developer instructions, environment metadata, tool calls, and intermediate progress messages. Distinguish metadata from the user-authored message text; do not strip formatting merely because it resembles an instruction.
 - Record the source session ID and saved local transcript path under `## Source:`. Keep source and message text distinct.
@@ -49,12 +64,32 @@ An existing transcript identified by the session ID and verified commit evidence
 2. Locate the saved local session transcript and obtain the original session ID and start time. Inspect only the source needed for this session and its completed exchanges. If required source data is unavailable, report exactly what is missing and pause dependent recording without fabricating it.
 3. Look for the source ID in existing chronicles at the effective destination and any existing transcript path explicitly supplied for this session. Reuse its file across dates. If multiple files claim the same source ID, report the conflict rather than merging or choosing silently. For a new session, derive the filename in `Europe/Sofia`, handle collisions as specified above, and create the source section without replacing another file.
 4. Synchronize completed exchanges from the saved local transcript in source order. Compare already recorded text before appending only unrecorded messages. Do not deduplicate by text alone: repeated identical messages in the source are separate messages. Preserve source message boundaries and distinguish clarification exchanges from progress messages.
-5. Before leader sends a final response, append its supplied exact text as the next outcome after synchronizing preceding source messages. Verify the write and return that same text to leader for delivery. When the saved source later includes the delivered response, match it to the recorded outcome without appending it again. If delivery text or order differs, report the mismatch for explicit resolution.
-6. Include a verified commit message only when supporting evidence is available. Read the updated transcript and check the source identity, chronological order, verbatim message content, absence of duplicate source messages, and exact pending outcome. Return verification limits and any partial results accurately.
+5. Append only completed outcomes present in the readable saved source. If the
+   current outcome is not there yet, synchronize earlier completed messages and
+   return it as pending; do not wait for delivery or save a draft by default.
+   On the next supported continuation or active turn, catch up in source order,
+   checking existing messages before appending. Never let later messages pass an
+   unresolved source gap or divergence. Preserve and report existing mismatches
+   for explicit resolution; asynchronous mode does not authorize their repair.
+6. Only when mandatory workspace instructions require recording before delivery,
+   append leader's supplied exact final text after synchronizing preceding source
+   messages, verify it, and return that same text for delivery. Match the later
+   delivered source outcome without adding it again. Report differing delivery
+   text or ordering for explicit resolution.
+7. Include a verified commit message only when supporting evidence is available.
+   Read the updated transcript and check source identity, chronological order,
+   verbatim completed messages, and absence of duplicates. Return a verified
+   synchronized boundary and any pending, deferred, blocked, or partial work;
+   do not claim an outcome is recorded before verifying its write.
 
 ## Expected outcome
 
-A verified session transcript at the effective location, with exact completed exchanges and the next final outcome saved before delivery; or a precise disabled, blocked, or partial synchronization result identifying missing inputs and preserved files. Return the source session ID, transcript path, and material verification limits to leader.
+A verified session transcript at the effective location through the reported
+completed-source boundary; or a precise disabled, pending, deferred, blocked, or
+partial result identifying missing inputs and preserved files. Return the source
+session ID, transcript path, synchronization boundary, and material verification
+limits to leader. Default asynchronous recording does not promise that the current
+final outcome is saved before delivery or that work continues after the root turn.
 
 ## References
 

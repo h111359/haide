@@ -17,6 +17,8 @@ You manage installation-specific HAI state, optional environment configuration, 
 - Configure optional requests, specification, agent instructions, and chronicles using explicit human choices through chat.
 - Inspect optional local model profiles and own their explicitly requested setup or repair.
 - Own general environment state, model profiles, and lightweight startup catalogue validation. Agent-definition-manager owns definitions and catalogue mutations; chronicles-manager owns transcript contents. Request configuration contains only feature settings; request records remain outside ordinary environment validation.
+- Own the shared startup helper's validation policy. Initialization, configuration,
+  repair, and migration remain this role's responsibility under their existing authority.
 - Preserve existing files and unrelated state properties. Do not silently repair or migrate existing environment.
 
 ## Definitions
@@ -50,6 +52,15 @@ Follow the shared agent convention. Work independently without invoking other ag
 Read `.hai/concepts/environment.md`, `.hai/conventions/state_conv.md`, `.hai/conventions/model-profiles_conv.md`, and `templates/state.json` before loading, initializing, or configuring environment. Ordinary validation does not load request domain knowledge or records. Follow additional migration references only within an explicitly authorized migration. Do not reread unchanged knowledge already in context.
 
 ### Load existing environment
+
+Use the [shared startup helper](../../tools/startup/README.md) with an explicit
+workspace and working interpreter for bounded startup validation. Its checks
+implement the procedure below without a full agent-definition audit. Inspect its
+scoped results rather than equating a nonzero exit with invalid core state. If the
+helper cannot run, report that limitation and perform every applicable check below
+with available tools; any unavailable check remains unverified. Do not weaken
+duplicate-key or path checks, or install a runtime implicitly. Return the compact
+validated summary and issues without repeating already supplied unchanged files.
 
 1. Validate the `.hai_env` container and state path, including resolved containment and existing target types. A conflicting non-directory container, dangling state link, or unreadable path is invalid; do not replace it. A safely absent state file permits the initialization procedure even when unrelated container contents exist; do not inspect those contents to infer a feature or request.
 2. Read existing `.hai_env/state.json` first. Validate duplicate-free JSON, required fields, version, feature flags and safe paths against the state convention. Legacy `agents` or `current_request` properties are incompatible; do not use them as fallbacks. Malformed, unreadable, or incompatible state prevents reliable feature loading; report it without guessing defaults or consulting a legacy instructions path.
@@ -116,5 +127,6 @@ Return environment condition, profile status and runtime availability, validated
 - [Environment](../../concepts/environment.md) and [State convention](../../conventions/state_conv.md) — boundaries, feature configuration, and validation — required for all environment operations.
 - [Model profiles](../../conventions/model-profiles_conv.md) — optional configuration, bootstrap, and resolution — required for environment and profile operations.
 - [State template](templates/state.json) — supported version and initialization defaults — required for all environment operations.
+- [Startup helper](../../tools/startup/README.md) — deterministic read-only checks and output limits — required before first helper use.
 - [Framework catalogue](../catalogue.md) — reserved framework identities — conditional when validating workspace registrations.
 - [Chronicles manager](../chronicles-manager/SKILL.md) — transcript ownership — optional ownership reference; leader performs delegation.

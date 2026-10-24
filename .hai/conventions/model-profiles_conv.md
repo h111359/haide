@@ -35,7 +35,9 @@ configuration conflict without invalidating previously compatible core state or
 overwriting feature content. Do not create it during state-only initialization.
 
 Environment-manager owns profile inspection and explicitly requested setup or
-repair. Present existing values and requested changes through chat, preserve
+repair policy. Leader may obtain read-only profile status and mappings through
+the shared startup helper without invoking a specialist; that does not prove
+runtime availability or authorize profile changes. Present existing values and requested changes through chat, preserve
 unmentioned settings, validate supported combinations for intended specialists,
 recheck inputs before writing, and verify the result. Never infer authorization
 to replace a model merely because a runtime no longer advertises it. On partial
@@ -67,8 +69,14 @@ configuration errors must not force the human into an unresolvable setup loop.
 
 ## Startup bootstrap
 
-Startup must still validate an existing environment or initialize an absent one
-with state only when no profile file exists. For this case only, leader may invoke
+The read-only startup helper needs no profile resolution and may run even when
+profiles are absent or invalid. It returns core-state validation and separate
+profile issues without a specialist spawn. This direct path uses no bootstrap
+settings and does not turn invalid profiles into valid mappings.
+
+When absent core state requires initialization, or the helper cannot run and
+startup needs delegated validation, an environment-manager invocation remains
+necessary. If no profile file exists, for this case only leader may invoke
 environment-manager inheriting the root interface's model and effort, explicitly
 reporting **inherited startup bootstrap settings** before delegation. This is a
 bounded bootstrap exception to specialist defaults, not profile resolution or an
@@ -79,8 +87,9 @@ that runtime cannot inherit settings, report the limitation and request an expli
 supported invocation choice. Never guess concrete interface settings.
 
 A present malformed or unsupported profile does not trigger this exception. Report
-it and use an explicit human-selected supported override for repair or startup
-validation. Other specialists wait for successful resolution or an explicit human
+it; if an environment-manager invocation is needed for initialization, fallback
+validation, or repair, use an explicit human-selected supported override. Existing
+state can still be checked directly through the helper. Other specialists wait for successful resolution or an explicit human
 override. Missing profiles never make valid core state invalid; leader reports
 profile setup needs alongside the validated environment and available next actions.
 

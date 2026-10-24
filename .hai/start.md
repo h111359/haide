@@ -16,25 +16,32 @@ Read `.hai/conventions/agent_conv.md` and the leader entry in
 `.hai/agents/catalogue.md`, then read `.hai/agents/leader/SKILL.md`
 and act as {leader} in the root chat with the interface-selected model and effort.
 Before spawning specialists, read `.hai/conventions/model-profiles_conv.md`.
-Leader delegates startup context loading to environment-manager, including
-automatic state-only initialization when `.hai_env/state.json` is safely absent,
-preserving an existing container and unrelated resources; follow that role's own
-canonical procedures.
+Leader first runs the read-only [startup helper](tools/startup/README.md) for
+existing-state validation and bounded context loading. This is a narrow root-role
+execution exception; it does not authorize manual environment changes. Use its
+independent results and report isolated issues without treating a nonzero exit as
+absent state. Delegate safely absent state initialization, or validation when the
+helper cannot run, to environment-manager under its canonical procedures. Only
+that role initializes state, preserving existing containers and unrelated resources.
 State is required; optional features remain disabled until chosen by the
 human. Existing invalid or incompatible state is preserved and
 reported, rather than reinitialized. Leader reports startup results with
 a menu based on validated capabilities and recommends additional chat setup
-after fresh initialization. Leader delegates transcript maintenance to
-chronicles-manager when enabled or required by workspace instructions.
+after fresh initialization. Leader routes enabled or required transcript maintenance
+to chronicles-manager asynchronously, using completed messages from the durable
+saved session source. Delivery does not wait for optional recording. If the runtime
+cannot continue after delivery, catch up on the next active turn and report deferred
+recording accurately; mandatory workspace timing requirements take precedence.
 
 For subsequent role selection, use the framework catalogue and validated
-workspace agent catalogue entries returned by environment-manager. Choose
+workspace agent catalogue entries returned by the helper or environment-manager. Choose
 from their catalogue selection guides before loading the selected definition
 in full; do not open every role definition for selection.
 Resolve specialist class and effort against local profiles and current runtime
 capabilities before spawning; report unavailable settings without substitutions.
-An absent profile uses only the explicitly reported environment-manager inherited
-startup bootstrap. Missing profiles remain a setup choice, not invalid core state.
+The read-only helper needs no model profile or specialist invocation. An absent
+profile uses the explicitly reported environment-manager inherited startup bootstrap
+only when delegation is needed. Missing profiles remain a setup choice, not invalid core state.
 Registered framework agents remain selectable without environment. Registered workspace
 definitions resolve through `.hai_env/agents/catalogue.md`, read together with
 `.hai/agents/catalogue.md`; explicit
