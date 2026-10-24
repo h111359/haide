@@ -5,17 +5,30 @@ It shares strict JSON, model-profile schema, agent-name and catalogue-cell decod
 with `../agents/agent_tools.py`. It never installs a runtime, writes files,
 initializes state, scans request stores, or parses every registered definition.
 
-Use a working interpreter as described in
-[the tooling convention](../../conventions/tooling_conv.md). From the workspace root:
+Find and verify a Python 3.11+ interpreter as described in
+[the tooling convention](../../conventions/tooling_conv.md). Run the helper with
+the verified absolute executable path, from the workspace root:
 
 ```text
-python -B .hai/tools/startup/startup_check.py --workspace .
-python -B .hai/tools/startup/test_startup_check.py
+<absolute-python-executable> -B .hai/tools/startup/startup_check.py --workspace .
+<absolute-python-executable> -B .hai/tools/startup/test_startup_check.py
 ```
 
-Use an explicit workspace when running elsewhere. The helper disables bytecode
-cache writes before importing shared tools, including when `-B` is omitted. It emits UTF-8
-compatible JSON with escaped Unicode and these fields:
+On Windows, invoke the absolute path with the shell's normal path quoting (for
+example, PowerShell's call operator); on POSIX, quote the executable path as
+needed. A failing `python`, `python3`, or `py` command may be an inaccessible
+alias or launcher even when Python is installed. Resolve and probe other runtime
+candidates, including paths reported by an installed Python launcher or runtime
+manager. Run the helper using a verified executable path; do not report Python
+absent solely because a command alias or launcher failed. If discovery or launch
+is blocked by sandbox policy, use the environment's normal permission or trusted
+execution mechanism for a harmless version and `sys.executable` probe, if
+available; do not elevate automatically. Recheck the discovered absolute path in
+the original execution context before running the helper. If probing and direct
+path execution are both blocked there, report a sandbox blocker and that the
+helper did not run. Use an explicit workspace when running elsewhere. The helper
+disables bytecode cache writes before importing shared tools, including when `-B`
+is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields:
 
 - `environment`: `valid`, `absent`, or `invalid`; `valid` requires compatible state
   and readable mandatory instructions. `state_status` separately reports core-state

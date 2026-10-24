@@ -13,10 +13,26 @@ the product's runtime.
 - Document any higher minimum version and any external dependencies,
   their supported versions, and setup commands. Do not install packages
   or runtimes implicitly when a tool runs.
-- Identify a working interpreter before execution. Use `python3` on
-  Linux/macOS or an available `python`, `py -3`, or explicit interpreter
-  path on Windows. A Windows application alias is not proof that a
-  working runtime is installed.
+- Identify and verify a working interpreter before execution. Resolve candidates
+  with the platform's command lookup, then launch each candidate in the same
+  environment that will run the tool. Confirm Python is 3.11 or newer and obtain
+  its executable path from `sys.executable`; use that absolute path for the tool
+  invocation. A launcher or command alias is only a way to locate a runtime, not
+  proof that the runtime can launch.
+- If command lookup succeeds but launch fails, distinguish that failure from an
+  absent runtime. Check other resolved candidates and, where available, use the
+  platform's documented Python launcher or runtime-manager listing to discover
+  installed executable paths; verify each path by launching it. Do not infer
+  Python is absent from an inaccessible application alias, a sandbox or policy
+  error, or a failed launcher. If no candidate can be verified, report the launch
+  or discovery failure and that tool execution remains unverified; do not install
+  a runtime or change global settings implicitly.
+- When a sandbox blocks a named command, use the environment's normal permission
+  or trusted-execution mechanism for a harmless version and `sys.executable`
+  probe, if available; do not elevate automatically. Recheck the discovered
+  absolute path in the original tool-execution context before running the tool,
+  since permissions can differ between contexts. If neither permitted probing nor
+  direct-path execution works there, report a sandbox blocker, not absent Python.
 - Keep core logic portable across Windows, Linux, and macOS. Use native
   path APIs, explicit text encodings, and documented platform-specific
   handling where filesystem behavior differs. Avoid shell-dependent
