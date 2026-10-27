@@ -107,6 +107,14 @@ The human selects the version or explicitly authorizes the agent's recommendatio
 An existing explicit choice remains authority; report material compatibility
 conflicts rather than silently substituting another version.
 
+### Agreed initial release and experimental policy
+
+The human selected `0.1.0` as HAI's first bundle release. During `0.x`, new
+capabilities and breaking changes increment MINOR; compatible fixes increment
+PATCH. Describe breaking effects explicitly in notes. Moving to `1.0.0` requires
+an explicit stability decision. These choices do not change independent state or
+specification compatibility numbering and do not authorize publication by themselves.
+
 ## Readiness and evidence
 
 A candidate is ready for publication only when:
