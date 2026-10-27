@@ -3,7 +3,7 @@
 `audit_specification.py` is a read-only Python 3.11+ helper for Windows,
 Linux, and macOS. It uses only the standard library; no packages or
 installation steps run automatically. Copy the entire `specification-manager/`
-folder, including `SKILL.md`, `concepts/`, `conventions/`, and `scripts/`,
+folder, including `SKILL.md`, `contract.json`, `concepts/`, `conventions/`, and `scripts/`,
 to use it independently. No HAI framework, environment state, leader, request
 records, or model profiles are required. The format does not install or activate
 a runtime skill; invoke the instructions and script using their installed paths.
@@ -47,6 +47,60 @@ and manual-review boundaries. Exit codes: `0` means no detected errors
 or execution failure. A clean result establishes only the supported
 mechanical checks, not full specification validity. Output JSON escapes
 non-ASCII characters so shell output encoding does not lose information.
+
+## Compatibility and catalogue
+
+The package-local `contract.json` has exactly one positive JSON integer field,
+`specification_compatibility_version`, currently `1`. The root `__ncf__.md`
+carries its string counterpart, `specification_compatibility_version: "1"`.
+Descendants cannot carry it. The JSON audit reports `compatibility` with `target`,
+`found` (readable string or null), and `state`: `current`, `unmarked`, `older`,
+`newer`, or `invalid`. Non-current states are audit errors but still return
+structural inventories for assessment. A malformed/missing package contract is a
+fatal input error, never replaced with workspace or environment data.
+
+This checks the marker mechanically; it cannot establish that every contract
+obligation was met or approve a migration. Follow
+[contract versioning](../conventions/contract-versioning_conv.md) for the full
+assessment, scoped plan, explicit human user approval (including marker-only adoption),
+preservation, and verified completion process. Ordinary authorized content work
+on a current tree does not need compatibility-migration approval.
+
+Every tree has one root `__catalogue__.md`, derived from all node configurations.
+It is permitted with either root kind and excluded from content/node counts;
+nested catalogues are errors. Exact canonical comparison checks complete and
+unique coverage, authoritative UUID/parent/kind/type/title fields, root-relative
+links to each actual `__ncf__.md`, and breadth-first code-point lexical order.
+The root's Parent ID and branch Type cells are blank. Literal metadata uses HTML
+entities for Markdown/table characters and controls; link paths are percent
+encoded. This catalogue contains no summaries, status, timestamps, or revision.
+The auditor inspects actual nodes rather than treating a catalogue as authority.
+
+Prepare the canonical Markdown without writing any file:
+
+```text
+python -B /path/to/specification-manager/scripts/audit_specification.py --root /work/product/specification --render-catalogue
+```
+
+On success stdout is only UTF-8-compatible Markdown text (the shell controls its
+encoding), stderr explains that it is a candidate, and the exit code is `0`.
+Errors produce the usual JSON failure and exit `2`; the renderer refuses tree
+errors other than missing/stale catalogue and compatibility assessment findings.
+Warnings still require the JSON audit's manual review. Root-only/alias violations,
+duplicate UUIDs/metadata, and structural errors block rendering. No output file,
+temporary file, marker, product content, or state is written. Inspect stdout and
+save it only through a separately authorized edit; do not redirect it onto the
+live catalogue, because shell redirection can truncate that input before audit.
+When saving, use UTF-8 and retain a final newline. Rerun the normal audit after
+the authorized save.
+
+Rendering is available for unmarked/older/newer/invalid marker assessment so an
+adoption plan can include a candidate catalogue before changing the live marker.
+It does not override compatibility findings or approve any migration, downgrade,
+or tree edit. For adoption/migration, assess and approve first, transform within
+scope, verify all target obligations (using a staged candidate if needed), then
+write the live target marker and run final verification. A renderer exit `0` is
+not a successful compatibility audit or a recorded applied migration.
 
 ## Inventory and identity comparison
 
@@ -108,8 +162,8 @@ rules rather than ignoring case on Unix. Neither mode follows tree aliases.
 - Node configuration presence, supported metadata, duplicate keys/UUIDs,
   required values, registered leaf types/statuses, branch/leaf exclusivity,
   expected content filenames, and branch contents.
-- Registered types come from convention links in
-  this package's `concepts/specification.md`. Expected content filenames are
+- Registered types come only from convention links in the Leaf types section of
+  this package's `concepts/specification.md`; contract conventions are not types. Expected content filenames are
   read from each convention's Content file section rather than assumed.
 - Branch child limits, global leaf-depth range, and Unicode code-point
   counts for whole configuration files after LF normalization. Astral
@@ -121,6 +175,9 @@ rules rather than ignoring case on Unix. Neither mode follows tree aliases.
   inline code are excluded; external URLs are not fetched.
 - Symlink/junction traversal refusal, including cycles. Special filesystem
   entries are not read. The helper performs no filesystem mutations.
+- Independent compatibility marker/contract checks and complete root catalogue
+  canonical comparison. Catalogue links are verified through actual inventory
+  equality rather than the helper's limited generic Markdown link parser.
 
 ## Supported syntax and manual review
 
@@ -156,9 +213,10 @@ Tests use standard-library `unittest` and temporary workspaces with scoped
 cleanup. They cover extraction/relocation of the complete package without HAI,
 execution from unrelated working directories, CLI output/exit codes, absence
 of mutations, metadata, topology, sizes, links, baselines, paths, and alias/cycle
-cases.
+cases, compatibility states and malformed contracts, catalogue staleness,
+root-only metadata exclusion, escaping, and candidate rendering without writes.
 Windows junction tests run only on Windows; symbolic-link tests report a
 skip if creation privileges are unavailable. Target support is Windows,
-Linux, and macOS; this migration was executed on Windows with Python
-3.15.0. Linux/macOS execution and older supported Python versions still
-require validation.
+Linux, and macOS. The baseline-1 changes were verified on Linux with Python
+3.12.3; Windows junction tests are skipped there. Windows, macOS, and other
+supported Python versions were not executed for these changes.

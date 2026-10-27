@@ -33,7 +33,7 @@ them without treating the container alone as initialized core state. Initializat
 creates no optional resources or agent scaffold. The leader then recommends chat
 setup, where the human chooses features and locations. Setup may be deferred.
 
-The [state convention](../conventions/state_conv.md) defines configuration, safe workspace paths, compatibility, validation, and explicit version-4 to version-5 migration. Mandatory instructions load independently; state still precedes optional-feature context. Optional feature locations may be outside `.hai_env/` but must remain safe inside the workspace and avoid mandatory instructions. Disabling a feature preserves its files and stops its use through environment configuration; changing its location does not move existing contents. Independent workspace and session instructions still apply.
+The [state convention](../conventions/state_conv.md) defines configuration, safe workspace paths, compatibility, and validation. The installed environment-manager [contract](../agents/environment-manager/contract.json) supplies the current and supported state format versions independently of HAI release numbering. Mandatory instructions load independently; state still precedes optional-feature context. Optional feature locations may be outside `.hai_env/` but must remain safe inside the workspace and avoid mandatory instructions. Disabling a feature preserves its files and stops its use through environment configuration; changing its location does not move existing contents. Independent workspace and session instructions still apply.
 
 Request configuration contains only enablement and the store location, with no
 global active-request pointer. Environment validation checks its path and type,
@@ -79,7 +79,7 @@ specialist spawning waits for valid runtime-supported resolution or an explicit
 human override. Agent definitions and catalogue registration remain independent
 of runtime skill discovery.
 
-Optional version-5 `integrations.git.enabled` and `integrations.github.enabled`
+Optional state-format-1 `integrations.git.enabled` and `integrations.github.enabled`
 switches control whether leader may route local Git and GitHub work to the shared
 Git operations role. Both default off in new environments; missing settings in
 existing state are valid and inactive until explicitly configured. Each integration

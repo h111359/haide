@@ -1,5 +1,4 @@
 {
-  "compatible_version": 5,
   "features": {
     "requests": {
       "enabled": false,

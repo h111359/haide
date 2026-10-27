@@ -65,7 +65,7 @@ Follow the shared agent convention. Work independently without invoking other ag
 
 ### Required knowledge
 
-Read `.hai/concepts/environment.md`, `.hai/conventions/state_conv.md`, `.hai/conventions/model-profiles_conv.md`, and `templates/state.json` before loading, initializing, or configuring environment. Ordinary validation does not load request domain knowledge or records. Follow additional migration references only within an explicitly authorized migration. Do not reread unchanged knowledge already in context.
+Read `.hai/concepts/environment.md`, `.hai/conventions/state_conv.md`, `.hai/conventions/model-profiles_conv.md`, `contract.json`, and `templates/state.json` before loading, initializing, or configuring environment. Ordinary validation does not load request domain knowledge or records. Follow additional migration references only within an explicitly authorized migration. Do not reread unchanged knowledge already in context.
 
 ### Load existing environment
 
@@ -96,17 +96,26 @@ validated summary and issues without repeating already supplied unchanged files.
 
 ### Initialize absent core state
 
-1. For startup or an explicit initialization request, read the canonical template and validate its defaults. No additional human answer is required for the minimal initialization.
+1. For startup or an explicit initialization request, validate the installed
+   `contract.json` and canonical template defaults. Prepare state in memory by
+   copying those defaults and adding `state_format_version` from the contract's
+   `current_state_format_version`; the template supplies no version. Validate the
+   complete candidate under the state convention before any state-file write.
+   Do not modify the template or infer the version from release metadata.
+   No additional human answer is required for the minimal initialization.
 2. Validate container/state containment and types, then recheck that the state file is absent. Preserve an existing valid container and its unrelated resources. If state has appeared or any inspected path changed, stop and report the conflict; never overwrite it.
 3. Create `.hai_env/` only if absent. Validate and load an existing safe readable
    `.hai_env/agent_instructions.md` without changing it; if safely absent, create
-   an empty file exclusively and verify it. Recheck state absence and paths, then
-   create `.hai_env/state.json` from the unmodified template exclusively. Preserve
-   all existing content and create no optional resources or catalogue.
-4. Verify state against the template version, three disabled features with default
-   locations, and the mandatory readable instructions file with its intended exact
-   content. Verify unrelated resources are unchanged. The container need not be
-   empty. Report success only after both mandatory resources pass verification.
+   an empty file exclusively and verify it. Recheck state absence, safe paths,
+   inspected contract/template contents, and candidate validity; stop if inputs
+   changed. Create `.hai_env/state.json` exclusively from the validated candidate.
+   Preserve all existing content and create no optional resources or catalogue.
+4. Read back state and verify its version equals the contract's current version
+   and is supported, all template defaults are preserved, and the three features
+   are disabled at their default locations. Run the startup helper and verify
+   the mandatory readable instructions file has its intended exact content.
+   Verify unrelated resources are unchanged. The container need not be empty.
+   Report success only after both mandatory resources pass verification.
 5. On failure, preserve partial results, stop, and report exactly what was created and what is missing or invalid. Do not delete, overwrite, or automatically retry partial initialization; repair needs explicit scope.
 6. Return success and the recommended next action of additional chat setup, with each optional feature's current flag and proposed location. The leader presents available next actions; initialization does not wait for setup.
 
@@ -157,18 +166,15 @@ validated summary and issues without repeating already supplied unchanged files.
 
 ### Migrate explicitly authorized legacy state
 
-Follow the applicable migration procedure in the state convention, not startup
-initialization or feature setup. Version-4 to version-5 migration preserves the
-three retained feature configurations and unrelated resources, establishes readable
-fixed instructions, removes the retired instructions setting, and updates the
-version. Preserve canonical/custom instruction files; resolve divergent active
-content explicitly under the state convention. Earlier version-3 to version-4
-migration removes only the legacy pointer and yields an intermediate version.
-Obtain the required read-only legacy-store validation through leader
-when record interpretation is needed; do not delegate from this role. Recheck source
-state and returned validation before writing, stop on conflicts, and verify preserved
-properties and resources. Unsupported or inconsistent records require explicit
-resolution rather than silently discarded data or automatic repair.
+Follow the explicit migration authority and the state convention, not startup
+initialization or feature setup. Earlier prototype state using `compatible_version`
+(including the prior value `5`) is not accepted by startup and is never converted
+automatically. For an explicitly authorized reset, validate the source state and
+safe paths, change only that version property to
+`state_format_version: 1`, preserve every other property and unrelated resource,
+recheck inputs immediately before writing, and verify the result with the startup
+helper. Stop on malformed state or changed inputs; never infer authorization to
+migrate from a validation failure.
 
 ## Expected outcome
 
@@ -185,7 +191,8 @@ or configuration success before verifying the mandatory resources and requested 
 - [Agent convention](../../conventions/agent_conv.md) — common format, selection, and independence — required before role execution.
 - [Environment](../../concepts/environment.md) and [State convention](../../conventions/state_conv.md) — boundaries, feature configuration, and validation — required for all environment operations.
 - [Model profiles](../../conventions/model-profiles_conv.md) — optional configuration, bootstrap, and resolution — required for environment and profile operations.
-- [State template](templates/state.json) — supported version and initialization defaults — required for all environment operations.
+- [State format contract](contract.json) — current and supported state versions — required for all environment operations.
+- [State template](templates/state.json) — initialization defaults — required for all environment operations.
 - [Startup helper](../../tools/startup/README.md) — deterministic read-only checks and output limits — required before first helper use.
 - [Framework catalogue](../catalogue.md) — reserved framework identities — conditional when validating workspace registrations.
 - [Chronicles manager](../chronicles-manager/SKILL.md) — transcript ownership — optional ownership reference; leader performs delegation.

@@ -23,7 +23,7 @@ class StartupTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="hai_startup_")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name).resolve()
-        self.state = copy.deepcopy(DEFAULT)
+        self.state = {"state_format_version": 1, **copy.deepcopy(DEFAULT)}
         self.write(startup.TEMPLATE, TEMPLATE.read_text(encoding="utf-8"))
         self.write(".hai/agents/leader/SKILL.md", "This is deliberately not a parsed definition.")
         self.table(".hai", [("leader", "Call to coordinate.", "leader/SKILL.md")])
@@ -223,15 +223,17 @@ class StartupTests(unittest.TestCase):
         self.assertFalse((self.root / ".hai_env").exists())
 
     def test_duplicate_keys_at_root_and_nested_depth(self):
-        for text in ('{"compatible_version":4,"compatible_version":4,"features":{}}',
+        for text in ('{"state_format_version":1,"state_format_version":1,"features":{}}',
                      json.dumps(self.state).replace('"enabled": false', '"enabled": false,"enabled": true', 1)):
             with self.subTest(text=text):
                 self.write(".hai_env/state.json", text)
                 self.assertEqual(startup.check(self.root)["environment"], "invalid")
 
     def test_schema_version_legacy_and_types(self):
-        cases = [{}, [], {**self.state, "compatible_version": True},
-                 {**self.state, "compatible_version": 99}, {**self.state, "agents": {}},
+        cases = [{}, [], {**self.state, "state_format_version": True},
+                 {**self.state, "state_format_version": 0},
+                 {**self.state, "state_format_version": 99},
+                 {**self.state, "compatible_version": 1}, {**self.state, "agents": {}},
                  {**self.state, "current_request": None}]
         for value in cases:
             with self.subTest(value=value):
@@ -241,14 +243,55 @@ class StartupTests(unittest.TestCase):
         self.save_state()
         self.assertEqual(startup.check(self.root)["environment"], "invalid")
 
-    def test_template_controls_supported_version(self):
-        template = copy.deepcopy(DEFAULT)
-        template["compatible_version"] = 17
-        self.write(startup.TEMPLATE, json.dumps(template))
-        self.assertEqual(startup.check(self.root)["environment"], "invalid")
-        self.state["compatible_version"] = 17
-        self.save_state()
+    def test_contract_is_installed_authority_and_contract_errors_fail_core_state(self):
+        # A target workspace copy cannot override the contract shipped with this helper.
+        self.write(".hai/agents/environment-manager/contract.json",
+                   json.dumps({"current_state_format_version": 99,
+                               "supported_state_format_versions": [99]}))
         self.assertEqual(startup.check(self.root)["environment"], "valid")
+        contract_path = self.root / "installed/contract.json"
+        contract_path.parent.mkdir(parents=True)
+        valid = {"current_state_format_version": 1,
+                 "supported_state_format_versions": [1]}
+        with patch.object(startup, "CONTRACT", contract_path):
+            result = startup.check(self.root)
+            self.assertEqual(result["state_status"], "invalid")
+            self.assertEqual(result["instructions_status"], "loaded")
+            self.assertIn("contract", result["issues"][0]["message"].lower())
+            contract_path.write_text(json.dumps(valid), encoding="utf-8")
+            original_open = Path.open
+            def denied(candidate, *args, **kwargs):
+                if candidate == contract_path:
+                    raise PermissionError("Fixture denies installed contract access")
+                return original_open(candidate, *args, **kwargs)
+            with patch.object(Path, "open", denied):
+                result = startup.check(self.root)
+            self.assertEqual(result["state_status"], "invalid")
+            self.assertEqual(result["instructions_status"], "loaded")
+            self.assertIn("contract", result["issues"][0]["message"].lower())
+        invalid_contracts = [
+            "{\"current_state_format_version\":1,\"current_state_format_version\":1,\"supported_state_format_versions\":[1]}",
+            {}, [], {**valid, "current_state_format_version": True},
+            {**valid, "current_state_format_version": 2},
+            {**valid, "supported_state_format_versions": []},
+            {**valid, "supported_state_format_versions": [1, 1]},
+            {**valid, "supported_state_format_versions": [True]},
+            {**valid, "extra": "ignored fields are not allowed"},
+        ]
+        with patch.object(startup, "CONTRACT", contract_path):
+            for invalid in invalid_contracts:
+                with self.subTest(contract=invalid):
+                    contract_path.write_text(invalid if isinstance(invalid, str)
+                                             else json.dumps(invalid), encoding="utf-8")
+                    result = startup.check(self.root)
+                    self.assertEqual(result["state_status"], "invalid")
+                    self.assertEqual(result["instructions_status"], "loaded")
+                    self.assertEqual(result["agent_instructions"]["text"], "")
+                    self.assertIn("contract", result["issues"][0]["message"].lower())
+            contract_path.write_text(json.dumps(valid), encoding="utf-8")
+            self.state["state_format_version"] = 2
+            self.save_state()
+            self.assertEqual(startup.check(self.root)["state_status"], "invalid")
 
     def test_strict_json_rejects_constants_in_unknown_properties(self):
         for constant in ("NaN", "Infinity", "-Infinity"):
@@ -317,7 +360,7 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["state_status"], "valid")
         self.assertFalse(result["ok"])
 
-    def test_retired_setting_rejected_in_v5_without_writes(self):
+    def test_retired_setting_rejected_without_writes(self):
         self.state["features"]["agent_instructions"] = {
             "enabled": False, "location": ".hai_env/alternate.md"}
         self.save_state()
@@ -327,8 +370,8 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["instructions_status"], "loaded")
         self.assertEqual(before, self.snapshot())
 
-    def test_v4_is_not_silently_migrated_and_preserves_legacy_content(self):
-        self.state["compatible_version"] = 4
+    def test_legacy_field_is_not_silently_accepted_and_preserves_content(self):
+        self.state["compatible_version"] = 5
         self.state["features"]["agent_instructions"] = {
             "enabled": True, "location": "legacy/instructions.md"}
         self.write("legacy/instructions.md", "Preserve custom legacy instructions.")
@@ -337,6 +380,7 @@ class StartupTests(unittest.TestCase):
         before = self.snapshot()
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "invalid")
+        self.assertIn("compatible_version", result["issues"][0]["message"])
         self.assertEqual(result["agent_instructions"]["text"], "Canonical instructions remain active.")
         self.assertEqual(before, self.snapshot())
 

@@ -22,6 +22,8 @@ reviewable release candidate, and assessment of actual publication evidence.
 - Assess specification-contract compatibility as a release dependency;
   specification-manager owns specification rules, contract definition changes,
   and actual specification migrations.
+- Verify release-manifest contract targets against the owning state and
+  specification declarations; environment-manager owns state-format compatibility.
 - Do not configure environment state or profiles, maintain agent registrations,
   invent product decisions, or execute specification migrations. Only leader
   delegates; execute release procedures yourself and return dependencies to leader.
@@ -31,8 +33,9 @@ reviewable release candidate, and assessment of actual publication evidence.
 - Bundle: the reusable HAI distribution, initially released as one versioned unit.
 - Candidate: the reviewed source revision and intended metadata, notes, assets,
   checks, and publication destination for a release.
-- Bundle version, specification contract, target revision, and applied revision:
-  meanings and independent version rules in the local release and contract policies.
+- Bundle version and release-manifest contract targets: the local release policy.
+- Specification compatibility version and applied marker: the specification owner's
+  contract-versioning convention, reached through the local contract policy.
 - Release authority: the caller's established authorization for preparation,
   version selection, commits, tags, pushes, drafts, and public publication as applicable.
 
@@ -54,8 +57,9 @@ An explicit version or bump choice, change scope, source revision, release notes
 contract assessment, packaging additions, draft preference, and automation request.
 Defaults: a single HAI bundle, versioned manifest, `v<version>` tag,
 `hai-<version>.zip` in ignored `dist/`, and GitHub as the publication mechanism
-when the verified repository supports it. No numerical first version, 0.x breaking
-policy, contract baseline, branch, remote, or public-publication authority is assumed.
+when the verified repository supports it. No numerical first bundle version, 0.x
+breaking policy, branch, remote, or public-publication authority is assumed.
+Read compatibility baselines from their owning declarations and verified history.
 
 ## Rules
 
@@ -69,6 +73,10 @@ policy, contract baseline, branch, remote, or public-publication authority is as
   automation as part of publication, not a harmless preparation step.
 - Keep bundle, independent contract, and environment-format versions separate.
   Missing historical metadata is an unresolved baseline, not proof of compatibility.
+- Use the release policy's exact manifest schema and consistency checks. Read the
+  specification owner's convention for contract semantics and transition history;
+  do not redefine them in release policy or infer applied consumer versions from
+  the manifest. Declaration changes return to their owning role through leader.
 - Do not require an enabled local specification feature or migrate every consumer
   workspace to release the reusable framework. Report relevant target/applied
   differences and dependencies without claiming their migrations are complete.
@@ -100,22 +108,28 @@ policy, contract baseline, branch, remote, or public-publication authority is as
    relevant compatibility guarantees and tests. Identify unrelated work and blockers.
 3. Recommend a bump and resulting version with evidence. Resolve initial-release,
    0.x, prerelease, or conflicting-version choices before dependent version writes.
-4. Assess bundle and specification-contract impact separately. Return specification
-   rule, baseline, or migration dependencies to leader with affected boundaries,
-   evidence, and required outcome; do not invoke another agent.
+4. Assess bundle and specification-contract impact separately using the owner's
+   declaration, convention and transition ledger. Inspect the state-format
+   declaration independently. Return rule, baseline, or migration dependencies to
+   leader with affected boundaries, evidence, owning role, and required outcome;
+   do not invoke another agent.
 
 ### Prepare and verify
 
-1. Prepare authorized metadata and release notes, including compatibility and migration
-   information. Establish missing metadata schemas and baselines explicitly before
-   first adoption; their policy descriptions do not assert existing records.
+1. Prepare authorized metadata under the release policy's manifest schema and
+   release notes with compatibility and migration information. Verify contract
+   entries against both owning declarations and verified transition evidence.
+   A manifest is created only for an authorized selected release candidate; adopted
+   compatibility declarations alone neither create nor authorize a bundle release.
 2. Run applicable pre-commit checks and return the exact metadata/source paths and
    required commit/export evidence to leader. Git-manager commits only with the
    necessary authority and supplies a verified source export of that exact commit.
    A completed ZIP is not a prerequisite for this source commit.
-3. Build the package from that export, apply inclusion/exclusion rules, inspect the
-   archive, and run applicable release checks/tests. Record commit, asset digest,
-   commands, results and limitations. Source changes return to the commit/export
+3. Revalidate manifest consistency against the declarations in that exact export.
+   Build the package, apply inclusion/exclusion rules, inspect the archive, and
+   repeat the manifest/declaration checks on its contents. Run applicable release
+   checks/tests. Record commit, asset digest, commands, results and limitations.
+   Source changes return to the commit/export
    stage; resolve release-blocking failures before publication.
 4. Present selected version and rationale, source commit, contract assessment,
    manifest, archive contents, notes, verification, destination, and publication
@@ -146,10 +160,11 @@ this agent neither creates release metadata nor authorizes a first release.
 ## References
 
 - [Release policy](conventions/release_conv.md) — bundle versioning and readiness — required for every release.
-- [Contract versioning](conventions/contract-versioning_conv.md) — independent specification contract and target/applied behavior — required for every release.
+- [Contract versioning](conventions/contract-versioning_conv.md) — references to owning compatibility rules and release dependencies — required for every release.
 - [Publishing policy](conventions/publishing_conv.md) — packaging, authority, GitHub, and recovery — required for every release.
 - [Agent convention](../../../.hai/conventions/agent_conv.md) — receiver checks, role boundaries, and references — required for all operations.
 - [Git-manager](../../../.hai/agents/git-manager/SKILL.md) — Git/GitHub execution boundary — conditional when specifying a repository/service dependency; leader performs routing, do not adopt or invoke that role.
 - [Specification-manager](../../../.hai/agents/specification-manager/SKILL.md) — ownership and relevant specification dependencies — conditional when assessing specification-rule changes or migration needs; do not adopt or execute that role.
-- [State convention](../../../.hai/conventions/state_conv.md) — environment-format separation and configured context — conditional when interpreting environment state.
+- [State convention](../../../.hai/conventions/state_conv.md) — state-format authority and configured context — required for release contract checks; conditional when interpreting environment state.
+- [State contract](../../../.hai/agents/environment-manager/contract.json) and [specification contract](../../../.hai/agents/specification-manager/contract.json) — installed targets to snapshot and verify against the candidate's own declarations — required for every release.
 - [Tooling convention](../../../.hai/conventions/tooling_conv.md) — runtime and helper requirements — conditional when executing, creating, or changing supporting Python tools.

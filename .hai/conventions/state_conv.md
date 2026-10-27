@@ -31,7 +31,7 @@ The root MUST be a JSON object with these required properties:
 
 | Property | Type | Meaning and initial value |
 | --- | --- | --- |
-| `compatible_version` | positive integer | Environment format version from the canonical template; currently `5`. |
+| `state_format_version` | positive integer | State schema version declared by the installed environment-manager contract; currently `1`. |
 | `features` | object | Required configuration entries for `requests`, `specification`, and `chronicles`. |
 
 Each required feature is an object with required `enabled` (Boolean) and `location` (nonempty workspace-relative string) properties. Disabled features retain their location for later setup. All three flags are initially `false`:
@@ -42,9 +42,9 @@ Each required feature is an object with required `enabled` (Boolean) and `locati
 | `specification` | `.hai_env/specifications` | Specification root directory |
 | `chronicles` | `.hai_env/chronicles` | Directory containing session transcripts |
 
-`specification_location` is the former version-1 field; versions 2 onward use `features.specification.location`. Do not use a legacy field as a fallback. Version 5 rejects legacy `agents` and `current_request` root properties and the retired `features.agent_instructions` entry. Instructions have no state flag or configurable location. Preserve unrelated additional root and feature properties when updating state; duplicate JSON property names are invalid. Unknown properties do not implicitly enable a feature.
+The installed `.hai/agents/environment-manager/contract.json` is the single authority for the current and supported `state_format_version` values. Startup reads the contract from the installed framework package, never from a target workspace copy. A state version must be an integer listed in `supported_state_format_versions`; Booleans are invalid even though JSON decodes them as Python integers. The former `compatible_version` field is incompatible and must produce a clear error; never accept it as a fallback. Legacy `agents`, `current_request`, and `features.agent_instructions` properties are also incompatible. Instructions have no state flag or configurable location. Preserve unrelated additional root and feature properties when updating state; duplicate JSON property names are invalid. Unknown properties do not implicitly enable a feature.
 
-Optional `integrations` configuration is additive within version 5 and has no
+Optional `integrations` configuration is additive within state format 1 and has no
 filesystem location or credential fields:
 
 ```json
@@ -54,7 +54,7 @@ filesystem location or credential fields:
 }
 ```
 
-The canonical template initializes both switches to `false`. In existing version-5
+The canonical template initializes both switches to `false`. In existing format-1
 state, an absent `integrations` object or absent supported entry is valid and means
 unconfigured/disabled. A present supported entry requires an object with Boolean
 `enabled`; malformed configuration makes the affected integration unavailable and
@@ -162,7 +162,7 @@ selection but need neither workspace registration nor enabled optional features.
 
 ## Initialization template and compatibility
 
-The canonical [state template](../agents/environment-manager/templates/state.json) supplies the supported environment format version and initialization defaults. Read its version; do not ask the human to supply it or infer it from a framework release.
+The [state contract](../agents/environment-manager/contract.json) is the authoritative machine-readable source for current and supported state versions. The canonical [state template](../agents/environment-manager/templates/state.json) supplies only initialization defaults. Validate both before initialization; do not ask the human to supply versions or infer them from a framework release.
 
 Leader startup delegates minimal initialization when `.hai_env/state.json` is
 absent and its location can be created safely. `.hai_env/` may already be a directory
@@ -173,84 +173,28 @@ resolved containment; reject a conflicting file, escaping symlink/junction, dang
 state link, or unreadable path. Recheck absence and use exclusive file creation.
 Validate and preserve an existing readable mandatory instructions file, loading its
 content before dependent work. If it is safely absent, create the empty fixed file
-exclusively, then create state from the template with three disabled features using
-exclusive creation. Create the parent directory only if absent. Recheck paths and
-absence immediately before writes; never replace an existing file or conflicting
-target. Create no catalogue or optional resources. Verify both mandatory resources
+exclusively. Prepare a state candidate in memory from the template defaults plus
+`state_format_version` set to the contract's `current_state_format_version`; the
+template itself remains unchanged and supplies no version. Validate the complete
+candidate under this convention before any state-file write. Create the parent
+directory only if absent. Recheck safe paths, state absence, inspected contract
+and template contents, and candidate validity immediately before exclusive state
+creation; stop on changed inputs and never replace an existing file or conflicting
+target. Read back and verify the current supported version, all template defaults,
+and the three disabled features with their default locations, then run the startup
+helper. Create no catalogue or optional resources. Verify both mandatory resources
 and that existing unrelated contents remain unchanged, rather
 than requiring an empty container. No feature-location questions or additional
 authorization precede this minimal startup action. The leader then recommends chat
 setup; the human may defer it or keep all features off.
 
-An existing malformed, unreadable, conflicting, or incompatible state is not absent;
+An existing malformed, unreadable, conflicting, or unsupported state is not absent;
 preserve and report it without reinitialization or implicit repair. A known partial
 initialization remains a reported failure, not permission for an automatic retry.
-Versions 1, 2, 3, and 4 are incompatible with version 5. Do not silently migrate,
-reinterpret legacy defaults as opted-in features, or create optional resources.
-Future incompatible format changes update this convention and the template version
-together. Migration requires explicit authority and verified preservation of data.
-
-### Authorized version-4 to version-5 migration
-
-1. Require explicit migration authority. Validate duplicate-free version-4 state
-   against its four-feature schema, required types, safe paths, and existing target
-   types, not against the version-5 template. Load an existing safe canonical
-   instructions file independently of the old flag. Preserve all three retained
-   features, their unknown properties, unrelated root/feature properties, profiles,
-   catalogues, records, and transcripts. Malformed source or unsafe/conflicting
-   paths require resolution before writes.
-2. Resolve legacy instruction content without deleting or changing its source.
-   Preserve an existing canonical file. If the old instructions were enabled at a
-   custom location, verify that source is readable. A missing canonical file may be
-   created exclusively with an exact byte copy of that active source. If canonical
-   and active custom contents differ, obtain an explicit content resolution; never
-   overwrite or merge either file automatically. A disabled custom file is preserved
-   as inactive legacy material, not silently copied into the new instructions.
-   Where there is no active custom source and the canonical file is safely absent,
-   create it empty exclusively. An existing canonical file becomes active regardless
-   of its old flag; instructions have no opt-out after this migration.
-3. Prepare version-5 state by removing only `features.agent_instructions` and
-   setting `compatible_version` to `5`. Validate the three retained features,
-   profiles, and canonical instructions against all new reservations, including
-   resolved aliases. Recheck state bytes, any source/canonical instruction bytes,
-   containment, target types, and absence immediately before writes. Stop if changed.
-4. Ensure the canonical instructions file is verified before replacing only the
-   unchanged inspected state. Read back both resources and run the startup helper;
-   verify version 5, absent retired entry, readable instructions with the intended
-   exact content, preserved settings/files, and reported independent issues. The
-   file and state changes are not a transaction: preserve and report partial results
-   without automatic deletion, rollback, overwrite, or retry. Missing instructions
-   in an already initialized version-5 environment require scoped repair, not this
-   migration or startup initialization.
-
-### Authorized version-3 to version-4 migration
-
-1. Validate duplicate-free version-3 state, all feature values, safe configured paths,
-   and the legacy `current_request` value without changing records. Preserve every
-   feature setting, including a custom requests location, and all unrelated properties.
-2. This migration is an exception to ordinary configuration-only validation: obtain
-   read-only validation of the configured store under the package's
-   [request convention](../agents/request-manager/conventions/request_conv.md).
-   Inspect direct request-folder states, not their unrelated historical contents.
-   A null pointer does not establish that the store is empty. If the store is absent,
-   require a null pointer; do not create it. If a non-null pointer exists, requests
-   must be enabled and it must identify the store's sole valid nonclosed fixed active
-   folder. A null pointer with active records, another nonclosed folder, invalid
-   record, or partial closure requires separately resolved migration handling; do
-   not silently drop an inconsistent pointer or repair, rename, or close records.
-3. Prepare state by removing only `current_request` and changing
-   `compatible_version` to `4`. Recheck state bytes, affected path facts, and any
-   inspected records immediately before writing. Stop if they changed. Preserve
-   files, custom store locations, other feature values, and unknown properties.
-4. Read back and verify version 4, absent pointer, exact preservation of all other
-   state values, and unchanged request records and unrelated resources. Report the
-   retained store location and that future request work is on demand; create no
-   collection state or replacement pointer. Preserve and report partial failures
-   without silent retries or rollback over concurrent changes.
-
-Version 4 is an intermediate format. Reaching current version 5 additionally
-requires the explicitly authorized version-4 to version-5 migration above.
-
-### Earlier migration history
-
-The version-2 to version-3 migration validates legacy registrations, writes their names, verbatim guides, and relative definition links into `.hai_env/agents/catalogue.md`, then removes only `agents` from state and sets `compatible_version` to `3`. Verify the catalogue before replacing state, preserve feature settings, the legacy current-request field, and unrelated properties, and stop on changed inputs or an existing conflicting catalogue. Do not invent missing guides or silently drop invalid entries or extra registration metadata; resolve such cases within the migration scope. These writes are not one transaction: preserve partial results and report any inconsistency rather than retrying automatically. Versions 3 and 4 are intermediate legacy formats, not the current success target; reaching version 5 requires both later authorized stages above. Authorization for a historical migration alone does not authorize extra stages.
+There is no implicit compatibility or migration path for earlier prototypes. In
+particular, `compatible_version` is rejected clearly; the prior prototype value `5`
+must not be interpreted as `state_format_version`. An explicitly authorized
+migration may rename/reset that field after validating the inspected state,
+preserving every other property and unrelated resource, and verifying the resulting
+format-1 state. Future format changes update the contract and this convention
+together; template edits alone never change the accepted state version.

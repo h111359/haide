@@ -15,6 +15,55 @@ import uuid
 
 FORMAT = 1
 PACKAGE_ROOT = Path(__file__).resolve().parent.parent
+VERSION_KEY = "specification_compatibility_version"
+CATALOGUE = "__catalogue__.md"
+
+
+def load_contract() -> int:
+    """Reject ambiguous contracts rather than choosing a duplicate JSON value."""
+    def unique_pairs(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"Duplicate contract key: {key}")
+            result[key] = value
+        return result
+
+    contract = json.loads(read_text(PACKAGE_ROOT / "contract.json"), object_pairs_hook=unique_pairs)
+    if not isinstance(contract, dict) or set(contract) != {VERSION_KEY}:
+        raise ValueError(f"Contract must contain exactly {VERSION_KEY}.")
+    target = contract[VERSION_KEY]
+    if type(target) is not int or target < 1:
+        raise ValueError("Specification compatibility target must be a positive JSON integer.")
+    return target
+
+
+def catalogue_cell(value: str | None) -> str:
+    """Keep authoritative strings literal in Markdown tables, including newlines."""
+    import html
+
+    return "".join(
+        html.escape(char, quote=True) if char in "&<>\"'" else
+        f"&#{ord(char)};" if char in "|\\`*_[]{}#!~\n\r\t" else char
+        for char in (value or "")
+    )
+
+
+def render_catalogue(nodes: list[dict]) -> str:
+    """Pure derived rendering; callers own the decision and authority to save."""
+    from urllib.parse import quote
+
+    ordered = sorted(nodes, key=lambda node: (len(Path(node["path"]).parts), Path(node["path"]).parts))
+    identities = {node["path"]: node["id"] for node in ordered}
+    lines = ["# Specification catalogue", "", "| Node ID | Parent ID | Kind | Type | Title | Location |", "| --- | --- | --- | --- | --- | --- |"]
+    for node in ordered:
+        path = node["path"]
+        parent = None if path == "." else identities.get(Path(path).parent.as_posix())
+        config = "__ncf__.md" if path == "." else f"{path}/__ncf__.md"
+        cells = [node["id"], parent, node["kind"], node["type"] if node["kind"] == "leaf" else None, node["title"]]
+        location = f"[__ncf__.md]({quote(config, safe='/.-_~')})"
+        lines.append("| " + " | ".join([*(catalogue_cell(cell) for cell in cells), location]) + " |")
+    return "\n".join(lines) + "\n"
 
 
 def read_text(path: Path) -> str:
@@ -101,6 +150,8 @@ class Audit:
         self.nodes: list[dict] = []
         self.ids: dict[str, str] = {}
         self.leaf_depths: list[int] = []
+        self.target_version = load_contract()
+        self.compatibility = dict(target=self.target_version, found=None, state="invalid")
 
     def relative(self, path: Path) -> str:
         return path.relative_to(self.root).as_posix()
@@ -151,7 +202,10 @@ class Audit:
     def registry(self) -> dict[str, str | None]:
         concept = read_text(PACKAGE_ROOT / "concepts/specification.md")
         registry = {}
-        for type_name in re.findall(r"\]\(\.\./conventions/([a-z]+(?:-[a-z]+)*)_conv\.md\)", concept):
+        leaf_types = re.search(r"^### Leaf types\s*\n(.*?)(?=^### |\Z)", concept, re.MULTILINE | re.DOTALL)
+        if not leaf_types:
+            raise ValueError("Missing Leaf types registry section.")
+        for type_name in re.findall(r"\]\(\.\./conventions/([a-z]+(?:-[a-z]+)*)_conv\.md\)", leaf_types[1]):
             body = read_text(PACKAGE_ROOT / f"conventions/{type_name}_conv.md")
             match = re.search(r"^## Content file\s*\n\s*`([^`\r\n/\\]+)`", body, re.MULTILINE)
             registry[type_name] = match[1] if match else None
@@ -252,6 +306,23 @@ class Audit:
             self.issue("error", "unreadable", path, str(error))
             return children
         metadata = self.metadata(text, path)
+        header = re.match(r"\A---\n([\s\S]*?)\n---(?:\n|\Z)", text)
+        present = bool(header and re.search(rf"^{VERSION_KEY}:", header[1], re.MULTILINE))
+        if folder == self.root:
+            # Distinguish absent from present-but-unreadable/duplicated metadata.
+            duplicate = any(issue["code"] == "duplicate-key" and issue["path"] == path and issue["detail"].endswith(VERSION_KEY) for issue in self.issues)
+            found = metadata.get(VERSION_KEY)
+            state = "unmarked" if header and not present else "invalid"
+            if not duplicate and found and re.fullmatch(r"[1-9][0-9]*", found):
+                # Compare canonical decimal strings without integer length limits.
+                target = str(self.target_version)
+                relation = (len(found), found)
+                state = "current" if found == target else "older" if relation < (len(target), target) else "newer"
+            self.compatibility = dict(target=self.target_version, found=found, state=state)
+            if state != "current":
+                self.issue("error", "compatibility-" + state, path, "Read-only assessment only; dependent edits require the contract-versioning plan and approval process.")
+        elif present:
+            self.issue("error", "compatibility-location", path, "Compatibility metadata is root-only.")
         for key in ("id", "title", "kind"):
             if not metadata.get(key):
                 self.issue("error", "required-metadata", path, f"Missing readable {key}")
@@ -268,8 +339,11 @@ class Audit:
                 self.issue("error", "uuid", path, "id must be a UUID in canonical hyphenated form.")
         kind = metadata.get("kind")
         size = len(text)
-        self.nodes.append(dict(path=path, id=metadata.get("id"), kind=kind, type=metadata.get("type"), depth=depth, children=len(children), config_codepoints=size))
-        content = [file for file in files if file.name != "__ncf__.md"]
+        self.nodes.append(dict(path=path, id=metadata.get("id"), title=metadata.get("title"), kind=kind, type=metadata.get("type"), depth=depth, children=len(children), config_codepoints=size))
+        for file in files:
+            if file.name == CATALOGUE and folder != self.root:
+                self.issue("error", "catalogue-location", self.relative(file), "Catalogue is reserved root-only metadata.")
+        content = [file for file in files if file.name != "__ncf__.md" and not (folder == self.root and file.name == CATALOGUE)]
         if kind == "branch":
             if size > 4000:
                 self.issue("error", "config-size", path, f"{size} > 4000 code points")
@@ -298,9 +372,26 @@ class Audit:
         else:
             self.issue("error", "kind", path, "kind must be branch or leaf.")
         for file in files:
-            if file.suffix.lower() == ".md":
+            if file.suffix.lower() == ".md" and file.name != CATALOGUE:
                 self.check_links(file)
         return children
+
+    def check_catalogue(self):
+        """Exact canonical comparison checks rows, fields, links, duplicates/order."""
+        file = self.root / CATALOGUE
+        try:
+            if is_alias(file) or not file.is_file():
+                self.issue("error", "catalogue-unreadable", CATALOGUE, "Catalogue must be a regular file, never an alias.")
+                return
+            actual = read_text(file)
+        except FileNotFoundError:
+            self.issue("error", "catalogue-missing", CATALOGUE, "Missing derived root catalogue; render a candidate with --render-catalogue.")
+            return
+        except (OSError, UnicodeError) as error:
+            self.issue("error", "catalogue-unreadable", CATALOGUE, str(error))
+            return
+        if actual != render_catalogue(self.nodes):
+            self.issue("error", "catalogue-stale", CATALOGUE, "Catalogue differs from canonical inventory: check completeness, duplicates, fields, relative __ncf__.md links, and breadth-first lexical order; regenerate after authorized changes.")
 
     def compare(self, baseline: Path) -> list[dict]:
         before = json.loads(read_text(baseline))
@@ -342,12 +433,14 @@ class Audit:
             self.issue("error", "no-leaves", ".", "No readable leaf metadata found.")
         elif maximum - minimum > 1:
             self.issue("error", "balance", ".", f"Leaf depth range {minimum}..{maximum} exceeds one level.")
+        self.check_catalogue()
         changes = self.compare(baseline) if baseline else None
         result = dict(
             format=FORMAT,
             root=self.root_argument,
             summary=dict(nodes=len(self.nodes), leaves=len(self.leaf_depths), min_depth=minimum, max_depth=maximum, errors=sum(issue["severity"] == "error" for issue in self.issues), warnings=sum(issue["severity"] == "warning" for issue in self.issues)),
             issues=self.issues,
+            compatibility=self.compatibility,
             manual_review=[
                 "Meaning, classification, canonical facts, approval, leaf content requirements, navigation descriptions, and identity continuity.",
                 "Only flat scalar YAML and simple pipe Children tables are checked. Link existence only: no anchors, reference links, HTML, escaped/nested Markdown, or external URLs.",
@@ -371,11 +464,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--workspace", type=Path, help="Optional trusted workspace boundary; root must then be relative and strictly inside it")
     parser.add_argument("--inventory", action="store_true")
     parser.add_argument("--baseline", type=Path)
+    parser.add_argument("--render-catalogue", action="store_true", help="Print derived Markdown only; never save. Missing/stale catalogue and compatibility assessment findings are allowed, all other errors block rendering")
     root = None
     try:
         args = parser.parse_args(argv)
         root = args.root
-        result = Audit(args.workspace, root).run(args.inventory, args.baseline)
+        result = Audit(args.workspace, root).run(args.inventory or args.render_catalogue, args.baseline)
+        if args.render_catalogue:
+            allowed = {"catalogue-missing", "catalogue-stale", "compatibility-unmarked", "compatibility-older", "compatibility-newer", "compatibility-invalid"}
+            if any(issue["severity"] == "error" and issue["code"] not in allowed for issue in result["issues"]):
+                raise ValueError("Catalogue rendering blocked by tree errors; run the JSON audit for assessment.")
+            print(render_catalogue(result["nodes"]), end="")
+            print("Candidate only: no files changed; rendering does not validate compatibility, grant edit approval, or record migration completion.", file=sys.stderr)
+            return 0
         code = 1 if result["summary"]["errors"] else 0
     except (OSError, UnicodeError, ValueError, TypeError) as error:
         result = dict(format=FORMAT, root=root, fatal=str(error))

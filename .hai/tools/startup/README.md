@@ -35,7 +35,7 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
   validity so missing instructions are not mistaken for absent state. Only safely
   absent state permits routing minimal initialization to environment-manager;
   initialized missing instructions need scoped repair. This command never initializes.
-- `compatible_version` and the three optional `features`: returned only for validated core state;
+- `current_state_format_version`, `state_format_version`, and the three optional `features`: returned only for validated core state. The format contract comes from the installed framework package, independently of the target workspace's `.hai` copy;
   each feature has its validated flag, location, target type, and availability.
 - `integrations`: `git` and `github` each expose `enabled` and `status`
   (`enabled`, `disabled`, `unconfigured`, `invalid`, or `unverified`). They are
@@ -82,7 +82,8 @@ exit as permission to initialize or repair. Missing Python means the check did n
 run, and is never validation success.
 
 Checks include duplicate keys at every JSON depth, nonstandard numeric constants,
-required state types and compatibility against the canonical template (version 5),
+required state types and compatibility against the installed state-format contract,
+canonical template defaults,
 optional Git/GitHub integration types,
 legacy properties and the retired `features.agent_instructions` setting, configured
 paths even for disabled features, target types, reserved locations, feature collisions
@@ -108,11 +109,11 @@ or establish runtime support. Results describe a read-only observation, not a
 transaction or a persistent cache. Rerun if relevant files/paths change; any later
 writer must independently recheck its inputs and containment before writing.
 
-Version-4 state is reported incompatible without migration. Initialization and
-explicit version-4 to version-5 migration belong to environment-manager under the
-state convention: ensure the mandatory file first, preserve existing/legacy content,
-and remove only the retired setting while retaining the three optional features.
-The read-only helper tests nonmutation and diagnostic results, not manager writes.
+State containing the retired `compatible_version` key is reported incompatible
+without migration. An explicitly authorized prototype reset belongs to
+environment-manager under the state convention; startup never interprets or rewrites
+legacy state. The read-only helper tests nonmutation and diagnostic results, not
+manager writes.
 
 Tests use isolated temporary workspaces, Unicode/CRLF fixtures, isolated CLI
 processes, filesystem snapshots, state/profile/catalogue failures, and symlink/

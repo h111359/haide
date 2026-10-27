@@ -11,8 +11,9 @@ Use exactly one current `.hai/release-<version>.json` in the installed framework
 Its filename version and content `version` must match the selected bundle version,
 `v<version>` tag, and `hai-<version>.zip` asset. Its `contracts` information records
 included contract targets. Do not add a second fixed `release.json` authority.
-Before first adoption, explicitly establish the JSON schema, contract identities,
-and compatibility baselines; this policy creates none of those records itself.
+The manifest is a release artifact created only for an authorized candidate with a
+selected bundle version; adopting independent compatibility declarations does not
+create a release. No first bundle version is implied by compatibility baseline 1.
 
 An upgrade replaces the previously installed release manifest with the new one;
 it must not accumulate stale manifests. Remove only positively identified prior
@@ -20,6 +21,56 @@ release metadata within an authorized upgrade, preserving unrelated files. Multi
 malformed, or inconsistent current manifests block release identity verification.
 A new source candidate must remove its superseded manifest from the released tree.
 Published tags and release bytes are immutable; corrections use a new release.
+
+## Manifest schema and consistency
+
+The manifest is a UTF-8 JSON object with exactly `version` and `contracts`.
+`version` is the selected nonempty SemVer string. `contracts` is an object with
+exactly `environment_state` and `specification`, each an object with exactly the
+fields shown below. This is a schema illustration, not a release record or a
+selected bundle version:
+
+```json
+{
+  "version": "<selected SemVer>",
+  "contracts": {
+    "environment_state": {
+      "current_state_format_version": 1,
+      "supported_state_format_versions": [1]
+    },
+    "specification": {
+      "specification_compatibility_version": 1
+    }
+  }
+}
+```
+
+| Manifest entry | Owning declaration within the candidate |
+| --- | --- |
+| `contracts.environment_state` | `.hai/agents/environment-manager/contract.json` in its entirety |
+| `contracts.specification` | `.hai/agents/specification-manager/contract.json` in its entirety |
+
+Reject duplicate JSON keys at any depth, nonstandard numeric constants, extra or
+missing schema keys, and malformed values. All version numbers in `contracts`
+are positive integers, excluding Booleans. `supported_state_format_versions` is
+a nonempty array of unique positive integers including `current_state_format_version`.
+The specification declaration contains exactly its positive integer
+`specification_compatibility_version`. Baseline 1 is established in each owning
+package, independently; future values must come from authorized owner changes,
+never from the HAI SemVer number. Tree-root applied markers are strings governed
+by specification-manager and are not copied into this manifest.
+
+Release-manager MUST validate both declarations under their owning rules and
+compare each manifest entry field for field, including the supported-version
+array, against the declaration from the same candidate source. Check filename,
+content version, planned tag and asset name together. Repeat these checks on the
+verified exact-commit export before packaging and on the unpacked archive before
+readiness. Record the checked paths, source commit, values and results. An installed
+workspace copy cannot substitute for the candidate's declarations. Missing,
+malformed, unsupported or inconsistent metadata blocks dependent compatibility
+claims and publication readiness; return the owning dependency through leader,
+without changing declarations to make a release pass. No release helper is implied
+by this procedure; report which checks were actually performed.
 
 ## Version recommendation
 

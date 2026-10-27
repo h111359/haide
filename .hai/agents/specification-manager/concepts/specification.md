@@ -22,6 +22,25 @@
 - A leaf contains __ncf__.md and a file in format specific to the lead type.
 - A node is exclusively a branch or a leaf.
 - The caller supplies the specification root explicitly. A path alone does not authorize creating a tree or changing its contents.
+- The root also contains `__catalogue__.md`, reserved derived metadata permitted
+  for either a branch or a leaf. It is neither a content file nor a child node;
+  it adds nothing to leaf-content counts, node counts, or balance depth. No other
+  node may contain a catalogue.
+
+### Contract compatibility
+
+This whole specification contract has its own positive integer version in
+[`../contract.json`](../contract.json), independent of environment compatibility.
+The current baseline is 1. The root `__ncf__.md`, whether branch or leaf, carries
+`specification_compatibility_version: "1"` as flat string metadata; descendants
+do not carry that field. The
+[contract versioning convention](../conventions/contract-versioning_conv.md)
+owns the baseline, structured transition ledger, applicability and verification
+rules, and the mandatory plan-and-approval gate for all migrations and adoption,
+including marker-only adoption. Check when specification work begins. An
+unmarked tree needs assessment and explicitly approved adoption; older, newer,
+and invalid markers never authorize silent edits or version changes. Read-only
+assessment remains available. New authorized trees start directly at version 1.
 
 ### Organization and balance
 - Organize upper levels by documentation subject families, such as product, architecture, engineering, operations, and user guidance.
@@ -51,6 +70,10 @@ Additional required metadata for leaves:
 - type: one registered leaf-type identifier.
 - status: draft, approved, or deprecated.
 
+Additional required metadata for the root only:
+- specification_compatibility_version: the canonical positive decimal string
+  matching this package's contract, currently `"1"`.
+
 ### Branch Markdown:
 - A Scope section describing the node’s subject.
 - A Children table identifying every immediate child folder and explaining its purpose, scope, and distinguishing topics.
@@ -75,6 +98,33 @@ Leaf-type conventions
 - Use the convention filename without `_conv.md` as the registered `type` identifier. Identifiers use lowercase words separated by hyphens.
 - Each convention defines the format and required content of the leaf's single content file. The content file is separate from __ncf__.md.
 - In each type entry below, Specification links to the convention for that type, relative to this file.
+
+### Derived root catalogue
+
+`__catalogue__.md` is a compact, generated Markdown table covering every node,
+including the root, exactly once. It provides structural discovery without
+recursively reading all node configurations. Agents may read it when an overview
+helps, then read the relevant actual node files; recursively reading every
+catalogue or every configuration is not required. A stale catalogue is a finding,
+never authority over a node's canonical metadata.
+
+Columns, in order: `Node ID | Parent ID | Kind | Type | Title | Location`.
+Copy the stable UUID, physical parent's UUID, kind, leaf type, and title from
+actual `__ncf__.md` files. Root Parent ID and branch Type cells are empty.
+Location is a root-relative Markdown link to that node's actual `__ncf__.md`;
+root links to `__ncf__.md`. No summaries, status, timestamps, or copied revision
+fields belong here. The catalogue does not replace descriptive Children tables
+or leaf content. It is derived from the tree, never edited as a second authority.
+
+Use the audit helper's `--render-catalogue` to produce the canonical candidate
+without filesystem writes; the caller/agent saves it only within authorized
+scope. Order is breadth first from root, sorting sibling folder names by Python
+Unicode code-point order, case sensitively. Escape literal metadata for Markdown
+table cells and percent-encode link paths. Refresh after node additions/removals,
+moves, kind/type/title/UUID changes, or parent changes; content-only updates need
+no catalogue change. The audit compares the entire canonical rendering, detecting
+missing/extra/duplicate rows, stale fields, incorrect links and ordering. Verify
+against the actual tree before relying on a suspected stale catalogue.
 
 ### Classification rules
 
@@ -503,5 +553,8 @@ Use for the meaning of top-level folders and files, important descendants, group
 
 - `../SKILL.md`: specification management procedures and input contract.
 - `../conventions/`: registered leaf content formats linked in the type entries above.
+- `../conventions/contract-versioning_conv.md`: independent contract compatibility,
+  baseline and transition/adoption rules; it is not a registered leaf type.
+- `../contract.json`: machine-readable target specification compatibility version.
 
 

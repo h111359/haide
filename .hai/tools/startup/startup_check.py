@@ -16,6 +16,26 @@ FEATURES = {"requests": "directory", "specification": "directory", "chronicles":
 INTEGRATIONS = ("git", "github")
 INSTRUCTIONS = ".hai_env/agent_instructions.md"
 TEMPLATE = ".hai/agents/environment-manager/templates/state.json"
+CONTRACT = Path(__file__).resolve().parents[2] / "agents/environment-manager/contract.json"
+
+
+def state_contract(path: Path | None = None) -> dict:
+    """Load and validate the authoritative format contract shipped with this helper."""
+    path = CONTRACT if path is None else path
+    try:
+        contract = load_json(path)
+    except (Invalid, OSError, UnicodeError) as exc:
+        raise Invalid(f"State format contract is invalid: {exc}") from exc
+    if (not isinstance(contract, dict)
+            or set(contract) != {"current_state_format_version", "supported_state_format_versions"}):
+        raise Invalid("State format contract must contain exactly current_state_format_version and supported_state_format_versions")
+    current = contract["current_state_format_version"]
+    supported = contract["supported_state_format_versions"]
+    if (type(current) is not int or current <= 0 or not isinstance(supported, list)
+            or not supported or any(type(version) is not int or version <= 0 for version in supported)
+            or len(set(supported)) != len(supported) or current not in supported):
+        raise Invalid("State format contract has invalid versions; use unique positive integers and include the current version")
+    return contract
 
 
 def overlaps(left: Path, right: Path) -> bool:
@@ -85,10 +105,9 @@ def instruction_path(workspace: Path) -> Path:
     return target
 
 
-def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, dict, dict, list[dict]]:
+def state_context(workspace: Path, state: dict, template: dict,
+                  contract: dict) -> tuple[dict, dict, dict, list[dict]]:
     if (not isinstance(template, dict)
-            or type(template.get("compatible_version")) is not int
-            or template["compatible_version"] <= 0
             or not isinstance(template.get("features"), dict)
             or set(template["features"]) != set(FEATURES)):
         raise Invalid("Canonical state template is invalid")
@@ -106,12 +125,15 @@ def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, d
     template_push = template_integrations.get("git", {}).get("auto_push")
     if not isinstance(template_push, dict) or template_push.get("enabled") is not False:
         raise Invalid("Canonical template requires automatic push to be disabled")
-    if (not isinstance(state, dict) or type(state.get("compatible_version")) is not int
-            or state["compatible_version"] != template["compatible_version"]
+    if isinstance(state, dict) and "compatible_version" in state:
+        raise Invalid("Incompatible core state: legacy compatible_version is unsupported; migrate explicitly to state_format_version")
+    version = state.get("state_format_version") if isinstance(state, dict) else None
+    if (not isinstance(state, dict) or type(version) is not int
+            or version not in contract["supported_state_format_versions"]
             or "agents" in state or "current_request" in state
             or not isinstance(state.get("features"), dict)
             or "agent_instructions" in state["features"]):
-        raise Invalid("Incompatible core state: expected template version and features; no legacy agents/current_request or retired agent_instructions setting")
+        raise Invalid("Incompatible core state: expected a supported state_format_version and features; no legacy agents/current_request or retired agent_instructions setting")
     reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agents", INSTRUCTIONS]
     # Validate both the spelling and resolved location, including aliases to reserved paths.
     reserved_paths = [workspace / name for name in reserved]
@@ -297,6 +319,7 @@ def check(workspace: Path) -> dict:
         issues.append({"code": "agent_instructions", "path": INSTRUCTIONS, "message": str(exc)})
 
     try:
+        contract = state_contract()
         container = safe_path(workspace, ".hai_env")
         if container.exists() and not container.is_dir():
             raise Invalid(".hai_env must be a directory")
@@ -306,10 +329,12 @@ def check(workspace: Path) -> dict:
         else:
             state = load_json(state_path)
             template = load_json(safe_path(workspace, TEMPLATE))
-            features, locations, integrations, integration_issues = state_context(workspace, state, template)
+            features, locations, integrations, integration_issues = state_context(
+                workspace, state, template, contract)
             result.update(environment="valid", features=features,
                           integrations=integrations,
-                          compatible_version=state["compatible_version"])
+                          current_state_format_version=contract["current_state_format_version"],
+                          state_format_version=state["state_format_version"])
             issues.extend(integration_issues)
     except (Invalid, OSError, UnicodeError) as exc:
         issues.append({"code": "state", "path": ".hai_env/state.json", "message": str(exc)})

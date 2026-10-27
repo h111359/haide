@@ -75,6 +75,17 @@ supplied for an HAI invocation.
 - Keep product information accurate, discoverable, and nonduplicated.
 - Maintain meaningful structure and verifiable tree invariants.
 - Preserve information and identity across specification reorganizations.
+- Check this package's independent specification contract when specification
+  work begins. Follow [contract versioning](conventions/contract-versioning_conv.md)
+  before dependent edits. Every migration or adoption, including marker-only
+  changes, needs an explicit scoped plan and human user approval, relayed by a
+  coordinating caller with evidence when applicable. The coordinator cannot
+  substitute its own approval. An unmarked,
+  older, newer, or invalid tree permits read-only assessment, never an implicit
+  upgrade or marker rewrite. General HAI startup does not perform this check.
+- Maintain the root-only derived `__catalogue__.md` from authoritative node
+  metadata; use it for compact structural discovery when useful. It is reserved
+  metadata for either a root branch or root leaf, outside node/content counts.
 - Apply the workspace discovery boundaries in
   [Workspace structure convention](conventions/workspace-structure_conv.md#discovery-boundaries)
   before registering workspace paths or reverse-engineering implementation
@@ -89,6 +100,9 @@ Read these before working on a specification:
 
 - [Specification format](concepts/specification.md): authoritative structure,
   classification, navigation, leaf-type registry, and content lifecycle rules.
+- [Contract versioning](conventions/contract-versioning_conv.md) and
+  [package contract](contract.json): independent target version, baseline,
+  transition applicability, mandatory migration/adoption approval and verification.
 
 Read only this package's `conventions/<type>_conv.md` files for leaf types
 being created or changed. When promoting request or other temporary source
@@ -110,8 +124,16 @@ knowledge already available in context.
    containment. A path does not authorize creating a specification. Create a
    new tree only when the human's task authorizes it and meaningful content
    is available. Do not create a tree merely to satisfy inspection.
-3. Run the audit helper below before editing an existing tree to record
-   pre-existing issues. Read the root `__ncf__.md`, then navigate
+3. Read the package contract and root `__ncf__.md`; run the read-only audit
+   before dependent edits to assess compatibility and pre-existing issues.
+   For an unmarked/older/newer/invalid tree follow the contract-versioning
+   assessment, scoped plan and approval process before any migration writes,
+   including marker-only adoption. An incompatible package contract is a
+   dependency, never permission to infer a version. Read-only inventories remain
+   available for tree assessment. Create an authorized new tree directly at the
+   target version with meaningful content and verify it before reporting success.
+   For a compatible tree, use the root catalogue when structural overview helps,
+   then navigate
    descriptions to relevant nodes. Load only the content and linked
    context needed for the task. Use the audit helper below for structural
    inspection; add `--inventory`
@@ -144,6 +166,8 @@ knowledge already available in context.
    status.
 5. Refresh each affected node description and its parent's Children
    table so navigation accurately describes the resulting content.
+6. Refresh the derived root catalogue when its inventory fields change, using
+   the helper's read-only rendering and saving only within authorized scope.
 
 ### Discover workspace information
 
@@ -205,6 +229,9 @@ knowledge already available in context.
 6. Regroup meaningful existing subjects to maintain global balance.
    Surface a conflict to the caller before applying a restructuring
    that cannot satisfy the specification's limits.
+7. Regenerate the root catalogue from the resulting node metadata. Verify every
+   node exactly once, parent UUIDs, root-relative configuration links, and the
+   deterministic ordering through the helper; do not copy summaries or status.
 
 ### Verification and handoff
 
@@ -227,7 +254,9 @@ the HAI containment boundary. A standalone root does not establish that boundary
 Rerun this read-only helper after the final edits and before handoff.
 Use it for metadata, IDs, topology, global balance,
 configuration sizes, Children-table coverage, content filenames, and
-simple relative-link checks. Use `--inventory` for structural context and
+simple relative-link checks, compatibility, and the complete derived catalogue.
+Use `--render-catalogue` for a read-only Markdown candidate, never as an adoption
+approval or a compatibility validation result. Use `--inventory` for structural context and
 `--baseline <saved-inventory.json>` after restructuring to compare IDs.
 Resolve or report each error and review warnings; do not repeat the
 helper's supported checks by manually reading every file.
@@ -237,7 +266,11 @@ classification, sources, approval status, preservation of meaning,
 canonical facts, navigation descriptions, and references from outside
 the tree. Review syntax the helper cannot parse and the meaning of
 identity changes. A zero exit code is not proof of full specification
-validity. Run [fixture tests](scripts/test_audit_specification.py) when modifying the
+validity. For migrations, verify all target obligations and preservation evidence
+before the live target marker, then verify the final tree. Report applied only
+after success; stop on partial failure, report actual marker/files and failed or
+unrun checks, and reassess plan applicability before any retry.
+Run [fixture tests](scripts/test_audit_specification.py) when modifying the
 helper itself, rather than on every specification edit.
 
 Return the changed paths, content and organization changes, verification
@@ -252,6 +285,7 @@ Return changed paths, content and organization changes, verification results and
 ## References
 
 - [Specification format](concepts/specification.md) - structure, classification, type registry, and lifecycle - required before specification work.
+- [Contract versioning](conventions/contract-versioning_conv.md) and [package contract](contract.json) - target version, baseline, transition ledger, adoption/migration gates and verification - required when specification work begins; not general startup.
 - This package's `conventions/<type>_conv.md` files - leaf content formats - conditional for types created or changed; read only those types.
 - [Workspace structure convention](conventions/workspace-structure_conv.md#discovery-boundaries) - discovery exclusions and library boundaries - required before mapping workspace paths or reverse-engineering implementation.
 - [Audit helper instructions](scripts/README.md) - runtime, paths, usage, and limits - required on first audit use.
