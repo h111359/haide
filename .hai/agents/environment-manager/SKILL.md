@@ -36,7 +36,9 @@ safely absent, preserving existing files and unrelated resources. Existing
 initialized environments require scoped repair for missing instructions or explicit
 authority for migration. Feature configuration requires the human's choices for
 the three optional features; profile setup requires requested mappings or agreed
-choices and current runtime evidence. Retrieve supplied choices before asking.
+choices and current runtime evidence. Enabling automatic push also requires fresh
+readiness evidence from leader/git-manager for the actual repository and remote.
+Retrieve supplied choices and evidence before asking.
 
 ## Optional inputs
 
@@ -147,10 +149,11 @@ validated summary and issues without repeating already supplied unchanged files.
 ### Configure Git and GitHub integrations
 
 1. Read and validate the mandatory instructions, current core state, and integration settings. Missing `integrations` or a missing supported entry is valid and means unconfigured/disabled. A malformed existing entry requires explicitly scoped repair before replacing that entry.
-2. Use the human's explicit choices for `integrations.git.enabled` and `integrations.github.enabled`; retain every unmentioned value and unknown property. These switches have no location, credential, remote, or branch fields. Do not store secrets.
-3. Recheck the inspected state and safe workspace containment before writing. Change only chosen Boolean values, preserve all other root and nested properties, and keep the environment format version unchanged.
-4. Read back the state and run the startup helper. Verify core state and mandatory instructions remain valid, each integration reports the requested state, and unrelated state properties are preserved. Report partial failure without silent retry or repair.
-5. Return validated Git/GitHub status to leader. Enablement permits routing within that integration's scope but does not grant authority for destructive repository changes or publication; those require established authority.
+2. Use the human's explicit choices for `integrations.git.enabled`, `integrations.github.enabled`, and `integrations.git.auto_push.enabled`; retain every unmentioned value and unknown property. These switches have no location, credential, remote, or branch fields. Do not store secrets or readiness evidence in state.
+3. Before enabling auto-push, require fresh evidence from leader/git-manager for this workspace's actual repository and remote: Git is installed; the selected HTTPS or SSH authentication works noninteractively; remote write access is verified; and the requested target can be pushed without force. Environment-manager does not execute Git or GitHub commands. If evidence is missing, stale, incomplete, or fails any prerequisite, refuse to enable auto-push and preserve/set it to `false`; do not install tooling, alter authentication, or perform a smoke push. Auto-push also requires Git integration enabled; if Git is disabled, unconfigured, or invalid, treat auto-push as unavailable even if its stored value is true.
+4. Recheck the inspected state and safe workspace containment before writing. Change only chosen Boolean values, preserve all other root and nested properties, and keep the environment format version unchanged.
+5. Read back the state and run the startup helper. Verify core state and mandatory instructions remain valid, each integration and push policy report the requested state, and unrelated state properties are preserved. The helper reports saved auto-push configuration only; it does not establish live push readiness. Report partial failure without silent retry or repair.
+6. Return validated Git/GitHub and auto-push status to leader. Enablement permits routing within that integration's scope but does not grant authority for destructive repository changes or publication; those require established authority. Git-manager must recheck live prerequisites immediately before any push because credentials and remote permissions can change.
 
 ### Migrate explicitly authorized legacy state
 
@@ -171,7 +174,8 @@ resolution rather than silently discarded data or automatic repair.
 
 Return environment condition, mandatory instructions status and text, profile
 status and runtime availability, validated state/catalogue entries, optional feature
-flags/locations, Git/GitHub integration flags and statuses, operations and verification,
+flags/locations, Git/GitHub integration and auto-push flags and statuses, supplied
+readiness evidence and its limits, operations and verification,
 unresolved issues, and setup choices.
 Identify excluded registrations and limits. Never claim initialization, migration,
 or configuration success before verifying the mandatory resources and requested work.

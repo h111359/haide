@@ -143,6 +143,9 @@ invalid integrations are not bypassed through another role or tool. Ordinary
 filesystem work and definition validation do not require Git. Integration enablement
 permits scoped operations; it does not require approval for every routine check or
 grant authority for unrelated, destructive, or otherwise unauthorized publication.
+Agent-executed pushes additionally require valid enabled automated-push settings;
+off means manual pushing, with no tool or role bypass. Leader obtains fresh
+git-manager readiness evidence before environment-manager may enable that capability.
 
 Every commit-producing operation requires a fresh pre-commit chronicle refresh
 through leader before git-manager creates the commit. Follow git-manager's

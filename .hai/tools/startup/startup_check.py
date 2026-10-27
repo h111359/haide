@@ -103,6 +103,9 @@ def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, d
                    or template_integrations[name].get("enabled") is not False
                    for name in INTEGRATIONS)):
         raise Invalid("Canonical template requires disabled Git and GitHub integrations")
+    template_push = template_integrations.get("git", {}).get("auto_push")
+    if not isinstance(template_push, dict) or template_push.get("enabled") is not False:
+        raise Invalid("Canonical template requires automatic push to be disabled")
     if (not isinstance(state, dict) or type(state.get("compatible_version")) is not int
             or state["compatible_version"] != template["compatible_version"]
             or "agents" in state or "current_request" in state
@@ -139,11 +142,15 @@ def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, d
     if configured is None and "integrations" not in state:
         integrations = {name: {"enabled": False, "status": "unconfigured"}
                         for name in INTEGRATIONS}
+        integrations["git"]["auto_push"] = {"enabled": False, "status": "unconfigured",
+                                             "readiness": "not_checked"}
     elif not isinstance(configured, dict):
         integration_issues.append({"code": "integration", "path": "integrations",
                                    "message": "Integrations must be an object; Git and GitHub are unavailable"})
         integrations = {name: {"enabled": False, "status": "invalid"}
                         for name in INTEGRATIONS}
+        integrations["git"]["auto_push"] = {"enabled": False, "status": "unverified",
+                                             "readiness": "not_checked"}
     else:
         for name in INTEGRATIONS:
             value = configured.get(name)
@@ -158,6 +165,30 @@ def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, d
                 integrations[name] = {
                     "enabled": value["enabled"],
                     "status": "enabled" if value["enabled"] else "disabled"}
+            if name == "git":
+                push = value.get("auto_push") if isinstance(value, dict) else None
+                if ((isinstance(value, dict) and "auto_push" not in value)
+                        or name not in configured):
+                    integrations[name]["auto_push"] = {
+                        "enabled": False, "status": "unconfigured", "readiness": "not_checked"}
+                elif not isinstance(push, dict) or type(push.get("enabled")) is not bool:
+                    integrations[name]["auto_push"] = {
+                        "enabled": False, "status": "invalid", "readiness": "not_checked"}
+                    integration_issues.append({
+                        "code": "integration", "path": "integrations.git.auto_push",
+                        "message": "Automatic push policy requires Boolean enabled; automatic push is unavailable"})
+                else:
+                    if push["enabled"] and integrations[name]["status"] in {"invalid", "unconfigured", "disabled"}:
+                        integrations[name]["auto_push"] = {
+                            "enabled": False, "status": "invalid", "readiness": "not_checked"}
+                        integration_issues.append({
+                            "code": "integration", "path": "integrations.git.auto_push",
+                            "message": "Automatic push requires integrations.git.enabled to be true"})
+                    else:
+                        integrations[name]["auto_push"] = {
+                            "enabled": push["enabled"],
+                            "status": "enabled" if push["enabled"] else "disabled",
+                            "readiness": "not_checked"}
     return features, locations, integrations, integration_issues
 
 
@@ -239,8 +270,11 @@ def check(workspace: Path) -> dict:
     if not workspace.is_dir():
         raise Invalid("Workspace must be an existing directory")
     result = {"ok": False, "environment": "invalid", "features": {},
-              "integrations": {name: {"enabled": False, "status": "unverified"}
-                               for name in INTEGRATIONS},
+              "integrations": {
+                  "git": {"enabled": False, "status": "unverified",
+                          "auto_push": {"enabled": False, "status": "unverified",
+                                        "readiness": "not_checked"}},
+                  "github": {"enabled": False, "status": "unverified"}},
               "agent_instructions": None, "instructions_status": "unverified",
               "agents": [], "catalogues": {},
               "profiles": {"status": "unverified", "runtime_availability": "not_checked"},
@@ -279,8 +313,11 @@ def check(workspace: Path) -> dict:
             issues.extend(integration_issues)
     except (Invalid, OSError, UnicodeError) as exc:
         issues.append({"code": "state", "path": ".hai_env/state.json", "message": str(exc)})
-        result["integrations"] = {name: {"enabled": False, "status": "unverified"}
-                                   for name in INTEGRATIONS}
+        result["integrations"] = {
+            "git": {"enabled": False, "status": "unverified",
+                    "auto_push": {"enabled": False, "status": "unverified",
+                                  "readiness": "not_checked"}},
+            "github": {"enabled": False, "status": "unverified"}}
     result["state_status"] = result["environment"]
 
     framework = catalogue(workspace, ".hai")

@@ -49,7 +49,7 @@ filesystem location or credential fields:
 
 ```json
 "integrations": {
-  "git": { "enabled": false },
+  "git": { "enabled": false, "auto_push": { "enabled": false } },
   "github": { "enabled": false }
 }
 ```
@@ -60,9 +60,25 @@ unconfigured/disabled. A present supported entry requires an object with Boolean
 `enabled`; malformed configuration makes the affected integration unavailable and
 is reported separately, without invalidating otherwise valid core state or
 mandatory instructions. Unknown root and integration properties are preserved and
-never enable an integration. Git and GitHub are independent switches. State stores
-no credentials, remote identity, or branch choice. Integration enablement does not
-grant authority for destructive repository changes or publication.
+never enable an integration. Git and GitHub are independent switches.
+`integrations.git.auto_push` is a separate subordinate Boolean policy, defaulting
+to `false`. When its entry is absent in an existing state it is unconfigured and
+disabled. A present entry must be an object with Boolean `enabled`; malformed
+values make automatic push unavailable without invalidating the Git integration or
+core state. Enabling auto-push while `integrations.git.enabled` is false or
+unconfigured is invalid and unavailable.
+
+The startup helper validates this saved policy only; it does not check current
+tooling, authentication, repository identity, remote write access, or branch rules.
+Environment-manager may enable it only after receiving fresh Git readiness evidence
+from leader/git-manager for the actual repository and remote: Git is installed,
+the selected HTTPS/SSH authentication is configured for noninteractive use, remote
+write access is verified, and the requested target can be pushed without force.
+Do not send a smoke push or change credentials/settings to establish readiness.
+Runtime pushes must recheck current prerequisites because authentication and remote
+permissions can change. State stores no credentials, remote identity, or branch
+choice. Neither integration enablement nor auto-push setting grants authority for
+destructive repository changes or publication.
 
 ### Paths and validation
 

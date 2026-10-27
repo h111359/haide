@@ -10,6 +10,13 @@ Validate gates independently. Missing or malformed settings are not authorizatio
 to execute the affected operation elsewhere. Runtime/tool-availability and HAI
 configuration diagnosis may continue without repository operations.
 
+Agent-executed push also requires `integrations.git.auto_push.enabled: true`.
+Missing is false; malformed automated-push configuration blocks push without
+disabling independent Git inspection or commits. When off, leave pushing to the
+user and return that status through leader. Even an explicit push task requires
+setup first; do not silently toggle or bypass the setting. Enablement does not
+authorize unsolicited pushes after commits.
+
 Operate only on the verified requested repository and resources. Validate workspace
 paths and resolved containment, including source exports and worktrees; do not
 follow escaping links into unrelated content. Discover remote identity and branch
@@ -92,9 +99,36 @@ meaning, and run affected checks. Product decisions or ambiguous conflict resolu
 return to leader. Do not abort an operation that predates this task without authority.
 
 Before push, review destination, refs and commits being sent, remote divergence,
-and relevant automation triggered by the update. Push only intended refs, normally
+the automated-push gate, task authority and relevant automation triggered by the
+update. Push only intended refs, normally
 without force. Afterward verify remote refs. Never use a force operation to bypass
 an unexpected remote update or discard someone else's work.
+
+### Automated-push enablement assessment
+
+Only for a requested enablement, perform a fresh assessment with Git enabled and
+return its result through leader to environment-manager. Do not change state.
+
+- Verify a working installed Git and the tooling required by the selected transport,
+  such as an SSH client or HTTPS credential helper. GitHub CLI is not mandatory
+  when the actual Git transport is already installed and configured.
+- Verify the local repository, intended remote/destination and refs, and relevant
+  branch/upstream/protection preconditions. Do not assume a default remote or branch.
+- Establish noninteractive authentication and write capability for that destination
+  with safe non-mutating evidence. Read access or `ls-remote` alone is insufficient.
+  A scoped noninteractive `git push --dry-run` with explicit refs can assess the
+  receive/write path without sending ref updates. Inspect applicable hooks first;
+  a dry-run or hook may have side effects. Do not bypass hooks or use a real push
+  merely to test readiness. If safe verification is unavailable, refuse enablement.
+
+Return the verified repository, remote/transport, tooling, authentication/write
+assessment and branch/ref checks, with specific missing prerequisites and limits.
+Failed, missing or unverifiable prerequisites mean not ready. Dry-run success does
+not guarantee every server hook, branch protection or later push will accept an
+actual update; recheck relevant blockers before each real push. Evidence must be
+fresh for the requested setup, not a reusable claim from another system or remote.
+Never install tools, change authentication/configuration, accept host trust or reveal
+credentials implicitly. Keeping the setting off needs no network readiness probe.
 
 ## GitHub collaboration and checks
 
@@ -103,6 +137,11 @@ without printing credentials. Prefer an available connector when it supports the
 operation; otherwise use GitHub CLI/API. Installation or expanded permissions are
 separate dependencies. A local CLI can use Git internally; require Git enablement
 when it does, or use an explicit API operation when only GitHub is enabled.
+
+Do not use an API/connector or alternate remote to mirror unpushed local commits,
+branches or refs while automated push is off. Ordinary authorized issue/PR APIs
+remain available within GitHub enablement; use already available remote source refs
+and report missing refs rather than recreate them to bypass the push restriction.
 
 For PRs verify base/head, diff, requested state, title/body and relevant checks.
 For issues verify scope, exact content and intended labels/state. Avoid duplicates
@@ -124,7 +163,10 @@ Verify candidate source and asset identity, existing tags/releases/assets and an
 tag-triggered automation. Use one publication path to prevent CI/local races.
 Create tags only at the exact intended commit and prevent implicit tag creation
 from an unspecified default branch. A tag push that triggers publication needs
-publication authority before the push. Remote draft creation needs appropriate
+both automated push enabled and publication authority before the push. With push
+off, return the required manual push to leader; a release API may use an already
+verified remote target when authorized, but must not recreate missing remote refs
+as a workaround. Remote draft creation needs appropriate
 write authority; publishing that draft requires publication authority.
 
 After execution, verify remote tag and peeled commit, release URL and status,

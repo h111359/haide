@@ -53,6 +53,12 @@ framework-agent selection or ordinary work.
   or invalid settings go to environment-manager for requested setup; do not bypass
   them through another specialist. Enabled settings do not require confirmation for
   every routine operation or authorize unrelated or destructive work.
+- Pass validated `integrations.git.auto_push` status to git-manager. Off, missing
+  or invalid means the user pushes; do not route a push-equivalent workaround.
+  For requested enablement, first obtain fresh git-manager readiness evidence,
+  then route it to environment-manager. Enable only after verified prerequisites
+  pass; unavailable or failed checks refuse enablement. Setup is not an actual
+  push or authority to push after every commit. Preserve independent Git/GitHub work.
 - Before each planned commit-producing operation, route a fresh synchronous
   pre-commit refresh to chronicles-manager, then return its verified operation,
   session/source boundary, transcript path and status to git-manager. Wait for

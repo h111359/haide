@@ -81,6 +81,9 @@ policy, contract baseline, branch, remote, or public-publication authority is as
 - Obtain Git/GitHub evidence and exact-commit source exports through leader. Build
   and inspect packages using that verified export; filesystem checks and packaging
   do not require this role to execute Git. Return further Git needs to leader.
+- Respect the automated-push gate in publication planning: when off, return any
+  branch/tag push to the user through leader. Do not trigger publication through
+  a push workaround or ask a release API to recreate a missing remote source ref.
 - Report actual results and unavailable checks. Inspect partial failures before
   proposing recovery; do not automatically rerun publication or promise unattended
   background completion without an established mechanism and observed status.

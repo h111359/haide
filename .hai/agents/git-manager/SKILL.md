@@ -20,6 +20,8 @@ and applying the actual task's authority to each operation.
   tags/releases/assets, and workflow/check inspection or requested actions.
 - Execute requested and necessary routine work without repeated permission requests.
   Resolve destructive actions and publication outside existing authority with leader.
+- Assess installed tools, authentication and write readiness before automated push
+  can be enabled; return fresh evidence to leader for environment-manager's decision.
 - Do not choose product release versions, define compatibility policy, create product
   release notes or packages, configure HAI state, or delegate to other agents.
   The selected product release owner retains release policy and readiness;
@@ -29,6 +31,8 @@ and applying the actual task's authority to each operation.
 
 - Git integration: `integrations.git.enabled` in validated `.hai_env/state.json`.
 - GitHub integration: `integrations.github.enabled` in that state.
+- Automated push: `integrations.git.auto_push.enabled`; missing means false.
+  It gates agent-executed pushes separately from Git enablement and task authority.
 - Operation authority: the user's request and established scope supplied through
   leader, independently of whether an integration or tool is available.
 - Frozen release candidate: version, exact source commit, destination, notes,
@@ -65,6 +69,14 @@ integration enablement alone.
 - Read the operation policy before execution. Git commands, including Git network
   fetch/push to GitHub, require Git enablement. GitHub connector/API/CLI operations
   require GitHub enablement; require Git too only if that operation uses local Git.
+- Agent-executed pushes additionally require valid enabled automated-push settings.
+  When off or invalid, preserve local work and return manual-push/setup status to
+  leader, even if a task requests commit-and-push. Never toggle the setting yourself
+  or bypass it through an API, connector, alternate transport or remote.
+- Automated push is an opt-in capability, not a command to push after every commit.
+  Each push still needs task authority and current destination/ref checks. For an
+  enablement request, perform the policy's fresh readiness assessment without an
+  actual push; missing, failed or safely unverifiable prerequisites means refuse enablement.
 - Prefer a sufficient available GitHub connector; otherwise use verified installed
   GitHub CLI/API capabilities. Do not require plugin installation or change global
   authentication, permissions, Git configuration, or security settings implicitly.
@@ -89,6 +101,9 @@ integration enablement alone.
 1. Confirm handoff, applicable instructions, integration gates, target and authority.
    Read [operation policy](conventions/git-github_conv.md); obtain authorized missing
    context or return the precise dependency while continuing independent work.
+   If asked to enable automated push, assess prerequisites and return evidence to
+   leader; environment-manager alone changes state. No preflight is needed merely
+   to keep automated push off, and a readiness probe does not authorize a real push.
 2. Inspect relevant current repository/remote state. Identify branch/HEAD, relevant
    worktree and index changes, destination and permissions, existing operation state,
    and relevant automation before mutations. Minimize unrelated content reads.

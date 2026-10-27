@@ -85,6 +85,9 @@ Git operations role. Both default off in new environments; missing settings in
 existing state are valid and inactive until explicitly configured. Each integration
 is independent. These switches store no credentials, repository identity, or branch
 choice, and do not grant authority for destructive changes or publication.
+`integrations.git.auto_push.enabled` separately defaults off. Environment-manager
+requires fresh Git readiness evidence for the actual local repository and remote
+before enabling it; configuration alone does not establish current push readiness.
 
 Existing malformed, unreadable, conflicting, or incompatible core state is preserved
 and reported rather than silently reinitialized or migrated. A known partial

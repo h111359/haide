@@ -67,6 +67,13 @@ actual repository/service state and executes only within authority. Missing acce
 is a dependency, not permission to alter repository security. Material candidate
 changes require renewed readiness assessment and authority-scope review.
 
+Agent-executed branch/tag pushes, including tag-triggered publication, require
+`integrations.git.auto_push.enabled: true`. When off or invalid, return the required
+manual push through leader and keep publication pending until verified remote refs
+exist. Authorized non-push release APIs may use an already available remote target;
+do not recreate missing remote commits/refs through an API or connector workaround.
+The setting does not authorize publication or unsolicited pushes after commits.
+
 ## Automation and local alternatives
 
 When separately requested, prepare release-specific workflow files for intentional

@@ -64,7 +64,9 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["agent_instructions"]["text"], "")
         self.assertEqual(set(result["features"]), {"requests", "specification", "chronicles"})
         self.assertEqual(result["integrations"], {
-            "git": {"enabled": False, "status": "disabled"},
+            "git": {"enabled": False, "status": "disabled",
+                    "auto_push": {"enabled": False, "status": "disabled",
+                                  "readiness": "not_checked"}},
             "github": {"enabled": False, "status": "disabled"}})
         self.assertEqual(result["profiles"]["status"], "absent")
         self.assertEqual(result["catalogues"]["workspace"], "absent")
@@ -77,7 +79,9 @@ class StartupTests(unittest.TestCase):
         legacy = startup.check(self.root)
         self.assertEqual(legacy["environment"], "valid")
         self.assertEqual(legacy["integrations"], {
-            "git": {"enabled": False, "status": "unconfigured"},
+            "git": {"enabled": False, "status": "unconfigured",
+                    "auto_push": {"enabled": False, "status": "unconfigured",
+                                  "readiness": "not_checked"}},
             "github": {"enabled": False, "status": "unconfigured"}})
 
         self.state["integrations"] = {
@@ -90,6 +94,52 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["integrations"]["git"]["status"], "enabled")
         self.assertEqual(result["integrations"]["github"],
                          {"enabled": False, "status": "disabled"})
+        self.assertEqual(result["integrations"]["git"]["auto_push"],
+                         {"enabled": False, "status": "unconfigured",
+                          "readiness": "not_checked"})
+
+    def test_auto_push_setting_is_separate_and_never_claims_live_readiness(self):
+        self.state["integrations"] = {
+            "git": {"enabled": True, "auto_push": {"enabled": True}},
+            "github": {"enabled": False}}
+        self.save_state()
+        result = startup.check(self.root)
+        self.assertTrue(result["integrations"]["git"]["enabled"])
+        self.assertEqual(result["integrations"]["git"]["auto_push"],
+                         {"enabled": True, "status": "enabled",
+                          "readiness": "not_checked"})
+
+    def test_malformed_auto_push_isolated_from_git_and_github(self):
+        for push in (None, [], {}, {"enabled": 1}, {"enabled": 0}, {"enabled": "true"}):
+            with self.subTest(push=push):
+                self.state["integrations"] = {
+                    "git": {"enabled": True, "auto_push": push},
+                    "github": {"enabled": True}}
+                self.save_state()
+                result = startup.check(self.root)
+                self.assertEqual(result["environment"], "valid")
+                self.assertTrue(result["integrations"]["git"]["enabled"])
+                self.assertEqual(result["integrations"]["git"]["auto_push"],
+                                 {"enabled": False, "status": "invalid",
+                                  "readiness": "not_checked"})
+                self.assertTrue(result["integrations"]["github"]["enabled"])
+                self.assertTrue(any(issue["path"] == "integrations.git.auto_push"
+                                    for issue in result["issues"]))
+
+    def test_auto_push_requires_enabled_git_integration(self):
+        invalid_git_values = [
+            {"enabled": False, "auto_push": {"enabled": True}},
+            {"auto_push": {"enabled": True}},
+            {"enabled": "true", "auto_push": {"enabled": True}},
+        ]
+        for git in invalid_git_values:
+            with self.subTest(git=git):
+                self.state["integrations"] = {"git": git, "github": {"enabled": False}}
+                self.save_state()
+                result = startup.check(self.root)
+                self.assertEqual(result["environment"], "valid")
+                self.assertFalse(result["integrations"]["git"]["auto_push"]["enabled"])
+                self.assertEqual(result["integrations"]["git"]["auto_push"]["status"], "invalid")
 
     def test_malformed_integrations_are_isolated_from_core_and_instructions(self):
         malformed = [None, [], {"git": {"enabled": "yes"}, "github": {"enabled": True}},
@@ -120,7 +170,9 @@ class StartupTests(unittest.TestCase):
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "invalid")
         self.assertEqual(result["integrations"], {
-            "git": {"enabled": False, "status": "unverified"},
+            "git": {"enabled": False, "status": "unverified",
+                    "auto_push": {"enabled": False, "status": "unverified",
+                                  "readiness": "not_checked"}},
             "github": {"enabled": False, "status": "unverified"}})
 
     def test_missing_instructions_keeps_validated_integration_facts_but_blocks_environment(self):
@@ -140,9 +192,18 @@ class StartupTests(unittest.TestCase):
         result = startup.check(self.root)
         self.assertEqual(result["environment"], "valid")
         self.assertEqual(result["integrations"]["git"],
-                         {"enabled": True, "status": "enabled"})
+                         {"enabled": True, "status": "enabled",
+                          "auto_push": {"enabled": False, "status": "unconfigured",
+                                        "readiness": "not_checked"}})
         self.assertEqual(result["integrations"]["github"],
                          {"enabled": False, "status": "unconfigured"})
+        self.state["integrations"] = {"github": {"enabled": False}}
+        self.save_state()
+        result = startup.check(self.root)
+        self.assertEqual(result["integrations"]["git"]["auto_push"],
+                         {"enabled": False, "status": "unconfigured",
+                          "readiness": "not_checked"})
+        self.assertTrue(result["ok"], result)
 
     def test_absent_state_is_not_initialized_and_preserves_container(self):
         (self.root / ".hai_env/state.json").unlink()

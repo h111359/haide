@@ -47,6 +47,13 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
   Malformed integration settings are reported as isolated issues and do not make
   otherwise valid core state or mandatory instructions invalid. Callers must only
   route dependent work when the relevant integration is explicitly enabled.
+  `integrations.git.auto_push` separately reports `enabled` and `status` with the
+  same values. A missing entry is unconfigured/disabled; malformed values or an
+  enabled policy with Git disabled are isolated push-policy issues. Its
+  `readiness` is always `not_checked`: this helper validates saved settings and
+  does not check Git installation, authentication, remote access, or branch rules.
+  Missing instructions still make the overall environment invalid and block
+  dependent work even if these saved integration facts are available.
 - `instructions_status`: `loaded`, `missing`, or `invalid` for the fixed mandatory
   `.hai_env/agent_instructions.md`, checked before state and independently of its
   validity/version. `agent_instructions` contains that path and exact decoded text

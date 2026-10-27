@@ -16,7 +16,10 @@
   },
   "integrations": {
     "git": {
-      "enabled": true
+      "enabled": true,
+      "auto_push": {
+        "enabled": false
+      }
     },
     "github": {
       "enabled": true
