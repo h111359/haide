@@ -44,6 +44,26 @@ Each required feature is an object with required `enabled` (Boolean) and `locati
 
 `specification_location` is the former version-1 field; versions 2 onward use `features.specification.location`. Do not use a legacy field as a fallback. Version 5 rejects legacy `agents` and `current_request` root properties and the retired `features.agent_instructions` entry. Instructions have no state flag or configurable location. Preserve unrelated additional root and feature properties when updating state; duplicate JSON property names are invalid. Unknown properties do not implicitly enable a feature.
 
+Optional `integrations` configuration is additive within version 5 and has no
+filesystem location or credential fields:
+
+```json
+"integrations": {
+  "git": { "enabled": false },
+  "github": { "enabled": false }
+}
+```
+
+The canonical template initializes both switches to `false`. In existing version-5
+state, an absent `integrations` object or absent supported entry is valid and means
+unconfigured/disabled. A present supported entry requires an object with Boolean
+`enabled`; malformed configuration makes the affected integration unavailable and
+is reported separately, without invalidating otherwise valid core state or
+mandatory instructions. Unknown root and integration properties are preserved and
+never enable an integration. Git and GitHub are independent switches. State stores
+no credentials, remote identity, or branch choice. Integration enablement does not
+grant authority for destructive repository changes or publication.
+
 ### Paths and validation
 
 All state paths use `/` separators and are relative to the workspace root. Reject absolute, drive-qualified, UNC, blank, and parent-traversal paths, dangling links, and nonportable Windows device names or trailing-dot/space aliases. Resolve existing ancestors, symlinks, and junctions before validation and again before writing; even an absent target must remain inside the workspace after resolution. Reject workspace-root targets and paths inside `.hai/` or `.git/`. A feature path must not overlap `.hai_env/state.json` or `.hai_env/agents/` (including its `catalogue.md`), contain those reserved locations, or collide with another feature path. Directory feature locations must not equal, contain, or be contained by another feature location; an instructions file must not equal or fall inside a configured feature directory. Validate paths even for disabled entries so saved locations remain safe when enabled. Existing target types must match the table.

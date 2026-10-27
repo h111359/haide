@@ -1,6 +1,6 @@
 ---
 name: chronicles-manager
-description: "Call to synchronize a session's exact Markdown transcript asynchronously when chronicles are enabled or required by workspace instructions. Returns verified recording status, transcript location, and unresolved synchronization issues."
+description: "Call to synchronize a session's exact Markdown transcript asynchronously by default or synchronously before a commit. Follows validated chronicles settings and workspace instructions; returns verified recording status, transcript location, source boundary, and unresolved synchronization issues."
 metadata:
   hai-model-class: "light"
   hai-reasoning-effort: "high"
@@ -29,6 +29,8 @@ local transcript path and readable completed source messages. Retrieve available
 source metadata before reporting missing inputs; never invent source identity,
 times, paths, or message text. A mandatory pre-delivery recording requirement
 additionally needs the exact final text from leader for the synchronous exception.
+For a pre-commit refresh, leader supplies the planned operation and relevant
+completed saved-source boundary; retrieve available source context before reporting gaps.
 
 ## Optional inputs
 
@@ -45,6 +47,13 @@ An existing transcript identified by the session ID and verified commit evidence
   saved source. Final response delivery does not wait for a transcript write. This
   is a workflow default, not a new state flag or schema version. Mandatory workspace
   timing instructions, including a required pre-delivery save, take precedence.
+- A pre-commit request from leader requires fresh synchronous synchronization and
+  verification before the planned commit operation. An earlier operation's result
+  does not satisfy it; a fresh check may establish that no new text needs appending.
+  Disabled/unavailable recording or missing/divergent source is a blocker, not a
+  successful refresh. Report it to leader without changing state or bypassing it.
+  Record only completed saved messages; the future commit result and undelivered
+  final outcome remain for later catch-up, not invented pre-commit entries.
 - Leader owns scheduling. A runtime must explicitly support continuation after the
   root turn before work can be promised then. Otherwise return deferred recording
   for leader to route at the next active turn. The saved session source supplies
@@ -71,12 +80,17 @@ An existing transcript identified by the session ID and verified commit evidence
    checking existing messages before appending. Never let later messages pass an
    unresolved source gap or divergence. Preserve and report existing mismatches
    for explicit resolution; asynchronous mode does not authorize their repair.
-6. Only when mandatory workspace instructions require recording before delivery,
+6. For a pre-commit request, complete the synchronization and read-back verification
+   before returning to leader. Identify the planned operation, transcript path,
+   source session and verified completed-source boundary, or the precise blocker.
+   A current undelivered outcome may remain pending without blocking this refresh;
+   missing or divergent preceding source must not be skipped. Do not create a commit.
+7. Only when mandatory workspace instructions require recording before delivery,
    append leader's supplied exact final text after synchronizing preceding source
    messages, verify it, and return that same text for delivery. Match the later
    delivered source outcome without adding it again. Report differing delivery
    text or ordering for explicit resolution.
-7. Include a verified commit message only when supporting evidence is available.
+8. Include a verified commit message only when supporting evidence is available.
    Read the updated transcript and check source identity, chronological order,
    verbatim completed messages, and absence of duplicates. Return a verified
    synchronized boundary and any pending, deferred, blocked, or partial work;
@@ -90,6 +104,8 @@ partial result identifying missing inputs and preserved files. Return the source
 session ID, transcript path, synchronization boundary, and material verification
 limits to leader. Default asynchronous recording does not promise that the current
 final outcome is saved before delivery or that work continues after the root turn.
+Pre-commit requests additionally return a fresh verified result for the planned
+operation, or a blocker that leader must resolve before commit.
 
 ## References
 

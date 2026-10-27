@@ -13,5 +13,13 @@
       "enabled": false,
       "location": ".hai_env/chronicles"
     }
+  },
+  "integrations": {
+    "git": {
+      "enabled": false
+    },
+    "github": {
+      "enabled": false
+    }
   }
 }

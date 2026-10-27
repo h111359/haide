@@ -37,6 +37,16 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
   initialized missing instructions need scoped repair. This command never initializes.
 - `compatible_version` and the three optional `features`: returned only for validated core state;
   each feature has its validated flag, location, target type, and availability.
+- `integrations`: `git` and `github` each expose `enabled` and `status`
+  (`enabled`, `disabled`, `unconfigured`, `invalid`, or `unverified`). They are
+  `unverified` when core state is absent or invalid. With valid core state, these
+  independently validated facts remain available even if mandatory instructions
+  are missing; the overall environment is still invalid, so callers must pause
+  dependent operations until instructions are available.
+  Missing `integrations` or a missing supported entry means unconfigured/disabled.
+  Malformed integration settings are reported as isolated issues and do not make
+  otherwise valid core state or mandatory instructions invalid. Callers must only
+  route dependent work when the relevant integration is explicitly enabled.
 - `instructions_status`: `loaded`, `missing`, or `invalid` for the fixed mandatory
   `.hai_env/agent_instructions.md`, checked before state and independently of its
   validity/version. `agent_instructions` contains that path and exact decoded text
@@ -58,7 +68,7 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
 
 Exit codes: `0` for all applicable checks passing; `1` for absent/invalid state,
 unavailable mandatory instructions, or
-isolated catalogue/profile/instruction issues; `2` for fatal workspace/input errors.
+isolated integration/catalogue/profile/instruction issues; `2` for fatal workspace/input errors.
 Argument-parser errors use argparse usage text and exit `2`. Callers must inspect
 `environment`, `state_status`, `instructions_status`, `issues`, and independent results rather than treating a nonzero
 exit as permission to initialize or repair. Missing Python means the check did not
@@ -66,6 +76,7 @@ run, and is never validation success.
 
 Checks include duplicate keys at every JSON depth, nonstandard numeric constants,
 required state types and compatibility against the canonical template (version 5),
+optional Git/GitHub integration types,
 legacy properties and the retired `features.agent_instructions` setting, configured
 paths even for disabled features, target types, reserved locations, feature collisions
 and profile overlap. Fixed mandatory instructions are reserved against feature/profile

@@ -26,6 +26,8 @@ Published tags and release bytes are immutable; corrections use a new release.
 Review the actual changes since the last published release, including code,
 contracts, behavior, formats, conventions, and governing instructions. Use published
 history and source evidence, not commit-message labels alone or the number of edits.
+Obtain Git/GitHub evidence through leader's git-manager handoff; do not execute
+repository or service operations from this role.
 List changed consumer guarantees, impact, relevant verification, and uncertainty.
 
 For an established stable line:
@@ -70,6 +72,8 @@ A candidate is ready for publication only when:
 
 Use existing project checks where applicable, including HAI agent/catalogue,
 startup, and specification-helper checks when their affected scope warrants them.
+If a check executes Git/GitHub operations, return that execution need to leader;
+ordinary filesystem/package checks remain release-manager work.
 Read helper documentation and verify the interpreter before execution. Document
 unavailable checks; do not call a required blocked check a pass. A local environment
 with specification disabled is not itself a bundle-release blocker. Apply the

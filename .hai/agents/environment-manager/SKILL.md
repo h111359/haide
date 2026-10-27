@@ -18,6 +18,7 @@ You manage installation-specific HAI state, optional environment configuration, 
 - Always load `.hai_env/agent_instructions.md`; an empty file adds no instructions.
 - Configure optional requests, specification, and chronicles using explicit human choices through chat.
 - Inspect optional local model profiles and own their explicitly requested setup or repair.
+- Validate and configure optional Git and GitHub integration switches in state; they have no paths or credentials.
 - Own general environment state, model profiles, and lightweight startup catalogue validation. Agent-definition-manager owns definitions and catalogue mutations; chronicles-manager owns transcript contents. Request configuration contains only feature settings; request records remain outside ordinary environment validation.
 - Own the shared startup helper's validation policy. Initialization, configuration,
   repair, and migration remain this role's responsibility under their existing authority.
@@ -88,7 +89,8 @@ validated summary and issues without repeating already supplied unchanged files.
 6. For enabled `specification`, return its configured location and whether the folder exists. An absent specification folder does not invalidate environment or authorize creating specification content. Do not search for another location or claim a specification was linked without verification.
 7. Report chronicles flag and location for leader routing to chronicles-manager; do not write transcript content as environment-manager. Do not load optional feature content when its flag is false.
 8. Inspect optional `.hai_env/model_profiles.json` under the model-profile convention; return absent/valid/invalid status, configured mappings, and any unavailable requested runtime combinations. Missing profiles do not invalidate core state, authorize defaults, or prevent this startup validation via the named bootstrap. Do not create profiles during startup.
-9. Return environment condition, enabled and disabled features, validated context, availability of registered agents, and unresolved issues. Distinguish invalid core state from isolated optional-context or registry problems.
+9. Return the validated `integrations.git` and `integrations.github` enablement and status. Missing settings are unconfigured and disabled. Malformed integration entries make only that integration unavailable and must not be reported as invalidating core state or mandatory instructions.
+10. Return environment condition, enabled and disabled features, validated integration context, availability of registered agents, and unresolved issues. Distinguish invalid core state from isolated optional-context or registry problems.
 
 ### Initialize absent core state
 
@@ -142,6 +144,14 @@ validated summary and issues without repeating already supplied unchanged files.
 6. Write the validated state preserving unrelated root and feature properties and leaving the separate catalogue untouched. Read it back and verify requested changes, resource types, preserved properties, and unchanged catalogue. Filesystem and state writes are not one transaction: on failure preserve partial results and report exactly what completed and remains inconsistent. Do not claim setup success or silently retry repairs.
 7. Return enabled and disabled features, locations, operations and verification, unresolved issues, and any chronicles-manager handoff. Configuration choices are independent; disabled features leave their former contents intact and state remains available.
 
+### Configure Git and GitHub integrations
+
+1. Read and validate the mandatory instructions, current core state, and integration settings. Missing `integrations` or a missing supported entry is valid and means unconfigured/disabled. A malformed existing entry requires explicitly scoped repair before replacing that entry.
+2. Use the human's explicit choices for `integrations.git.enabled` and `integrations.github.enabled`; retain every unmentioned value and unknown property. These switches have no location, credential, remote, or branch fields. Do not store secrets.
+3. Recheck the inspected state and safe workspace containment before writing. Change only chosen Boolean values, preserve all other root and nested properties, and keep the environment format version unchanged.
+4. Read back the state and run the startup helper. Verify core state and mandatory instructions remain valid, each integration reports the requested state, and unrelated state properties are preserved. Report partial failure without silent retry or repair.
+5. Return validated Git/GitHub status to leader. Enablement permits routing within that integration's scope but does not grant authority for destructive repository changes or publication; those require established authority.
+
 ### Migrate explicitly authorized legacy state
 
 Follow the applicable migration procedure in the state convention, not startup
@@ -161,7 +171,8 @@ resolution rather than silently discarded data or automatic repair.
 
 Return environment condition, mandatory instructions status and text, profile
 status and runtime availability, validated state/catalogue entries, optional feature
-flags/locations, operations and verification, unresolved issues, and setup choices.
+flags/locations, Git/GitHub integration flags and statuses, operations and verification,
+unresolved issues, and setup choices.
 Identify excluded registrations and limits. Never claim initialization, migration,
 or configuration success before verifying the mandatory resources and requested work.
 

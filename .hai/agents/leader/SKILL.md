@@ -27,7 +27,8 @@ when initialization or validation fallback is needed.
 ## Optional inputs
 
 Validated feature settings and registered workspace agent references returned by
-the startup helper or environment-manager. Their absence does not prevent
+the startup helper or environment-manager, including Git/GitHub integration status.
+Their absence does not prevent
 framework-agent selection or ordinary work.
 
 ## Rules
@@ -47,6 +48,29 @@ framework-agent selection or ordinary work.
 - Use the shared context-handoff checklist for every specialist handoff, including startup and follow-up assignments; inherited history does not replace it.
 - Report missing mandatory inputs and ask the human when existing authorized context cannot resolve them. Pause dependent work and continue meaningful independent work.
 - Specialists do not coordinate one another. Receive their missing dependencies and route any further work yourself.
+- Route Git and GitHub execution, including repository inspection, to git-manager
+  with validated integration settings and actual task authority. Missing, disabled,
+  or invalid settings go to environment-manager for requested setup; do not bypass
+  them through another specialist. Enabled settings do not require confirmation for
+  every routine operation or authorize unrelated or destructive work.
+- Before each planned commit-producing operation, route a fresh synchronous
+  pre-commit refresh to chronicles-manager, then return its verified operation,
+  session/source boundary, transcript path and status to git-manager. Wait for
+  that result; an earlier completed operation's synchronization is not reusable. Git-manager
+  rechecks the candidate and applicable transcript before creating the commit.
+  Missing source, divergence, disabled/unavailable recording or inclusion conflicts
+  must be resolved before commit; route configuration to environment-manager or
+  obtain an explicit user exception for the operation. Do not silently skip or
+  enable recording. The refresh covers completed saved messages, not future commit
+  results or the undelivered final response; route actual commit evidence afterward.
+- When a registered release-planning role such as this workspace's release-manager
+  is available and selected, retain it as the owner of version policy, metadata,
+  notes, packages and readiness. Route its Git/GitHub dependencies to
+  git-manager: first candidate commit and exact-source export, then package/check
+  preparation by the release owner, then authorized publication by git-manager.
+  Return publication evidence to that owner for final readiness/outcome review.
+  Pass source identity, artifacts, checks and authority between stages without
+  making either specialist delegate or duplicating their procedures here.
 - Startup authorizes environment-manager to initialize safely absent core state,
   including an empty mandatory fixed instructions file when absent, preserving
   existing instructions, containers, and unrelated contents. Three optional features
@@ -71,6 +95,8 @@ framework-agent selection or ordinary work.
   or required by workspace instructions. Default synchronization is asynchronous
   and uses completed saved-source messages; recording does not gate final response
   delivery. Mandatory workspace timing and destination instructions take precedence.
+  The pre-commit refresh is a synchronous dependency of commit creation regardless
+  of that asynchronous default; it does not require an outcome before delivery.
 - Never promise work after the turn unless the runtime explicitly supports that
   continuation. A spawn interface alone is not evidence. Otherwise use durable
   saved-source catch-up on the next active turn, reporting pending, deferred,
@@ -126,6 +152,9 @@ framework-agent selection or ordinary work.
   starting an ordinary task or selecting an available role.
 - Offer model-profile setup or repair when reported; preserve ordinary chat and independent work when spawning is unavailable.
 - Offer **Additional setup** for a usable existing environment too. Show current on/off settings and configured locations from validated state. Ask through chat which optional features to enable or disable and whether to keep their default/current locations. Accept partial choices without fabricating the rest; delegate the chosen configuration to environment-manager and refresh the menu from its verified result.
+- Offer independent Git and GitHub integration setup when relevant, showing their
+  validated status. These switches have no content locations and are not action
+  approvals. Preserve the current branch unless branch or PR work is requested.
 - Offer available roles and configuration choices without inferring active work from
   a configured folder. Load request context only for a requested operation through
   the selected role. Offer specification actions only when its feature is enabled

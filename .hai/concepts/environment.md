@@ -79,6 +79,13 @@ specialist spawning waits for valid runtime-supported resolution or an explicit
 human override. Agent definitions and catalogue registration remain independent
 of runtime skill discovery.
 
+Optional version-5 `integrations.git.enabled` and `integrations.github.enabled`
+switches control whether leader may route local Git and GitHub work to the shared
+Git operations role. Both default off in new environments; missing settings in
+existing state are valid and inactive until explicitly configured. Each integration
+is independent. These switches store no credentials, repository identity, or branch
+choice, and do not grant authority for destructive changes or publication.
+
 Existing malformed, unreadable, conflicting, or incompatible core state is preserved
 and reported rather than silently reinitialized or migrated. A known partial
 initialization is not automatically retried. Environment is persistent HAI material,

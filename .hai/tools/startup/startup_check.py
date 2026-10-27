@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "agents"))
 from agent_tools import Invalid, NAMES, decode_cell, load_json, read_profiles
 
 FEATURES = {"requests": "directory", "specification": "directory", "chronicles": "directory"}
+INTEGRATIONS = ("git", "github")
 INSTRUCTIONS = ".hai_env/agent_instructions.md"
 TEMPLATE = ".hai/agents/environment-manager/templates/state.json"
 
@@ -84,7 +85,7 @@ def instruction_path(workspace: Path) -> Path:
     return target
 
 
-def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, dict]:
+def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, dict, dict, list[dict]]:
     if (not isinstance(template, dict)
             or type(template.get("compatible_version")) is not int
             or template["compatible_version"] <= 0
@@ -95,6 +96,13 @@ def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, d
         if (not isinstance(feature, dict) or feature.get("enabled") is not False
                 or not isinstance(feature.get("location"), str) or not feature["location"].strip()):
             raise Invalid("Canonical template requires disabled features and nonblank locations")
+    template_integrations = template.get("integrations")
+    if (not isinstance(template_integrations, dict)
+            or set(template_integrations) != set(INTEGRATIONS)
+            or any(not isinstance(template_integrations[name], dict)
+                   or template_integrations[name].get("enabled") is not False
+                   for name in INTEGRATIONS)):
+        raise Invalid("Canonical template requires disabled Git and GitHub integrations")
     if (not isinstance(state, dict) or type(state.get("compatible_version")) is not int
             or state["compatible_version"] != template["compatible_version"]
             or "agents" in state or "current_request" in state
@@ -126,7 +134,31 @@ def state_context(workspace: Path, state: dict, template: dict) -> tuple[dict, d
         locations[name] = (lexical, target)
         features[name] = {"enabled": value["enabled"], "location": relative,
                           "available": target.exists(), "target_type": kind}
-    return features, locations
+    integrations, integration_issues = {}, []
+    configured = state.get("integrations")
+    if configured is None and "integrations" not in state:
+        integrations = {name: {"enabled": False, "status": "unconfigured"}
+                        for name in INTEGRATIONS}
+    elif not isinstance(configured, dict):
+        integration_issues.append({"code": "integration", "path": "integrations",
+                                   "message": "Integrations must be an object; Git and GitHub are unavailable"})
+        integrations = {name: {"enabled": False, "status": "invalid"}
+                        for name in INTEGRATIONS}
+    else:
+        for name in INTEGRATIONS:
+            value = configured.get(name)
+            if value is None and name not in configured:
+                integrations[name] = {"enabled": False, "status": "unconfigured"}
+            elif not isinstance(value, dict) or type(value.get("enabled")) is not bool:
+                integrations[name] = {"enabled": False, "status": "invalid"}
+                integration_issues.append({
+                    "code": "integration", "path": f"integrations.{name}",
+                    "message": f"Integration {name} requires Boolean enabled; this integration is unavailable"})
+            else:
+                integrations[name] = {
+                    "enabled": value["enabled"],
+                    "status": "enabled" if value["enabled"] else "disabled"}
+    return features, locations, integrations, integration_issues
 
 
 def catalogue(workspace: Path, origin: str, reserved: set[str] | None = None) -> dict:
@@ -207,6 +239,8 @@ def check(workspace: Path) -> dict:
     if not workspace.is_dir():
         raise Invalid("Workspace must be an existing directory")
     result = {"ok": False, "environment": "invalid", "features": {},
+              "integrations": {name: {"enabled": False, "status": "unverified"}
+                               for name in INTEGRATIONS},
               "agent_instructions": None, "instructions_status": "unverified",
               "agents": [], "catalogues": {},
               "profiles": {"status": "unverified", "runtime_availability": "not_checked"},
@@ -238,11 +272,15 @@ def check(workspace: Path) -> dict:
         else:
             state = load_json(state_path)
             template = load_json(safe_path(workspace, TEMPLATE))
-            features, locations = state_context(workspace, state, template)
+            features, locations, integrations, integration_issues = state_context(workspace, state, template)
             result.update(environment="valid", features=features,
+                          integrations=integrations,
                           compatible_version=state["compatible_version"])
+            issues.extend(integration_issues)
     except (Invalid, OSError, UnicodeError) as exc:
         issues.append({"code": "state", "path": ".hai_env/state.json", "message": str(exc)})
+        result["integrations"] = {name: {"enabled": False, "status": "unverified"}
+                                   for name in INTEGRATIONS}
     result["state_status"] = result["environment"]
 
     framework = catalogue(workspace, ".hai")

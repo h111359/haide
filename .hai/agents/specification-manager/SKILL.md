@@ -158,8 +158,9 @@ knowledge already available in context.
    specification, including one inside an excluded working-record folder.
 2. Determine ignored folders using Git's effective ignore rules, including
    nested `.gitignore` files, pattern precedence, and negation, rather than
-   guessing from folder names. Use Git-aware discovery and targeted ignore
-   checks where available; if ignore status cannot be established, report
+   guessing from folder names. Obtain Git-aware discovery and targeted ignore
+   evidence through leader's git-manager handoff; do not execute Git or call
+   another specialist yourself. If ignore status cannot be established, report
    that limitation and leave dependent discovery unverified. Do not expand
    ignored folders to collect product facts. A verified library root has
    only the limited representation allowed by the convention.

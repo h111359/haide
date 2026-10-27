@@ -136,6 +136,22 @@ when explicit model/effort overrides require an empty history fork (for example
 workspace instructions, relevant task context, and expected outcome explicitly.
 Do not assume inherited history, settings, or automatic skill discovery.
 
+Git-manager owns Git and GitHub execution, including repository-state inspection.
+Other roles return those needs to leader, who supplies validated integration context
+and routes them to git-manager; specialists never call one another. Disabled or
+invalid integrations are not bypassed through another role or tool. Ordinary
+filesystem work and definition validation do not require Git. Integration enablement
+permits scoped operations; it does not require approval for every routine check or
+grant authority for unrelated, destructive, or otherwise unauthorized publication.
+
+Every commit-producing operation requires a fresh pre-commit chronicle refresh
+through leader before git-manager creates the commit. Follow git-manager's
+[pre-commit gate](../agents/git-manager/conventions/git-github_conv.md#pre-commit-chronicle-gate);
+ordinary asynchronous recording and a previous operation's refresh do not satisfy this
+per-operation dependency. Unavailable recording requires resolution or an explicit
+user exception, never an implicit bypass. This does not block independent
+filesystem work or require recording future outcomes.
+
 ## Context handoff and input checks
 
 For every specialist handoff, including startup and follow-up assignments, leader

@@ -63,10 +63,86 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["instructions_status"], "loaded")
         self.assertEqual(result["agent_instructions"]["text"], "")
         self.assertEqual(set(result["features"]), {"requests", "specification", "chronicles"})
+        self.assertEqual(result["integrations"], {
+            "git": {"enabled": False, "status": "disabled"},
+            "github": {"enabled": False, "status": "disabled"}})
         self.assertEqual(result["profiles"]["status"], "absent")
         self.assertEqual(result["catalogues"]["workspace"], "absent")
         self.assertEqual([a["name"] for a in result["agents"]], ["leader"])
         self.assertEqual(before, self.snapshot())
+
+    def test_integrations_are_optional_independent_and_returned_as_context(self):
+        self.state.pop("integrations", None)
+        self.save_state()
+        legacy = startup.check(self.root)
+        self.assertEqual(legacy["environment"], "valid")
+        self.assertEqual(legacy["integrations"], {
+            "git": {"enabled": False, "status": "unconfigured"},
+            "github": {"enabled": False, "status": "unconfigured"}})
+
+        self.state["integrations"] = {
+            "git": {"enabled": True, "custom_note": "preserved by writers"},
+            "github": {"enabled": False}}
+        self.save_state()
+        result = startup.check(self.root)
+        self.assertEqual(result["environment"], "valid")
+        self.assertTrue(result["integrations"]["git"]["enabled"])
+        self.assertEqual(result["integrations"]["git"]["status"], "enabled")
+        self.assertEqual(result["integrations"]["github"],
+                         {"enabled": False, "status": "disabled"})
+
+    def test_malformed_integrations_are_isolated_from_core_and_instructions(self):
+        malformed = [None, [], {"git": {"enabled": "yes"}, "github": {"enabled": True}},
+                     {"git": {"enabled": True}, "github": {"enabled": 1}},
+                     {"git": {"enabled": 0}, "github": {"enabled": True}},
+                     {"git": {}, "github": {"enabled": True}},
+                     {"git": {"enabled": True}, "github": None}]
+        for configured in malformed:
+            with self.subTest(configured=configured):
+                self.state["integrations"] = configured
+                self.save_state()
+                result = startup.check(self.root)
+                self.assertEqual(result["environment"], "valid")
+                self.assertEqual(result["state_status"], "valid")
+                self.assertEqual(result["instructions_status"], "loaded")
+                self.assertTrue(any(issue["code"] == "integration" for issue in result["issues"]))
+                self.assertFalse(result["ok"])
+                for integration in result["integrations"].values():
+                    if integration["status"] == "invalid":
+                        self.assertFalse(integration["enabled"])
+                if isinstance(configured, dict) and isinstance(configured.get("github"), dict):
+                    if type(configured["github"].get("enabled")) is bool:
+                        self.assertEqual(result["integrations"]["github"]["enabled"],
+                                         configured["github"]["enabled"])
+
+    def test_integration_context_is_unverified_when_core_state_is_invalid(self):
+        self.write(".hai_env/state.json", "not JSON")
+        result = startup.check(self.root)
+        self.assertEqual(result["state_status"], "invalid")
+        self.assertEqual(result["integrations"], {
+            "git": {"enabled": False, "status": "unverified"},
+            "github": {"enabled": False, "status": "unverified"}})
+
+    def test_missing_instructions_keeps_validated_integration_facts_but_blocks_environment(self):
+        self.state["integrations"] = {"git": {"enabled": True}, "github": {"enabled": True}}
+        self.save_state()
+        (self.root / startup.INSTRUCTIONS).unlink()
+        result = startup.check(self.root)
+        self.assertEqual(result["state_status"], "valid")
+        self.assertEqual(result["instructions_status"], "missing")
+        self.assertEqual(result["environment"], "invalid")
+        self.assertTrue(result["integrations"]["git"]["enabled"])
+        self.assertTrue(result["integrations"]["github"]["enabled"])
+
+    def test_absent_supported_integration_entry_is_unconfigured(self):
+        self.state["integrations"] = {"git": {"enabled": True}, "future": {"enabled": True}}
+        self.save_state()
+        result = startup.check(self.root)
+        self.assertEqual(result["environment"], "valid")
+        self.assertEqual(result["integrations"]["git"],
+                         {"enabled": True, "status": "enabled"})
+        self.assertEqual(result["integrations"]["github"],
+                         {"enabled": False, "status": "unconfigured"})
 
     def test_absent_state_is_not_initialized_and_preserves_container(self):
         (self.root / ".hai_env/state.json").unlink()

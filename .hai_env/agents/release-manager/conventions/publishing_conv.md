@@ -1,101 +1,101 @@
 # HAI packaging and publication policy
 
-## Source and package
+## Ownership and source sequence
 
-Identify the intended repository and remote from verified context. Inspect actual
-published GitHub releases and remote tags; local tags alone are incomplete evidence.
-Verify relevant tool capabilities and authentication without printing credentials.
-Use current official documentation or installed help for command details when needed.
+Release-manager owns version policy, metadata, notes, package preparation,
+readiness checks, and final product review. Git-manager owns all Git/GitHub
+execution, including inspection, commits, exports, tags, pushes, releases and
+assets. Return dependencies to leader; neither specialist calls the other.
 
-Build `dist/hai-<version>.zip` from the exact recorded release commit, not an
-uncommitted working-tree snapshot. `dist/` is already ignored in this repository;
-verify that it remains so before writing output. Changes to ignore rules or other
-release infrastructure require their own authorized scope. Do not include local
-uncommitted work or discard it to obtain a clean source.
+Use this order to avoid requiring a package before its source is committed:
+
+1. Obtain repository and published-history evidence through leader; prepare source
+   metadata/notes and run available pre-commit checks.
+2. Return exact candidate paths and required source evidence to leader. With
+   appropriate authority and the shared pre-commit chronicle gate satisfied,
+   git-manager creates the source commit and supplies its
+   full identity and a verified source export of the intended tracked paths.
+3. Build and inspect the ZIP from that exact export; run release checks and record
+   the asset digest. A source change requires a new commit/export and new package.
+4. Return the frozen ready candidate through leader for authorized Git/GitHub
+   publication. Review returned publication evidence against product requirements.
+
+Do not execute Git locally to recover missing status, history, ignore information,
+or exports. Ask leader for that evidence. Local tags alone do not establish actual
+published history. Packaging and filesystem validation can continue independently
+where their required evidence is already available.
+
+## Package contents and identity
+
+Build `dist/hai-<version>.zip` from the verified exact-commit export, not a working-tree
+snapshot. `dist/` is already ignored in this repository; obtain current ignore
+assurance through leader before writing output. Ignore-rule or other infrastructure
+changes require authorized scope. Do not discard or package unrelated local work.
 
 Use an explicit package allowlist:
 
-- The reusable `.hai/` tree from the candidate commit, with exactly one agreed
-  versioned release manifest.
-- The repository license and installation/use documentation needed for the bundle,
-  selected from that same commit and checked for working relative references.
+- The reusable `.hai/` tree, with exactly one agreed versioned release manifest.
+- The repository license and required installation/use documentation from that
+  same commit, with working relative references.
 
-Exclude `.hai_env/` and its workspace agents, state, profiles, requests,
-specifications, and chronicles; also exclude `.git/`, credentials and secret files,
-local configuration, caches, generated output, and unrelated workspace material.
-The release-manager itself is workspace tooling and is not distributed in this
-framework-only bundle. An allowlisted tree still needs inspection for accidental
-secrets, unsafe paths, and escaping links. Reject unsafe archive entries or
-unresolved link behavior instead of traversing outside the source boundary.
+Exclude `.hai_env/` and workspace agents, state, profiles, requests, specifications
+and chronicles; also exclude `.git/`, credentials, secrets, local configuration,
+caches, generated output and unrelated workspace material. Release-manager is
+workspace tooling and is excluded; framework git-manager is included in `.hai/`.
+Inspect allowlisted files for accidental secrets, unsafe paths and escaping links.
+Reject unsafe archive entries or unresolved link behavior rather than traversing
+outside the verified source boundary.
 
-Inspect archive member paths and the unpacked manifest, check exclusions and
-necessary documentation links, and verify the package corresponds to the recorded
-commit. Record a SHA-256 asset digest. The source version, manifest filename and
-content, tag, release identity, and asset name must agree. Do not put an archive's
-own digest inside that archive and assume it can authenticate itself.
+Inspect archive paths and the unpacked manifest, exclusions and documentation
+links. Verify correspondence to the supplied source commit and record a SHA-256
+digest. Source version, manifest filename/content, intended tag, release identity
+and asset name must agree. An archive's digest is external evidence, not a field
+that can authenticate that same archive from inside itself.
 
-## Authority and review
+## Authority and publication handoff
 
-Preparing a candidate does not imply authority to commit, create or push tags,
-write remote drafts, or publish publicly. Determine each action's established
-scope from the handoff and conversation. Do not request redundant confirmation
-when explicit authority already covers the action and candidate.
+Preparation does not imply authority to commit, push tags, write remote drafts or
+publish publicly. Pass established authority through leader; avoid repeated requests
+when it already covers the action and candidate. Before any missing final publication
+permission is requested, finish authorized preparation and present version, source,
+checks, compatibility and upgrade assessment, notes, asset path/name/digest/contents,
+destination and external effects. A public tag push may trigger publication.
 
-Before asking for any missing final publication permission, finish authorized
-preparation and present the concrete version, source commit, checks, contract and
-upgrade assessment, notes, asset name/digest/contents, destination, and external
-effects. A public tag push can trigger release automation, so approval must precede
-that trigger. If a candidate materially changes, resolve whether existing authority
-still covers it before publishing. Missing tool permissions or credentials are
-specific dependencies, not permission to change repository security settings.
+The frozen handoff includes those artifacts and evidence plus the selected draft,
+prerelease or public state and intended automation/local path. Git-manager rechecks
+actual repository/service state and executes only within authority. Missing access
+is a dependency, not permission to alter repository security. Material candidate
+changes require renewed readiness assessment and authority-scope review.
 
-## Recommended automation
+## Automation and local alternatives
 
-When separately requested, prepare `.github/workflows/release.yml` for intentional
-`v<version>` tag pushes. It should check out the exact tagged commit, verify release
-identity, run applicable validation and tests, build and inspect the ZIP, then
-create the GitHub release and attach the asset and prepared notes. It must not
-release on every commit. Use narrowly scoped `contents: write` for the publication
-job and the platform-provided token; do not require a personal token by default.
-Choose and verify current action versions and repository settings when implementing
-it rather than freezing unverified examples into this policy.
+When separately requested, prepare release-specific workflow files for intentional
+`v<version>` tag pushes. They should check out the exact tagged commit, verify release
+identity, validate/test, build/inspect the ZIP, then create the release with prepared
+notes and assets. Do not release on every commit. Git-manager handles repository
+and GitHub execution or service configuration through leader.
 
-Keep packaging logic usable outside `.hai_env/` if automation needs to run it:
-workspace agent files are excluded from the bundle and may not be available in a
-CI checkout. Add helpers only for demonstrated reuse or validation needs, with
-usage documentation and appropriate tests under the tooling convention. Agent
-creation alone does not create workflows, helpers, or other release infrastructure.
+Use narrowly scoped publication permissions and platform-provided authentication
+where appropriate; do not require a personal token by default. Verify current action
+versions and repository policy at implementation time. Packaging logic required by
+CI must be available outside `.hai_env/`, which a clean CI checkout may not supply.
+Add helpers only for demonstrated needs, with tooling documentation and checks.
+Agent creation alone creates no workflows or helpers.
 
-## Local publication and drafts
+When automation is absent or unsuitable, return the same ready candidate through
+leader for git-manager's verified connector/CLI/API publication path. Drafts are
+remote writes and remain drafts until authorized publication. Git-manager inspects
+tag-trigger behavior and chooses a single execution path to avoid CI/local races.
 
-Support a local Git/GitHub CLI path when automation is absent or unsuitable.
-Verify the intended tag points to the exact candidate commit, push it only with
-applicable authority, and create the release with the verified tag, prepared notes,
-and inspected ZIP. For GitHub CLI, `gh release create` supports `--verify-tag` and
-`--notes-file`; a requested draft uses `--draft`. Check installed help and current
-official behavior at execution time. `--verify-tag` checks remote existence; also
-independently verify the tag's commit because existence is not source agreement.
-Do not let a CLI implicitly create a tag from an unspecified branch.
+## Final verification and failures
 
-Drafts remain remote writes and are not public-release completion. Publishing an
-existing draft requires public-publication authority. If tag automation exists,
-inspect its trigger behavior before any push and choose a single publication path
-to avoid races between local creation and CI. Do not enable a workflow or push a
-trigger merely to test whether it publishes.
+Review returned actual workflow results, release URL/state, tag and full commit,
+notes, asset name/bytes/digest and download evidence. Inspect supplied downloaded
+assets with filesystem tools when available. Request missing service evidence through
+leader; starting a workflow or upload is not completion.
 
-## Verification and partial failure
-
-Observe actual workflow/job state or local command results; starting a process is
-not completion. After publication, verify the release URL, draft/prerelease status,
-remote tag and peeled commit, notes, asset name and bytes/digest, and manifest
-agreement. Download or otherwise verify the published asset when available rather
-than assuming a successful upload produced the intended bytes. Report unavailable
-network or repository checks and distinguish a draft from a published release.
-
-If validation, packaging, upload, or release creation fails, stop dependent actions.
-Inspect existing remote tag, release, and assets before proposing recovery. Preserve
-local evidence and partial remote state; report what succeeded and what remains.
-Never force-move a published tag, silently overwrite an asset, delete a release, or
-retry publication blindly. Resume only within established authority and after the
-failure's cause and current remote state are understood. Do not promise background
-monitoring without an actual running, observable mechanism.
+For failures, preserve package/check evidence and return product-level blockers.
+Git-manager owns inspection and recovery of partial repository/service operations.
+Do not prescribe blind retries, deletion, tag movement or asset replacement. Report
+prepared, draft, published, failed and unverified states accurately, without promises
+of unsupported background monitoring.
