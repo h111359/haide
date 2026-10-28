@@ -1,0 +1,7 @@
+{
+  "activity_id": "333a3192-1975-4575-a1ba-426910950b9a",
+  "recorded_at": "2026-10-28T17:24:48Z",
+  "previous_path": ".hai_env/activities/00000000_000000_active",
+  "canonical_archive_path": ".hai_env/activities/20261028_172448_hai-0-2-0-release",
+  "reason": "Explicit user-authorized completed closure; preserve historical text and resolve former current path by stable UUID."
+}
