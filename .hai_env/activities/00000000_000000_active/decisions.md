@@ -21,3 +21,9 @@ Author: Activity-manager. Source: leader’s supplied fresh release-owner test r
 The environment/startup suite ran **46 total**, with **2 skipped**, hence **44 passed**. The specification suite ran **41 total**, with **1 skipped**, hence **40 passed**. The agent suite had **57 passed**. Correct combined result: **141 passed, 3 skipped, 144 total**, all commands exiting 0. All three skips are Windows-only. The earlier “143 passed” aggregate incorrectly treated the environment suite’s total count as its passing count; this is a reporting correction, not a newly discovered test failure.
 
 This dated evidence supplements the earlier log, outcome and transition-verification report. Their original assertions remain preserved. The initial Activity stays closed completed with its original identity and timestamps; no historical transcript is edited or substantive work resumed under it. The release Activity remains active.
+
+## 2026-10-28T07:29:46Z — Local preparation completed; recording commit remains planned
+
+Leader supplied the actual source commit `466e231439a27876bbbe008165360ef72f205ff4` and release-owner’s verified local 0.2.0 package evidence in [release-verification.md](results/release-verification.md). Activity-manager read that report and independently verified ZIP size 182,818 bytes and SHA-256 `3e53d365d1d6fcc9003ce820343f5ed4aba2e46d871ea1d4f6e619f3bd4c57df`.
+
+Local preparation and its verification are complete; publication, push and tags remain outside this task’s authority. The current Activity remains open for authorized follow-up. The second records-only commit is planned, not a completed fact, and no anticipated commit hash is recorded. Its fresh chronicle gate was supplied by leader; final-response synchronization remains pending its actual source.
