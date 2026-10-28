@@ -38,7 +38,7 @@ Use an explicit package allowlist:
 - The repository license and required installation/use documentation from that
   same commit, with working relative references.
 
-Exclude `.hai_env/` and workspace agents, state, profiles, requests, specifications
+Exclude `.hai_env/` and workspace agents, state, profiles, Activities, specifications
 and chronicles; also exclude `.git/`, credentials, secrets, local configuration,
 caches, generated output and unrelated workspace material. Release-manager is
 workspace tooling and is excluded; framework git-manager is included in `.hai/`.

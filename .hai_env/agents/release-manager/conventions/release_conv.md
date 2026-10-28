@@ -15,6 +15,16 @@ The manifest is a release artifact created only for an authorized candidate with
 selected bundle version; adopting independent compatibility declarations does not
 create a release. No first bundle version is implied by compatibility baseline 1.
 
+An unreleased source tree may have no current manifest when its changes no longer
+match the last published release and no new bundle version has been selected.
+Keep the superseded manifest's exact bytes outside `.hai/` as historical release
+evidence (for example, `release-notes/<version>-manifest.json`), and update the
+historical notes' link without rewriting that release's compatibility claims.
+Such source is not an identified release or a publication-ready package. Historical
+manifests do not count as current installed manifests and are not included in the
+reusable `.hai/` package. A selected release candidate and a released installation
+still require exactly one current manifest matching their own declarations.
+
 An upgrade replaces the previously installed release manifest with the new one;
 it must not accumulate stale manifests. Remove only positively identified prior
 release metadata within an authorized upgrade, preserving unrelated files. Multiple,

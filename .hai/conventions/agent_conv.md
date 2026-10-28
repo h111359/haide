@@ -50,6 +50,30 @@ The filename alone does not install a skill, add it to a runtime's discovery
 paths, select a model, create a subprocess, or spawn an agent. HAI catalogue
 selection and leader orchestration remain explicit.
 
+## Mandatory Activity context
+
+All substantive HAI work belongs to an [Activity](../agents/activity-manager/concepts/activity.md),
+including advice, brainstorming, analysis, planning, framework maintenance,
+implementation and verification. Activities have no enabled flag. A compatible
+validated environment supplies activities.location; Activity-manager discovers
+and maintains the sole current record, while leader alone coordinates specialists.
+Startup validation, bootstrap/setup required to establish usable context, and
+read-only prerequisite diagnosis may proceed before a record exists. These bounded
+exceptions do not authorize later untracked substantive work.
+
+Startup resumes valid current work. A new chat alone creates none; meaningful new
+work with no current record creates an Activity under the human's task authority.
+Conflicting current/new intent needs leader's boundary resolution, not silent
+closure or replacement. Substantive specialist handoffs include stable Activity ID,
+path and relevant context; return actual results for recording. The Activity-manager
+is a records/lifecycle owner and scoped executor, never a second orchestrator.
+
+Lifecycle active/closed, performed steps and completed/cancelled/stopped outcomes
+are separate. Analysis alone may complete its objective. Material definition,
+analysis and plan revisions preserve history even after implementation begins.
+Closed Activities accept dated attributable supplements and delayed exact old-source
+transcript synchronization; new substantive work needs a new linked Activity.
+
 ## Required definition format
 
 Use YAML frontmatter followed by Markdown. Required fields are `name` and
@@ -151,8 +175,9 @@ Every commit-producing operation requires a fresh pre-commit chronicle refresh
 through leader before git-manager creates the commit. Follow git-manager's
 [pre-commit gate](../agents/git-manager/conventions/git-github_conv.md#pre-commit-chronicle-gate);
 ordinary asynchronous recording and a previous operation's refresh do not satisfy this
-per-operation dependency. Unavailable recording requires resolution or an explicit
-user exception, never an implicit bypass. This does not block independent
+per-operation dependency. Verified disabled/no-obligation recording status satisfies
+the gate without creating files. Unavailable required recording needs resolution or
+an explicit user exception, never an implicit bypass. This does not block independent
 filesystem work or require recording future outcomes.
 
 ## Context handoff and input checks
@@ -172,7 +197,9 @@ MUST explicitly cover this checklist in the task message:
 
 Identify missing information or not-applicable items explicitly; never silently
 omit a checklist field or fabricate context, decisions, or approval. Include the
-selected definition path, applicable workspace instructions and context, expected
+selected definition path, applicable workspace instructions, stable current Activity
+ID/path and context for substantive work (or the applicable bootstrap/diagnosis
+exception), expected
 output, and relevant verification requirements. Supply concise facts and precise
 references the receiver can access; do not reproduce full conversation history
 or duplicate the specialist's procedures. Inherited history does not replace this
@@ -210,9 +237,10 @@ Agent-definition-manager owns framework and workspace definition creation, updat
 audits, and explicitly requested catalogue registrations. Creation and registration
 are separate; an explicit combined operation may perform both. Updating a registered
 definition synchronizes its existing catalogue description and canonical reference;
-updating an unregistered definition never adds a row. Framework maintenance and
-read-only definition inspection need no initialized environment; workspace mutations
-retain the valid initialized environment prerequisite. Environment-manager owns
+updating an unregistered definition never adds a row. Independent format tools and
+read-only prerequisite diagnosis need no initialized environment. Substantive HAI
+maintenance/audits follow mandatory Activity context; workspace mutations additionally
+retain their valid initialized environment prerequisite. Environment-manager owns
 configuration, model profiles, and the lightweight startup-validation policy; leader
 may execute the shared read-only startup helper directly under its bounded exception
 and otherwise owns selection and execution. Initialization, configuration changes,

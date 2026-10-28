@@ -12,7 +12,8 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "agents"))
 from agent_tools import Invalid, NAMES, decode_cell, load_json, read_profiles
 
-FEATURES = {"requests": "directory", "specification": "directory", "chronicles": "directory"}
+FEATURES = {"specification": "directory", "chronicles": None}
+ACTIVITIES_LOCATION = ".hai_env/activities"
 INTEGRATIONS = ("git", "github")
 INSTRUCTIONS = ".hai_env/agent_instructions.md"
 TEMPLATE = ".hai/agents/environment-manager/templates/state.json"
@@ -106,15 +107,19 @@ def instruction_path(workspace: Path) -> Path:
 
 
 def state_context(workspace: Path, state: dict, template: dict,
-                  contract: dict) -> tuple[dict, dict, dict, list[dict]]:
+                  contract: dict) -> tuple[dict, dict, dict, list[dict], dict]:
     if (not isinstance(template, dict)
+            or not isinstance(template.get("activities"), dict)
+            or template["activities"] != {"location": ACTIVITIES_LOCATION}
             or not isinstance(template.get("features"), dict)
             or set(template["features"]) != set(FEATURES)):
-        raise Invalid("Canonical state template is invalid")
-    for feature in template["features"].values():
-        if (not isinstance(feature, dict) or feature.get("enabled") is not False
-                or not isinstance(feature.get("location"), str) or not feature["location"].strip()):
-            raise Invalid("Canonical template requires disabled features and nonblank locations")
+        raise Invalid("Canonical format-2 template is invalid")
+    spec = template["features"].get("specification")
+    chronicles = template["features"].get("chronicles")
+    if (not isinstance(spec, dict) or spec.get("enabled") is not False
+            or spec.get("location") != ".hai_env/specifications"
+            or chronicles != {"enabled": False}):
+        raise Invalid("Canonical template requires disabled specification and chronicles defaults")
     template_integrations = template.get("integrations")
     if (not isinstance(template_integrations, dict)
             or set(template_integrations) != set(INTEGRATIONS)
@@ -127,20 +132,50 @@ def state_context(workspace: Path, state: dict, template: dict,
         raise Invalid("Canonical template requires automatic push to be disabled")
     if isinstance(state, dict) and "compatible_version" in state:
         raise Invalid("Incompatible core state: legacy compatible_version is unsupported; migrate explicitly to state_format_version")
+    if isinstance(state, dict) and isinstance(state.get("features"), dict):
+        legacy_features = state["features"]
+        if "agent_instructions" in legacy_features:
+            raise Invalid("Incompatible core state: retired features.agent_instructions is unsupported; use the fixed mandatory instructions file")
+        if "requests" in legacy_features:
+            raise Invalid("Incompatible core state: legacy features.requests is unsupported; Activities are the HAI work unit")
+        chronicles = legacy_features.get("chronicles")
+        if isinstance(chronicles, dict) and "location" in chronicles:
+            raise Invalid("Incompatible core state: global features.chronicles.location is retired; transcripts are Activity-local")
     version = state.get("state_format_version") if isinstance(state, dict) else None
     if (not isinstance(state, dict) or type(version) is not int
             or version not in contract["supported_state_format_versions"]
-            or "agents" in state or "current_request" in state
+            or "agents" in state or "requests" in state or "current_request" in state or "current_activity" in state
+            or not isinstance(state.get("activities"), dict)
             or not isinstance(state.get("features"), dict)
+            or "requests" in state["features"]
             or "agent_instructions" in state["features"]):
-        raise Invalid("Incompatible core state: expected a supported state_format_version and features; no legacy agents/current_request or retired agent_instructions setting")
+        raise Invalid("Incompatible core state: expected format 2 with mandatory activities and features; legacy requests/current pointers and retired features.agent_instructions are unsupported")
+    activities = state["activities"]
+    if ("enabled" in activities or not isinstance(activities.get("location"), str)
+            or not activities["location"].strip()):
+        raise Invalid("Mandatory activities requires a nonblank workspace-relative location and no enabled switch")
     reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agents", INSTRUCTIONS]
-    # Validate both the spelling and resolved location, including aliases to reserved paths.
     reserved_paths = [workspace / name for name in reserved]
     reserved_paths += [safe_path(workspace, name) for name in reserved]
     locations, features = {}, {}
+    activity_relative = activities["location"]
+    activity_target = safe_path(workspace, activity_relative)
+    activity_lexical = workspace / activity_relative
+    if any(overlaps(candidate, reserved_path) for candidate in (activity_lexical, activity_target)
+           for reserved_path in reserved_paths):
+        raise Invalid("Mandatory Activity store overlaps a reserved location")
+    if activity_target.exists() and not activity_target.is_dir():
+        raise Invalid("Mandatory Activity store must target a directory")
+    locations["activities"] = (activity_lexical, activity_target)
+    activity_config = {"location": activity_relative,
+                       "available": activity_target.exists(), "target_type": "directory"}
     for name, kind in FEATURES.items():
         value = state["features"].get(name)
+        if name == "chronicles":
+            if not isinstance(value, dict) or type(value.get("enabled")) is not bool or "location" in value:
+                raise Invalid("Feature chronicles requires Boolean enabled and no global location")
+            features[name] = {"enabled": value["enabled"]}
+            continue
         if (not isinstance(value, dict) or type(value.get("enabled")) is not bool
                 or not isinstance(value.get("location"), str) or not value["location"].strip()):
             raise Invalid(f"Feature {name} requires Boolean enabled and nonblank location")
@@ -154,25 +189,20 @@ def state_context(workspace: Path, state: dict, template: dict,
             if any(overlaps(candidate, previous) for candidate in (lexical, target)
                    for previous in (other_lexical, other_target)):
                 raise Invalid(f"Feature locations collide: {name} and {other}")
-        if target.exists() and not (target.is_file() if kind == "file" else target.is_dir()):
-            raise Invalid(f"Feature {name} must target a {kind}")
+        if target.exists() and not target.is_dir():
+            raise Invalid(f"Feature {name} must target a directory")
         locations[name] = (lexical, target)
         features[name] = {"enabled": value["enabled"], "location": relative,
-                          "available": target.exists(), "target_type": kind}
+                          "available": target.exists(), "target_type": "directory"}
     integrations, integration_issues = {}, []
     configured = state.get("integrations")
     if configured is None and "integrations" not in state:
-        integrations = {name: {"enabled": False, "status": "unconfigured"}
-                        for name in INTEGRATIONS}
-        integrations["git"]["auto_push"] = {"enabled": False, "status": "unconfigured",
-                                             "readiness": "not_checked"}
+        integrations = {name: {"enabled": False, "status": "unconfigured"} for name in INTEGRATIONS}
+        integrations["git"]["auto_push"] = {"enabled": False, "status": "unconfigured", "readiness": "not_checked"}
     elif not isinstance(configured, dict):
-        integration_issues.append({"code": "integration", "path": "integrations",
-                                   "message": "Integrations must be an object; Git and GitHub are unavailable"})
-        integrations = {name: {"enabled": False, "status": "invalid"}
-                        for name in INTEGRATIONS}
-        integrations["git"]["auto_push"] = {"enabled": False, "status": "unverified",
-                                             "readiness": "not_checked"}
+        integration_issues.append({"code": "integration", "path": "integrations", "message": "Integrations must be an object; Git and GitHub are unavailable"})
+        integrations = {name: {"enabled": False, "status": "invalid"} for name in INTEGRATIONS}
+        integrations["git"]["auto_push"] = {"enabled": False, "status": "unverified", "readiness": "not_checked"}
     else:
         for name in INTEGRATIONS:
             value = configured.get(name)
@@ -180,38 +210,22 @@ def state_context(workspace: Path, state: dict, template: dict,
                 integrations[name] = {"enabled": False, "status": "unconfigured"}
             elif not isinstance(value, dict) or type(value.get("enabled")) is not bool:
                 integrations[name] = {"enabled": False, "status": "invalid"}
-                integration_issues.append({
-                    "code": "integration", "path": f"integrations.{name}",
-                    "message": f"Integration {name} requires Boolean enabled; this integration is unavailable"})
+                integration_issues.append({"code": "integration", "path": f"integrations.{name}", "message": f"Integration {name} requires Boolean enabled; this integration is unavailable"})
             else:
-                integrations[name] = {
-                    "enabled": value["enabled"],
-                    "status": "enabled" if value["enabled"] else "disabled"}
+                integrations[name] = {"enabled": value["enabled"], "status": "enabled" if value["enabled"] else "disabled"}
             if name == "git":
                 push = value.get("auto_push") if isinstance(value, dict) else None
-                if ((isinstance(value, dict) and "auto_push" not in value)
-                        or name not in configured):
-                    integrations[name]["auto_push"] = {
-                        "enabled": False, "status": "unconfigured", "readiness": "not_checked"}
+                if (isinstance(value, dict) and "auto_push" not in value) or name not in configured:
+                    integrations[name]["auto_push"] = {"enabled": False, "status": "unconfigured", "readiness": "not_checked"}
                 elif not isinstance(push, dict) or type(push.get("enabled")) is not bool:
-                    integrations[name]["auto_push"] = {
-                        "enabled": False, "status": "invalid", "readiness": "not_checked"}
-                    integration_issues.append({
-                        "code": "integration", "path": "integrations.git.auto_push",
-                        "message": "Automatic push policy requires Boolean enabled; automatic push is unavailable"})
+                    integrations[name]["auto_push"] = {"enabled": False, "status": "invalid", "readiness": "not_checked"}
+                    integration_issues.append({"code": "integration", "path": "integrations.git.auto_push", "message": "Automatic push policy requires Boolean enabled; automatic push is unavailable"})
+                elif push["enabled"] and integrations[name]["status"] in {"invalid", "unconfigured", "disabled"}:
+                    integrations[name]["auto_push"] = {"enabled": False, "status": "invalid", "readiness": "not_checked"}
+                    integration_issues.append({"code": "integration", "path": "integrations.git.auto_push", "message": "Automatic push requires integrations.git.enabled to be true"})
                 else:
-                    if push["enabled"] and integrations[name]["status"] in {"invalid", "unconfigured", "disabled"}:
-                        integrations[name]["auto_push"] = {
-                            "enabled": False, "status": "invalid", "readiness": "not_checked"}
-                        integration_issues.append({
-                            "code": "integration", "path": "integrations.git.auto_push",
-                            "message": "Automatic push requires integrations.git.enabled to be true"})
-                    else:
-                        integrations[name]["auto_push"] = {
-                            "enabled": push["enabled"],
-                            "status": "enabled" if push["enabled"] else "disabled",
-                            "readiness": "not_checked"}
-    return features, locations, integrations, integration_issues
+                    integrations[name]["auto_push"] = {"enabled": push["enabled"], "status": "enabled" if push["enabled"] else "disabled", "readiness": "not_checked"}
+    return features, locations, integrations, integration_issues, activity_config
 
 
 def catalogue(workspace: Path, origin: str, reserved: set[str] | None = None) -> dict:
@@ -291,7 +305,7 @@ def check(workspace: Path) -> dict:
     workspace = workspace.resolve(strict=True)
     if not workspace.is_dir():
         raise Invalid("Workspace must be an existing directory")
-    result = {"ok": False, "environment": "invalid", "features": {},
+    result = {"ok": False, "environment": "invalid", "activities": {}, "features": {},
               "integrations": {
                   "git": {"enabled": False, "status": "unverified",
                           "auto_push": {"enabled": False, "status": "unverified",
@@ -329,9 +343,9 @@ def check(workspace: Path) -> dict:
         else:
             state = load_json(state_path)
             template = load_json(safe_path(workspace, TEMPLATE))
-            features, locations, integrations, integration_issues = state_context(
+            features, locations, integrations, integration_issues, activities = state_context(
                 workspace, state, template, contract)
-            result.update(environment="valid", features=features,
+            result.update(environment="valid", activities=activities, features=features,
                           integrations=integrations,
                           current_state_format_version=contract["current_state_format_version"],
                           state_format_version=state["state_format_version"])

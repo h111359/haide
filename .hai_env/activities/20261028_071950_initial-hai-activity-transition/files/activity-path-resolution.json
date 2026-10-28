@@ -1,0 +1,7 @@
+{
+  "activity_id": "5b79aa45-bbdb-4039-84ea-a09e7d3b6760",
+  "recorded_at": "2026-10-28T07:19:50Z",
+  "previous_path": ".hai_env/activities/00000000_000000_active",
+  "canonical_archive_path": ".hai_env/activities/20261028_071950_initial-hai-activity-transition",
+  "reason": "Explicit user-authorized closure; resolve historical path references by stable Activity UUID. Verbatim transcript bytes remain unchanged."
+}

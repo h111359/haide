@@ -3,7 +3,7 @@
 `startup_check.py` is a read-only Python 3.11+ standard-library startup helper.
 It shares strict JSON, model-profile schema, agent-name and catalogue-cell decoding
 with `../agents/agent_tools.py`. It never installs a runtime, writes files,
-initializes state, scans request stores, or parses every registered definition.
+initializes state, scans Activity stores, or parses every registered definition.
 
 Find and verify a Python 3.11+ interpreter as described in
 [the tooling convention](../../conventions/tooling_conv.md). Run the helper with
@@ -35,8 +35,7 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
   validity so missing instructions are not mistaken for absent state. Only safely
   absent state permits routing minimal initialization to environment-manager;
   initialized missing instructions need scoped repair. This command never initializes.
-- `current_state_format_version`, `state_format_version`, and the three optional `features`: returned only for validated core state. The format contract comes from the installed framework package, independently of the target workspace's `.hai` copy;
-  each feature has its validated flag, location, target type, and availability.
+- `current_state_format_version`, `state_format_version`, `activities`, and optional `features`: returned only for validated core state. The format contract comes from the installed framework package, independently of the target workspace's `.hai` copy. `activities` reports the mandatory configured store location (default `.hai_env/activities`) and directory availability/type; startup does not enumerate records or discover the current Activity. Specification reports its flag, location, and availability. Chronicles reports its flag only; transcript paths are derived inside each Activity.
 - `integrations`: `git` and `github` each expose `enabled` and `status`
   (`enabled`, `disabled`, `unconfigured`, `invalid`, or `unverified`). They are
   `unverified` when core state is absent or invalid. With valid core state, these
@@ -83,11 +82,11 @@ run, and is never validation success.
 
 Checks include duplicate keys at every JSON depth, nonstandard numeric constants,
 required state types and compatibility against the installed state-format contract,
-canonical template defaults,
-optional Git/GitHub integration types,
-legacy properties and the retired `features.agent_instructions` setting, configured
-paths even for disabled features, target types, reserved locations, feature collisions
-and profile overlap. Fixed mandatory instructions are reserved against feature/profile
+canonical format-2 template defaults, optional Git/GitHub integration types,
+legacy request/current-pointer properties and retired `features.agent_instructions`, configured paths, target types,
+reserved locations, Activity/specification collisions and profile overlap. Global
+chronicles locations are rejected; Activity-local transcript paths are derived and
+not scanned. Fixed mandatory instructions are reserved against feature/profile
 aliases; actual aliases to state, profiles, framework, or registry are rejected.
 Unrelated invalid profile/state paths do not prevent safe canonical instructions
 from loading. Existing prefixes are resolved
@@ -102,7 +101,7 @@ whole origin. Selected-definition format and exact description equality remain
 selection/authoring checks in `agent_tools.py`; do not run its full audit at startup.
 
 The helper reads mandatory fixed instructions and no optional feature contents.
-It performs filesystem checks on configured request/specification/chronicles paths
+It performs filesystem checks on the configured Activity store and specification path
 without listing their directories. It does not interpret a saved session source,
 synchronize chronicles, check mandatory instructions beyond the supplied context,
 or establish runtime support. Results describe a read-only observation, not a

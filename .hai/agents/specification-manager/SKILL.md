@@ -42,7 +42,7 @@ A path alone supplies neither a task nor authority to create or edit content.
 
 Existing audit baselines, explicit restructuring preferences, and verified
 workspace/source roots when product discovery is requested. HAI callers supply
-validated feature/location context and relevant request sources. Without a
+validated feature/location context and relevant Activity sources. Without a
 supplied baseline, capture one only when identity comparison is required;
 otherwise leave it absent.
 
@@ -52,14 +52,14 @@ Work independently using supplied context, package-local references, and tools;
 do not invoke other agents. Retrieve missing required inputs from authorized
 context first, then return the specific dependency to the caller. Continue work
 that does not depend on it. Never invent decisions, permissions, or approval.
-HAI selection, agent, model, state, request, and tooling policies remain the
+HAI selection, agent, model, state, Activity, and tooling policies remain the
 caller's shared framework responsibilities; follow applicable instructions
 supplied for an HAI invocation.
 
 - Work within the human's requested scope; obtain decisions from the caller
   when meaning, approval, or a structural conflict is unresolved.
 - Standalone invocation requires no HAI installation, state, leader, model
-  profiles, requests, or recording setup. Do not initialize or repair them.
+  profiles, Activities, or recording setup. Do not initialize or repair them.
   The package format does not install a runtime skill or select a model.
 - For HAI-managed specification work, require the caller's validated assurance
   that the specification feature is enabled and the supplied root is its
@@ -67,7 +67,7 @@ supplied for an HAI invocation.
   context is a setup dependency returned to the caller. Do not bypass that
   dependency by reclassifying the invocation as standalone. The caller routes
   HAI setup to environment-manager; this role never changes state, enables a
-  feature, or selects a request. Framework maintenance itself is not product
+  feature, or selects an Activity. Framework maintenance itself is not product
   specification work and does not require enabling the feature.
 - Keep this role's procedures here; callers supply tasks without duplicating
   those procedures.
@@ -105,9 +105,9 @@ Read these before working on a specification:
   transition applicability, mandatory migration/adoption approval and verification.
 
 Read only this package's `conventions/<type>_conv.md` files for leaf types
-being created or changed. When promoting request or other temporary source
+being created or changed. When promoting Activity or other temporary source
 information, use the source and lifecycle context supplied by the caller;
-request-record management remains outside this role. Do not reread unchanged
+Activity-record management remains outside this role. Do not reread unchanged
 knowledge already available in context.
 
 ### Locate and inspect the specification
@@ -147,7 +147,7 @@ knowledge already available in context.
 
 1. Identify the source, intended meaning, audience, and scope of each
    proposed addition. Separate durable product knowledge from temporary
-   request inputs, plans, logs, and conversations.
+   Activity inputs, plans, logs, and conversations.
 2. Classify each item using the specification's registered leaf scopes.
    Prefer an applicable specialized type. Separate material answering
    different questions and link related leaves instead of duplicating

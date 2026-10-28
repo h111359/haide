@@ -46,8 +46,10 @@ Workspace mutations additionally require valid initialized environment context.
 Always load the fixed mandatory `.hai_env/agent_instructions.md` before dependent
 work, independently of state validity; an existing empty file is valid. Retrieve authorized context
 before asking; return missing or invalid prerequisites without initializing or
-repairing them. Framework maintenance and read-only inspection of either origin
-do not require initialized or compatible environment state.
+repairing them. Read-only prerequisite diagnosis and independent format tools can
+operate without initialized or compatible state. Substantive HAI framework maintenance
+and audits follow mandatory Activity context after bootstrap; definition availability
+is not an exemption from tracking.
 
 ## Optional inputs
 
@@ -95,8 +97,9 @@ model mappings remain outside this role. Omitted input defaults remain absent.
    safe readable fixed mandatory instructions; missing/unreadable content blocks
    dependent work, while read-only diagnosis remains available. For workspace
    mutations, additionally validate compatible environment context.
-   Framework work and read-only audits use applicable supplied instructions without
-   making environment setup a prerequisite. Never modify state or profiles.
+   Read-only prerequisite diagnosis uses available instructions without initializing
+   an environment. Substantive HAI maintenance/audits additionally receive Activity
+   context under the shared convention. Never modify state or profiles.
 3. Validate the target under its canonical origin. Read relevant catalogue entries
    and inspect immediate folder names under both origins to establish identity and
    registration status before mutations. Missing workspace catalogue means no
@@ -201,8 +204,8 @@ occur, or full success while a required coordinated update remains inconsistent.
 - [Agent concept](../../concepts/agent.md) — role boundaries — required when creating
   or changing responsibilities.
 - [State convention](../../conventions/state_conv.md) — catalogue encoding and workspace
-  prerequisites — required for catalogue writes; environment validation conditional
-  on workspace mutations, not framework maintenance or read-only inspection.
+  prerequisites — required for catalogue writes and HAI context; independent format
+  checks and prerequisite diagnosis remain available without initialized state.
 - [Framework catalogue](../catalogue.md) and the workspace catalogue when present —
   registration and identity checks — required before mutations; conditional on audit scope.
 - [Model profiles](../../conventions/model-profiles_conv.md) — model metadata and

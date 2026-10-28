@@ -83,7 +83,10 @@ reporting **inherited startup bootstrap settings** before delegation. This is a
 bounded bootstrap exception to specialist defaults, not profile resolution or an
 implicit mapping. Limit it to environment validation, minimal initialization of
 state and fixed mandatory instructions,
-and returning profile setup status; create no model profiles or optional resources.
+and returning profile setup status; create no model profiles, Activity records or
+optional resources. This prerequisite bootstrap is a bounded exception to mandatory
+Activity recording, not authority for untracked substantive work. Activity-manager
+discovery and record work use normal resolved settings after usable context exists.
 Use a runtime-supported inherited-settings spawn without explicit overrides. If
 that runtime cannot inherit settings, report the limitation and request an explicit
 supported invocation choice. Never guess concrete interface settings.

@@ -1,0 +1,23 @@
+{
+  "activity_id": "333a3192-1975-4575-a1ba-426910950b9a",
+  "subject": "Prepare HAI Activity release and commit",
+  "lifecycle": "active",
+  "created_at": "2026-10-28T07:19:50Z",
+  "closed_at": null,
+  "outcome": null,
+  "implementation_started_at": "2026-10-28T07:19:50Z",
+  "steps": {
+    "clarification": "completed",
+    "analysis": "not_started",
+    "planning": "in_progress",
+    "implementation": "in_progress",
+    "verification": "not_started"
+  },
+  "related_activities": [
+    {
+      "relationship": "predecessor",
+      "activity_id": "5b79aa45-bbdb-4039-84ea-a09e7d3b6760",
+      "archive_path": ".hai_env/activities/20261028_071950_initial-hai-activity-transition"
+    }
+  ]
+}

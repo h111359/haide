@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "contracts": {
+    "environment_state": {
+      "current_state_format_version": 2,
+      "supported_state_format_versions": [
+        2
+      ]
+    },
+    "specification": {
+      "specification_compatibility_version": 1
+    }
+  }
+}

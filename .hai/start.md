@@ -28,13 +28,21 @@ safe instructions file independently of state validity; empty content is valid,
 while missing/unreadable content blocks dependent work and must be reported.
 Initialization or explicitly authorized migration may create the empty file;
 startup validation never silently repairs an initialized environment.
-Optional requests, specification, and chronicles remain disabled until chosen by the
-human. Existing invalid or incompatible state is preserved and
+Activities are mandatory; specification and chronicles remain disabled until chosen
+by the human. With compatible validated context, leader routes current-record
+discovery to Activity-manager, resuming the current Activity when present. A new
+chat alone creates none. Meaningful new substantive work with no current record
+creates one; conflicting current/new intent requires a boundary decision. Startup
+validation, necessary bootstrap/setup and read-only diagnosis may precede a record.
+All subsequent substantive work, including advice and analysis, belongs to an Activity. Existing invalid or incompatible state is preserved and
 reported, rather than reinitialized. Leader reports startup results with
 a menu based on validated capabilities and recommends additional chat setup
-after fresh initialization. Leader routes enabled or required transcript maintenance
-to chronicles-manager asynchronously, using completed messages from the durable
-saved session source. Delivery does not wait for optional recording. If the runtime
+after fresh initialization. Leader assigns exact source exchanges to Activities
+and routes enabled or required transcript segments to chronicles-manager
+asynchronously from completed durable-source messages. Segments live under their
+Activity, never a global chronicles location. Enabling recording covers subsequent
+exchanges without implicit off-period backfill; a chat can have multiple segments
+across Activities. Ambiguous attribution is resolved by leader with the human. Delivery does not wait for optional recording. If the runtime
 cannot continue after delivery, catch up on the next active turn and report deferred
 recording accurately; mandatory workspace timing requirements take precedence.
 

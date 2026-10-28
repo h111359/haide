@@ -1,16 +1,14 @@
 {
+  "activities": {
+    "location": ".hai_env/activities"
+  },
   "features": {
-    "requests": {
-      "enabled": false,
-      "location": ".hai_env/requests"
-    },
     "specification": {
       "enabled": false,
       "location": ".hai_env/specifications"
     },
     "chronicles": {
-      "enabled": false,
-      "location": ".hai_env/chronicles"
+      "enabled": false
     }
   },
   "integrations": {

@@ -1,0 +1,1 @@
+close the activity, prepare a new release, commit

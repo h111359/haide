@@ -38,3 +38,13 @@ definition template and optional resources. `.hai_env/agents/catalogue.md`
 is their authoritative Markdown catalogue, following [state_conv.md](state_conv.md).
 Do not initialize environment or create agent scaffolding merely to make
 framework definitions available.
+
+## Activity resources
+
+Activity-manager owns the canonical [Activity concept](../agents/activity-manager/concepts/activity.md)
+and [Activity convention](../agents/activity-manager/conventions/activity_conv.md)
+in its package. Environment configuration supplies a mandatory activities.location,
+default `.hai_env/activities`, with one fixed current folder and closed archives.
+Activity artifacts and optional transcript segments belong there; product code and
+durable specification remain at canonical product locations. There is no reusable
+framework store, Activity toggle or global chronicles location.

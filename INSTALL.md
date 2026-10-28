@@ -1,73 +1,81 @@
-# Installing HAI 0.1.0
+# Installing and upgrading HAI
 
 HAI is a prototype framework of agent instructions and Python validation tools.
-It is used inside an AI-assisted development workspace; it is not a Python package
-or a service that starts automatically when the ZIP is extracted.
+It is not a Python package or a service that starts when a ZIP is extracted.
+
+The current source is the **HAI 0.2.0 candidate**, with environment
+state format **2**. The immutable **0.1.0** bundle supports format **1** and retains
+its original behavior. Its [release notes](release-notes/0.1.0.md) and
+[preserved manifest](release-notes/0.1.0-manifest.json) describe that bundle; they
+do not identify this source as a published release. The selected candidate has
+[0.2.0 notes](release-notes/0.2.0.md) and a
+[current manifest](.hai/release-0.2.0.json); publication remains pending.
 
 ## Requirements
 
-- An AI coding environment that can read workspace files and follow
-  [the startup instructions](.hai/start.md). Agent spawning, supported model/effort
-  combinations, and available tools depend on that environment; HAI does not install
-  or guarantee those capabilities.
-- A working Python 3.11 or newer for the bundled validation helpers. They use the
-  standard library and do not install dependencies. Verify the actual interpreter
-  before running helpers; an unavailable launcher is not proof Python is absent.
-- Git and GitHub access only for the operations you choose to enable. GitHub CLI is
-  not required when another supported connector or transport meets the task's needs.
+- An AI coding environment that reads workspace files and follows
+  [startup instructions](.hai/start.md). Runtime spawning, model/effort support and
+  tools depend on that environment; HAI does not install or guarantee them.
+- Python 3.11 or newer for standard-library validation helpers. Verify an available
+  interpreter; an unavailable launcher does not establish that Python is absent.
+- Git/GitHub access only for chosen enabled operations. GitHub CLI is unnecessary
+  when a sufficient connector or other supported transport is available.
 
-## New installation
+## Historical 0.1.0 installation
 
-1. Extract `hai-0.1.0.zip` into a temporary directory and inspect its contents. The
-   package contains `.hai/`, `LICENSE`, `README.md`, this guide, and the release notes.
-2. Copy `.hai/` into the root of the intended workspace. Do not extract package-root
-   documentation over an existing project's `README.md` or `LICENSE`. Retain the
-   supplied MIT license with the installed framework, for example by copying the
-   package's `LICENSE` to `.hai/LICENSE`. Retain the extracted package as a
-   documentation/reference copy when its root filenames would conflict with project files.
-3. In your AI coding environment, ask it to read `.hai/start.md`. HAI loads the
-   leader role and validates the workspace. If core state is safely absent,
-   environment-manager initializes `.hai_env/state.json` and the fixed
-   `.hai_env/agent_instructions.md`, preserving existing unrelated material.
-4. Use **Additional setup** to configure supported specialist model profiles and
-   any optional features. Requests, specification and chronicles start off. Git and
-   GitHub integrations also start off; automated push is a separate opt-in that
-   requires verified tooling, authentication and write readiness before enablement.
-5. Ask for an ordinary task or select a registered framework agent. The package
-   supplies framework agents; it does not supply this repository's workspace agents,
-   model profiles, credentials, specifications or session history.
+1. Inspect `hai-0.1.0.zip` in a temporary directory. It contains reusable `.hai/`,
+   license, package-root documentation and release notes, with its original manifest.
+2. Copy `.hai/` to the intended workspace. Do not overwrite a project's README or
+   license with package-root files. Retain the MIT license with the framework, for
+   example at `.hai/LICENSE`, and retain extracted documentation separately.
+3. Ask the coding environment to read the installed `.hai/start.md`. Follow that
+   bundle's instructions: it initializes safely absent format-1 state and fixed
+   instructions, then offers optional requests, specification and global chronicles.
+   These are historical 0.1.0 capabilities, not Activity development defaults.
+4. Configure supported model profiles and chosen integrations/features. Automated
+   push is a separate opt-in requiring verified readiness. Packages exclude this
+   repository's local environment, profiles, credentials, workspace agents and history.
 
-For a read-only environment check from the workspace root, run a verified Python
-3.11+ executable with `-B .hai/tools/startup/startup_check.py --workspace .`.
-See [helper instructions](.hai/tools/startup/README.md) for interpreter discovery,
-output and limitations. An absent environment is an initialization dependency,
-not something that this helper creates or repairs.
+## Current 0.2.0 candidate
 
-## Existing installations and prototype workspaces
+Inspect the candidate source or its exact-commit package in a temporary directory.
+Verify the package's current manifest declares version `0.2.0`, environment state
+`2` with support `[2]`, and specification compatibility `1`. Preserve the MIT license
+and avoid overwriting project-root documentation. Copy the complete reusable
+`.hai/` tree and ask the coding environment to read its `.hai/start.md`.
 
-Back up the existing `.hai/` and `.hai_env/` before an upgrade. Read the release
-notes and compare the manifest's contract targets with the existing environment
-and any specification tree before dependent work.
+Safely absent state initializes at format 2 with mandatory fixed instructions and
+`activities.location`, default `.hai_env/activities`. Specification and chronicles
+start off. Activity records are created when meaningful substantive work begins;
+startup and a new chat alone create none. Existing current work resumes through
+Activity-manager. Optional chat setup configures specification, recording and
+supported model profiles; there is no Activity switch or global transcript location.
+Git/GitHub and automated push retain their independent setup gates.
 
-Replace the reusable `.hai/` as one unit from the inspected package, retaining
-workspace-specific custom material separately. Avoid overlay extraction that leaves
-stale framework files or multiple `release-*.json` manifests. Keep the supplied MIT
-license with the new copy. Preserve `.hai_env/`, its configured feature data and
-all product files; the release does not contain replacements for them.
+For a read-only check, use a verified Python 3.11+ executable with
+`-B .hai/tools/startup/startup_check.py --workspace .`. Read the
+[helper instructions](.hai/tools/startup/README.md) for output and limits. The
+helper validates configuration without discovering Activity records or writing files.
 
-This release supports environment state format **1**. Older prototype state using
-`compatible_version` is unsupported legacy metadata and must not be silently
-reinterpreted or reset. Ask environment-manager for a scoped, authorized plan when
-existing state is incompatible. Specification compatibility **1** is independent;
-existing unmarked or incompatible trees require specification-manager's assessment
-and an explicitly approved adoption or migration before dependent edits. Extracting
-a bundle or changing a version marker does not perform either migration.
+## Existing installations and migration
 
-## Version and license
+Back up framework, environment and configured data before changing an installation.
+Inspect the source or bundle contract targets. Replace reusable `.hai/` as a whole;
+avoid overlays leaving stale role folders or manifests. Preserve `.hai_env/`, all
+configured record/specification data and product files. A framework copy is not a
+state, record or transcript migration.
 
-The installed bundle identifies itself in
-[release-0.1.0.json](.hai/release-0.1.0.json). State-format and specification
-compatibility targets are independent of the `0.1.0` bundle version.
+The 0.2.0 candidate supports format 2 only. Existing format-1 or older state must
+be reported and preserved until a scoped migration is authorized; do not reset it
+or merely change the version marker. Environment-manager owns configuration mapping;
+Activity-manager owns record migration and chronicles-manager exact-source transcript
+handling under leader's coordination. Historical input and source remain attributable;
+missing transcript source is reported, never reconstructed. See
+[Activity migration notes](release-notes/activity-migration.md).
 
-See [release notes](release-notes/0.1.0.md) for the experimental versioning policy,
-capabilities and known limits. HAI is distributed under the [MIT license](LICENSE).
+Specification compatibility **1** remains independent. Existing unmarked or
+incompatible trees require specification-manager's assessment and an explicitly
+approved adoption/migration before dependent edits. Neither extracting a bundle
+nor changing a marker performs that migration. Candidate selection, packaging and
+public publication are separate steps; a prepared candidate is not a published
+release.

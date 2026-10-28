@@ -22,4 +22,4 @@ Definition and classification scope: [Product charter](../concepts/specification
 
 - Separate agreed goals from hypotheses and possible future work.
 - Link specific capabilities, policies, and technical decisions instead of detailing them here.
-- Describe meaningful product direction without turning this leaf into a request backlog.
+- Describe meaningful product direction without turning this leaf into an execution backlog.

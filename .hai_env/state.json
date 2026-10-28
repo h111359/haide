@@ -1,17 +1,12 @@
 {
-  "state_format_version": 1,
+  "state_format_version": 2,
   "features": {
-    "requests": {
-      "enabled": false,
-      "location": ".hai_env/requests"
-    },
     "specification": {
       "enabled": false,
       "location": ".hai_env/specifications"
     },
     "chronicles": {
-      "enabled": true,
-      "location": ".hai_env/chronicles"
+      "enabled": true
     }
   },
   "integrations": {
@@ -24,5 +19,8 @@
     "github": {
       "enabled": true
     }
+  },
+  "activities": {
+    "location": ".hai_env/activities"
   }
 }

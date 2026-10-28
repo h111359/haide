@@ -134,7 +134,7 @@ against the actual tree before relying on a suspected stale catalogue.
 - Separate desired behavior, design, observed state, rationale, and procedures. They can concern the same feature while belonging to different types.
 - Product-specific AI prompts, model behavior, retrieval, and evaluation belong to the same types as other product behavior, design, and tests. Instructions for AI working on the repository belong in Development guide.
 - Domain terminology belongs in Glossary; domain policies and constraints belong in Business rules; domain entities and relationships belong in Data model. Supporting domain explanations stay with the rule, model, or behavior they explain.
-- Request inputs, temporary analysis, implementation plans, execution logs, and conversations remain outside the specification in caller-managed work records. Promote only durable product knowledge into the specification and link to its supporting source when useful.
+- Activity inputs, temporary analysis, implementation plans, execution logs, and conversations remain outside the specification in caller-managed work records. Promote only durable product knowledge into the specification and link to its supporting source when useful.
 - If scope remains uncertain, record the ambiguity and request a classification decision rather than silently duplicating content or inventing a type. Add a type only when no existing scope reasonably covers the material.
 
 ### Leaf types
@@ -245,7 +245,7 @@ A record of one significant technical choice, its context, alternatives, and con
 
 ##### Scope
 
-Use for durable decisions about architecture, technology, data, integration, security, and engineering tradeoffs. Record why a choice was made and what would justify reconsidering it. Put the current resulting design in its relevant specification type, product priorities in Product charter, and the decision index in ADR catalogue. Routine request questions remain in request records.
+Use for durable decisions about architecture, technology, data, integration, security, and engineering tradeoffs. Record why a choice was made and what would justify reconsidering it. Put the current resulting design in its relevant specification type, product priorities in Product charter, and the decision index in ADR catalogue. Routine Activity questions remain in Activity records.
 
 ##### Specification
 
@@ -357,7 +357,7 @@ The evidence and verification methods used to determine whether the product meet
 
 ##### Scope
 
-Use for test strategy, cases, fixtures, environments, coverage, acceptance checks, performance experiments, security checks, and AI evaluation datasets, metrics, and pass criteria. Put the target behavior or threshold in its originating requirement leaf and automation wiring in CI/CD. Keep individual execution logs and transient results in request or test-run artifacts; link durable evidence when needed.
+Use for test strategy, cases, fixtures, environments, coverage, acceptance checks, performance experiments, security checks, and AI evaluation datasets, metrics, and pass criteria. Put the target behavior or threshold in its originating requirement leaf and automation wiring in CI/CD. Keep individual execution logs and transient results in Activity or test-run artifacts; link durable evidence when needed.
 
 ##### Specification
 

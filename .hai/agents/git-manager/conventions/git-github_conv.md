@@ -47,15 +47,19 @@ the conflict to leader or use an explicitly agreed isolation method.
 
 Before each planned commit-producing operation, return a refresh dependency to
 leader and wait while leader routes synchronous synchronization to chronicles-manager.
-Resume only with fresh verified status, transcript path and completed saved-source
-boundary for this operation; a prior completed operation's success is not reusable.
-A fresh verification finding no new recordable text is sufficient.
+Resume only with fresh verified status, Activity ID, relevant segment paths and
+completed saved-source boundaries, or verified recording-disabled/no-obligation
+status for this operation; a prior completed operation's success is not reusable.
+A fresh verification finding no new eligible text is sufficient. Optional recording
+off without an applicable recording obligation also satisfies the gate after fresh
+verification; create no transcript and do not backfill off periods. Mandatory
+workspace recording requirements remain effective.
 
-Recheck the candidate, index and applicable transcript before commit. Include the
-verified chronicle where it belongs in the repository and intended scope. If ignored
+Recheck the candidate, index and applicable Activity transcript segments before commit. Include the
+verified segments where they belong in the repository and intended scope. If ignored
 or outside the repository, return the inclusion constraint to leader; never force-add
-or silently change scope. Missing source, divergence, partial writes, disabled or
-unavailable recording blocks commit until leader resolves it or supplies an explicit
+or silently change scope. Missing required source, divergence, partial writes or
+unavailable required recording blocks commit until leader resolves it or supplies an explicit
 user exception. Never silently enable recording or infer an exception from commit authority.
 
 The gate includes amend and commit-producing pull/merge, rebase, cherry-pick and

@@ -2,107 +2,121 @@
 
 ## Definition
 
-[environment] is the persistent, installation-specific collection of [HAI] state, optional work records, custom instructions, and references. Its mandatory state lives in `.hai_env/`, separately from the reusable framework in `.hai/`. Optional feature locations are configurable within the workspace.
+[environment] is HAI's persistent installation-specific configuration, instructions,
+Activities, optional records and local references. Mandatory configuration lives
+in `.hai_env/`, separately from reusable framework material in `.hai/`.
 
 ## Purpose
 
-[environment] preserves the setup and continuity of HAI's work in a [workspace]. It holds HAI's local working material; product implementation belongs in the workspace.
+The environment preserves setup and continuity across chats while product code
+and durable specification remain in their canonical product locations.
 
 ## Explanation
 
-### Components
+### Mandatory context and Activities
 
-The mandatory components are `.hai_env/state.json` and the fixed
-`.hai_env/agent_instructions.md`. Always load safe readable instructions before
-dependent work, independently of state validity. Empty content adds no instructions;
-missing or unreadable content is a reported failure, not an implicit empty file.
-Instructions have no state flag or configurable location. State contains on/off
-flags and configurable locations for three optional features:
+Mandatory files are `.hai_env/state.json` and fixed `.hai_env/agent_instructions.md`.
+Load safe readable instructions before dependent work independently of state validity.
+Empty content is valid; missing/unreadable instructions are a reported failure.
+Instructions have no configurable location or enabled flag.
 
-- Requests, defaulting to `.hai_env/requests`.
-- Specification, defaulting to `.hai_env/specifications`.
-- Chronicles, defaulting to `.hai_env/chronicles`.
+Current development uses state format 2. It requires root activities.location,
+default `.hai_env/activities`, as a safe workspace-relative store. Activities are
+mandatory for all substantive HAI work and have no switch. They include brainstorming,
+advice, analysis, planning, framework maintenance, implementation and verification.
+Only startup/bootstrap work needed to establish usable context and read-only diagnosis
+may precede a record. A new chat alone creates none: after compatible validation,
+leader routes current-record discovery to Activity-manager and resumes it, or creates
+one when meaningful new substantive work begins with no current record. Conflicting
+current/new intent requires an explicit boundary decision, never silent replacement.
 
-All optional features are off in a newly initialized core state. On leader startup,
-leader uses the shared read-only startup helper for existing-state validation and
-bounded context loading without an environment-manager round trip. When state is
-safely absent, environment-manager creates state and an empty fixed instructions
-file when absent, creating the container if needed and preserving existing readable
-instructions. An existing `.hai_env/` may hold independent resources; preserve
-them without treating the container alone as initialized core state. Initialization
-creates no optional resources or agent scaffold. The leader then recommends chat
-setup, where the human chooses features and locations. Setup may be deferred.
+At most one Activity is active at `00000000_000000_active`; previous records are
+closed under UTC closure timestamp folders. Each keeps a stable activity_id.
+Environment-manager validates configuration and directory availability without
+loading Activity states. Activity-manager owns record discovery, artifacts and
+lifecycle; leader alone orchestrates specialists. Store absence is valid before
+meaningful work. There is no global current pointer or collection state file.
 
-The [state convention](../conventions/state_conv.md) defines configuration, safe workspace paths, compatibility, and validation. The installed environment-manager [contract](../agents/environment-manager/contract.json) supplies the current and supported state format versions independently of HAI release numbering. Mandatory instructions load independently; state still precedes optional-feature context. Optional feature locations may be outside `.hai_env/` but must remain safe inside the workspace and avoid mandatory instructions. Disabling a feature preserves its files and stops its use through environment configuration; changing its location does not move existing contents. Independent workspace and session instructions still apply.
+### Optional features and transcripts
 
-Request configuration contains only enablement and the store location, with no
-global active-request pointer. Environment validation checks its path and type,
-not request records or stages; an absent store is valid configuration. Startup
-does not discover or resume requests. Explicit enablement may create an empty
-store; it never creates request records. Record handling is a separate task.
+State has two optional features, both off on initialization:
 
-Enabling specification records a location without fabricating contents or asserting that a specification already exists. Linking an existing specification requires explicitly supplied intent and a verified folder. Chronicles-manager owns session transcripts when recording is enabled; environment-manager owns configuration. Chronicles are distinct from request-specific discussion and do not require requests to be enabled.
+- features.specification has enabled and safe workspace-relative location, default
+  `.hai_env/specifications`.
+- features.chronicles has enabled only. There is no global transcript location.
 
-Chronicles synchronize asynchronously from completed messages in the durable saved
-session source by default, without a new state flag or schema migration. Response
-delivery does not wait for optional recording. If the runtime cannot continue after
-delivery, leader routes catch-up at the next active turn and reports recording as
-deferred. Missing sources and existing divergence remain unresolved issues, not
-permission to reconstruct or repair records. Mandatory workspace timing requirements
-take precedence; chronicles-manager defines synchronization and verification.
+Disabling preserves files. Changing Activity/specification location changes its
+reference only; it does not move or delete content. Enabling specification does not
+fabricate a tree; linking an existing tree requires verified intent and location.
+HAI-managed work requires validated feature context, without a standalone bypass.
+Registered framework roles remain available independently of optional enablement.
 
-HAI-managed feature work requires validated enablement and location context.
-Standalone capabilities do not bypass that configuration. Detailed content rules
-and procedures belong to the selected role; leader owns handoff and setup routing.
+Chronicles live under their assigned Activity's `chronicles/`. A chat can span
+Activities and an Activity can span chats or multiple segments of the same chat.
+Leader assigns exact exchange boundaries and resolves ambiguity with the human;
+chronicles-manager applies and verifies them, never opening/closing Activities.
+Off means no new recording; enabling covers subsequent exchanges with no implicit
+backfill of off periods. Explicit historical imports preserve provenance and source
+limitations. Closed Activities allow attributable dated supplements and delayed
+synchronization of completed old source exchanges without substantive reopening.
 
-The environment may also hold local references and custom agent definitions under
-`.hai_env/agents/<name>/`. The separate `.hai_env/agents/catalogue.md` is their
-authoritative catalogue and registry, containing definition links and verbatim
-copies of canonical YAML descriptions. Read it together with the framework catalogue
-for selection; its absence means no registered workspace agents. Both origins use
-catalogue entries for normal selection. An explicit human call may load an
-unregistered workspace definition without registering it. The
-[agent convention](../conventions/agent_conv.md) defines identity, format, and selection.
-Agent-definition-manager owns definitions and catalogue mutations; workspace mutations
-require valid initialized environment context. Framework maintenance and read-only
-definition inspection do not require environment initialization. Creating a definition
-does not register it, and environment initialization creates no agent resources.
-Registered framework agents remain available independently of optional features.
+Synchronization is asynchronous from exact completed durable saved source by
+default. Delivery does not wait for optional recording. If after-turn continuation
+is unsupported, leader routes catch-up on the next active turn and reports deferred
+status. Missing source/divergence is reported, never fabricated or repaired silently.
+Mandatory workspace timing requirements take precedence. The synchronous pre-commit
+gate verifies eligible segments or returns verified off/no-obligation status.
 
-Optional `.hai_env/model_profiles.json` maps specialist capability classes to
-concrete model IDs. Environment-manager owns explicitly requested profile setup;
-minimal initialization creates no profiles. Missing profiles do not invalidate
-core state: the read-only helper requires no specialist profile. Delegated startup
-uses the explicitly reported inherited-settings bootstrap when applicable under
-the [model-profile convention](../conventions/model-profiles_conv.md), and normal
-specialist spawning waits for valid runtime-supported resolution or an explicit
-human override. Agent definitions and catalogue registration remain independent
-of runtime skill discovery.
+### Startup, configuration and compatibility
 
-Optional state-format-1 `integrations.git.enabled` and `integrations.github.enabled`
-switches control whether leader may route local Git and GitHub work to the shared
-Git operations role. Both default off in new environments; missing settings in
-existing state are valid and inactive until explicitly configured. Each integration
-is independent. These switches store no credentials, repository identity, or branch
-choice, and do not grant authority for destructive changes or publication.
-`integrations.git.auto_push.enabled` separately defaults off. Environment-manager
-requires fresh Git readiness evidence for the actual local repository and remote
-before enabling it; configuration alone does not establish current push readiness.
+Leader runs the bounded read-only startup helper without a specialist profile.
+Safely absent state permits environment-manager's minimal initialization, preserving
+existing unrelated resources and readable instructions; create empty instructions
+only when safely absent. Initialization creates configuration, not Activity records,
+optional content, profiles or agent scaffolding. Leader then offers chat setup and
+meaningful work; optional setup may be deferred.
 
-Existing malformed, unreadable, conflicting, or incompatible core state is preserved
-and reported rather than silently reinitialized or migrated. A known partial
-initialization is not automatically retried. Environment is persistent HAI material,
-not a Python virtual environment or collection of environment variables.
+The installed environment-manager contract defines supported state formats independently
+of release numbering. Current development supports format 2 only; historical 0.1.0
+bundles support format 1. Invalid/incompatible state is preserved and reported,
+not reinitialized or silently migrated. Explicit format-1 migration maps configuration
+under the state convention; record/transcript migration is separate scoped work
+coordinated by leader and owned by Activity-manager/chronicles-manager. Marker-only
+version changes do not migrate structure or history.
+
+### Agents, profiles and integrations
+
+Workspace definitions live under `.hai_env/agents/<name>/SKILL.md`; their catalogue
+is `.hai_env/agents/catalogue.md`. Its absence means no registered workspace agents.
+Read registered entries together with the framework catalogue for normal selection;
+an explicit human call can select an unregistered canonical workspace definition
+without registering it. Agent-definition-manager owns definitions and catalogue
+mutations. Workspace mutations require compatible initialized context. Independent format tools and
+read-only prerequisite diagnosis remain usable without it; substantive HAI framework
+maintenance and audits follow Activity recording after bootstrap.
+
+Optional `.hai_env/model_profiles.json` maps specialist classes to concrete model
+IDs. Environment-manager owns explicit setup/repair; minimal initialization creates
+none. Missing profiles do not invalidate core state. Normal spawning needs supported
+exact model/effort resolution or an explicit human override; only the named startup
+bootstrap may inherit settings under the model-profile convention.
+
+Independent integrations.git.enabled and integrations.github.enabled default off;
+missing settings are valid/unconfigured. They contain no credentials, repository
+identity or branch choice and grant no unrelated destructive/publication authority.
+Agent-executed push separately requires integrations.git.auto_push.enabled and fresh
+Git-manager readiness evidence. Configuration alone does not prove live readiness.
 
 ## Supporting Terms
 
-- [state]: mandatory installation-specific HAI configuration, including optional-feature flags and locations.
-- [agent_instructions]: mandatory fixed `.hai_env/agent_instructions.md`, always loaded before dependent work; empty means no extra instructions, without overriding higher-priority session instructions.
-- [chronicles]: optional verbatim session transcripts owned by chronicles-manager, independent of request records.
+- [state]: mandatory format-versioned HAI configuration, including Activity location and optional settings.
+- [agent_instructions]: fixed mandatory instructions, independently loaded; empty adds no instructions.
+- [chronicles]: optional exact-source Activity transcript segments owned by chronicles-manager.
 
 ## References
 
-- `../conventions/model-profiles_conv.md`: optional local specialist model mapping.
-- `hai.md`: definition of [HAI] and [workspace].
-- `../conventions/state_conv.md`: required state and optional-feature configuration.
-- `../conventions/agent_conv.md`: agent identity, catalogue selection, and registration contract.
+- [Activity](../agents/activity-manager/concepts/activity.md): mandatory independent work unit and continuity.
+- [State convention](../conventions/state_conv.md): configuration schema, safe paths and authorized migration.
+- [Agent convention](../conventions/agent_conv.md): identities, catalogues, handoffs and registration.
+- [Model profiles](../conventions/model-profiles_conv.md): local mappings, bootstrap and runtime resolution.
+- [HAI](hai.md): reusable framework and product workspace boundaries.

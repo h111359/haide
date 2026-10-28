@@ -4,7 +4,7 @@
 Linux, and macOS. It uses only the standard library; no packages or
 installation steps run automatically. Copy the entire `specification-manager/`
 folder, including `SKILL.md`, `contract.json`, `concepts/`, `conventions/`, and `scripts/`,
-to use it independently. No HAI framework, environment state, leader, request
+to use it independently. No HAI framework, environment state, leader, Activity
 records, or model profiles are required. The format does not install or activate
 a runtime skill; invoke the instructions and script using their installed paths.
 

@@ -39,8 +39,8 @@ and applying the actual task's authority to each operation.
   asset identity and digest, readiness evidence, and publication authority supplied
   by leader after release preparation.
 - Pre-commit chronicle verification: a fresh completed-source synchronization
-  result obtained through leader for this planned operation, not an earlier
-  completed operation's result.
+  result or verified disabled/no-obligation status obtained through leader for this
+  planned operation, not an earlier completed operation's result.
 
 ## Required inputs
 
@@ -89,10 +89,10 @@ integration enablement alone.
   before asking for a missing destructive/publication decision. A public tag push
   that triggers a release is publication; a remote draft is still a remote write.
 - Before every commit-producing operation, return the pre-commit chronicle
-  dependency to leader and wait for fresh verified synchronization or an explicit
-  user exception for that operation. This includes ordinary commits, amend,
+  dependency to leader and wait for fresh verified synchronization, verified
+  disabled/no-obligation status, or an explicit user exception for that operation. This includes ordinary commits, amend,
   commit-producing merge/rebase/cherry-pick and remote merges. Follow the policy's
-  gate; disabled, unavailable, stale or divergent recording is not a silent skip.
+  gate; unavailable required source, stale evidence or divergence is not a silent skip.
 - Use operation-specific procedures yourself. Return dependencies to leader; never
   invoke a release owner, environment-manager, or another specialist.
 

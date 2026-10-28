@@ -1,0 +1,1 @@
+Let's consider the current chronicles as part of one big initial activity. So form it and move it to the current activity folder. And when we finish, we will close this activity and it will be our first activity here.

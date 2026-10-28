@@ -60,6 +60,10 @@ lightweight startup-validation policy. Leader retains execution ownership and ma
 run the shared read-only startup helper directly for existing-state validation;
 initialization and configuration changes remain environment-manager work.
 
+Substantive specialist work receives the current Activity ID/path and relevant
+context through leader; Activity-manager owns records and lifecycle, not orchestration.
+Bootstrap/setup and read-only diagnosis follow the shared bounded exceptions.
+
 Only leader may select another agent, delegate work to it, monitor execution,
 and use its results. Leader's instructions may identify the delegated role and
 the work being delegated, but MUST NOT define or duplicate that other
