@@ -24,8 +24,11 @@ corresponding catalogue rather than discovering folders. Agent-definition-manage
 owns definition maintenance and catalogue mutations for both origins.
 
 Optional standard subfolders are `scripts/` for executable helpers and
-their usage documentation, and `conventions/` for role-specific rules and
-formats. Other justified files and folders are permitted; existing resources
+their usage documentation, and `conventions/` for role-specific data formats and
+domain contracts. Agent-specific responsibilities, execution behavior, authority, and
+procedures remain in `SKILL.md` under the
+[agent convention](agent_conv.md#supporting-resources).
+Other justified files and folders are permitted; existing resources
 such as environment-manager's `templates/` remain valid. Create only needed
 resources. Framework-wide concepts and conventions remain at framework level;
 role-owned domain knowledge may live in the owning package as the single public

@@ -160,25 +160,8 @@ when explicit model/effort overrides require an empty history fork (for example
 workspace instructions, relevant task context, and expected outcome explicitly.
 Do not assume inherited history, settings, or automatic skill discovery.
 
-Git-manager owns Git and GitHub execution, including repository-state inspection.
-Other roles return those needs to leader, who supplies validated integration context
-and routes them to git-manager; specialists never call one another. Disabled or
-invalid integrations are not bypassed through another role or tool. Ordinary
-filesystem work and definition validation do not require Git. Integration enablement
-permits scoped operations; it does not require approval for every routine check or
-grant authority for unrelated, destructive, or otherwise unauthorized publication.
-Agent-executed pushes additionally require valid enabled automated-push settings;
-off means manual pushing, with no tool or role bypass. Leader obtains fresh
-git-manager readiness evidence before environment-manager may enable that capability.
-
-Every commit-producing operation requires a fresh pre-commit chronicle refresh
-through leader before git-manager creates the commit. Follow git-manager's
-[pre-commit gate](../agents/git-manager/conventions/git-github_conv.md#pre-commit-chronicle-gate);
-ordinary asynchronous recording and a previous operation's refresh do not satisfy this
-per-operation dependency. Verified disabled/no-obligation recording status satisfies
-the gate without creating files. Unavailable required recording needs resolution or
-an explicit user exception, never an implicit bypass. This does not block independent
-filesystem work or require recording future outcomes.
+Enabled capabilities do not expand task authority or role scope. Do not bypass
+disabled or invalid capabilities through another role or tool.
 
 ## Context handoff and input checks
 
@@ -223,12 +206,25 @@ gaps rather than claim dependent work is complete.
 
 ## Supporting resources
 
+An agent's `SKILL.md` contains its own responsibilities and agent-specific execution
+behavior, authority, and procedures, including decisions, gates, and operation
+ordering. Agent-local `conventions/` contain reusable data formats and domain
+contracts; they must not introduce instructions governing the agent's execution
+behavior. `SKILL.md` may
+reference those formats and contracts without relocating its behavioral rules.
+
+Shared agent conventions define role-independent identity, structure, selection,
+handoff, and ownership principles. Reference those shared contracts instead of
+copying them into each definition. Operation-specific workflows remain in the
+owning agent's `SKILL.md` even when several roles participate; each participant
+defines its own handoff obligations in its `SKILL.md`.
+
 Optional standard folders are `scripts/` for owned helpers and usage documentation
-and `conventions/` for role-specific formats. Other justified resources, including
-existing `templates/`, remain permitted. Create no unused scaffold. Framework-wide
-concepts and conventions retain their canonical framework location. A role's domain
-knowledge may live in its package as the single public authority, with shared readers
-linking to it rather than duplicating it. Scripts follow
+and `conventions/` for those formats and contracts. Other justified resources,
+including existing `templates/`, remain permitted. Create no unused scaffold.
+Framework-wide concepts and conventions retain their canonical framework location.
+A role's domain knowledge may live in its package as the single public authority,
+with shared readers linking to it rather than duplicating it. Scripts follow
 [tooling_conv.md](tooling_conv.md).
 
 ## Registration ownership and verification
