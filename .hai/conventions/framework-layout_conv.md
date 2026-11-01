@@ -66,3 +66,15 @@ framework store, Activity toggle or global chronicles location.
 
 - [term:HAI] → [HAI concept](../concepts/hai.md).
 - [term:agent-folder] → [Agent concept](../concepts/agent.md).
+
+
+## Optional source library
+
+`hai_agents_library/agents/<name>/` contains complete reusable source packages;
+`hai_agents_library/README.md` is an installation index, never a runtime registry.
+Only `.hai/agents` and `.hai_env/agents` are executable origins. Matching source
+and installed names are expected; only installed origins participate in runtime
+collision checks. Core remains Leader, Environment-manager and Activity-manager.
+The library is not included in the current HAI release package allowlist.
+Copy selected packages into `.hai_env/agents/<name>/`, validate and explicitly
+register their installed paths. Source updates never update installed snapshots.

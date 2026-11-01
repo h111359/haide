@@ -90,7 +90,7 @@ execution stays in the selected role and is not another agent delegation. Read a
 conventions when creating or changing framework resources.
 The shared [instruction-writing convention](conventions/instruction-writing_conv.md)
 defines plain rule wording and MUST/MUST NOT/MAY. It changes neither task permission
-nor input requirement labels; authoring behavior remains with agent-definition-manager.
+nor input requirement labels; authoring behavior belongs to an installed registered agent-definition-manager. Missing optional authoring or specification owners are installation dependencies, not core startup failures. Follow the agent convention's manual human bootstrap when the definition owner is absent; do not invoke library source definitions.
 
 Follow a reference when its content is necessary to understand
 or perform the current task. Do not read unrelated references.

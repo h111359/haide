@@ -88,7 +88,7 @@ Workspace definitions and their catalogue live under `.hai_env/agents/`; an abse
 catalogue means no registered workspace agents. Framework and workspace registration
 are both eligibility contracts, separate from definition creation or maintenance.
 An explicit name or path identifies an agent; it does not register it or permit execution.
-Agent-definition-manager owns definitions/catalogue mutations; leader owns selection
+An installed registered Agent-definition-manager owns definitions/catalogue mutations; its absence blocks that optional work, not startup. Leader owns selection
 and delegation. The Agent concept explains this boundary. Compatible initialized
 context underpins workspace mutations; independent read-only format inspection and
 prerequisite diagnosis are distinct from substantive tracked maintenance.

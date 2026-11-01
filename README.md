@@ -16,7 +16,8 @@ and [current manifest](.hai/release-0.2.0.json) identify the selected candidate;
 publication remains pending. See [installation and upgrade instructions](INSTALL.md) and
 [Activity migration notes](release-notes/activity-migration.md).
 
-- `.hai/` contains reusable agents, concepts, conventions and tools.
+- `.hai/` contains core Leader, Environment-manager and Activity-manager, shared concepts, conventions and tools.
+- `hai_agents_library/agents/` contains optional golden source packages; see the library index at `hai_agents_library/README.md`. Only complete copies installed and registered in `.hai_env/agents/` execute. Source updates do not update installed snapshots; the library is excluded from the current release bundle.
 - `.hai_env/` holds local state, mandatory fixed instructions, Activity records and
   optional local context. State configures mandatory `activities.location` (default
   `.hai_env/activities`), optional specification enabled/location, and optional

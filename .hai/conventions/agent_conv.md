@@ -25,6 +25,30 @@ catalogues and immediate folder names in both origins for case-insensitive
 collisions, including unregistered folders; this does not authorize loading every
 definition or discovering unregistered roles during ordinary selection.
 
+## Reusable source packages and installed snapshots
+
+`hai_agents_library/agents/<name>/` contains golden source packages, not a third
+runtime origin or registry. Source and installed counterparts may share a name;
+runtime uniqueness still covers both installed origins and unregistered runtime
+folders. Source presence never grants execution eligibility. Runtime instructions,
+helpers, contracts and peer references use installed copies or stable core paths,
+never the library as a fallback. Ordinary startup and selection do not scan it.
+
+Explicit source maintenance, installation, staging/tests and packaging may read
+selected library files as data without adopting their roles. Shared source edits
+leave installed snapshots unchanged. Human-approved updates copy complete packages;
+local differences or an unknown baseline require review before replacement. No
+automatic updater, agent-version scheme or new state dependency is introduced.
+
+An installed registered Agent-definition-manager owns authorized source maintenance,
+copy installation and catalogue work. If it is absent or unavailable, report the
+optional-owner dependency; do not invoke its source definition or bypass registration.
+A human may bootstrap by copying the complete package, validating its installed
+canonical path with shared tools and explicitly adding its workspace catalogue row
+under the state convention. This manual action does not grant Leader mutation
+authority or change normal delegation. It needs compatible environment/instructions;
+the human verifies startup and preserves existing data before installation.
+
 ## Selection and loading
 
 Read the framework catalogue and valid workspace entries together. Catalogue
@@ -261,8 +285,10 @@ shared readers linking to it. Scripts follow [tooling_conv.md](tooling_conv.md).
 
 ## Registration ownership and verification
 
-Agent-definition-manager owns framework and workspace definition creation, updates,
-audits, and explicitly requested catalogue registrations. Creation and registration
+When installed and registered, Agent-definition-manager owns framework and workspace definition creation, updates,
+audits, selected golden source maintenance and explicitly requested catalogue registrations.
+A missing optional owner blocks its dependent work, not core startup; manual human
+bootstrap follows the source-package section above. Creation and registration
 are separate; an explicit combined operation may perform both. Updating a registered
 definition synchronizes its existing catalogue description and canonical reference;
 updating an unregistered definition never adds a row. Independent format tools and

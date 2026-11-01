@@ -43,7 +43,7 @@ The startup helper README and shared state/model-profile conventions are availab
 
 8. Build [output:next_actions] from [output:startup_context] and the discovery result/limit: offer verified resumption, or meaningful new work after verified absence; recommend Additional setup after initialization and offer it for existing usable environments.
 
-9. Present validated mandatory Activity location, specification enabled/location and chronicles status/effective prompt threshold. Include profile setup/repair or scoped core repair/migration where reported, and enabled specification actions with accurate tree availability. Add a task-relevant optional registered extension only when appropriate.
+9. Present validated mandatory Activity location, specification enabled/location and chronicles status/effective prompt threshold. Include profile setup/repair or scoped core repair/migration where reported, and enabled specification actions with accurate tree availability and installed registered owner availability. If Specification-manager is absent, report the optional installation dependency without invalidating core state or loading library resources. Add a task-relevant optional registered extension only when appropriate.
 
 10. Collect only unresolved setting choices, accepting partial/deferred setup. Route core configuration to environment-manager and extension setup to its owner; include effective recording boundaries or separate location/history work in the request when relevant.
 

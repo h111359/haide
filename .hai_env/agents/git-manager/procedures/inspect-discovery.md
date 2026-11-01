@@ -18,7 +18,7 @@ Verified `operation_context` output from [Operation workflow](operate.md), suppl
 
 ## Rules
 
-- **Excluded product sources:** Git-manager MUST exclude reusable frameworks/agents, configuration/working records and their descendants from product registration and reverse-engineering, including this HAI workspace's `.hai/` and `.hai_env/` roots.
+- **Excluded product sources:** Git-manager MUST exclude reusable frameworks/agents, configuration/working records and their descendants from product registration and reverse-engineering, including this HAI workspace's `.hai/`, `.hai_env/` and `hai_agents_library/` roots.
 - **Governing instructions:** Git-manager MAY read governing instructions despite product-source exclusions.
 - **Ignored product sources:** Git-manager MUST exclude ignored folders and descendants from product registration and reverse-engineering.
 - **Library root entry:** Git-manager MAY represent a verified third-party/dependency library by its top folder and brief purpose even when that folder is ignored.

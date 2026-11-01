@@ -1,0 +1,205 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "64608fd8-1ab8-461c-9b92-f31e05d86377",
+  "sources": [
+    {
+      "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/01/rollout-2026-11-01T10-41-30-01a19645-5e49-7020-99c5-a297880209c5.jsonl",
+      "original_started_at": "2026-11-01T08:41:30.977Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+            "message_id": "msg_01a1969f-a0c9-7db3-a8d2-f16c9fd14373"
+          },
+          "end": {
+            "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+            "message_id": "msg_01a19709-c347-7343-a848-552abeee74c4"
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+            "message_id": "msg_01a1969f-a0c9-7db3-a8d2-f16c9fd14373"
+          },
+          "end": null,
+          "provenance": "Leader assigned new Activity source from this architecture request; current validated chronicles.enabled=true, record_every_prompts=5; no intervening off interval supplied."
+        }
+      ],
+      "retained_source_complete": false
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a1969f-a0c9-7db3-a8d2-f16c9fd14373"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a1969f-a0c9-7db3-a8d2-f16c9fd14373"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-01.md",
+      "verified_at": "2026-11-01T12:19:09Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae7144bbdd081918c4666574754e4b0"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae7144bbdd081918c4666574754e4b0"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-05.md",
+      "verified_at": "2026-11-01T12:19:09Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a196b8-8096-7bd3-b150-1843634c17b3"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "fc_033ba564bd557e5a016ae718c9b97c8191bc25e06a207bafe4"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-02.md",
+      "verified_at": "2026-11-01T12:19:09Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae71a83951c819194619ad913d4de91"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae71a83951c819194619ad913d4de91"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-06.md",
+      "verified_at": "2026-11-01T12:19:09Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a196cd-a5be-7200-a699-70fdb20797f6"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a196e6-fe21-7e91-bc1d-89c25c85be80"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-03.md",
+      "verified_at": "2026-11-01T12:19:09Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae725f27f4c8191bf78a0dc81c56c46"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a19705-c971-7253-9603-758adf680942"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-04.md",
+      "verified_at": "2026-11-01T12:19:09Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "fc_033ba564bd557e5a016ae72cf5c4688191a93c8b8cef4b0c6b"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a19709-c347-7343-a848-552abeee74c4"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-07.md",
+      "verified_at": "2026-11-01T12:19:09Z"
+    }
+  ],
+  "pending_ranges": [
+    {
+      "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae7144bbdd081918c4666574754e4b0"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae7144bbdd081918c4666574754e4b0"
+        }
+      },
+      "reason": "missing_source",
+      "status": "partial",
+      "details": "Authoritative metadata.retained_source.complete=false at 2026-11-01T10:29:24.608Z, revision retained_01a196a8-2600-7960-b193-63837387042f. Retained body exists but original completeness is unverified; excluded from verbatim transcript exchanges. This is a new Activity-specific source uncertainty, not covered by the previous closed Activity exception. No recovery investigation performed in this batch. Fresh closure/commit preparation at 2026-11-01T12:15:02Z confirms 9584 retained characters (9612 UTF-8 bytes), SHA256 75b27c2e36849b8130c79f967450ac0a429f5ac3e9e104c57a2d42c907206fd2, matching adjacent saved task-complete text; original completeness is still not established and no current-Activity exception has been supplied. User approval msg_01a19709-c347-7343-a848-552abeee74c4 at 2026-11-01T12:16:01.863Z expressly accepts this exact retained reply for current Activity closure and planned commit local-one-commit-library-migration-64608fd8-1ab8-461c-9b92-f31e05d86377-from-badff4ca8dfb0934cd73709f66803db5b7b21f7a. Its exact retained body is now recorded and freshly matched. complete:false remains unresolved original-source metadata, not a remaining transcript omission or an operational blocker under that narrow accepted exception."
+    },
+    {
+      "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae71a83951c819194619ad913d4de91"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae71a83951c819194619ad913d4de91"
+        }
+      },
+      "reason": "missing_source",
+      "status": "partial",
+      "details": "Authoritative metadata.retained_source.complete=false at 2026-11-01T10:55:46.764Z, revision retained_01a196c0-4a4c-7153-821d-85865010e191. Retained body exists but original completeness is unverified; excluded from verbatim transcript exchanges. This is a new Activity-specific source uncertainty, not covered by the previous closed Activity exception. No recovery investigation performed in this batch. Fresh closure/commit preparation at 2026-11-01T12:15:02Z confirms 8524 retained characters (8560 UTF-8 bytes), SHA256 c3fe8d51948b7eefa3b17aa47ffef2785c7c28e7b0f5d7db0d358719f124caa5, matching adjacent saved task-complete text; original completeness is still not established and no current-Activity exception has been supplied. User approval msg_01a19709-c347-7343-a848-552abeee74c4 at 2026-11-01T12:16:01.863Z expressly accepts this exact retained reply for current Activity closure and planned commit local-one-commit-library-migration-64608fd8-1ab8-461c-9b92-f31e05d86377-from-badff4ca8dfb0934cd73709f66803db5b7b21f7a. Its exact retained body is now recorded and freshly matched. complete:false remains unresolved original-source metadata, not a remaining transcript omission or an operational blocker under that narrow accepted exception."
+    },
+    {
+      "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a19709-c347-7343-a848-552abeee74c4"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a19709-c347-7343-a848-552abeee74c4"
+        }
+      },
+      "reason": "pending_outcome",
+      "status": "pending",
+      "details": "The approval is recorded. Future closure/commit acknowledgement and commit results are outside this completed-source cutoff and are not required prior evidence; they may later belong to this closed Activity."
+    }
+  ],
+  "cadence_cursors": {
+    "01a19645-5e49-7020-99c5-a297880209c5": {
+      "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+      "message_id": "msg_01a19709-c347-7343-a848-552abeee74c4"
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "752f6dfa-5dc7-4814-9567-4e1de5fb07ff",
+    "dispatch_cursors": {
+      "01a19645-5e49-7020-99c5-a297880209c5": {
+        "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+        "message_id": "msg_01a19709-c347-7343-a848-552abeee74c4"
+      }
+    },
+    "started_at": "2026-11-01T12:19:09Z",
+    "finished_at": "2026-11-01T12:19:09Z",
+    "status": "partial",
+    "error": "Recording completed with an accepted completeness exception for closure and planned commit local-one-commit-library-migration-64608fd8-1ab8-461c-9b92-f31e05d86377-from-badff4ca8dfb0934cd73709f66803db5b7b21f7a, message Separate optional agent library and complete migration Activity, main HEAD badff4ca8dfb0934cd73709f66803db5b7b21f7a. All 19 assigned retained occurrences match through msg_01a19709-c347-7343-a848-552abeee74c4. Exactly two complete:false flags remain source uncertainty accepted by that saved approval; no full-original-completeness claim, other gap waiver or actual commit result is implied. Fresh archived-byte verification passed at 2026-11-01T12:19:09Z; stable Activity is closed/completed at .hai_env/activities/20261101_121909_optional-agent-library, no current record, writer finished after final log/readback."
+  },
+  "last_successful_at": null,
+  "in_flight": null
+}

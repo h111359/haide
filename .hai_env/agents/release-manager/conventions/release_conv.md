@@ -3,25 +3,26 @@
 ## Release unit and identity
 
 The initial release unit is one HAI bundle with one `MAJOR.MINOR.PATCH` version.
-Independent package releases or another version scheme require an explicit
-product decision. An independent specification-contract version describes a
-consumer boundary; it is not a second independently published bundle.
+Changing this core bundle version scheme requires an explicit product decision.
 
 An identified installed release has exactly one current `.hai/release-<version>.json`.
 Its filename version and content `version` must match the selected bundle version,
 `v<version>` tag, and `hai-<version>.zip` asset. Its `contracts` information records
 included contract targets; no second fixed `release.json` authority exists.
 The manifest is a release artifact created only for an authorized candidate with a
-selected bundle version; adopting independent compatibility declarations does not
-create a release. No first bundle version is implied by compatibility baseline 1.
+selected bundle version; adopting a state-format declaration does not
+create a release. No first bundle version is implied by a state-format version.
 
 Published tags and release bytes are immutable; corrections use a new release. A selected release candidate and a released installation require exactly one current manifest matching their own declarations. Multiple, malformed or inconsistent current manifests block identity verification. Historical manifests outside `.hai/` are historical evidence, excluded from the reusable package.
 
 ## Manifest schema and consistency
 
+This schema governs newly prepared candidate manifests. It does not authorize
+rewriting existing candidate manifests or historical release evidence.
+
 The manifest is a UTF-8 JSON object with exactly `version` and `contracts`.
 `version` is the selected nonempty SemVer string. `contracts` is an object with
-exactly `environment_state` and `specification`, each an object with exactly the
+exactly `environment_state`, an object with exactly the
 fields shown below. This is a schema illustration, not a release record or a
 selected bundle version:
 
@@ -32,9 +33,6 @@ selected bundle version:
     "environment_state": {
       "current_state_format_version": 1,
       "supported_state_format_versions": [1]
-    },
-    "specification": {
-      "specification_compatibility_version": 1
     }
   }
 }
@@ -43,17 +41,13 @@ selected bundle version:
 | Manifest entry | Owning declaration within the candidate |
 | --- | --- |
 | `contracts.environment_state` | `.hai/agents/environment-manager/contract.json` in its entirety |
-| `contracts.specification` | `.hai/agents/specification-manager/contract.json` in its entirety |
 
 Duplicate JSON keys at any depth, nonstandard numeric constants, extra/missing
 schema keys and malformed values are invalid. All version numbers in `contracts`
 are positive integers, excluding Booleans. `supported_state_format_versions` is
 a nonempty array of unique positive integers including `current_state_format_version`.
-The specification declaration contains exactly its positive integer
-`specification_compatibility_version`. Baseline 1 is established in each owning
-package, independently; future values must come from authorized owner changes,
-never from the HAI SemVer number. Tree-root applied markers are strings governed
-by specification-manager and are not copied into this manifest.
+State-format values must come from authorized owner changes, never from the HAI
+SemVer number.
 
 ## Version impact
 
@@ -70,8 +64,8 @@ For an established stable line:
 The human selected `0.1.0` as HAI's first bundle release. During `0.x`, new
 capabilities and breaking changes increment MINOR; compatible fixes increment
 PATCH. Notes explicitly describe breaking effects. Moving to `1.0.0` requires
-an explicit stability decision. These choices do not change independent state or
-specification compatibility numbering and do not authorize publication by themselves.
+an explicit stability decision. These choices do not change independent state-format
+numbering and do not authorize publication by themselves.
 
 ## Readiness and evidence
 

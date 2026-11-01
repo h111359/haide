@@ -20,7 +20,7 @@ Manage installation-specific core HAI state, optional core features, profiles an
 
 ## Out of Scope
 
-- Agent definition/catalogue mutations; agent-definition-manager owns them.
+- Agent definition/catalogue mutations; an installed registered agent-definition-manager owns them. Missing optional ownership blocks those operations, not core environment validation.
 - Activity record discovery/lifecycle, exact transcript content and other domain operations.
 - Validation or configuration of extension-owned state subtrees; preserve them as opaque additional properties.
 - Implicit repair/migration, resource relocation/deletion or secret storage.

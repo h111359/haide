@@ -13,7 +13,6 @@ Provide the local vocabulary used by this role and its procedures without granti
 - [term:Bundle]: the reusable HAI distribution, initially released as one versioned unit.
 - [term:Candidate]: the reviewed source revision and intended metadata, notes, assets, checks, and publication destination for a release.
 - [term:Bundle version and release-manifest contract targets]: the local release policy.
-- [term:Specification compatibility version and applied marker]: the specification owner's contract-versioning convention, reached through the local contract policy.
 - [term:Release authority]: the caller's established authorization for preparation, version selection, commits, tags, pushes, drafts, and public publication as applicable.
 
 ## References

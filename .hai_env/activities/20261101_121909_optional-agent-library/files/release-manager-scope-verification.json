@@ -1,0 +1,49 @@
+{
+  "catalogue_description_equality": true,
+  "unrelated_catalogue_bytes_preserved": true,
+  "relative_file_links_checked": 54,
+  "missing_or_escaping_links": [],
+  "manifest_example": "valid JSON; environment_state only",
+  "changed": [
+    ".hai_env/agents/catalogue.md",
+    ".hai_env/agents/release-manager/SKILL.md",
+    ".hai_env/agents/release-manager/concepts/release.md",
+    ".hai_env/agents/release-manager/conventions/contract-versioning_conv.md",
+    ".hai_env/agents/release-manager/conventions/release_conv.md",
+    ".hai_env/agents/release-manager/procedures/establish-candidate.md",
+    ".hai_env/agents/release-manager/procedures/prepare-and-verify.md",
+    ".hai_env/agents/release-manager/procedures/publish-and-reconcile.md"
+  ],
+  "unchanged_snapshotted": [
+    ".hai/agents/specification-manager/contract.json",
+    ".hai/release-0.2.0.json",
+    ".hai_env/agent_instructions.md",
+    ".hai_env/agents/release-manager/conventions/publishing_conv.md",
+    ".hai_env/model_profiles.json",
+    ".hai_env/state.json",
+    "release-notes/0.1.0-manifest.json"
+  ],
+  "remaining_specification_mentions": [
+    {
+      "path": ".hai_env/agents/release-manager/SKILL.md",
+      "line": 30,
+      "meaning": "explicit scope exclusion or preserved package-content exclusion"
+    },
+    {
+      "path": ".hai_env/agents/release-manager/conventions/publishing_conv.md",
+      "line": 12,
+      "meaning": "explicit scope exclusion or preserved package-content exclusion"
+    },
+    {
+      "path": ".hai_env/agents/release-manager/procedures/prepare-and-verify.md",
+      "line": 46,
+      "meaning": "explicit scope exclusion or preserved package-content exclusion"
+    }
+  ],
+  "current_manifest_still_has_old_specification_field": true,
+  "verification_limits": [
+    "No test suites run; helpers unchanged.",
+    "No release readiness/build/publication operation performed.",
+    "No Git commands run."
+  ]
+}

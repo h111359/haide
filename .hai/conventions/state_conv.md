@@ -137,7 +137,7 @@ separate or coordinated agent-format migration is authorized.
 
 Malformed table structure, unreadable catalogue, or conflicting catalogue target blocks catalogue writes and excludes its entries. Isolated invalid rows are reported and excluded; valid independent rows remain selectable. Duplicate-name rows are all excluded. Preserve invalid material without repair, and keep framework agents available. Catalogue problems do not invalidate otherwise valid core state or prevent independent feature loading.
 
-Agent-definition-manager owns explicitly requested registration and synchronization
+An installed registered Agent-definition-manager owns explicitly requested registration and synchronization
 of existing entries after definition updates. Creation alone does not register an
 agent; updating an unregistered definition leaves it unregistered. Workspace
 mutations require valid initialized environment context. Environment-manager owns

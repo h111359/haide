@@ -35,7 +35,7 @@ original state-format and specification targets.
 The state declaration is owned by
 [environment-manager](../.hai/agents/environment-manager/contract.json); the
 specification declaration is owned by
-[specification-manager](../.hai/agents/specification-manager/contract.json).
+the optional installed Specification-manager package (`.hai_env/agents/specification-manager/contract.json` when installed).
 These versions are independent of bundle SemVer. Replacing temporary source
 terminology preserves the existing specification obligations, including standalone
 use and the distinction between document completion and product implementation;

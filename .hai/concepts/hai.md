@@ -71,6 +71,6 @@ are defined in the [Tooling convention](../conventions/tooling_conv.md).
 - [term:Activity] → [Activity concept](../agents/activity-manager/concepts/activity.md): mandatory work context and continuity.
 - [term:agent] → [Agent concept](agent.md).
 - [Framework layout](../conventions/framework-layout_conv.md): reusable framework folder structure.
-- [term:specification] → [Specification concept](../agents/specification-manager/concepts/specification.md).
+- Optional installed Specification-manager provides detailed specification formats; its absence does not affect the generic specification meaning above or core startup.
 - `../conventions/state_conv.md`: environment state and compatibility rules.
 - `../conventions/tooling_conv.md`: automation tooling conventions.

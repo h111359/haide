@@ -72,8 +72,8 @@ named input/output references are local rather than inherited parameters.
 Executing a procedure stays in the same role; it is not another agent invocation
 or registration.
 
-Agent-definition-manager maintains definitions and their necessary resources in
-both origins, owns explicitly requested registration, and synchronizes an existing
+When installed and registered, Agent-definition-manager maintains definitions and their necessary resources in
+both origins and selected golden source packages, owns explicitly requested registration, and synchronizes an existing
 entry when its definition changes. Audits are read-only; updating an unregistered
 definition does not register it. Environment-manager owns core environment and
 model-profile configuration and lightweight startup-validation policy. Leader retains execution ownership and may
@@ -103,6 +103,16 @@ does not activate a capability or authorize execution. Core initialization and
 startup remain independent of optional workspace agents and their tooling; an
 extension's own declared configuration and scoped state ownership belong to that
 extension rather than changing the core environment contract.
+
+### Source packages and snapshots
+
+Reusable optional source packages live in `hai_agents_library/agents/`. They are
+data, not selectable agents. Only complete copied snapshots under `.hai_env/agents`
+can be registered for workspace execution. Source edits and installed updates are
+separate human-directed work; runtime never loads the library as a fallback.
+Missing optional owners are reported as dependencies. Manual human bootstrap is
+defined in the shared agent convention; it does not allow agents to invoke source
+definitions or bypass registration.
 
 ### Supporting scripts
 

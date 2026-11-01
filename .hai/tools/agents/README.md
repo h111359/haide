@@ -36,7 +36,7 @@ From the workspace root:
 
 ```text
 python -B .hai/tools/agents/agent_tools.py audit
-python -B .hai/tools/agents/agent_tools.py validate --definition .hai/agents/agent-definition-manager/SKILL.md
+python -B .hai/tools/agents/agent_tools.py validate --definition .hai_env/agents/agent-definition-manager/SKILL.md
 python -B .hai/tools/agents/agent_tools.py resolve --definition .hai/agents/environment-manager/SKILL.md --runtime /path/to/runtime.json
 python -B .hai/tools/agents/test_agent_tools.py
 ```
@@ -193,3 +193,13 @@ audit, resolution, error reporting, and absence of mutations. Parser fixtures co
 quoted/escaped Unicode, comments, nested duplicate keys, nonstring metadata,
 folding/chomping, malformed input, and explicitly unsupported syntax. OS-specific
 symlink checks may skip when unavailable; report those separately from passing tests.
+
+
+## Library-source verification
+
+The optional `hai_agents_library` is not an execution origin. `validate` accepts
+only canonical installed paths and `audit` continues to read only the two runtime
+catalogues. For source maintenance, copy the selected whole package into a
+temporary `.hai_env/agents/<name>/` layout beside the compatible core and required
+installed peers, then validate that installed path. Source tests/staging may read
+the selected library as data; ordinary execution never imports from it.

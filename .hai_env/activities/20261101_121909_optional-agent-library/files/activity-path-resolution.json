@@ -1,0 +1,7 @@
+{
+  "activity_id": "64608fd8-1ab8-461c-9b92-f31e05d86377",
+  "previous_path": ".hai_env/activities/00000000_000000_active",
+  "archived_path": ".hai_env/activities/20261101_121909_optional-agent-library",
+  "closed_at": "2026-11-01T12:19:09Z",
+  "purpose": "Resolve historical current-path references by stable Activity identity; this is not an external current-Activity pointer."
+}

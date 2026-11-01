@@ -32,7 +32,7 @@ None.
 
 2. Resolve [input:target_name] and [input:target_path] from authorized context, returning ambiguous identity before assignment.
 
-3. Verify agent-definition-manager's valid entry in [input:catalogues], then load its definition/registration procedure. Return unavailable owner or unsupported invocation dependencies.
+3. Verify agent-definition-manager's valid entry in [input:catalogues], then load its definition/registration procedure. Return unavailable owner or unsupported invocation dependencies. If the optional owner is absent, explain the manual human bootstrap under the agent convention; do not copy/register it yourself or invoke a library source definition.
 
 4. Prepare the registration assignment with target identity, origin, actual request, allowed changes and [input:activity_context]. If creation was explicitly combined, include its agreed scope separately.
 

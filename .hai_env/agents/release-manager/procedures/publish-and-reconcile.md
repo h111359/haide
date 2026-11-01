@@ -42,7 +42,6 @@ None.
 - [Publishing policy](../conventions/publishing_conv.md) — packaging, authority, GitHub, and recovery — required for every release.
 - [Agent convention](../../../../.hai/conventions/agent_conv.md) — receiver checks, role boundaries, and references — required for all operations.
 - [Git-manager](../../git-manager/SKILL.md) — Git/GitHub execution boundary — conditional when specifying a repository/service dependency; leader performs routing, do not adopt or invoke that role.
-- [Specification-manager](../../../../.hai/agents/specification-manager/SKILL.md) — ownership and relevant specification dependencies — conditional when assessing specification-rule changes or migration needs; do not adopt or execute that role.
 - [State convention](../../../../.hai/conventions/state_conv.md) — state-format authority and configured context — required for release contract checks; conditional when interpreting environment state.
-- [State contract](../../../../.hai/agents/environment-manager/contract.json) and [specification contract](../../../../.hai/agents/specification-manager/contract.json) — installed targets to snapshot and verify against the candidate's own declarations — required for every release.
+- [State contract](../../../../.hai/agents/environment-manager/contract.json) — installed target to snapshot and verify against the candidate's own declaration — required for every release.
 - [Tooling convention](../../../../.hai/conventions/tooling_conv.md) — runtime and helper requirements — conditional when executing, creating, or changing supporting Python tools.

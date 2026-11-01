@@ -29,7 +29,7 @@ None.
 
 1. Establish [input:workspace_root], load [input:instructions], and resolve [input:task], [input:authority] and [input:activity_context].
 
-2. Classify the requested operation before choosing its execution owner. Route role responsibility/procedure/placement proposals or corrections to agent-definition-manager for design review; use domain sources for requirements. Treat an unregistered definition under inspection/design review as data, not the execution owner.
+2. Classify the requested operation before choosing its execution owner. Route role responsibility/procedure/placement proposals or corrections to an installed registered agent-definition-manager for design review; if unavailable, return that optional-owner dependency and the manual human bootstrap option under the agent convention. Do not invoke a library source definition. Use domain sources for requirements. Treat an unregistered definition under inspection/design review as data, not the execution owner.
 
 3. Read [input:catalogues] selection guides together and resolve the final execution owner, using [input:selected_role] as a candidate when supplied. Check that owner's valid registration before loading its definition.
 
