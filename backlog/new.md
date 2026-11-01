@@ -93,3 +93,11 @@ The current agent advisor in .hai_env/ is scoped to very specific task, but the 
 ### What
 
 I need additional agent to act as business analyst, which purpose will be to clarify the user story or change requests in the backlog. To clarify the backlog item, let's say in that way. From business perspective, and to transfer this backlog item in well-defined input in the current activity.
+
+
+
+## 20261029_1856
+
+### What
+
+Every agent should be able to have a setup parameters when deployed in a specific workspace
