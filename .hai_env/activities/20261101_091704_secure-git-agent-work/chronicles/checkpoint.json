@@ -1,0 +1,379 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "df995881-6da5-4017-96d0-f1ba4ee6f072",
+  "sources": [
+    {
+      "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+      "durable_path": "/home/hromar/.codex/sessions/2026/10/28/rollout-2026-10-28T19-27-58-01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5.jsonl",
+      "original_started_at": "2026-10-28T17:27:58.168Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+            "message_id": "msg_01a185c4-99fb-7190-80b6-a33b820fd1c9"
+          },
+          "end": {
+            "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+            "message_id": "msg_0a4b41a60c9a0ae8016ae6eceb54608191b1c9f32f71cf5ac2"
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+            "message_id": "msg_01a185c4-99fb-7190-80b6-a33b820fd1c9"
+          },
+          "end": null,
+          "provenance": "Recording enabled before the first assigned Activity prompt according to preserved Activity creation log and segments 01–04; Leader confirms enabled continuity with no new off periods; current validated features.chronicles.enabled=true, record_every_prompts=5."
+        }
+      ],
+      "retained_source_complete": false
+    },
+    {
+      "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/01/rollout-2026-11-01T10-41-30-01a19645-5e49-7020-99c5-a297880209c5.jsonl",
+      "original_started_at": "2026-11-01T08:41:30.977Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+            "message_id": "msg_01a19645-663a-7af3-ae17-df375e57416d"
+          },
+          "end": {
+            "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+            "message_id": "msg_01a19697-f526-7de3-8402-9f2626dd73c2"
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+            "message_id": "msg_01a19645-663a-7af3-ae17-df375e57416d"
+          },
+          "end": null,
+          "provenance": "Leader assigned all actual exchanges from startup through the saved do it approval; validated chronicles remain enabled without an intervening off period."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a185c4-99fb-7190-80b6-a33b820fd1c9"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a1870d-cbdd-7af0-bea6-c94b96764510"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-01.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae3168b07a881919176209eed53816c"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae3168b07a881919176209eed53816c"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-10.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a189a2-eb6a-70e3-85c0-ace13bfbaab7"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a19196-7fa8-7f22-9024-d90a93c42663"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-02.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae5c9773bd08191bb617630238dbb74"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae5c9773bd08191bb617630238dbb74"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-11.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a191a1-e331-7691-9a6e-1c31ce017c85"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a1920a-9c04-7211-9d11-f2e575efeb5a"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-03.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae5e73bfa9c819185acd9372109132f"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae5e73bfa9c819185acd9372109132f"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-12.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a19213-8877-78c3-ab32-af7863d3117e"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a192da-c1bc-7e33-a206-8b9dcfa27e72"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-04.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae61e43a19081919042a657963d1edf"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a192f7-c64c-74a0-9fc2-f76011e71dba"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-05.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae623997cd88191b5a5e9e9bb28cdae"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a19371-13ae-7c32-affc-d6ecc63b9203"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-06.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae64244eb688191b8ac2070ba109cd5"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae64244eb688191b8ac2070ba109cd5"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-13.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a195ce-be66-7fd2-ad63-6b8ce314ffd1"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a195d7-74a0-7522-80f4-12b621df03e9"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-07.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae6e3abcd8881918a6c3bce560f99b1"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a195f9-568b-7283-877a-9aa9bed016cf"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-08.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae6ea6e12f4819190ba5b30884762dc"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_01a19608-5ced-76d3-8efb-21a76a6c32ff"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-09.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae6eceb54608191b1c9f32f71cf5ac2"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae6eceb54608191b1c9f32f71cf5ac2"
+        }
+      },
+      "segment_path": "chronicles/20261028_1927_segment-14.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a19645-663a-7af3-ae17-df375e57416d"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a19661-e88f-7da2-b19a-f4d37453a8af"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-01.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_033ba564bd557e5a016ae703beeb008191815d449f02bc1835"
+        },
+        "end": {
+          "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+          "message_id": "msg_01a19697-f526-7de3-8402-9f2626dd73c2"
+        }
+      },
+      "segment_path": "chronicles/20261101_1041_segment-02.md",
+      "verified_at": "2026-11-01T10:14:10Z"
+    }
+  ],
+  "pending_ranges": [
+    {
+      "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae3168b07a881919176209eed53816c"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae3168b07a881919176209eed53816c"
+        }
+      },
+      "reason": "missing_source",
+      "status": "partial",
+      "details": "Authoritative retained_source.complete=false at 2026-10-29T09:49:17.294Z; exact complete original body is unverified and excluded. Later verified ranges and cadence do not resolve this gap. User approval msg_01a19661-e88f-7da2-b19a-f4d37453a8af at 2026-11-01T09:12:41.359Z accepts the exact retained body for recording completion and authorized closure. The occurrence is now included and matched exactly; no original-text omission was identified. Historical complete:false remains unresolved source metadata, expressly accepted for this Activity only; it is not an unrecorded occurrence or an unresolved operational blocker under that exception."
+    },
+    {
+      "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae5c9773bd08191bb617630238dbb74"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae5c9773bd08191bb617630238dbb74"
+        }
+      },
+      "reason": "missing_source",
+      "status": "partial",
+      "details": "Authoritative retained_source.complete=false at 2026-10-31T10:57:56.688Z; exact complete original body is unverified and excluded. Later verified ranges and cadence do not resolve this gap. User approval msg_01a19661-e88f-7da2-b19a-f4d37453a8af at 2026-11-01T09:12:41.359Z accepts the exact retained body for recording completion and authorized closure. The occurrence is now included and matched exactly; no original-text omission was identified. Historical complete:false remains unresolved source metadata, expressly accepted for this Activity only; it is not an unrecorded occurrence or an unresolved operational blocker under that exception."
+    },
+    {
+      "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae5e73bfa9c819185acd9372109132f"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae5e73bfa9c819185acd9372109132f"
+        }
+      },
+      "reason": "missing_source",
+      "status": "partial",
+      "details": "Authoritative retained_source.complete=false at 2026-10-31T13:04:35.410Z; exact complete original body is unverified and excluded. Later verified ranges and cadence do not resolve this gap. User approval msg_01a19661-e88f-7da2-b19a-f4d37453a8af at 2026-11-01T09:12:41.359Z accepts the exact retained body for recording completion and authorized closure. The occurrence is now included and matched exactly; no original-text omission was identified. Historical complete:false remains unresolved source metadata, expressly accepted for this Activity only; it is not an unrecorded occurrence or an unresolved operational blocker under that exception."
+    },
+    {
+      "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+      "range": {
+        "start": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae64244eb688191b8ac2070ba109cd5"
+        },
+        "end": {
+          "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+          "message_id": "msg_0a4b41a60c9a0ae8016ae64244eb688191b8ac2070ba109cd5"
+        }
+      },
+      "reason": "missing_source",
+      "status": "partial",
+      "details": "Authoritative retained_source.complete=false at 2026-10-31T19:32:41.152Z; exact complete original body is unverified and excluded. Later verified ranges and cadence do not resolve this gap. User approval msg_01a19661-e88f-7da2-b19a-f4d37453a8af at 2026-11-01T09:12:41.359Z accepts the exact retained body for recording completion and authorized closure. The occurrence is now included and matched exactly; no original-text omission was identified. Historical complete:false remains unresolved source metadata, expressly accepted for this Activity only; it is not an unrecorded occurrence or an unresolved operational blocker under that exception."
+    }
+  ],
+  "cadence_cursors": {
+    "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5": {
+      "source_session_id": "01a1838d-e9cf-7ed3-a6b1-2a0c93b421d5",
+      "message_id": "msg_01a195d7-74a0-7522-80f4-12b621df03e9"
+    },
+    "01a19645-5e49-7020-99c5-a297880209c5": {
+      "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+      "message_id": "msg_01a19697-f526-7de3-8402-9f2626dd73c2"
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "4498013a-1ce9-4b85-8508-7fca2330ea1d",
+    "dispatch_cursors": {
+      "01a19645-5e49-7020-99c5-a297880209c5": {
+        "source_session_id": "01a19645-5e49-7020-99c5-a297880209c5",
+        "message_id": "msg_01a19697-f526-7de3-8402-9f2626dd73c2"
+      }
+    },
+    "started_at": "2026-11-01T10:14:10Z",
+    "finished_at": "2026-11-01T10:14:10Z",
+    "status": "partial",
+    "error": "Fresh operation-specific verification for local-one-commit-close-df995881-6da5-4017-96d0-f1ba4ee6f072-from-96803d045ed246ca66d27953a3d28d1757f0f5d8; planned local commit on main at HEAD 96803d045ed246ca66d27953a3d28d1757f0f5d8, message: Close and archive secure Git agent work Activity. All 135 eligible retained occurrences exactly matched through msg_01a19697-f526-7de3-8402-9f2626dd73c2 at 2026-11-01T10:11:43.527Z, without unrecorded eligible exchanges or overlap. Recording is completed with the previously accepted completeness exception for exactly four historical complete:false replies; original-source completeness remains qualified, not fully verified. Git-manager decides use of this evidence. No commit result exists at this cutoff."
+  },
+  "last_successful_at": null,
+  "in_flight": null
+}
