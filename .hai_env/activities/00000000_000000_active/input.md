@@ -1,0 +1,1 @@
+I want to explore several ideas. Let's first start with a quesiton to you how the git manager be updated so to be able to push to origin the commits and to be able to create a new github release. I want this activities to be executed by you still to be made in a secure way.
