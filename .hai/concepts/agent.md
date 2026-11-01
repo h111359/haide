@@ -82,10 +82,11 @@ Executing a procedure stays in the same role; it is not another agent invocation
 or registration.
 
 When installed and registered, Agent-definition-manager maintains definitions and their necessary resources in
-both origins and selected golden source packages, owns explicitly requested registration, and synchronizes an existing
-entry when its definition changes. Audits are read-only; updating an unregistered
+both origins and selected golden source packages. It returns validated metadata
+through Leader when Environment-manager needs to synchronize a catalogue row. Audits are read-only; updating an unregistered
 definition does not register it. Environment-manager owns core environment and
-model-profile configuration and lightweight startup-validation policy. Leader retains execution ownership and may
+model-profile configuration, selective package installation, runtime catalogues and
+lightweight startup-validation policy. Leader retains execution ownership and may
 run the shared read-only startup helper directly for existing-state validation;
 core initialization and core environment/profile configuration changes remain
 environment-manager work. Optional extension owners retain their declared scope.
@@ -119,9 +120,10 @@ Reusable optional source packages live in `hai_agents_library/agents/`. They are
 data, not selectable agents. Only complete copied snapshots under `.hai_env/agents`
 can be registered for workspace execution. Source edits and installed updates are
 separate human-directed work; runtime never loads the library as a fallback.
-Missing optional owners are reported as dependencies. Manual human bootstrap is
-defined in the shared agent convention; it does not allow agents to invoke source
-definitions or bypass registration.
+Missing optional owners are reported as dependencies. Bundled Environment-manager
+can install the first explicitly selected optional package using shared core
+validation; no optional author or complete library is required. Package acquisition,
+authorship, registration and execution remain separate responsibilities.
 
 ### Supporting scripts
 

@@ -21,8 +21,8 @@ not an agent definition or a workspace registry.
 Creating a framework or workspace definition does not create a catalogue entry.
 Registration is a separate explicit operation; selection for execution and
 delegation require a valid entry in the corresponding catalogue for both origins,
-rather than discovering folders. Agent-definition-manager
-owns definition maintenance and catalogue mutations for both origins.
+rather than discovering folders. Agent-definition-manager owns definition maintenance; Environment-manager owns
+package installation and catalogue mutations for both origins.
 
 Optional standard subfolders are `scripts/` for executable helpers and their usage
 documentation, `concepts/` for role-owned definitions, `conventions/` for formats
@@ -85,5 +85,7 @@ Only `.hai/agents` and `.hai_env/agents` are executable origins. Matching source
 and installed names are expected; only installed origins participate in runtime
 collision checks. Core remains Leader, Environment-manager and Activity-manager.
 The library is not included in the current HAI release package allowlist.
-Copy selected packages into `.hai_env/agents/<name>/`, validate and explicitly
-register their installed paths. Source updates never update installed snapshots.
+Environment-manager installs only selected complete packages into
+`.hai_env/agents/<name>/`, validates them with shared core tools and performs
+explicit registration. The library is a development/distribution resource, not a
+required external-workspace download. Source updates never update installed snapshots.

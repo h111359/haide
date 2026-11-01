@@ -1,0 +1,16 @@
+{
+  "activity_id": "5bcc927f-1da4-4794-bb78-a4c0c9e245e3",
+  "subject": "Discuss agent source and installation layout",
+  "lifecycle": "closed",
+  "created_at": "2026-11-01T19:21:51Z",
+  "closed_at": "2026-11-01T20:40:28Z",
+  "outcome": "completed",
+  "implementation_started_at": "2026-11-01T20:30:14Z",
+  "steps": {
+    "clarification": "not_started",
+    "analysis": "completed",
+    "planning": "not_started",
+    "implementation": "completed",
+    "verification": "completed"
+  }
+}

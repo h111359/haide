@@ -1,0 +1,36 @@
+{
+  "verified_at": "2026-11-01T20:39:58Z",
+  "status": "verified",
+  "activity_id": "5bcc927f-1da4-4794-bb78-a4c0c9e245e3",
+  "operations": [
+    "closure with completed outcome",
+    "single planned Git commit: Move agent installation and registration to environment manager"
+  ],
+  "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+  "durable_path": "/home/hromar/.codex/sessions/2026/11/01/rollout-2026-11-01T15-22-33-01a19746-abc2-7fb0-b30a-f5785903e80d.jsonl",
+  "original_started_at": "2026-11-01T13:22:33.547Z",
+  "range": {
+    "start": {
+      "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+      "message_id": "msg_01a1988e-f683-7ef0-84f6-5dd40cda042c"
+    },
+    "end": {
+      "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+      "message_id": "msg_01a198d6-7e10-7103-8996-a8f5e7879b3c"
+    }
+  },
+  "source_positions_zero_based_inclusive": [
+    1827,
+    2340
+  ],
+  "retained_source_complete": true,
+  "eligible_user_prompts": 5,
+  "eligible_assistant_final_outcomes": 4,
+  "segment_path": "chronicles/20261101_1522_segment-01.md",
+  "segment_sha256": "e8c07bbd2f4802b4588f5daccb1edf1e2fc1a2723062bd91a13c910840ebb2df",
+  "source_prefix_sha256": "a9d81a95631ca5f920e8eb0273d5278b3c11f6d0dd6d870d6083343fab48169b",
+  "pending_ranges": [],
+  "in_flight": null,
+  "source_format_evidence": "Original messages with unique message IDs; each user input has identical adjacent event mirror; all four outcomes match task_complete records. No compacted source or summary substitution.",
+  "future_outcome": "Undelivered closure/commit acknowledgement excluded from completed-source cutoff."
+}

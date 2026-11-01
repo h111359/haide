@@ -1,0 +1,8 @@
+{
+  "activity_id": "5bcc927f-1da4-4794-bb78-a4c0c9e245e3",
+  "previous_path": ".hai_env/activities/00000000_000000_active",
+  "archive_path": ".hai_env/activities/20261101_204028_agent-installation-ownership",
+  "closed_at": "2026-11-01T20:40:28Z",
+  "reason": "Explicit completed closure after fresh exact-source verification",
+  "historical_links": "Historical current-path references in this Activity refer to its stable identity; current relative paths remain valid within this archive."
+}

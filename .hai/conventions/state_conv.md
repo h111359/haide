@@ -130,17 +130,16 @@ separate or coordinated agent-format migration is authorized.
 
 Malformed table structure, unreadable catalogue, or conflicting catalogue target blocks catalogue writes and excludes its entries. Isolated invalid rows are reported and excluded; valid independent rows remain selectable. Duplicate-name rows are all excluded. Preserve invalid material without repair, and keep framework agents available. Catalogue problems do not invalidate otherwise valid core state or prevent independent feature loading.
 
-An installed registered Agent-definition-manager owns explicitly requested registration and synchronization
-of existing entries after definition updates. Creation alone does not register an
-agent; updating an unregistered definition leaves it unregistered. Workspace
-mutations require valid initialized environment context. Environment-manager owns
-core state, model profiles, and lightweight startup catalogue validation, without
-repairing definitions or registrations. Preserve unrelated rows, prose, and state
-settings during updates. Selection for execution and delegation require a valid
-entry in the target's origin catalogue for both framework and workspace agents.
-An explicit name or path does not bypass registration or authorize it. Unregistered
-definitions may be inspected, maintained, validated, or registered without executing
-them. Framework roles need neither workspace registration nor enabled optional features.
+Environment-manager owns explicitly requested registration and synchronization of
+existing rows after authorized definition/package updates in both runtime catalogues.
+Agent-definition-manager owns authoring/verification and returns exact decoded
+metadata through Leader; it never copies packages into installation or mutates
+catalogues. Creation alone does not register an agent. Environment-manager can
+install and validate the first selected optional package using shared core tools,
+without the optional authoring agent or a whole library. Workspace mutations retain
+compatible initialized context, instructions and Activity prerequisites. Preserve
+unrelated rows/prose/settings; selection/execution still requires valid registration
+for either origin and remains Leader's responsibility.
 
 ## Initialization template and compatibility
 

@@ -73,7 +73,7 @@ without environment. Registered workspace definitions resolve through
 An explicit name or path does not bypass registration or authorize it. Unregistered
 definitions in either origin may be inspected, maintained, validated, or registered
 without executing them. Creation and registration remain separate operations.
-Follow leader's registration handoff when registration is requested, and the agent
+Follow Leader's Environment-manager registration handoff when registration is requested, and the agent
 convention for eligibility, conflicts, and invalid references; never implicitly
 override framework roles.
 
@@ -114,7 +114,7 @@ execution stays in the selected role and is not another agent delegation. Read a
 conventions when creating or changing framework resources.
 The shared [instruction-writing convention](conventions/instruction-writing_conv.md)
 defines plain rule wording and MUST/MUST NOT/MAY. It changes neither task permission
-nor input requirement labels; authoring behavior belongs to an installed registered agent-definition-manager. Missing optional authoring or specification owners are installation dependencies, not core startup failures. Follow the agent convention's manual human bootstrap when the definition owner is absent; do not invoke library source definitions.
+nor input requirement labels; authoring behavior belongs to an installed registered agent-definition-manager. Missing optional authoring or specification owners are installation dependencies, not core startup failures. Core Environment-manager can install a selected individual package using shared read-only validation without invoking Agent-definition-manager or obtaining the whole source library. It owns both runtime catalogues; the optional author returns metadata through Leader. Never invoke a library source definition.
 
 Follow a reference when its content is necessary to understand
 or perform the current task. Do not read unrelated references.

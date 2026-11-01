@@ -45,7 +45,7 @@ Verified `inspection` output from [Establish scope and inspect](establish-scope-
 - [Agent concept](../../../../.hai/concepts/agent.md) — role boundaries — required when creating
   or changing responsibilities.
 - [State convention](../../../../.hai/conventions/state_conv.md) — catalogue encoding and workspace
-  prerequisites — required for catalogue writes and HAI context; independent format
+  prerequisites — required for interpreting catalogue identity and HAI context; independent format
   checks and prerequisite diagnosis remain available without initialized state.
 - [Framework catalogue](../../../../.hai/agents/catalogue.md) and the workspace catalogue when present —
   registration and identity checks — required before mutations; conditional on audit scope.

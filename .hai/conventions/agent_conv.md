@@ -40,14 +40,22 @@ leave installed snapshots unchanged. Human-approved updates copy complete packag
 local differences or an unknown baseline require review before replacement. No
 automatic updater, agent-version scheme or new state dependency is introduced.
 
-An installed registered Agent-definition-manager owns authorized source maintenance,
-copy installation and catalogue work. If it is absent or unavailable, report the
-optional-owner dependency; do not invoke its source definition or bypass registration.
-A human may bootstrap by copying the complete package, validating its installed
-canonical path with shared tools and explicitly adding its workspace catalogue row
-under the state convention. This manual action does not grant Leader mutation
-authority or change normal delegation. It needs compatible environment/instructions;
-the human verifies startup and preserves existing data before installation.
+Agent-definition-manager owns authorized definition/source authoring and convention
+review when installed. Environment-manager owns selective package acquisition,
+installation/replacement and both runtime catalogues, using the trusted shared
+read-only tools directly. Its bundled core definition does not depend on an absent
+authoring agent. A `.hai`-only workspace initializes normal context, then asks
+Environment-manager to install one selected optional package into `.hai_env/agents`.
+No whole library download or source fallback is required. Missing package peers are
+reported dependencies, never permission to install the entire collection.
+
+Source maintenance, installed replacement and registration remain distinct scopes.
+A combined explicit request can cover several steps, coordinated by Leader; no
+specialist invokes another. Environment-manager preserves external config/records,
+reviews existing-package differences, stages complete packages and retains recovery
+copies before authorized replacement. A new package stays unregistered without
+explicit registration intent. An authorized existing-definition/package update can
+cover metadata synchronization without changing membership.
 
 ## Selection and loading
 
@@ -320,32 +328,33 @@ shared readers linking to it. Scripts follow [tooling_conv.md](tooling_conv.md).
 
 ## Registration ownership and verification
 
-When installed and registered, Agent-definition-manager owns framework and workspace definition creation, updates,
-audits, selected golden source maintenance and explicitly requested catalogue registrations.
-A missing optional owner blocks its dependent work, not core startup; manual human
-bootstrap follows the source-package section above. Creation and registration
-are separate; an explicit combined operation may perform both. Updating a registered
-definition synchronizes its existing catalogue description and canonical reference;
-updating an unregistered definition never adds a row. Independent format tools and
-read-only prerequisite diagnosis need no initialized environment. Substantive HAI
-maintenance/audits follow mandatory Activity context; workspace mutations additionally
-retain their valid initialized environment prerequisite. Environment-manager owns
-core environment configuration, model profiles, and the lightweight startup-validation policy; leader
-may execute the shared read-only startup helper directly under its bounded exception
-and otherwise owns selection and execution. Core initialization/configuration,
-profile changes, and their repairs/migrations remain environment-manager work;
-extension owners retain their declared scoped configuration. Audits do not repair, rename,
-unregister, or delete.
-Neither role silently repairs the other's data. Preserve unrelated state, rows,
-and prose. Register only after validating the definition.
-Coordinate writes without claiming multi-file transactionality: stop on changed
-inputs, preserve partial results on failure, and report inconsistencies without
-automatic retries, removal, or overwrite.
+Agent-definition-manager owns definition creation, maintenance, audits and selected
+golden-source authoring. Environment-manager owns selective package installation,
+explicit new registration and metadata synchronization in both runtime catalogues.
+The installer validates with shared core tools even when the authoring agent is
+absent. Creation returns an authored target and verified metadata, never an implicit
+installation or catalogue write. An author updating a registered installed definition
+returns its canonical identity, exact decoded description and validation through
+Leader; Environment-manager rereads the installed file and synchronizes the existing
+row under the covering update scope. An unregistered definition remains unregistered
+without explicit registration intent. Source-only changes leave installed snapshots
+and their catalogue rows unchanged until an explicitly scoped Environment-manager
+update. Audits remain read-only and never repair, rename, unregister or delete.
+
+Leader coordinates owner handoffs and verifies required catalogue coherence before
+reporting the overall work complete. Neither specialist invokes the other. Missing
+optional authorship blocks only dependent authoring, not startup, installation or
+trusted independent format checks. Normal fixed instructions, Activity, compatible
+workspace context and exact profile/runtime requirements still apply. Environment
+initialization/configuration, profiles and startup policy remain Environment-manager
+work; domain agents retain their settings. Preserve unrelated state, rows and prose,
+stop on changed inputs/partial failure and report actual results without automatic
+retry or rollback. Multi-file authoring/catalogue changes are not a transaction.
 
 Validate names, canonical paths, collisions, YAML fields, string metadata,
 model/effort declarations, six role headings, procedure layout and containment,
 local input/output declarations, Mandatory/Optional requirements, outcome criteria,
-term mappings, reference conditions, independence, and shared rules. Author `description` first, then copy its decoded value into the catalogue
+term mappings, reference conditions, independence, and shared rules. Author `description` first, then return its decoded value for Environment-manager to synchronize the catalogue
 using the state convention's table encoding. Compare decoded strings exactly,
 including punctuation and whitespace; do not copy YAML quotes or scalar syntax.
 
@@ -365,8 +374,8 @@ Core-state compatibility remains governed separately by the state convention.
 An explicitly authorized agent-format migration validates every affected existing
 registration and definition, retains each name and exact Selection guide text as
 the new YAML description, agrees or assigns justified specialist class/effort
-settings within scope, renames the definition to `SKILL.md`, and updates its
-catalogue link and owned references together. Preserve other sections, supporting
+settings within scope, renames the definition to `SKILL.md`, and prepares its
+owned references plus exact row metadata for Environment-manager's coordinated catalogue synchronization. Preserve other sections, supporting
 resources, optional-feature settings, existing work records, and unrelated work. Do not
 silently drop invalid registrations, extra metadata, missing descriptions, or
 conflicting old/new files: resolve them within the authorized scope before writing.

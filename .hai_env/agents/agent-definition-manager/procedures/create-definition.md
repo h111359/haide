@@ -36,14 +36,14 @@ Verified `inspection` output from [Establish scope and inspect](establish-scope-
 6. Prepare each procedure's Description, Inputs, Prerequisites, Rules, Steps, Outputs and References, including local namespaced tables and absence behavior. Use canonical index triggers and local file links, or the permitted single inline form. Map domain terms to purposeful concept Markdown; place schemas/contracts in conventions and actual execution behavior in the owning procedure. Add conditional references and only demonstrated supporting resources.
 7. Recheck authority, collision facts, context, target absence and containment, then create the prepared resources exclusively. If inputs changed or creation partially fails, return actual partial results under the inherited failure rule.
 8. Run [Validate or audit](validate-or-audit.md), passing the selected target as `target`, [input:inspection] as `inspection` and requested scope as `audit_scope` where relevant. If validation fails, return actual partial results and findings without registration.
-9. For a source target, never register its library path. If explicit combined installation and registration was requested, pass the verified source folder, installation authority, explicit registration authority and [input:inspection] to [Install or update a source package](install-source-package.md) as `source_package`, `install_authority`, `registration_authority` and `inspection`; receive its actual installed canonical target and registration result. A registration-only request for a source path returns the missing installation dependency. For an installed target with explicit registration authority and successful verification, pass that target, validation, registration authority and [input:inspection] to [Register a validated definition](register-definition.md) as `target`, `validation_evidence`, `registration_authority` and `inspection`.
-10. Return [output:definition] with verification, source-versus-installed identity and actual installed registration status, unregistered when registration was not requested or did not succeed. Source packages themselves always remain non-executable and unregistered.
+9. Return any combined installation/registration request through Leader to Environment-manager, with the validated source or installed canonical target, exact decoded description, definition/contract evidence and the user's covering scope. Never copy an installation, mutate a catalogue or invoke another role. A source-only target remains uninstalled; an authored runtime definition remains unregistered unless Environment-manager separately completes explicit registration.
+10. Return [output:definition] with verified authoring results, actual registration observation and required installer/catalogue handoffs. Creation alone does not install a package, add membership or activate capabilities; do not claim a pending Environment-manager step completed.
 
 ## Outputs
 
 | Output | Meaning | Completion criteria |
 | --- | --- | --- |
-| [output:definition] | Verified new installed definition or source package and any explicitly installed copy | Structural and semantic evidence reported; source remains non-executable/unregistered, with actual registration reported only for an installed canonical target. |
+| [output:definition] | Verified authored definition/source package and installer/catalogue handoff evidence | Structural/semantic evidence and exact metadata reported; source remains non-executable/unregistered and pending installation/registration is identified without catalogue writes. |
 
 ## References
 
@@ -53,7 +53,7 @@ Verified `inspection` output from [Establish scope and inspect](establish-scope-
 - [Agent concept](../../../../.hai/concepts/agent.md) — role boundaries — required when creating
   or changing responsibilities.
 - [State convention](../../../../.hai/conventions/state_conv.md) — catalogue encoding and workspace
-  prerequisites — required for catalogue writes and HAI context; independent format
+  prerequisites — required for interpreting catalogue identity and HAI context; independent format
   checks and prerequisite diagnosis remain available without initialized state.
 - [Framework catalogue](../../../../.hai/agents/catalogue.md) and the workspace catalogue when present —
   registration and identity checks — required before mutations; conditional on audit scope.

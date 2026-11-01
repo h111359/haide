@@ -28,7 +28,7 @@ None.
 2. Load the shared agent convention and [input:instructions], including the safe fixed mandatory file. For workspace writes verify compatible initialized context; for substantive work verify [input:activity_context]. If required context is unavailable, report the affected dependency and keep only independent permitted diagnosis in scope.
 3. Validate the installed canonical target or explicitly selected `hai_agents_library/agents/<name>/` source path and resolved containment. Read relevant catalogue entries and immediate folder names under both runtime origins; compare case-insensitive runtime identity and establish registration status. A source counterpart is not a runtime collision and is never executable or registered; record its installed counterpart separately. If the workspace catalogue is absent, record no workspace registrations; if an opposite-origin directory is absent, leave it absent. If catalogue/identity information is malformed or unreadable, report unknown registration status and continue only independent read-only work.
 4. Load the selected definition, mandatory configuration contract and relevant resources. Inspect supported config versions/defaults, declared setting ownership, relevant external saved-file status and source/installed baselines without changing values. Compare catalogue guides first; inspect another definition only to resolve a concrete ownership question. Record baseline issues separately from the request.
-5. Prepare [output:inspection] with target, operation/origin, authority, prerequisites, identity, registration status and dependencies. Identify its binding as target `inspection` for the caller-selected [create](create-definition.md), [update](update-definition.md), [validation/audit](validate-or-audit.md) or [registration](register-definition.md) continuation.
+5. Prepare [output:inspection] with target, operation/origin, authority, prerequisites, identity, registration status and dependencies. Identify its binding as target `inspection` for the caller-selected [create](create-definition.md), [update](update-definition.md), [validation/audit](validate-or-audit.md) continuation.
 6. Return [output:inspection] and unresolved dependencies.
 
 ## Outputs
@@ -45,7 +45,7 @@ None.
 - [Agent concept](../../../../.hai/concepts/agent.md) — role boundaries — required when creating
   or changing responsibilities.
 - [State convention](../../../../.hai/conventions/state_conv.md) — catalogue encoding and workspace
-  prerequisites — required for catalogue writes and HAI context; independent format
+  prerequisites — required for interpreting catalogue identity and HAI context; independent format
   checks and prerequisite diagnosis remain available without initialized state.
 - [Framework catalogue](../../../../.hai/agents/catalogue.md) and the workspace catalogue when present —
   registration and identity checks — required before mutations; conditional on audit scope.

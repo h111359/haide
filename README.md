@@ -18,7 +18,7 @@ candidate; they do not claim that this later development has been packaged or pu
 [Activity migration notes](release-notes/activity-migration.md).
 
 - `.hai/` contains core Leader, Environment-manager and Activity-manager, shared concepts, conventions and tools.
-- `hai_agents_library/agents/` contains optional golden source packages; see the library index at `hai_agents_library/README.md`. Only complete copies installed and registered in `.hai_env/agents/` execute. Source updates do not update installed snapshots; the library is excluded from the current release bundle.
+- `hai_agents_library/agents/` contains optional golden source packages; see the library index at `hai_agents_library/README.md`. Only complete copies installed and registered in `.hai_env/agents/` execute. Source updates do not update installed snapshots; the library is excluded from the current release bundle. External workspaces start with `.hai` only; core Environment-manager later installs selected individual optional packages and owns runtime catalogues, while Agent-definition-manager authors and verifies definitions.
 - `.hai_env/` holds local state, mandatory fixed instructions, Activity records and
   optional local context. State configures mandatory `activities.location` (default
   `.hai_env/activities`) and central chronicles enabled/prompt threshold (default five).

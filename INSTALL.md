@@ -126,50 +126,48 @@ backup and partial-failure handling. Specification enabled/location now belong t
 format 3 retains Activity location and chronicles; format 2 is a read-only transition
 source. Chronicles extraction is outside this change.
 
-## Optional copied agents and manual bootstrap
+## Selective optional-agent installation
 
-The core provides Leader, Environment-manager and Activity-manager. Obtain selected
-complete optional packages separately; this source repository keeps them at
-`hai_agents_library/agents/`, but the current release allowlist does not ship that
-library. Never execute a library definition or import its helpers as a runtime
-fallback. A copied package's own local resources and compatible core/installed
-peers provide its runtime knowledge.
+External workspaces initially need only the complete `.hai` bundle. Its Leader,
+Environment-manager and Activity-manager provide startup and environment creation;
+no `hai_agents_library` checkout or optional authoring agent is needed.
 
-When Agent-definition-manager is already installed and registered, ask Leader to
-route explicit complete-package installation/update and any separately explicit
-registration to it. If that owner is absent, the human can bootstrap manually:
+For a later optional agent, ask Leader to route the explicitly selected package
+and source/version to core Environment-manager. The installer:
 
-1. Validate compatible initialized state and readable fixed instructions with the
-   core startup helper. Preserve existing workspace data and inspect both runtime
-   catalogues/folder names for conflicts; source counterparts are not runtime names.
-2. Copy the whole selected `agent-definition-manager` package into an absent
-   `.hai_env/agents/agent-definition-manager/` using ordinary independent files.
-   Include `SKILL.md`, the mandatory configuration contract, procedures, concepts and all supporting resources; do not
-   use a symlink/hardlink back to source. Stop on an existing target or conflicting name.
-3. Run `python -B .hai/tools/agents/agent_tools.py validate --definition .hai_env/agents/agent-definition-manager/SKILL.md`
-   with a verified Python 3.11+ interpreter. Read the shared helper instructions;
-   validation does not register or prove semantic correctness/runtime support.
-4. Explicitly add its single canonical row to `.hai_env/agents/catalogue.md` under
-   the core state convention: exact decoded YAML description, required table
-   encoding and `[SKILL.md](agent-definition-manager/SKILL.md)` destination. Preserve
-   other rows/prose. If absent, the human creates the standard catalogue header/table.
-5. Run core startup and `python -B .hai/tools/agents/agent_tools.py audit`; resolve
-   actual findings and supported model settings before invocation. The same manual
-   copy/validate/register process may install another explicitly selected package.
+1. Validates core context, fixed instructions, Activity and both runtime catalogues
+   plus immediate agent-folder collections, including unregistered name conflicts.
+2. Acquires only the selected complete package, or uses the supplied local package
+   as data. It stages safe ordinary files in a disposable canonical installed layout,
+   reads declared dependencies and runs trusted shared definition/contract validation
+   directly. Missing peers are reported rather than auto-installed; no whole-library
+   download or source-role invocation occurs.
+3. Exclusively installs an absent `.hai_env/agents/<name>/` after validation, or
+   reviews complete differences and preserves a recovery copy before an explicitly
+   authorized existing-package replacement. Whole packages replace whole packages;
+   overlays do not leave stale files. External agent config, profiles, instructions,
+   records and unrelated packages remain preserved.
+4. Registers the installed target only when the user explicitly requested it,
+   optionally together with installation. For an existing registered package it
+   synchronizes the exact decoded description/canonical row under the covering
+   update scope, preserving membership. Both runtime catalogues belong to this owner.
+5. Reads back installed bytes and catalogue evidence, reports actual checks and any
+   partial results, and leaves execution to Leader. Copying/registering an agent
+   does not enable specification, Git/GitHub or auto-push, or authorize domain work.
 
-This human bootstrap is not permission for Leader to perform environment or
-catalogue writes. Registration, feature/integration enablement and task authority
-are separate; copying Specification-manager does not enable specification, and
-copying Git-manager does not enable Git/GitHub or push.
+Agent-definition-manager creates/maintains definitions and verifies conventions;
+it does not install packages or change catalogues. Creation can produce a local
+unregistered definition or a reusable source package. Combined create/install/
+register requests remain separate owner steps coordinated by Leader. An authoring
+result includes exact identity/decoded description and validation evidence;
+Environment-manager rereads the installed target before changing its row. Missing
+optional authorship blocks authoring, not first-package installation.
 
-Shared edits belong in the golden source. Installed snapshots change only after
-an explicit human update choice. Compare whole packages and any known prior source
-baseline; stop for human review if local edits or a missing baseline prevent attribution.
-After reviewing the complete differences, the human may explicitly choose replacement
-including unattributed changes; do not invent their source or infer that choice.
-Preserve a recoverable prior copy in an agreed location, stage/validate the complete
-candidate, then replace the full package without leaving stale overlay files and
-synchronize an existing catalogue description. Report partial failure; no automatic
-retry, rollback, merge or updater is implied. A core upgrade preserves installed
-optional snapshots and does not silently upgrade them. Agent versions and provenance
-schemes are deferred; no additional runtime state is required.
+This repository's `hai_agents_library/agents/` is one development/distribution source
+for optional packages, not an external-workspace prerequisite. Shared edits belong
+there first. Source edits leave installed snapshots unchanged; ask Environment-manager
+for an explicitly selected update. Local differences or an unknown baseline require
+review and a covering replacement decision, including unattributed differences.
+No automatic updater, uninstall workflow, package-version/provenance scheme or
+implicit dependency installation is introduced. Partial writes stop dependent work
+and preserve actual results; there is no automatic retry, cleanup or rollback.

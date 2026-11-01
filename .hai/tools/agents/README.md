@@ -5,6 +5,14 @@ resolver for Windows, Linux, and macOS. It never spawns agents, changes state,
 repairs registrations, or installs dependencies. Use a working interpreter per
 [the tooling convention](../../conventions/tooling_conv.md).
 
+Core Environment-manager uses this trusted read-only auditor directly when staging
+and registering selected packages, including the first optional installation with
+no Agent-definition-manager or source library present. The optional authoring role
+creates/maintains definitions and returns verified metadata; the tool itself writes
+neither packages nor catalogues. Installer preflight separately inspects both
+immediate agent-folder collections for unregistered cross-origin collisions; a
+registered-only audit does not prove that those folders are conflict-free.
+
 The tool and tests use only the Python standard library. No downloads, package
 installation, or PyYAML are needed. HAI's state and `.hai_env/` are not a Python
 virtual environment.

@@ -2,7 +2,7 @@
 
 ## Description
 
-Apply scoped definition and resource changes, synchronize any affected existing catalogue entry, and report verification results or remaining inconsistencies.
+Apply scoped definition/resource changes and return verified metadata for any required Environment-manager catalogue synchronization, without installing packages or changing membership.
 
 ## Inputs
 
@@ -22,18 +22,18 @@ Verified `inspection` output from [Establish scope and inspect](establish-scope-
 
 ## Steps
 
-1. Establish the baseline of [input:target], installed or source-package kind, registration status, affected resources/references and [input:change_request] against [input:inspection]. Identify any explicitly authorized identity migration. A source update changes only the selected golden package; a separately authorized installed update uses [Install or update a source package](install-source-package.md).
+1. Establish the baseline of [input:target], installed or source-package kind, registration status, affected resources/references and [input:change_request] against [input:inspection]. Identify any explicitly authorized identity migration. A source update changes only the selected golden package; a requested installed snapshot replacement returns through Leader to Environment-manager. Direct authorized workspace-only definition edits remain authoring work, not a source-package installation.
 2. Review the mandatory configuration contract, supported versions and defaults against the existing contract and relevant saved values. Report breaking changes and owner migration dependencies; preserve external settings and do not implicitly migrate them. Prepare the scoped changes. Review each statement's semantic destination: shared constraints in SKILL Rules, unique local constraints in procedure Rules, conditions in Prerequisites and ordered actions/branches in Steps. Correct misplaced behavior in supporting concepts/conventions within the requested scope; retain their domain meaning and data contracts.
 3. Rewrite genuine rules in plain words with an explicit actor, action, object and applicable condition. Use only uppercase `MUST`, `MUST NOT` and `MAY` for their defined strengths, with one independent requirement per short bold title. Compare the before/after wording against the baseline for preserved defaults, preferences, permitted alternatives, conditions and exceptions; return unresolved meaning instead of silently changing strength. Do not treat a modal keyword as proof of clarity.
-4. Prepare the existing catalogue row from the final decoded description and canonical reference only when the target is an installed registered definition. A golden source counterpart is never registered and its update does not synchronize an installed row or snapshot. If an affected catalogue is malformed, return that dependency before coordinated writes. For an unregistered target, prepare no registration unless separately requested.
-5. Recheck inspected bytes and containment, then apply the scoped definition/resource changes and existing-row synchronization. For an authorized identity migration, coordinate affected references and identity checks; on any changed input or partial result, stop dependent writes and report actual state.
-6. Reread the definition, affected resources and existing row. Run [Validate or audit](validate-or-audit.md), passing [input:inspection] as `inspection` and the changed canonical [input:target] as `target`. Verify decoded description equality, canonical links, semantic separation and unrelated-content preservation. Return [output:changes], decisions and any remaining inconsistency.
+4. Derive the final canonical identity, exact decoded description and definition/contract check evidence. For a registered installed target, identify any existing row that needs synchronization; for a source target, record its separate installed counterpart without changing either registration or snapshot. An unregistered target stays unregistered. Return malformed/conflicting catalogue findings without repairing the table.
+5. Recheck inspected definition/resource bytes, scope and containment, then apply only authorized authoring changes. Preserve catalogues and installed snapshots for source-only edits. Stop dependent writes and report partial results on changed inputs or failure.
+6. Reread and validate the changed definition/resources under [Validate or audit](validate-or-audit.md), supplying the current `inspection` and canonical `target`. Return the metadata and covering update authority through Leader for Environment-manager's existing-row synchronization or separately authorized installation. Treat required catalogue coherence as pending until that owner's actual verified result, without invoking it yourself.
 
 ## Outputs
 
 | Output | Meaning | Completion criteria |
 | --- | --- | --- |
-| [output:changes] | Definition/resource changes and existing-row synchronization | Exact description equality and links verified; completed writes, decisions and any inconsistency reported. |
+| [output:changes] | Definition/resource changes and validated catalogue/installer handoff | Definition/resource checks and exact metadata are reported; catalogues remain unchanged here and required owner synchronization/installation is explicitly pending. |
 
 ## References
 
@@ -43,7 +43,7 @@ Verified `inspection` output from [Establish scope and inspect](establish-scope-
 - [Agent concept](../../../../.hai/concepts/agent.md) — role boundaries — required when creating
   or changing responsibilities.
 - [State convention](../../../../.hai/conventions/state_conv.md) — catalogue encoding and workspace
-  prerequisites — required for catalogue writes and HAI context; independent format
+  prerequisites — required for interpreting catalogue identity and HAI context; independent format
   checks and prerequisite diagnosis remain available without initialized state.
 - [Framework catalogue](../../../../.hai/agents/catalogue.md) and the workspace catalogue when present —
   registration and identity checks — required before mutations; conditional on audit scope.

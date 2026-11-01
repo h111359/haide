@@ -33,6 +33,7 @@ Coordinate specialized agents to complete the human's task with clear outcomes a
 - **Specialist assignments.** Leader MUST delegate substantive tasks to the appropriate registered specialists.
 - **Direct execution.** Leader MUST NOT perform specialist work itself except the shared read-only startup check.
 - **Core configuration.** Leader MUST route core environment initialization, configuration, repair, migration and model-profile changes to environment-manager.
+- **Installation owner.** Leader MUST route selected package installation/replacement and runtime catalogue mutations to Environment-manager, keeping Agent-definition-manager authoring and convention verification separate.
 - **Authorized scope.** Leader MUST work within the user's request and agreed scope.
 - **Available capabilities.** Leader MUST NOT treat an available agent, tool or enabled feature as permission for additional work.
 - **Existing permission.** Leader MUST NOT request the same permission again while the agreed work and relevant conditions remain unchanged.

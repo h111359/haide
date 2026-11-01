@@ -2,7 +2,7 @@
 
 ## Description
 
-Route explicit registration requests to the registered definition owner and return verified target eligibility or precise unresolved dependencies without executing the target.
+Route explicit registration requests to the core Environment-manager and return verified target eligibility or precise unresolved dependencies without executing the target.
 
 ## Inputs
 
@@ -16,11 +16,11 @@ Route explicit registration requests to the registered definition owner and retu
 | [input:target_name] | Agent name selected for registration. | Mandatory | Caller and authorized workspace context | Retrieve authorized context first; if unresolved, return the dependency and pause dependent work. |
 | [input:target_path] | Canonical existing definition path, or agreed canonical destination for explicitly combined creation. | Mandatory | Caller and authorized workspace context | Retrieve authorized context first; if unresolved, return the dependency and pause dependent work. |
 | [input:catalogues] | Framework catalogue and valid independent workspace registrations. | Mandatory | Caller and authorized workspace context | Retrieve authorized context first; if unresolved, return the dependency and pause dependent work. |
-| [input:runtime_evidence] | Current profile mapping/runtime support for agent-definition-manager, or explicit supported human override. | Mandatory | Caller and authorized workspace context | Retrieve authorized context first; if unresolved, return the dependency and pause dependent work. |
+| [input:runtime_evidence] | Current profile mapping/runtime support for Environment-manager, or explicit supported human override. | Mandatory | Caller and authorized workspace context | Retrieve authorized context first; if unresolved, return the dependency and pause dependent work. |
 
 ## Prerequisites
 
-An explicit registration request and an identified target; agent-definition-manager must already be validly registered and invocable.
+An explicit registration request and an identified target; core Environment-manager must be validly registered and invocable. Package installation does not require an optional authoring agent.
 
 ## Rules
 
@@ -32,13 +32,13 @@ None.
 
 2. Resolve [input:target_name] and [input:target_path] from authorized context, returning ambiguous identity before assignment.
 
-3. Verify agent-definition-manager's valid entry in [input:catalogues], then load its definition/registration procedure. Return unavailable owner or unsupported invocation dependencies. If the optional owner is absent, explain the manual human bootstrap under the agent convention; do not copy/register it yourself or invoke a library source definition.
+3. Verify Environment-manager's valid framework entry in [input:catalogues], then load its registration procedure. Return core-owner or invocation dependencies without substituting the optional authoring agent. A source-only target first needs the explicitly authorized selective installation through Environment-manager; no whole library or source-role invocation is needed.
 
-4. Prepare the registration assignment with target identity, origin, actual request, allowed changes and [input:activity_context]. If creation was explicitly combined, include its agreed scope separately.
+4. Prepare the registration assignment with target identity, origin, actual request, allowed changes and [input:activity_context]. If creation was explicitly combined, first obtain Agent-definition-manager's authorized authoring result through normal delegation, then pass its canonical target and verified metadata to Environment-manager. Do not assign authoring to the installer or registration to the author. An absent authoring owner is a separate optional-package installation dependency that Environment-manager can resolve under explicit scope.
 
-5. Execute [Delegate work](delegate-work.md), mapping [input:workspace_root] to target `workspace_root`, [input:instructions] to `instructions`, the prepared [input:registration_request]/[input:target_name]/[input:target_path] assignment to `task`, [input:authority] to `authority`, [input:activity_context] to `activity_context`, [input:catalogues] to `catalogues`, the verified registered owner/definition to `selected_role`, and [input:runtime_evidence] to `runtime_evidence`.
+5. Execute [Delegate work](delegate-work.md), mapping [input:workspace_root] to target `workspace_root`, [input:instructions] to `instructions`, the prepared [input:registration_request]/[input:target_name]/[input:target_path] assignment to `task`, [input:authority] to `authority`, [input:activity_context] to `activity_context`, [input:catalogues] to `catalogues`, the verified registered Environment-manager definition to `selected_role`, and [input:runtime_evidence] to `runtime_evidence`.
 
-6. Receive the owner's actual definition/resource validation and catalogue evidence. If validation or coordinated updates are unresolved, return that status.
+6. Receive Environment-manager's actual installed-definition/contract validation and catalogue evidence; its trusted shared tools do not depend on invoking Agent-definition-manager. If validation or coordinated updates are unresolved, return that status.
 
 7. Recheck the returned target entry and definition evidence, then return [output:registration_result] with actual registration status and remaining dependencies.
 
@@ -48,7 +48,7 @@ None.
 
 | Output | Meaning | Completion criteria |
 | --- | --- | --- |
-| [output:registration_result] | Verified target identity/path, origin, actual registration status and definition/catalogue evidence, or exact dependency. | Already registered owner performed requested registration/combined work and its evidence was rechecked; target execution is separate and never implied. |
+| [output:registration_result] | Verified target identity/path, origin, actual registration status and definition/catalogue evidence, or exact dependency. | Core Environment-manager performed explicit registration or existing-row synchronization after any separately completed authoring/installation and its evidence was rechecked; target execution is separate and never implied. |
 
 ## References
 

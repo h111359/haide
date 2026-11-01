@@ -1,0 +1,1 @@
+Open new activity and let's discuss the agents in .hai folder. It is strange now that some agents are in this folder and some are in hai_agents_library. Do you have some proposals how to resolve this inconsistency?

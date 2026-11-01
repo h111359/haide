@@ -24,3 +24,10 @@ package and explicit-update boundaries as procedures and helpers.
 ## References
 
 - [Agent definition](../SKILL.md) — responsibilities and procedures using this vocabulary.
+
+Authorship creates or revises definitions; installation copies a selected complete
+package into an environment. Environment-manager owns installation/replacement and
+all runtime catalogue mutations. Agent-definition-manager returns verified metadata
+through Leader for that owner, without invoking it. A combined user request can
+cover both steps, but neither creation nor source maintenance performs the second
+step implicitly. Workspace-only authored definitions can stay local and unregistered.

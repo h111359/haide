@@ -11,7 +11,7 @@ read selected source files as data without adopting their roles.
 | Package | Intended use and dependencies | Source |
 | --- | --- | --- |
 | Specification-manager | Durable product specification; independently portable package. HAI work requires its own validated enabled/location file plus separate core/Activity context; standalone roots remain explicit. | `agents/specification-manager/` |
-| Agent-definition-manager | HAI definition/source maintenance and human-directed copy/validate/register operations; requires compatible core conventions/tools and normal HAI context. | `agents/agent-definition-manager/` |
+| Agent-definition-manager | HAI definition/source authoring and convention validation; returns metadata for core Environment-manager, which owns installation and runtime catalogues. | `agents/agent-definition-manager/` |
 | Git-manager | Compatible HAI workspace Git/GitHub operations; requires installed core helpers, explicit integration settings and operation-specific recording checks. | `agents/git-manager/` |
 | Release-manager | HAI core bundle releases, not generic product release policy; requires installed Git-manager for repository/service work and Environment-manager's state contract. Does not track specification compatibility, library versions or individual agent versions. | `agents/release-manager/` |
 
@@ -26,17 +26,20 @@ Workspace values at `.hai_env/config/agents/<name>.json` are external: upgrades
 preserve them, assess compatibility and report owner migrations without silently
 converting settings. Source packages and installation never activate capabilities.
 
-Use the manual human bootstrap and installation/update instructions in the root
-`INSTALL.md` when the registered definition owner is absent. Source packages cannot
-register themselves; do not ask Leader to invoke them to bootstrap.
+Use core Environment-manager's selective installation/update and registration
+procedures through Leader. It already ships in `.hai`, can validate with shared
+core tools, and installs the first optional package without Agent-definition-manager
+or this whole library. External workspaces need only `.hai` initially; later they
+obtain selected individual complete packages from an explicitly chosen source.
+No source definition is invoked as an installer or a runtime fallback.
 
-Shared changes are made here first; installed snapshots change only after explicit
-human approval of their update. Workspace-only installed customizations remain
+Shared changes are made here first; installed snapshots change only after an explicitly scoped
+Environment-manager update approved by the human. Workspace-only installed customizations remain
 local unless separately reviewed/promoted to golden source. Stop an update for
 local differences or an unknown baseline until the human reviews complete differences
 and explicitly chooses replacement, including any unattributed changes. Do not
-invent change provenance. Preserve a recoverable prior copy and
-replace a validated complete package rather than overlaying files. No automatic
+invent change provenance. Environment-manager preserves a recoverable prior copy and
+replaces a validated complete package rather than overlaying files. No automatic
 synchronization, updater, agent version or mandatory provenance/state scheme exists.
 Core, agent-format and helper compatibility assumptions still require review.
 
