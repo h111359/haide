@@ -35,24 +35,7 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
   validity so missing instructions are not mistaken for absent state. Only safely
   absent state permits routing minimal initialization to environment-manager;
   initialized missing instructions need scoped repair. This command never initializes.
-- `current_state_format_version`, `state_format_version`, `activities`, and optional `features`: returned only for validated core state. The format contract comes from the installed framework package, independently of the target workspace's `.hai` copy. `activities` reports the mandatory configured store location (default `.hai_env/activities`) and directory availability/type; startup does not enumerate records or discover the current Activity. Specification reports its flag, location, and availability. Chronicles reports its flag only; transcript paths are derived inside each Activity.
-- `integrations`: `git` and `github` each expose `enabled` and `status`
-  (`enabled`, `disabled`, `unconfigured`, `invalid`, or `unverified`). They are
-  `unverified` when core state is absent or invalid. With valid core state, these
-  independently validated facts remain available even if mandatory instructions
-  are missing; the overall environment is still invalid, so callers must pause
-  dependent operations until instructions are available.
-  Missing `integrations` or a missing supported entry means unconfigured/disabled.
-  Malformed integration settings are reported as isolated issues and do not make
-  otherwise valid core state or mandatory instructions invalid. Callers must only
-  route dependent work when the relevant integration is explicitly enabled.
-  `integrations.git.auto_push` separately reports `enabled` and `status` with the
-  same values. A missing entry is unconfigured/disabled; malformed values or an
-  enabled policy with Git disabled are isolated push-policy issues. Its
-  `readiness` is always `not_checked`: this helper validates saved settings and
-  does not check Git installation, authentication, remote access, or branch rules.
-  Missing instructions still make the overall environment invalid and block
-  dependent work even if these saved integration facts are available.
+- `current_state_format_version`, `state_format_version`, `activities`, and optional `features`: returned only for validated core state. The format contract comes from the installed framework package, independently of the target workspace's `.hai` copy. `activities` reports the mandatory configured store location (default `.hai_env/activities`) and directory availability/type; startup does not enumerate records or discover the current Activity. Specification reports its flag, location, and availability. Chronicles reports its flag and effective `record_every_prompts` threshold; absent thresholds in older format-2 states default to `5`. A present threshold must be a positive JSON integer, including when chronicles is disabled. Transcript paths are derived inside each Activity.
 - `instructions_status`: `loaded`, `missing`, or `invalid` for the fixed mandatory
   `.hai_env/agent_instructions.md`, checked before state and independently of its
   validity/version. `agent_instructions` contains that path and exact decoded text
@@ -74,7 +57,7 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
 
 Exit codes: `0` for all applicable checks passing; `1` for absent/invalid state,
 unavailable mandatory instructions, or
-isolated integration/catalogue/profile/instruction issues; `2` for fatal workspace/input errors.
+isolated catalogue/profile/instruction issues; `2` for fatal workspace/input errors.
 Argument-parser errors use argparse usage text and exit `2`. Callers must inspect
 `environment`, `state_status`, `instructions_status`, `issues`, and independent results rather than treating a nonzero
 exit as permission to initialize or repair. Missing Python means the check did not
@@ -82,7 +65,7 @@ run, and is never validation success.
 
 Checks include duplicate keys at every JSON depth, nonstandard numeric constants,
 required state types and compatibility against the installed state-format contract,
-canonical format-2 template defaults, optional Git/GitHub integration types,
+canonical core format-2 template defaults,
 legacy request/current-pointer properties and retired `features.agent_instructions`, configured paths, target types,
 reserved locations, Activity/specification collisions and profile overlap. Global
 chronicles locations are rejected; Activity-local transcript paths are derived and
@@ -99,6 +82,12 @@ links, duplicate/conflicting registrations, and isolated malformed rows are repo
 and excluded without changing anything. A malformed overall table excludes its
 whole origin. Selected-definition format and exact description equality remain
 selection/authoring checks in `agent_tools.py`; do not run its full audit at startup.
+
+Unknown extension properties are opaque JSON data: startup neither interprets nor
+validates their policy and emits no extension capability/status object. Existing
+values remain untouched, including values the extension owner may consider invalid.
+Core initialization and validation require no optional extension agent or executable.
+Extension owners handle their own requested setup, configuration, and tooling.
 
 The helper reads mandatory fixed instructions and no optional feature contents.
 It performs filesystem checks on the configured Activity store and specification path

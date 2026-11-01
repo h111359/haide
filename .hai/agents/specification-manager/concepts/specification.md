@@ -2,11 +2,11 @@
 
 ## Definition
 
-[specification] is a collection of files organized in a subfolders tree with a single folder root which combined represents fully the whole product from various aspects - business, technical, operational and so on and also add additional domain information needed for proper understanding of the product. This is the foundation for specification-driven product development.
+[term:specification] is a collection of files organized in a subfolders tree with a single folder root which combined represents fully the whole product from various aspects - business, technical, operational and so on and also add additional domain information needed for proper understanding of the product. This is the foundation for specification-driven product development.
 
 ## Purpose
 
-[specification] organizes the full product documentation so an AI can discover and read only the parts relevant to its current task. Navigation must describe content clearly without prescribing required or optional reading.
+[term:specification] organizes the full product documentation so an AI can discover and read only the parts relevant to its current task. Navigation must describe content clearly without prescribing required or optional reading.
 
 ## Explanation
 
@@ -37,22 +37,23 @@ do not carry that field. The
 [contract versioning convention](../conventions/contract-versioning_conv.md)
 owns the baseline, structured transition ledger, applicability and verification
 rules, and the mandatory plan-and-approval gate for all migrations and adoption,
-including marker-only adoption. Check when specification work begins. An
+including marker-only adoption. The role's [inspection](../procedures/locate-and-inspect.md) and
+[adoption/migration](../procedures/adopt-or-migrate.md) procedures own execution. An
 unmarked tree needs assessment and explicitly approved adoption; older, newer,
 and invalid markers never authorize silent edits or version changes. Read-only
 assessment remains available. New authorized trees start directly at version 1.
 
 ### Organization and balance
-- Organize upper levels by documentation subject families, such as product, architecture, engineering, operations, and user guidance.
-- Organize deeper levels by meaningful subjects, domains, or modules.
-- Treat subject families as navigation categories, distinct from leaf types.
-- Allow no more than eight immediate children per branch.
-- Count the specification root as depth zero.
+- Upper levels group documentation subject families, such as product, architecture, engineering, operations, and user guidance.
+- Deeper levels group meaningful subjects, domains, or modules.
+- Subject families are navigation categories, distinct from leaf types.
+- Each branch has at most eight immediate children.
+- The specification root has depth zero.
 - The depth difference between the shallowest and deepest leaves must not exceed one level across the entire tree.
-- Maintain balance through meaningful regrouping when adding or splitting content.
-- Permit single-child branches where necessary.
-- Do not fabricate topics or content to satisfy structural limits.
-- If meaningful organization cannot satisfy all limits, surface the conflict for a decision rather than silently relaxing a rule.
+- Meaningful regrouping supports balance as content is added or split.
+- Single-child branches are permitted.
+- Fabricated topics/content do not satisfy structural limits.
+- An unresolved conflict between meaningful organization and these limits remains a caller decision; the limits are not silently relaxed.
 
 ### Node configuration file format
 __ncf__.md should have a standard format. It is in markdown as it should contact free text description of subfolders.
@@ -116,15 +117,16 @@ root links to `__ncf__.md`. No summaries, status, timestamps, or copied revision
 fields belong here. The catalogue does not replace descriptive Children tables
 or leaf content. It is derived from the tree, never edited as a second authority.
 
-Use the audit helper's `--render-catalogue` to produce the canonical candidate
-without filesystem writes; the caller/agent saves it only within authorized
-scope. Order is breadth first from root, sorting sibling folder names by Python
-Unicode code-point order, case sensitively. Escape literal metadata for Markdown
-table cells and percent-encode link paths. Refresh after node additions/removals,
-moves, kind/type/title/UUID changes, or parent changes; content-only updates need
-no catalogue change. The audit compares the entire canonical rendering, detecting
-missing/extra/duplicate rows, stale fields, incorrect links and ordering. Verify
-against the actual tree before relying on a suspected stale catalogue.
+The audit helper's `--render-catalogue` emits the canonical candidate without
+filesystem writes. Its order is breadth first from root, sorting sibling folder
+names by Python Unicode code-point order, case sensitively. Literal metadata is
+escaped for Markdown table cells and link paths are percent-encoded. Node
+additions/removals, moves, kind/type/title/UUID and parent changes affect the
+catalogue; content-only updates do not. Audit comparison covers the entire canonical
+rendering, including missing/extra/duplicate rows, stale fields, links and order.
+[Verification and handoff](../procedures/verify-and-handoff.md) owns rendering and
+actual-tree verification; [content entry](../procedures/enter-and-update.md) and
+[organization](../procedures/organize.md) own authorized derived refreshes.
 
 ### Classification rules
 
@@ -533,23 +535,26 @@ Use for the meaning of top-level folders and files, important descendants, group
 
 ### References and selective reading
 - Use ordinary relative Markdown links with descriptive explanations of relationships.
-- Repair links when nodes move or are renamed.
-- Preserve stable node IDs across reorganizations.
-- Keep each specification item in one canonical location and link to it rather than duplicating it.
+- Moved/renamed nodes retain working affected relative/incoming links.
+- Stable node IDs survive reorganizations.
+- Each specification item has one canonical location and descriptive links rather than duplicate facts.
 - The AI decides what to read according to its task.
 
 ### Content lifecycle
-- Create leaves only when meaningful content exists.
-- Do not generate empty product-document templates merely to populate every type.
-- Record unknowns explicitly within the relevant document rather than inventing answers.
+- Leaves require meaningful content.
+- Empty product-document templates do not justify populating types.
+- Unknowns are explicit in the relevant document rather than invented answers.
 - Document status does not imply implementation status.
 
 
 ## Supporting Terms
 
-- [workspace]: the product root or roots established by the caller for product-source discovery; the specification root alone does not identify them.
+- [term:workspace] — product source roots, distinct from the specification root.
 
 ## References
+
+- [term:specification] → [Specification](specification.md) — this concept.
+- [term:workspace] → [Workspace](workspace.md) — required for product-source discovery.
 
 - `../SKILL.md`: specification management procedures and input contract.
 - `../conventions/`: registered leaf content formats linked in the type entries above.

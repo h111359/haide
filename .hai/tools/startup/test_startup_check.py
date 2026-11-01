@@ -65,148 +65,96 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["state_format_version"], 2)
         self.assertEqual(result["activities"], {"location": ".hai_env/activities", "available": False, "target_type": "directory"})
         self.assertEqual(set(result["features"]), {"specification", "chronicles"})
-        self.assertEqual(result["features"]["chronicles"], {"enabled": False})
-        self.assertEqual(result["integrations"], {
-            "git": {"enabled": False, "status": "disabled",
-                    "auto_push": {"enabled": False, "status": "disabled",
-                                  "readiness": "not_checked"}},
-            "github": {"enabled": False, "status": "disabled"}})
+        self.assertEqual(result["features"]["chronicles"],
+                         {"enabled": False, "record_every_prompts": 5})
+        self.assertNotIn("integrations", result)
         self.assertEqual(result["profiles"]["status"], "absent")
         self.assertEqual(result["catalogues"]["workspace"], "absent")
         self.assertEqual([a["name"] for a in result["agents"]], ["leader"])
         self.assertEqual(before, self.snapshot())
 
-    def test_integrations_are_optional_independent_and_returned_as_context(self):
+    def test_core_startup_without_optional_extension_or_executable(self):
         self.state.pop("integrations", None)
         self.save_state()
-        legacy = startup.check(self.root)
-        self.assertEqual(legacy["environment"], "valid")
-        self.assertEqual(legacy["integrations"], {
-            "git": {"enabled": False, "status": "unconfigured",
-                    "auto_push": {"enabled": False, "status": "unconfigured",
-                                  "readiness": "not_checked"}},
-            "github": {"enabled": False, "status": "unconfigured"}})
+        self.assertFalse((self.root / ".hai/agents/git-manager").exists())
+        self.assertFalse((self.root / ".hai_env/agents/git-manager").exists())
+        before = self.snapshot()
+        with patch.dict(os.environ, {"PATH": ""}), patch.object(
+                subprocess, "Popen", side_effect=AssertionError("No external process is needed")):
+            result = startup.check(self.root)
+        self.assertTrue(result["ok"], result)
+        self.assertNotIn("integrations", result)
+        environment = dict(os.environ, PATH="")
+        proc = subprocess.run([sys.executable, "-I", "-S", "-B", str(SCRIPT),
+                               "--workspace", str(self.root)], cwd=self.root, env=environment,
+                              capture_output=True, text=True, encoding="utf-8")
+        self.assertEqual(proc.returncode, 0, proc.stderr + proc.stdout)
+        self.assertTrue(json.loads(proc.stdout)["ok"])
+        self.assertEqual(before, self.snapshot())
 
-        self.state["integrations"] = {
-            "git": {"enabled": True, "custom_note": "preserved by writers"},
-            "github": {"enabled": False}}
+    def test_opaque_extension_values_are_not_consulted_or_changed(self):
+        self.state.pop("integrations", None)
         self.save_state()
-        result = startup.check(self.root)
-        self.assertEqual(result["environment"], "valid")
-        self.assertTrue(result["integrations"]["git"]["enabled"])
-        self.assertEqual(result["integrations"]["git"]["status"], "enabled")
-        self.assertEqual(result["integrations"]["github"],
-                         {"enabled": False, "status": "disabled"})
-        self.assertEqual(result["integrations"]["git"]["auto_push"],
-                         {"enabled": False, "status": "unconfigured",
-                          "readiness": "not_checked"})
-
-    def test_auto_push_setting_is_separate_and_never_claims_live_readiness(self):
-        self.state["integrations"] = {
-            "git": {"enabled": True, "auto_push": {"enabled": True}},
-            "github": {"enabled": False}}
-        self.save_state()
-        result = startup.check(self.root)
-        self.assertTrue(result["integrations"]["git"]["enabled"])
-        self.assertEqual(result["integrations"]["git"]["auto_push"],
-                         {"enabled": True, "status": "enabled",
-                          "readiness": "not_checked"})
-
-    def test_malformed_auto_push_isolated_from_git_and_github(self):
-        for push in (None, [], {}, {"enabled": 1}, {"enabled": 0}, {"enabled": "true"}):
-            with self.subTest(push=push):
-                self.state["integrations"] = {
-                    "git": {"enabled": True, "auto_push": push},
-                    "github": {"enabled": True}}
-                self.save_state()
-                result = startup.check(self.root)
-                self.assertEqual(result["environment"], "valid")
-                self.assertTrue(result["integrations"]["git"]["enabled"])
-                self.assertEqual(result["integrations"]["git"]["auto_push"],
-                                 {"enabled": False, "status": "invalid",
-                                  "readiness": "not_checked"})
-                self.assertTrue(result["integrations"]["github"]["enabled"])
-                self.assertTrue(any(issue["path"] == "integrations.git.auto_push"
-                                    for issue in result["issues"]))
-
-    def test_auto_push_requires_enabled_git_integration(self):
-        invalid_git_values = [
-            {"enabled": False, "auto_push": {"enabled": True}},
-            {"auto_push": {"enabled": True}},
-            {"enabled": "true", "auto_push": {"enabled": True}},
-        ]
-        for git in invalid_git_values:
-            with self.subTest(git=git):
-                self.state["integrations"] = {"git": git, "github": {"enabled": False}}
-                self.save_state()
-                result = startup.check(self.root)
-                self.assertEqual(result["environment"], "valid")
-                self.assertFalse(result["integrations"]["git"]["auto_push"]["enabled"])
-                self.assertEqual(result["integrations"]["git"]["auto_push"]["status"], "invalid")
-
-    def test_malformed_integrations_are_isolated_from_core_and_instructions(self):
-        malformed = [None, [], {"git": {"enabled": "yes"}, "github": {"enabled": True}},
-                     {"git": {"enabled": True}, "github": {"enabled": 1}},
-                     {"git": {"enabled": 0}, "github": {"enabled": True}},
-                     {"git": {}, "github": {"enabled": True}},
-                     {"git": {"enabled": True}, "github": None}]
-        for configured in malformed:
+        baseline = startup.check(self.root)
+        for configured in (None, [], False, "legacy", {"enabled": "not a core field"},
+                           {"git": {"enabled": "yes", "auto_push": []}, "github": None}):
             with self.subTest(configured=configured):
                 self.state["integrations"] = configured
+                self.state["future_extension"] = {"owned": [1, None, {"anything": True}]}
                 self.save_state()
+                before = self.snapshot()
                 result = startup.check(self.root)
-                self.assertEqual(result["environment"], "valid")
-                self.assertEqual(result["state_status"], "valid")
-                self.assertEqual(result["instructions_status"], "loaded")
-                self.assertTrue(any(issue["code"] == "integration" for issue in result["issues"]))
-                self.assertFalse(result["ok"])
-                for integration in result["integrations"].values():
-                    if integration["status"] == "invalid":
-                        self.assertFalse(integration["enabled"])
-                if isinstance(configured, dict) and isinstance(configured.get("github"), dict):
-                    if type(configured["github"].get("enabled")) is bool:
-                        self.assertEqual(result["integrations"]["github"]["enabled"],
-                                         configured["github"]["enabled"])
+                self.assertEqual(result, baseline)
+                self.assertEqual(before, self.snapshot())
 
-    def test_integration_context_is_unverified_when_core_state_is_invalid(self):
-        self.write(".hai_env/state.json", "not JSON")
+    def test_template_needs_no_extension_defaults(self):
+        self.assertNotIn("integrations", DEFAULT)
+        template = copy.deepcopy(DEFAULT)
+        template.pop("integrations", None)
+        self.write(startup.TEMPLATE, json.dumps(template))
+        self.assertTrue(startup.check(self.root)["ok"])
+        for opaque in (None, [], {"enabled": "arbitrary"}):
+            with self.subTest(opaque=opaque):
+                template["future_extension"] = opaque
+                self.write(startup.TEMPLATE, json.dumps(template))
+                self.assertTrue(startup.check(self.root)["ok"])
+
+    def test_optional_workspace_extension_requires_catalogue_registration(self):
+        self.write('.hai_env/agents/git-manager/SKILL.md', 'Not parsed during startup.')
+        before = startup.check(self.root)
+        self.assertEqual([agent['name'] for agent in before['agents']], ['leader'])
+        self.assertEqual(before['catalogues']['workspace'], 'absent')
+        self.table('.hai_env', [('git-manager', 'Operate the optional extension.', 'git-manager/SKILL.md')])
+        result = startup.check(self.root)
+        self.assertTrue(result['ok'], result)
+        entry = next(agent for agent in result['agents'] if agent['name'] == 'git-manager')
+        self.assertEqual(entry['origin'], '.hai_env')
+        self.assertEqual(entry['definition'], '.hai_env/agents/git-manager/SKILL.md')
+        self.assertNotIn('integrations', result)
+
+    def test_unknown_extension_data_does_not_mask_invalid_core(self):
+        self.state["integrations"] = {"unknown": "opaque"}
+        self.state["features"]["specification"]["enabled"] = "invalid"
+        self.save_state()
+        before = self.snapshot()
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "invalid")
-        self.assertEqual(result["integrations"], {
-            "git": {"enabled": False, "status": "unverified",
-                    "auto_push": {"enabled": False, "status": "unverified",
-                                  "readiness": "not_checked"}},
-            "github": {"enabled": False, "status": "unverified"}})
+        self.assertNotIn("integrations", result)
+        self.assertTrue(any(issue["code"] == "state" for issue in result["issues"]))
+        self.assertFalse(any(issue["code"] == "integration" for issue in result["issues"]))
+        self.assertEqual(before, self.snapshot())
 
-    def test_missing_instructions_keeps_validated_integration_facts_but_blocks_environment(self):
-        self.state["integrations"] = {"git": {"enabled": True}, "github": {"enabled": True}}
+    def test_missing_instructions_block_core_without_extension_interpretation(self):
+        self.state["integrations"] = ["opaque", {"enabled": "not a core value"}]
         self.save_state()
         (self.root / startup.INSTRUCTIONS).unlink()
+        before = self.snapshot()
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "valid")
         self.assertEqual(result["instructions_status"], "missing")
         self.assertEqual(result["environment"], "invalid")
-        self.assertTrue(result["integrations"]["git"]["enabled"])
-        self.assertTrue(result["integrations"]["github"]["enabled"])
-
-    def test_absent_supported_integration_entry_is_unconfigured(self):
-        self.state["integrations"] = {"git": {"enabled": True}, "future": {"enabled": True}}
-        self.save_state()
-        result = startup.check(self.root)
-        self.assertEqual(result["environment"], "valid")
-        self.assertEqual(result["integrations"]["git"],
-                         {"enabled": True, "status": "enabled",
-                          "auto_push": {"enabled": False, "status": "unconfigured",
-                                        "readiness": "not_checked"}})
-        self.assertEqual(result["integrations"]["github"],
-                         {"enabled": False, "status": "unconfigured"})
-        self.state["integrations"] = {"github": {"enabled": False}}
-        self.save_state()
-        result = startup.check(self.root)
-        self.assertEqual(result["integrations"]["git"]["auto_push"],
-                         {"enabled": False, "status": "unconfigured",
-                          "readiness": "not_checked"})
-        self.assertTrue(result["ok"], result)
+        self.assertNotIn("integrations", result)
+        self.assertEqual(before, self.snapshot())
 
     def test_absent_state_is_not_initialized_and_preserves_container(self):
         (self.root / ".hai_env/state.json").unlink()
@@ -392,6 +340,32 @@ class StartupTests(unittest.TestCase):
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "invalid")
         self.assertIn("global features.chronicles.location", result["issues"][0]["message"])
+
+    def test_chronicles_prompt_threshold_defaults_validates_and_propagates(self):
+        # Older format-2 states remain valid and receive the documented effective default.
+        self.state["features"]["chronicles"].pop("record_every_prompts", None)
+        self.save_state()
+        result = startup.check(self.root)
+        self.assertTrue(result["ok"], result)
+        self.assertEqual(result["features"]["chronicles"],
+                         {"enabled": False, "record_every_prompts": 5})
+
+        self.state["features"]["chronicles"]["record_every_prompts"] = 12
+        self.save_state()
+        result = startup.check(self.root)
+        self.assertTrue(result["ok"], result)
+        self.assertEqual(result["features"]["chronicles"]["record_every_prompts"], 12)
+
+    def test_chronicles_prompt_threshold_rejects_invalid_values_even_when_disabled(self):
+        for invalid in (True, False, 0, -1, 1.5, "5", None, [], {}):
+            with self.subTest(invalid=invalid):
+                self.state["features"]["chronicles"]["enabled"] = False
+                self.state["features"]["chronicles"]["record_every_prompts"] = invalid
+                self.save_state()
+                result = startup.check(self.root)
+                self.assertEqual(result["state_status"], "invalid")
+                issue = next(issue for issue in result["issues"] if issue["code"] == "state")
+                self.assertIn("record_every_prompts", issue["message"])
 
     def test_activity_store_location_is_configurable_safe_and_preserves_extra_properties(self):
         self.state["activities"] = {"location": "workspace-activities", "note": "keep"}

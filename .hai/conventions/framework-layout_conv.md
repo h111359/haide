@@ -1,16 +1,16 @@
 ## Folder structure
 
-.hai/ - contains the reusable [HAI] framework components
+.hai/ - contains the reusable [term:HAI] framework components
   agents/ - contains subfolders with agents
   concepts/ - contains the concepts definition files
   conventions/ - contains the convention definition files
-  tools/ - contains programming code and other related files forming the application layer and stand alone scripts of [HAI]
+  tools/ - contains programming code and other related files forming the application layer and stand alone scripts of [term:HAI]
 
 ## agents/ folder structure
 
-agents/ folder contains one and only one subfolder per agent - the [agent-folder]
+agents/ folder contains one and only one subfolder per agent - the [term:agent-folder]
 
-[agent-folder] MUST contain exactly one file named SKILL.md and other optional files and subfolders
+[term:agent-folder] MUST contain exactly one file named SKILL.md and other optional files and subfolders
 
 `SKILL.md` follows the required template in [agent_conv.md](agent_conv.md).
 The framework's separate [agent catalogue](../agents/catalogue.md) lives
@@ -19,20 +19,30 @@ and definition link so selection does not require opening role files. It is
 not an agent definition or a workspace registry.
 
 Creating a framework or workspace definition does not create a catalogue entry.
-Registration is a separate explicit operation; normal selection uses the
-corresponding catalogue rather than discovering folders. Agent-definition-manager
+Registration is a separate explicit operation; selection for execution and
+delegation require a valid entry in the corresponding catalogue for both origins,
+rather than discovering folders. Agent-definition-manager
 owns definition maintenance and catalogue mutations for both origins.
 
-Optional standard subfolders are `scripts/` for executable helpers and
-their usage documentation, and `conventions/` for role-specific data formats and
-domain contracts. Agent-specific responsibilities, execution behavior, authority, and
-procedures remain in `SKILL.md` under the
+Optional standard subfolders are `scripts/` for executable helpers and their usage
+documentation, `concepts/` for role-owned definitions, `conventions/` for formats
+and domain contracts, and `procedures/` for separate execution procedures.
+`SKILL.md` retains the role entry point, scope, exclusions, shared rules, and
+canonical procedure triggers under the
 [agent convention](agent_conv.md#supporting-resources).
 Other justified files and folders are permitted; existing resources
 such as environment-manager's `templates/` remain valid. Create only needed
 resources. Framework-wide concepts and conventions remain at framework level;
 role-owned domain knowledge may live in the owning package as the single public
 authority. Other readers link to that authority rather than keeping shared copies.
+
+Procedures use their own Inputs and Outputs tables, entry prerequisites, local
+Rules, and ordered Steps under the
+[procedure convention](procedure_conv.md). A single procedure may instead remain
+inline. Procedure files belong to their role and are not separately registered agents.
+Shared role rules remain in `SKILL.md`; a procedure's local rules neither override
+nor duplicate them. Meanings and rationale are explained by the
+[Procedure concept](../concepts/procedure.md), separately from the format contract.
 
 ## Workspace agent structure
 
@@ -51,3 +61,8 @@ default `.hai_env/activities`, with one fixed current folder and closed archives
 Activity artifacts and optional transcript segments belong there; product code and
 durable specification remain at canonical product locations. There is no reusable
 framework store, Activity toggle or global chronicles location.
+
+## References
+
+- [term:HAI] → [HAI concept](../concepts/hai.md).
+- [term:agent-folder] → [Agent concept](../concepts/agent.md).

@@ -16,14 +16,13 @@ artifacts live directly in one Activity folder:
 | `plan.md` | When useful: concrete proposed work and verification tied to the objective. |
 | `outcome.md` | Required on closure: result against the objective, evidence, performed/skipped work, limitations, unresolved work and closure outcome. May be drafted earlier without implying closure. |
 
-Initialize only state, input and log. Create no empty optional scaffold. `files/`
-holds needed supporting files and revision history; `questionnaires/` holds useful
-numbered saved question sets with stable question IDs; `results/` holds produced
-Activity-specific outputs; `chronicles/` holds exact-source transcript segments.
-Create these only when needed. Product code and durable specification remain in
-canonical product locations. Link to them with source/identity as appropriate.
-There is no mandatory duplicate `discussion.md`; a useful discussion summary is
-clearly attributed analysis or decisions, never a substitute for exact chronicles.
+The initial artifact set is state, input and log. Optional artifacts have meaningful
+content rather than empty scaffold. `files/` holds supporting material and revision
+history; `questionnaires/` holds useful numbered saved question sets with stable
+question IDs; `results/` holds Activity-specific outputs; `chronicles/` holds exact
+source segments. Product code/durable specification retain canonical locations and
+attributable links. A discussion summary is attributed analysis or decisions,
+not a mandatory duplicate `discussion.md` or substitute for exact chronicles.
 
 ## State schema
 
@@ -57,21 +56,15 @@ are null for an active Activity. Do not silently reinterpret unsupported records
 
 ## Revisions and evidence
 
-Material changes to definition, analysis or plan preserve the previous version
-before publishing its replacement. Use unused dated files under
-`files/revisions/<artifact>/`, such as `20261028_120000_01.md`, and record author/source,
-UTC date, reason, predecessor and impact in the log or artifact revision entry.
-Use exclusive creation, preserve exact prior content and keep relative references
-valid. Do not overwrite a prior version or delete historical evidence merely because
-it became stale. First-time creation of a previously absent artifact is allowed at
-any appropriate point, including after implementation began; never pretend it
-existed earlier or retroactively approved completed work.
+Material revisions retain the exact predecessor in an unused dated path under
+`files/revisions/<artifact>/`, for example `20261028_120000_01.md`. Provenance identifies
+author/source, UTC date, reason, predecessor and dependent impact. Earlier evidence
+and valid relative references remain attributable even when superseded.
 
-Reassess dependent artifacts, assumptions, code and checks after a revision. Preserve
-their prior evidence, mark affected step results `in_progress` or `not_started` as
-appropriate, and state what must be repeated. Unaffected evidence remains usable.
-Log meaningful deviations and decisions. The implementation-start marker records
-history; it does not freeze artifacts or establish successful implementation.
+A new artifact may first appear after implementation began; its date/source cannot
+imply earlier existence or retroactive approval. Revised dependent step results
+reflect the reassessment, with stale evidence retained and the required repeat work
+identified. The original implementation-start marker stays unchanged.
 
 ## Location and sole current record
 
@@ -85,76 +78,57 @@ are closed. The fixed folder and its own state identify current work; no collect
 state file or external current pointer is created or consulted. An absent store
 or current folder is valid before meaningful new work, not an error to repair.
 
-Startup asks Activity-manager to discover and resume current work after compatible
-context is available. A new chat alone creates none. Meaningful new substantive
-work with no current record authorizes creation; no separate tracking opt-in exists.
-If unrelated current work exists, leader resolves continuation or authorized closure
-before another Activity is created. Never silently overwrite, reuse or close it.
-
-Before creating or mutating records, inspect direct child Activity-folder states
-only to establish sole-current consistency. Validate each candidate folder as a
-contained nonlinked directory before opening its contained regular state file;
-never follow a symlink/junction to discover state. Reject multiple active records, an
-active record under another name, a closed record at the current path, duplicate
-IDs, or unreadable/missing states that prevent validation. Do not recursively load
-history or infer repairs. A store-level `state.json` is unsupported, not a pointer.
-Recheck inspected inputs and target absence before writes and use exclusive creation.
-Partial operations are preserved and reported, never silently repaired or retried.
+The consistency contract rejects multiple active records, an active record under
+another name, a closed record at the current path, duplicate IDs, unsupported state,
+or missing/unreadable states that prevent validation. Activity folders are contained
+nonlinked direct-child directories with regular nonlinked canonical artifacts.
+A store-level `state.json` is unsupported, not a pointer. Record discovery and
+creation ordering belong to Activity-manager's owning procedures.
 
 ### Safe paths
 
-Validate the explicit workspace as an existing directory. Resolve the store,
-existing ancestors and selected record paths before reads and again before writes.
-Reject blank/traversal paths, workspace-root stores, escaping symlinks/junctions,
-version-control metadata, the reusable framework, and overlaps with protected
-configuration or other configured content locations. Missing targets must have
-safe resolved existing ancestors. Account for native case rules. Require directory
-stores/record folders; reject symlinked/junction record folders and nonregular or
-linked canonical artifacts. Caller validation of configuration does not replace
-local containment/type checks. Supplied paths authorize neither relocation nor
-overwriting. Configuration changes do not move, close or delete records.
+The workspace is an existing directory; store and record paths resolve inside it,
+including existing ancestors of missing targets and native case/alias behavior.
+Blank/traversal paths, workspace-root stores, escaping links/junctions,
+version-control metadata, reusable framework paths and overlaps with protected
+configuration/other configured content are invalid. Stores and record folders are
+directories; record folders cannot be links/junctions, and canonical artifacts are
+regular nonlinked files. Caller configuration assurance is separate from local
+containment/type validation. A location reference conveys no relocation/overwrite
+permission, and configuration changes do not alter record lifecycle or contents.
 
 ## Closure, archival and references
 
-Closure is an authorized decision from any performed-work state. Completing a
-step or delivering a response does not close current work. Determine the actual
-outcome and write outcome.md against the agreed objective before reporting closure.
-Rename the current folder to `YYYYMMDD_HHMMSS_short-label` using the actual UTC
-closure time, identical to `closed_at`. Labels use one to five lowercase ASCII
-alphanumeric words separated by single hyphens. On a name collision append the
-first unused suffix `_02`, `_03`, and so on with at least two digits, outside the
-label word count. Never overwrite; the rename must fail if the destination appears
-between check and write. For example: `20261028_140000_activity-records_02`.
+A closed record has `outcome.md`, an actual UTC `closed_at` timestamp and closure
+outcome. Its archive folder is `YYYYMMDD_HHMMSS_short-label` with the same closure
+time. Labels have one to five lowercase ASCII alphanumeric words separated by
+single hyphens. A collision suffix is the first unused `_02`, `_03`, and so on
+with at least two digits, outside the label word count; for example
+`20261028_140000_activity-records_02`.
 
-Coordinate outcome, timestamp, available destination, archive rename, state changes
-and affected persistent references. Preserve ID, creation time, implementation
-start and all contents. Historical references use final archive paths and stable
-IDs, not the reusable current path. Keep internal references relative where possible.
-Verify archive/state agreement, absent current folder, sole-current consistency and
-updated references before claiming success or creating another Activity. Rename
-and file writes are not an atomic transaction: on failure stop dependent work,
-preserve partial results and report exactly what remains inconsistent.
+Closure preserves stable ID, creation time, original implementation start and all
+contents. Persistent historical references identify stable IDs and final archive
+paths rather than the reusable current path; internal references remain relative
+where possible. A consistent completed closure has matching archive/state time,
+no current folder and correct affected references. Rename and file writes are not
+one atomic transaction; partial operations remain explicit results. Execution
+ordering and authorized closure decisions belong to the owner procedure.
 
 ## Closed-record supplements and chronicles
 
-Closed Activities are not reopened for substantive work. A new substantive task
-uses a new linked Activity once the current boundary is resolved. Closed records
-permit append-only dated supplements recording author/source, UTC date, reason,
-evidence and what earlier assertion they supplement; preserve original assertions
-and lifecycle. Delayed synchronization of already completed authoritative source
-exchanges is permitted under the original Activity without reopening it.
+A supplement is append-only evidence with author/source, UTC date, reason,
+supporting evidence and the earlier assertion supplemented. Historical assertions
+and the closed lifecycle remain intact. New substantive work has a separate linked
+Activity identity. Delayed synchronization of completed source exchanges can still
+belong to their original closed Activity.
 
-Optional chronicles are Activity-local and may have multiple segments for the same
-chat and Activity. Leader assigns exact source-exchange boundaries, with human
-clarification when ambiguous; chronicles-manager applies and verifies those bounds
-and never creates or closes Activities. Disabled periods receive no new transcripts
-and no implicit later backfill. Only explicitly authorized historical import may
-backfill such a period, retaining provenance and exact-source limitations. Missing
-durable source is reported, never manufactured. Detailed source, naming, timing
-and synchronization rules belong to chronicles-manager.
+Chronicles have Activity-local segment identity and exact source assignments.
+Their layout, source/naming contract and compatibility are owned by
+[Activity-manager's transcript convention](transcript-segment_conv.md).
+Record mutation and transcript recording have separate Activity-manager procedures.
 
 ## References
 
 - [Activity concept](../concepts/activity.md): work unit and lifecycle boundaries.
 - [Activity-manager](../SKILL.md): discovery, work, revisions and closure procedures.
-- [Chronicles-manager](../../chronicles-manager/SKILL.md): exact-source segment policy.
+- [Transcript segment convention](transcript-segment_conv.md): exact-source segment and checkpoint formats.

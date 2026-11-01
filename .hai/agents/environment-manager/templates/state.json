@@ -8,18 +8,8 @@
       "location": ".hai_env/specifications"
     },
     "chronicles": {
-      "enabled": false
-    }
-  },
-  "integrations": {
-    "git": {
       "enabled": false,
-      "auto_push": {
-        "enabled": false
-      }
-    },
-    "github": {
-      "enabled": false
+      "record_every_prompts": 5
     }
   }
 }

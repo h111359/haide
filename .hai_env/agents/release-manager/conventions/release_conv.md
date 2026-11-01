@@ -2,35 +2,20 @@
 
 ## Release unit and identity
 
-Initially publish one HAI bundle with one `MAJOR.MINOR.PATCH` version. Do not
-introduce independent package releases or a new version scheme without an explicit
+The initial release unit is one HAI bundle with one `MAJOR.MINOR.PATCH` version.
+Independent package releases or another version scheme require an explicit
 product decision. An independent specification-contract version describes a
 consumer boundary; it is not a second independently published bundle.
 
-Use exactly one current `.hai/release-<version>.json` in the installed framework.
+An identified installed release has exactly one current `.hai/release-<version>.json`.
 Its filename version and content `version` must match the selected bundle version,
 `v<version>` tag, and `hai-<version>.zip` asset. Its `contracts` information records
-included contract targets. Do not add a second fixed `release.json` authority.
+included contract targets; no second fixed `release.json` authority exists.
 The manifest is a release artifact created only for an authorized candidate with a
 selected bundle version; adopting independent compatibility declarations does not
 create a release. No first bundle version is implied by compatibility baseline 1.
 
-An unreleased source tree may have no current manifest when its changes no longer
-match the last published release and no new bundle version has been selected.
-Keep the superseded manifest's exact bytes outside `.hai/` as historical release
-evidence (for example, `release-notes/<version>-manifest.json`), and update the
-historical notes' link without rewriting that release's compatibility claims.
-Such source is not an identified release or a publication-ready package. Historical
-manifests do not count as current installed manifests and are not included in the
-reusable `.hai/` package. A selected release candidate and a released installation
-still require exactly one current manifest matching their own declarations.
-
-An upgrade replaces the previously installed release manifest with the new one;
-it must not accumulate stale manifests. Remove only positively identified prior
-release metadata within an authorized upgrade, preserving unrelated files. Multiple,
-malformed, or inconsistent current manifests block release identity verification.
-A new source candidate must remove its superseded manifest from the released tree.
-Published tags and release bytes are immutable; corrections use a new release.
+Published tags and release bytes are immutable; corrections use a new release. A selected release candidate and a released installation require exactly one current manifest matching their own declarations. Multiple, malformed or inconsistent current manifests block identity verification. Historical manifests outside `.hai/` are historical evidence, excluded from the reusable package.
 
 ## Manifest schema and consistency
 
@@ -60,8 +45,8 @@ selected bundle version:
 | `contracts.environment_state` | `.hai/agents/environment-manager/contract.json` in its entirety |
 | `contracts.specification` | `.hai/agents/specification-manager/contract.json` in its entirety |
 
-Reject duplicate JSON keys at any depth, nonstandard numeric constants, extra or
-missing schema keys, and malformed values. All version numbers in `contracts`
+Duplicate JSON keys at any depth, nonstandard numeric constants, extra/missing
+schema keys and malformed values are invalid. All version numbers in `contracts`
 are positive integers, excluding Booleans. `supported_state_format_versions` is
 a nonempty array of unique positive integers including `current_state_format_version`.
 The specification declaration contains exactly its positive integer
@@ -70,26 +55,7 @@ package, independently; future values must come from authorized owner changes,
 never from the HAI SemVer number. Tree-root applied markers are strings governed
 by specification-manager and are not copied into this manifest.
 
-Release-manager MUST validate both declarations under their owning rules and
-compare each manifest entry field for field, including the supported-version
-array, against the declaration from the same candidate source. Check filename,
-content version, planned tag and asset name together. Repeat these checks on the
-verified exact-commit export before packaging and on the unpacked archive before
-readiness. Record the checked paths, source commit, values and results. An installed
-workspace copy cannot substitute for the candidate's declarations. Missing,
-malformed, unsupported or inconsistent metadata blocks dependent compatibility
-claims and publication readiness; return the owning dependency through leader,
-without changing declarations to make a release pass. No release helper is implied
-by this procedure; report which checks were actually performed.
-
-## Version recommendation
-
-Review the actual changes since the last published release, including code,
-contracts, behavior, formats, conventions, and governing instructions. Use published
-history and source evidence, not commit-message labels alone or the number of edits.
-Obtain Git/GitHub evidence through leader's git-manager handoff; do not execute
-repository or service operations from this role.
-List changed consumer guarantees, impact, relevant verification, and uncertainty.
+## Version impact
 
 For an established stable line:
 
@@ -99,29 +65,11 @@ For an established stable line:
 | Backward-compatible new capability or public addition | MINOR |
 | Backward-compatible correction, including editorial or equivalent procedural clarification | PATCH |
 
-Use the highest applicable impact across the bundle, reset lower components
-according to SemVer, and explain why lower increments are insufficient. Public
-agent instructions can change observable behavior even when no program code changes.
-Do not force a new release merely because a diff exists; report when there is no
-releasable change or insufficient evidence to classify it.
-
-With no published baseline, ask for an explicit initial version and maturity
-choice. `0.1.0` is an example, not a default. For `0.x`, establish the human's policy
-for breaking changes before recommending a numerical result; do not silently apply
-either stable-line rules or an arbitrary minor/patch rule. Establish prerelease or
-build-metadata handling explicitly if requested, including its relationship to
-existing published versions and channels. Reject reuse or regression of a published
-version unless an explicitly agreed distinct channel makes the identity unambiguous.
-
-The human selects the version or explicitly authorizes the agent's recommendation.
-An existing explicit choice remains authority; report material compatibility
-conflicts rather than silently substituting another version.
-
-### Agreed initial release and experimental policy
+## Agreed initial release and experimental policy
 
 The human selected `0.1.0` as HAI's first bundle release. During `0.x`, new
 capabilities and breaking changes increment MINOR; compatible fixes increment
-PATCH. Describe breaking effects explicitly in notes. Moving to `1.0.0` requires
+PATCH. Notes explicitly describe breaking effects. Moving to `1.0.0` requires
 an explicit stability decision. These choices do not change independent state or
 specification compatibility numbering and do not authorize publication by themselves.
 
@@ -139,12 +87,7 @@ A candidate is ready for publication only when:
   exact candidate commit and asset digest are recorded.
 - Required decisions and publication authority cover the concrete candidate.
 
-Use existing project checks where applicable, including HAI agent/catalogue,
-startup, and specification-helper checks when their affected scope warrants them.
-If a check executes Git/GitHub operations, return that execution need to leader;
-ordinary filesystem/package checks remain release-manager work.
-Read helper documentation and verify the interpreter before execution. Document
-unavailable checks; do not call a required blocked check a pass. A local environment
-with specification disabled is not itself a bundle-release blocker. Apply the
-[contract policy](contract-versioning_conv.md) and [publishing policy](publishing_conv.md)
-for the remaining readiness conditions.
+## References
+
+- [Release procedures](../SKILL.md#procedures) — execution, checks, source sequence, authority and recovery.
+- [Compatibility dependencies](contract-versioning_conv.md) and [package contract](publishing_conv.md) — owning contract boundaries and package requirements.

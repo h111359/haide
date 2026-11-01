@@ -68,8 +68,8 @@ state, record or transcript migration.
 The 0.2.0 candidate supports format 2 only. Existing format-1 or older state must
 be reported and preserved until a scoped migration is authorized; do not reset it
 or merely change the version marker. Environment-manager owns configuration mapping;
-Activity-manager owns record migration and chronicles-manager exact-source transcript
-handling under leader's coordination. Historical input and source remain attributable;
+Activity-manager owns record migration and exact-source transcript handling under
+Leader's coordination. Historical input and source remain attributable;
 missing transcript source is reported, never reconstructed. See
 [Activity migration notes](release-notes/activity-migration.md).
 

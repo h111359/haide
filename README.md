@@ -7,7 +7,7 @@ This source tree is the **HAI 0.2.0 candidate**, using environment
 state format **2**. All substantive HAI work belongs to an Activity, including
 brainstorming and analysis. Startup resumes current work; a new chat alone does
 not create or close an Activity. Leader coordinates specialists and Activity-manager
-maintains records, lifecycle and assigned work.
+maintains records, lifecycle, exact-source transcripts and assigned work.
 
 The first immutable packaged prototype is **0.1.0**, which uses state format **1**.
 Its [release notes](release-notes/0.1.0.md) and [preserved manifest](release-notes/0.1.0-manifest.json)
@@ -20,7 +20,7 @@ publication remains pending. See [installation and upgrade instructions](INSTALL
 - `.hai_env/` holds local state, mandatory fixed instructions, Activity records and
   optional local context. State configures mandatory `activities.location` (default
   `.hai_env/activities`), optional specification enabled/location, and optional
-  chronicles enabled. Transcripts live under assigned Activities; there is no
+  chronicles enabled/prompt threshold (default five). Transcripts live under assigned Activities; there is no
   Activity toggle or global chronicles location.
 - One current Activity uses `00000000_000000_active`; closed Activities retain stable
   IDs under UTC closure timestamp folders. Material definition/analysis/plan revisions
@@ -28,7 +28,10 @@ publication remains pending. See [installation and upgrade instructions](INSTALL
 - Optional chronicles record exact durable-source exchanges in Activity segments.
   Recording starts with subsequent exchanges when enabled, without implicit backfill
   of off periods. Closed records allow attributable supplements and delayed old-source
-  synchronization; new substantive work uses a new linked Activity.
+  synchronization; new substantive work uses a new linked Activity. Leader schedules
+  ordinary prompt batches and Activity-manager records them separately from ordinary
+  record edits. Enabled or independently mandatory recording is freshly verified
+  before closure; missing required source or coverage blocks closure.
 - Workspace agent registrations use `.hai_env/agents/catalogue.md` alongside the
   framework catalogue; a missing workspace catalogue means none are registered.
   Specialist definitions declare generic model class and effort; optional local

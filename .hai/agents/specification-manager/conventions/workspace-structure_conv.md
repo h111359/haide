@@ -33,18 +33,20 @@ order:
    including one located inside an excluded working-record folder.
 2. Represent third-party coding libraries, including vendored code, and dependency trees only by
    their top folder and a brief purpose. This limited root entry is
-   permitted even when that library folder is gitignored; never enumerate,
+   permitted even when that library folder is otherwise excluded from expansion; never enumerate,
    register, inspect, or reverse-engineer its descendants. Establish the
    root and purpose from authoritative manifests, lockfiles, configuration,
    or reliable documentation outside excluded descendants. First-party
    product source is not a third-party library merely because its folder
    is named `lib` or `libraries`; mark unresolved classifications explicitly.
-3. Exclude all other gitignored folders and their descendants from
-   registration and reverse-engineering. Evaluate effective Git ignore
-   rules, including nested `.gitignore` files, precedence, and negation;
-   do not use a fixed list of folder names. Follow Git's treatment of
-   excluded parents when evaluating negation. Report unavailable ignore
-   evidence rather than claiming complete coverage.
+3. Apply the caller's explicit privacy/exclusion boundaries, supplied exclusion
+   evidence and any relevant verified repository-ignore classifications. Ordinary
+   bounded filesystem inspection of permitted entries and targeted authoritative
+   files does not require a source-control tool or repository integration. A selected
+   optional extension owns repository-specific ignore interpretation when needed;
+   absence of that evidence leaves repository-ignore coverage unverified and does
+   not block the permitted filesystem map. Do not inspect secrets, unrelated or
+   uncertain descendants merely to claim complete coverage; identify gaps instead.
 
 These exclusions take precedence over coverage and selective expansion
 rules. A brief coverage note may explain an exclusion category without
@@ -56,6 +58,6 @@ listing its folders or contents.
 - Balance discoverability with reading cost. Expand descendants only when their distinct purpose or entry point changes where an agent should look next; stop when a group description or linked area guide provides enough direction.
 - Use a compact table or annotated tree with explanations. Avoid exhaustive recursive listings, repeated path descriptions, and explanations of every implementation file.
 - Cover permitted generated output, caches, and tool metadata briefly by purpose or group. Keep libraries to top-folder entries and omit excluded areas according to the discovery boundaries; a navigation entry point does not override those limits.
-- Verify paths and purpose using directory entries and targeted authoritative files as needed; do not require reading every file or exhaustively scanning descendants. Mark uncertain meanings and unverified areas explicitly.
+- Paths/purposes are supported by directory entries and targeted authoritative evidence; uncertain meanings and unverified areas are explicit. The map requires neither every file to be read nor exhaustive descendant scans.
 - Distinguish observed layout from planned paths, optional local folders, and absent entries; do not present them as existing facts.
 - Link canonical instructions, design, and asset registers instead of copying their rules or details. This description guides selective inspection; it does not prescribe reading every listed path.

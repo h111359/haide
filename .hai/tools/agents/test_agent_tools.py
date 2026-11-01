@@ -8,8 +8,8 @@ import sys
 import tempfile
 import unittest
 
-from agent_tools import (HEADINGS, Invalid, audit, contained, decode_cell, load_json,
-                         read_definition, read_profiles, resolve, unique_pairs, validate, parse_frontmatter, UnsupportedYAML)
+from agent_tools import (HEADINGS, PROCEDURE_HEADINGS, Invalid, audit, contained, decode_cell, load_json,
+                         read_definition, read_profiles, resolve, rule_contract, unique_pairs, validate, parse_frontmatter, UnsupportedYAML)
 
 
 
@@ -37,8 +37,53 @@ class AgentTests(unittest.TestCase):
 
     def write_definition(self, name="worker", metadata=None, extra=""):
         metadata = metadata or 'metadata:\n  hai-model-class: "light"\n  hai-reasoning-effort: "high"\n'
+        # Literal fixture intentionally does not derive its structure from HEADINGS.
+        body = '''## Purpose
+Inspect scoped material.
+
+## Scope
+Read and report.
+
+## Out of Scope
+Changing material.
+
+## Rules
+- **Preserve scope.** The worker MUST inspect only the requested material.
+
+## Procedures
+### Inspect
+Trigger: A bounded inspection is requested.
+
+#### Description
+Inspect the requested material and return findings supported by evidence.
+
+#### Inputs
+| Input | Meaning | Requirement | Source | If absent |
+| --- | --- | --- | --- | --- |
+| [input:task] | Requested inspection. | Mandatory | Caller. | Ask. |
+
+#### Prerequisites
+None.
+
+#### Rules
+None.
+
+#### Steps
+1. Review [input:task].
+
+#### Outputs
+| Output | Meaning | Completion criteria |
+| --- | --- | --- |
+| [output:result] | Findings. | Evidence reviewed. |
+
+#### References
+None.
+
+## References
+None.
+'''
         text = (f'---\nname: {name}\ndescription: {json.dumps(self.description)}\n'
-                + metadata + extra + '---\n\n' + ''.join(f"## {h}\n\nNone.\n\n" for h in HEADINGS))
+                + metadata + extra + '---\n\n' + body)
         return self.write(self.definition, text)
 
     def test_audit_exact_decoding_unicode_and_crlf(self):
@@ -64,6 +109,340 @@ class AgentTests(unittest.TestCase):
         self.assertTrue(result["ok"], result)
         self.assertEqual(result["agent"], "worker")
         self.assertFalse((self.root / ".hai/agents/catalogue.md").exists())
+
+    def external_definition(self):
+        path = self.write_definition()
+        text = path.read_text(encoding="utf-8")
+        start, end = text.index('## Procedures\n'), text.rindex('\n## References\n')
+        index = '''## Procedures
+| Procedure | Trigger | File |
+| --- | --- | --- |
+| Inspect | A scoped review is requested. | [Inspect](procedures/inspect.md) |
+'''
+        path.write_text(text[:start] + index + text[end:], encoding="utf-8")
+        procedure = self.write('.hai/agents/worker/procedures/inspect.md', '''# Inspect
+
+## Description
+Inspect the requested material and return findings supported by evidence.
+
+## Inputs
+| Input | Meaning | Requirement | Source | If absent |
+| --- | --- | --- | --- | --- |
+| [input:task] | Requested review. | Mandatory | Caller. | Ask. |
+
+## Prerequisites
+None.
+
+## Rules
+None.
+
+## Steps
+1. Review [input:task] and produce [output:result].
+
+## Outputs
+| Output | Meaning | Completion criteria |
+| --- | --- | --- |
+| [output:result] | Findings. | Supported by evidence. |
+
+## References
+None.
+''')
+        return path, procedure
+
+    def test_literal_contract_forms_and_heading_contract(self):
+        self.assertEqual(HEADINGS, ['Purpose', 'Scope', 'Out of Scope', 'Rules', 'Procedures', 'References'])
+        self.assertEqual(PROCEDURE_HEADINGS, ['Description', 'Inputs', 'Prerequisites', 'Rules', 'Steps', 'Outputs', 'References'])
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+        self.external_definition()
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+
+    def test_required_local_rules_in_both_forms(self):
+        for external in (False, True):
+            if external:
+                _, path = self.external_definition()
+                level = '##'
+            else:
+                path = self.write_definition()
+                level = '####'
+            original = path.read_text(encoding='utf-8')
+            block = level + ' Rules\nNone.\n\n'
+            self.assertIn(block, original)
+            invalid = [
+                original.replace(block, ''),
+                original.replace(block, level + ' Rules\n\n'),
+                original.replace(block, level + ' Rules\nNone\n\n'),
+                original.replace(block, level + ' Rules\nNone.\n- **Local gate.** Check.\n\n'),
+                original.replace(block, block + block),
+                original.replace(block, '').replace(level + ' Prerequisites', block + level + ' Prerequisites'),
+                original.replace(block, level + ' Rules\nA rule without a title.\n\n'),
+                original.replace(block, level + ' Rules\n- **R01.** Check.\n\n'),
+                original.replace(block, level + ' Rules\n- **Local gate.** Check.\n- **LOCAL GATE:** Again.\n\n'),
+                original.replace(block, level + ' Rules\n- **Local gate.**\n\n'),
+                original.replace(block, level + ' Rules\n' + level + '# Empty group\n\n'),
+                original.replace(block, level + ' Rules\n```text\nNone.\n```\n\n'),
+            ]
+            for text in invalid:
+                with self.subTest(external=external, text=text):
+                    path.write_text(text, encoding='utf-8')
+                    self.assertFalse(validate(self.root, self.definition)['ok'])
+            for rules in ('None.',
+                          '- **Local gate.** The worker MUST check [input:task] before inspection.',
+                          level + '# Inspection limits\n- **Local gate.**\n  The worker MUST check [input:task] before inspection.'):
+                with self.subTest(external=external, rules=rules):
+                    path.write_text(original.replace(block, level + ' Rules\n' + rules + '\n\n'), encoding='utf-8')
+                    self.assertTrue(validate(self.root, self.definition)['ok'])
+
+    def test_local_rules_use_only_local_parameters_and_title_scope(self):
+        _, path = self.external_definition()
+        original = path.read_text(encoding='utf-8')
+        # Same title in two rule scopes is structurally valid; whether their
+        # obligations duplicate one another remains a semantic review decision.
+        rule = '## Rules\n- **Preserve scope.** The worker MUST check [input:task] against this inspection boundary.\n\n'
+        text = original.replace('## Rules\nNone.\n\n', rule)
+        path.write_text(text, encoding='utf-8')
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+        path.write_text(text.replace('check [input:task]', 'check [input:foreign]'), encoding='utf-8')
+        self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_rule_modal_vocabulary_and_literal_examples(self):
+        valid = (
+            'The worker MUST inspect the supplied file.',
+            'The worker MUST NOT change unrelated files.',
+            'The worker MAY use either authorized source.',
+            'The worker MUST report whether the tool can read the file.',
+            'The worker MUST preserve the literal words `SHOULD SHALL MAY NOT`.',
+            'The worker MUST preserve ``SHOULD `quoted` SHALL`` exactly.',
+            'The worker MUST inspect SHOULDERS and MAYBE as ordinary words.',
+            'The worker\n  MUST inspect the supplied file.',
+        )
+        invalid = (
+            'Inspect the supplied file.',
+            'The worker must inspect the file.',
+            'The worker MUST inspect and may change the file.',
+            'The worker SHOULD inspect the file.',
+            'The worker MUST inspect and SHOULD repair it.',
+            'The worker MUST inspect and should not repair it.',
+            'The worker MUST inspect and SHALL repair it.',
+            'The worker MUST inspect and ought to repair it.',
+            "The worker MUST inspect and mustn't delete it.",
+            'The worker MAY NOT change the file.',
+            'The worker MAYBE inspects the file.',
+            'Use `MUST` as the literal label.',
+        )
+        for local in (False, True):
+            for body in valid:
+                with self.subTest(local=local, body=body):
+                    rule_contract('- **Inspection.** ' + body, local=local)
+            for body in invalid:
+                with self.subTest(local=local, body=body):
+                    with self.assertRaises(Invalid):
+                        rule_contract('- **Inspection.** ' + body, local=local)
+        with self.assertRaises(Invalid):
+            rule_contract('- **MUST.** Inspect the file.')
+        rule_contract('None.', local=True)
+
+    def test_modal_check_in_shared_and_both_procedure_forms(self):
+        for external in (False, True):
+            if external:
+                path, procedure = self.external_definition()
+                level = '##'
+            else:
+                path = procedure = self.write_definition()
+                level = '####'
+            original = path.read_text(encoding='utf-8')
+            path.write_text(original.replace('MUST inspect only', 'SHOULD inspect only'), encoding='utf-8')
+            self.assertFalse(validate(self.root, self.definition)['ok'])
+            path.write_text(original, encoding='utf-8')
+            original = procedure.read_text(encoding='utf-8')
+            block = level + ' Rules\nNone.\n\n'
+            for body, expected in (
+                    ('The worker MAY inspect [input:task].', True),
+                    ('The worker SHOULD inspect [input:task].', False),
+                    ('Inspect [input:task].', False),
+                    ('Use `MUST` literally.', False),
+                    ('The worker MUST preserve `SHOULD`.\n\n```text\nSHALL\n```', True)):
+                with self.subTest(external=external, body=body):
+                    text = original.replace(block, level + ' Rules\n- **Local inspection.** ' + body + '\n\n')
+                    procedure.write_text(text, encoding='utf-8')
+                    self.assertEqual(validate(self.root, self.definition)['ok'], expected)
+
+    def test_required_procedure_description_in_both_forms(self):
+        for external in (False, True):
+            if external:
+                _, path = self.external_definition()
+                level = '##'
+            else:
+                path = self.write_definition()
+                level = '####'
+            original = path.read_text(encoding='utf-8')
+            description = (level + ' Description\n'
+                           'Inspect the requested material and return findings supported by evidence.\n\n')
+            self.assertIn(description, original)
+            invalid = [
+                original.replace(description, ''),
+                original.replace(description, level + ' Description\n\n'),
+                original.replace(description, level + ' Description\n \t\n'),
+                original.replace(description, level + ' Description\nNone.\n\n'),
+                original.replace(description, level + ' Description\n```text\nExample only.\n```\n\n'),
+                original.replace(description, description + description),
+                original.replace(description, '').replace(level + ' Prerequisites',
+                                                         description + level + ' Prerequisites'),
+            ]
+            if external:
+                invalid.append(original.replace('# Inspect\n', '# Inspect\nUnsectioned introduction.\n'))
+            else:
+                invalid.append(original.replace(description, '').replace(
+                    'Trigger: A bounded inspection is requested.',
+                    description + 'Trigger: A bounded inspection is requested.'))
+            for text in invalid:
+                with self.subTest(external=external, text=text):
+                    path.write_text(text, encoding='utf-8')
+                    result = validate(self.root, self.definition)
+                    self.assertFalse(result['ok'], result)
+                    self.assertEqual(result['issues'][0]['code'], 'definition')
+            path.write_text(original, encoding='utf-8')
+            self.assertTrue(validate(self.root, self.definition)['ok'])
+
+    def test_contract_rejects_legacy_or_global_parameters(self):
+        path = self.root / self.definition
+        original = path.read_text(encoding='utf-8')
+        for text in (original.replace('## Out of Scope', '## Definitions'),
+                     original.replace('Read and report.', 'Read [input:task].'),
+                     original.replace('#### Inputs', '#### Required inputs'),
+                     original.replace('Trigger: A bounded inspection is requested.', 'Trigger: '),
+                     original.replace('### Inspect', '### One\n### Two')):
+            with self.subTest(text=text):
+                path.write_text(text, encoding='utf-8')
+                self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_unique_readable_rule_titles(self):
+        path = self.root / self.definition
+        original = path.read_text(encoding='utf-8')
+        for rule in ('- No title.', '- **R01.** Numbered.',
+                     '- **Preserve Scope:** A second copy.'):
+            with self.subTest(rule=rule):
+                text = original.replace('## Rules\n', '## Rules\n' + rule + '\n', 1)
+                path.write_text(text, encoding='utf-8')
+                self.assertFalse(validate(self.root, self.definition)['ok'])
+        path.write_text(original.replace('## Rules\n', '## Rules\n### Subject\n', 1), encoding='utf-8')
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+
+    def test_procedure_table_and_local_reference_failures(self):
+        _, procedure = self.external_definition()
+        original = procedure.read_text(encoding='utf-8')
+        cases = (
+            original.replace('Mandatory', 'Conditional'),
+            original.replace('Requirement', 'Required'),
+            original.replace('[input:task]', '[input:Task]'),
+            original.replace('1. Review', '1. Read [input:foreign]. Review'),
+            original.replace('1. Review', '1. Read [output:future]. Review'),
+            original.replace('1. Review', '1. Read [input:]. Review'),
+            original.replace('1. Review', '1. Read [term:]. Review'),
+            original.replace('1. Review', '1. Read [term:bad:name]. Review'),
+            original.replace('1. Review', '1. Read [output:unclosed. Review'),
+            original.replace('| [input:task] | Requested review. | Mandatory | Caller. | Ask. |',
+                             '| [input:task] | Requested review. | Mandatory | Caller. | Ask. |\n'
+                             '| [input:task] | Again. | Optional | Caller. | None. |'),
+            original.replace('| [output:result] | Findings. | Supported by evidence. |',
+                             '| [output:result] | Findings. | Supported by evidence. |\n'
+                             '| [output:result] | Copy. | Evidence. |'),
+            original.replace('Requested review.', 'Requested | review.'),
+            original.replace('Supported by evidence.', ''),
+            original.replace('## Prerequisites', '## Trigger'),
+            original.replace('# Inspect\n', '# Inspect\nTrigger: Review requested.\n'),
+            original + '\n# Another name\n',
+        )
+        for text in cases:
+            with self.subTest(text=text):
+                procedure.write_text(text, encoding='utf-8')
+                self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_empty_parameters_are_explicit_header_only_tables(self):
+        _, procedure = self.external_definition()
+        text = procedure.read_text(encoding='utf-8')
+        text = text.replace('| [input:task] | Requested review. | Mandatory | Caller. | Ask. |\n', '')
+        text = text.replace('| [output:result] | Findings. | Supported by evidence. |\n', '')
+        text = text.replace('1. Review [input:task] and produce [output:result].', '1. Inspect the fixed subject.')
+        procedure.write_text(text, encoding='utf-8')
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+
+    def test_procedure_index_paths_triggers_and_duplicates(self):
+        path, _ = self.external_definition()
+        original = path.read_text(encoding='utf-8')
+        for target in ('../inspect.md', '/tmp/inspect.md', 'procedures/missing.md',
+                       'procedures/../inspect.md', 'procedures/inspect.md#part',
+                       'procedures/inspect.md?query', 'procedures\\inspect.md'):
+            with self.subTest(target=target):
+                path.write_text(original.replace('procedures/inspect.md', target), encoding='utf-8')
+                self.assertFalse(validate(self.root, self.definition)['ok'])
+        for row in ('| Inspect | Another trigger. | [Inspect](procedures/inspect.md) |',
+                    '| Another | Another trigger. | [Inspect](procedures/inspect.md) |'):
+            path.write_text(original.replace('| Inspect | A scoped', row + '\n| Inspect | A scoped'), encoding='utf-8')
+            self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_separate_procedures_have_separate_parameter_scopes(self):
+        path, procedure = self.external_definition()
+        index = path.read_text(encoding='utf-8').replace(
+            '| Inspect | A scoped review is requested. | [Inspect](procedures/inspect.md) |',
+            '| Inspect | A scoped review is requested. | [Inspect](procedures/inspect.md) |\n'
+            '| Other | Another review is requested. | [Other](procedures/other.md) |')
+        path.write_text(index, encoding='utf-8')
+        other = self.write('.hai/agents/worker/procedures/other.md', procedure.read_text(encoding='utf-8'))
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+        other.write_text(other.read_text(encoding='utf-8').replace(
+            '| [input:task] | Requested review.', '| [input:other] | Requested review.'), encoding='utf-8')
+        self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_term_mapping_inheritance_and_local_additions(self):
+        path, procedure = self.external_definition()
+        self.write('.hai/concepts/activity.md', '# Activity\n\n## Definition\nA work unit.\n')
+        self.write('.hai/agents/worker/concepts/local.md', '# Local\n\n## Definition\nLocal meaning.\n')
+        path.write_text(path.read_text(encoding='utf-8').replace(
+            '\n## References\nNone.', '\n## References\n- [term:Activity] → [Concept](../../concepts/activity.md).'), encoding='utf-8')
+        original = procedure.read_text(encoding='utf-8').replace(
+            '## Prerequisites\nNone.', '## Prerequisites\nUse [term:Activity].').replace(
+            '## References\nNone.', '## References\n- [term:Local] → [Local](../concepts/local.md).')
+        procedure.write_text(original.replace('1. Review', '1. Use [term:Local]. Review'), encoding='utf-8')
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+        for text in (original.replace('[term:Activity]', '[term:Missing]'),
+                     original.replace('local.md', 'missing.md'),
+                     original.replace('local.md', '../SKILL.md'),
+                     original.replace('## References\n', '## References\n- [term:Local] → [Local](../concepts/local.md).\n'),
+                     original.replace('[term:Local]', '[term:Activity]')):
+            with self.subTest(text=text):
+                procedure.write_text(text, encoding='utf-8')
+                self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_fenced_examples_do_not_declare_or_use_parameters(self):
+        _, procedure = self.external_definition()
+        text = procedure.read_text(encoding='utf-8') + '\n```markdown\n## Inputs\n[input:unknown]\n```\n'
+        procedure.write_text(text, encoding='utf-8')
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+        procedure.write_text(text + '\n~~~\nunclosed\n', encoding='utf-8')
+        self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_procedure_symlink_cannot_escape_agent_package(self):
+        _, procedure = self.external_definition()
+        elsewhere = self.write('other/inspect.md', procedure.read_text(encoding='utf-8'))
+        procedure.unlink()
+        try:
+            procedure.symlink_to(elsewhere)
+        except (OSError, NotImplementedError):
+            self.skipTest('Symlinks unavailable')
+        self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_resolved_definition_alias_keeps_original_workspace_boundary(self):
+        path = self.root / self.definition
+        text = path.read_text(encoding='utf-8').replace(
+            '\n## References\nNone.', '\n## References\n- [term:Activity] → [Concept](../../../.hai/concepts/activity.md).')
+        target = self.write('deep/relocated/worker/SKILL.md', text)
+        self.write('.hai/concepts/activity.md', '# Activity\n')
+        path.unlink()
+        try:
+            path.symlink_to(target)
+        except (OSError, NotImplementedError):
+            self.skipTest('Symlinks unavailable')
+        self.assertTrue(validate(self.root, self.definition)['ok'])
 
     def test_validate_either_origin_without_initialized_environment(self):
         content = (self.root / self.definition).read_bytes()

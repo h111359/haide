@@ -6,14 +6,14 @@
 `specification_compatibility_version`. Its sole field is a positive JSON integer;
 booleans, strings, zero, duplicate keys, extra fields, and missing values are
 invalid. This version is independent of HAI core-state compatibility, agent
-formats, package releases, Git tags, and the audit inventory `format`.
+formats, package releases, source-control tags, and the audit inventory `format`.
 
 The specification contract includes this package's concept, all registered leaf
 conventions, organization and balance rules, definitions, navigation, content
 lifecycle, required behavior, and compatibility and catalogue rules. It is not
 only the YAML schema. A contract-affecting change increments the integer, even
-when no metadata fields change. Editorial clarifications that preserve every
-obligation may retain it; record why no contract changed when that is uncertain.
+when no metadata fields change. Editorial clarifications preserving every obligation may retain it. An uncertain
+classification needs an explanation that no contract obligation changed.
 The concept's Leaf types section alone registers leaf types. This convention is
 contract knowledge, never a leaf type.
 
@@ -25,8 +25,8 @@ specification_compatibility_version: "1"
 
 Only the root carries it, whether the root is a branch or a leaf. It claims the
 whole tree has been verified against that contract, not just its root schema.
-Use canonical positive decimal strings without signs or leading zeroes. Do not
-infer a marker from HAI state, another tree, inventory format, or file age.
+Markers are canonical positive decimal strings without signs or leading zeroes.
+HAI state, another tree, inventory format and file age do not establish a marker.
 
 ## Baseline 1
 
@@ -39,39 +39,23 @@ The package's concept, conventions, and SKILL.md provide the complete normative
 rules; this list is an orientation, not a replacement. No earlier prototype
 contract versions or migration history are asserted.
 
-## Check at the beginning of specification work
+## Compatibility states
 
-Read the package contract and inspect the supplied tree before dependent product
-edits, including new sessions and resumed work whose inputs may have changed.
-This is not a general HAI startup check. Read-only assessment and inventory remain
-available for every compatibility state; incompatibility never authorizes edits.
+Current means the root marker equals the valid package target. Unmarked establishes
+no prior version; older requires a known ordered transition path; newer requires a
+supporting package or explicitly designed conversion. Invalid contract/marker values
+are not normalized or inferred. Read-only assessment/inventory remains available in
+all states; incompatible states grant no product-edit authority. New authorized trees
+start at the current target with meaningful content and complete target verification.
 
-- Current: marker equals the valid package target; ordinary authorized work may
-  proceed, subject to discovered structural/content issues.
-- Unmarked: assess the actual tree against all target rules and propose explicit
-  adoption. Absence does not establish an older version or an automatic upgrade.
-- Older: identify the exact source version and every applicable ledger transition
-  through the target; missing transition knowledge blocks migration writes.
-- Newer: stop dependent edits; obtain a package supporting that version or an
-  explicitly designed and approved conversion. Never lower a marker as a shortcut.
-- Invalid: malformed contract or marker (including duplicate/unsupported scalars)
-  blocks dependent edits. Diagnose read-only and obtain a scoped repair/adoption
-  plan and approval; do not silently normalize or infer the intended value.
+## Plan and approval contract
 
-New explicitly authorized specifications are created directly at the current
-version using meaningful supplied content; they need no fictional migration.
-Verify the complete new tree before reporting its marker as truthful.
-
-## Plan, approval, execution, and verification
-
-Every compatibility migration, adoption, or compatibility-marker repair requires
-an explicit plan and the human user's approval before any migration write. A
-coordinating caller may relay that approval with its scope and evidence, but
-cannot substitute its own approval. This
-includes a marker-only update. General permission to maintain content, an audit,
-or a version mismatch alone is insufficient. Keep the plan and approval in the
-caller's established work record or supplied context, outside product facts;
-standalone use does not require HAI records. Do not invent an approval history.
+Every compatibility migration, adoption or marker repair, including marker-only work,
+requires an explicit scoped plan and the human user's approval before migration writes.
+A coordinator may relay scope/evidence but cannot substitute its own approval. General
+content-maintenance permission, an audit or mismatch is not migration approval. Plans
+and approval evidence belong in caller records/supplied context outside product facts;
+standalone invocation does not require HAI records.
 
 The plan identifies the root and source evidence (including unmarked/invalid),
 source and target versions, applicable transition IDs, exact changed rules,
@@ -82,34 +66,19 @@ open decisions. An unmarked-tree plan includes the full target-rule assessment
 and explains which requirements already hold and which need change. Marker-only
 adoption still needs this evidence and explicit approval.
 
-After approval, recheck paths, contents, authority and the plan's applicability.
-Stop on changed inputs or new conflicts. Apply only the agreed transformations;
-preserve UUIDs, meaning, source relationships, approval history, and unresolved
-unknowns. Refresh the root catalogue for any resulting inventory changes. The
-read-only renderer can prepare an adoption catalogue without a current marker;
-its output is a candidate and does not approve adoption or validate compatibility.
+## Execution ownership
 
-Verify the complete target requirements, including manual content/behavior checks,
-and compare saved identity/content/approval evidence. Use a staged candidate when
-needed to check the target marker without prematurely asserting it in the live
-tree. Write the live target marker only after the agreed transformations and
-required target checks succeed, then rerun the final audit and manual checks.
-Report a migration as applied only after final verification succeeds. A written
-marker alone is never evidence of completed migration.
-
-On partial failure, stop dependent writes, preserve completed work, and report
-actual files, marker state, failed/unrun checks, and remaining changes. Never
-claim atomicity, success, automatic rollback, or a completed migration. A retry
-first reassesses the actual partial state against the approved plan; obtain
-renewed approval if scope, source evidence, or transformations changed. Reuse a
-still-applicable approval explicitly rather than inventing a fresh source state.
+[Adopt or migrate specification](../procedures/adopt-or-migrate.md) owns assessment,
+plan/approval handling, transformation ordering, live-marker finalization, verification
+and partial-state/retry handling. The role's Rules apply to every operation. General
+HAI startup performs no specification compatibility assessment.
 
 ## Structured transition ledger
 
-This convention owns the baseline and ledger. Add one structured record for each
-future contract transition when its changed obligations are defined. Each record
-must contain all fields below, with concrete rule changes and verification (not
-only a version bump):
+This convention owns the baseline and ledger. Each future contract transition is
+represented by one structured record when its changed obligations are defined.
+Each record contains all fields below, with concrete rule changes and verification
+rather than only a version bump:
 
 ```yaml
 transition_id: "<stable transition identifier>"

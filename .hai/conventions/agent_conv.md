@@ -13,12 +13,13 @@ overriding, unregistering, or repairing them.
 
 The [framework catalogue](../agents/catalogue.md) and
 `.hai_env/agents/catalogue.md` contain names, copied descriptions, and definition
-links. Normal selection requires registration in the corresponding catalogue for
-both origins. Creation alone does not register a definition. An explicit
-human call may select an unregistered workspace definition without registering it; supplied
-paths must identify its canonical folder or `SKILL.md` and resolve inside the
-workspace. Unregistered framework definitions may be maintained or inspected but
-must be registered before execution. Do not search unrelated locations. Ask for a
+links. Selection for execution and leader delegation require a valid registration
+in the corresponding catalogue for both origins. Creation alone does not register
+a definition. An explicit human call, name, or path does not bypass registration
+or authorize it. Unregistered definitions in either origin may be inspected,
+maintained, validated, or registered without executing them. Supplied paths must
+identify the definition's canonical folder or `SKILL.md` and resolve inside the
+workspace. Do not search unrelated locations. Ask for a
 path when ambiguous. Before definition creation or registration, check both
 catalogues and immediate folder names in both origins for case-insensitive
 collisions, including unregistered folders; this does not authorize loading every
@@ -31,7 +32,8 @@ Selection guide cells are exact copies of the decoded YAML `description` value,
 which is canonical selection text. Descriptions briefly state when to call a role
 and what it produces, consistent with its scope and ownership. Select from copies
 before loading the selected `SKILL.md`; do not open every definition to choose a
-role or recover missing descriptions. An explicit call already selects its target.
+role or recover missing descriptions. An explicit call identifies the requested
+target; its valid catalogue entry is still required before selection for execution.
 
 Validate a selected definition's identity, format, references, and description
 copy. Report discovered stale copies without repairing them. Ordinary startup
@@ -52,7 +54,7 @@ selection and leader orchestration remain explicit.
 
 ## Mandatory Activity context
 
-All substantive HAI work belongs to an [Activity](../agents/activity-manager/concepts/activity.md),
+All substantive HAI work belongs to a [term:Activity],
 including advice, brainstorming, analysis, planning, framework maintenance,
 implementation and verification. Activities have no enabled flag. A compatible
 validated environment supplies activities.location; Activity-manager discovers
@@ -62,7 +64,7 @@ read-only prerequisite diagnosis may proceed before a record exists. These bound
 exceptions do not authorize later untracked substantive work.
 
 Startup resumes valid current work. A new chat alone creates none; meaningful new
-work with no current record creates an Activity under the human's task authority.
+work with no current record creates an Activity within the user's agreed task and permission.
 Conflicting current/new intent needs leader's boundary resolution, not silent
 closure or replacement. Substantive specialist handoffs include stable Activity ID,
 path and relevant context; return actual results for recording. The Activity-manager
@@ -90,9 +92,9 @@ Spawned specialists MUST declare both HAI extension keys under `metadata`:
 both keys: it remains the root chat using the interface-selected model and effort.
 Concrete model IDs belong only in local model profiles, never agent declarations.
 
-There is no agent H1 title or Selection guide body section. Include exactly these
-nine level-two headings once each, in order; use subheadings for task detail and
-write `None` for an inapplicable section:
+There is no agent H1 title, Selection guide body section, embedded Definitions,
+or agent-level Inputs/Outputs section. Include exactly these six H2 headings once
+each and in order:
 
 ```markdown
 ---
@@ -107,38 +109,64 @@ metadata:
 <Why this role exists.>
 
 ## Scope
-<Responsibilities, ownership, and boundaries.>
+<Responsibilities and ownership.>
 
-## Definitions
-<Local terms and aliases, or None.>
-
-## Required inputs
-<Inputs and prerequisites, or None.>
-
-## Optional inputs
-<Optional inputs and declared defaults, or None.>
+## Out of Scope
+<Explicit exclusions and boundaries.>
 
 ## Rules
-<Constraints and role-specific missing-input behavior.>
+- **Agreed scope.** The example-specialist MUST keep its work within the user's agreed task scope.
 
 ## Procedures
-<Actions and conditional workflows.>
-
-## Expected outcome
-<Deliverables, validation evidence, and unresolved issues.>
+| Procedure | Trigger | File |
+| --- | --- | --- |
+| Perform work | The caller requests the supported work. | [Perform work](procedures/perform-work.md) |
 
 ## References
-<Path — purpose — required, conditional with trigger, or optional.>
+<Path — purpose — reading condition; declared concept mappings when used.>
 ```
 
-Definitions apply to the agent and its supporting files. Link shared terminology
-instead of redefining it. Aliases identify their target and local scope; they do
-not grant authority or supply runtime values. Validate paths before use. Retrieve
-missing mandatory inputs from available authorized context first, then return the
-dependency to leader or ask the human when called directly. Continue independent
-work; optional inputs use declared defaults or remain absent. Never invent values,
-decisions, permissions, or approval. References give reading conditions; a folder
-reference identifies relevant content rather than requiring recursive loading.
+Shared Rules have readable bold titles unique within the agent's shared Rules section, without IDs or implied
+numeric priority. Optional H3 groups organize related subjects; do not create
+empty groups or require every agent to use the same taxonomy. Group order does not
+establish precedence. State applicability and exceptions explicitly; steps and
+execution dependencies belong in procedures. Shared rules apply to every procedure.
+Only genuinely procedure-specific rules belong in that procedure's mandatory
+Rules section, following [procedure_conv.md](procedure_conv.md). Local rules do not
+override or duplicate shared rules. Resolve conflicts rather than treating a local
+rule as overriding a shared rule; a shared rule's explicit applicability/exception remains
+part of that shared rule. Procedure-local parameter names cannot appear in shared rules.
+
+Rule wording follows [instruction-writing_conv.md](instruction-writing_conv.md):
+explicit `MUST`, `MUST NOT`, or `MAY`, a clear actor/action/object and relevant
+conditions, short readable titles, and preserved existing meaning. That convention
+is the single source for writing style in shared and local Rules; it does not
+change the existing six role sections or grant permission to act.
+
+Procedures follow [procedure_conv.md](procedure_conv.md). Multiple procedures live
+in separate agent-owned files, indexed with the exact Procedure/Trigger/File
+columns. A single procedure may use the external form or the specified inline
+form. Canonical triggers occur only in the index or beside the sole inline
+procedure. Procedure execution stays within the same role; it is not delegation.
+
+Every procedure declares one Inputs table and one Outputs table. Inputs use only
+Mandatory/Optional requirements, with source and absence behavior. Rules and
+prerequisites state operation-specific requirements without introducing another
+input category. Outputs state observable results and completion criteria.
+
+Use [reference-notation_conv.md](reference-notation_conv.md): `[input:name]` and
+`[output:name]` are local to one procedure, not agent-global placeholders. Calls
+explicitly identify source values and destination input names; matching names do
+not imply inheritance or substitution. Concept definitions remain in their owning
+concept files, with `[term:name]` mappings declared in References. Agent-level term
+mappings apply to its procedures; procedure-local additions are allowed.
+
+Retrieve missing mandatory inputs from authorized context before returning the
+dependency to leader or asking the human when called directly. Continue independent
+work; optional values use declared defaults or remain absent. Never invent values,
+decisions, permission, or approval. References specify reading conditions; a folder
+reference does not require recursive loading. Preserve paths and resolved containment
+before reads and writes.
 
 ## Model resolution and orchestration
 
@@ -153,14 +181,16 @@ model-profile convention. They must be reported and never rewrite declarations.
 Only leader selects, delegates to, monitors, and coordinates other agents.
 Specialists execute their own procedures using inputs, references, and tools;
 they return missing dependencies to leader and do not invoke agents. Each role
-owns its procedures in `SKILL.md`; callers describe the task without duplicating
-those procedures. Runtime spawn interfaces may impose additional constraints:
+owns its shared rules in `SKILL.md` and its execution procedures, including any
+genuinely local rules, in linked
+`procedures/` files (or the sole inline procedure); callers do not duplicate them. Runtime spawn interfaces may impose additional constraints:
 when explicit model/effort overrides require an empty history fork (for example
 `fork_turns="none"`), use that supported combination and pass the definition path,
 workspace instructions, relevant task context, and expected outcome explicitly.
 Do not assume inherited history, settings, or automatic skill discovery.
 
-Enabled capabilities do not expand task authority or role scope. Do not bypass
+Available agents/tools and enabled features do not expand the user's permission
+or the role's responsibilities. Do not bypass
 disabled or invalid capabilities through another role or tool.
 
 ## Context handoff and input checks
@@ -189,7 +219,7 @@ or duplicate the specialist's procedures. Inherited history does not replace thi
 handoff, and a follow-up must make retained context and changed requirements clear.
 
 Before dependent work, the receiving specialist MUST load its definition and
-applicable instructions, compare the handoff with its own **Required inputs**,
+applicable instructions, compare the handoff with the selected procedure's **Inputs** and prerequisites,
 and check for missing or conflicting inputs. First retrieve needed context from
 available, authorized sources within scope. If a required input remains missing
 or conflicting, report the specific issue and dependent work to leader, pause that
@@ -206,26 +236,28 @@ gaps rather than claim dependent work is complete.
 
 ## Supporting resources
 
-An agent's `SKILL.md` contains its own responsibilities and agent-specific execution
-behavior, authority, and procedures, including decisions, gates, and operation
-ordering. Agent-local `conventions/` contain reusable data formats and domain
-contracts; they must not introduce instructions governing the agent's execution
-behavior. `SKILL.md` may
-reference those formats and contracts without relocating its behavioral rules.
+An agent's `SKILL.md` is its canonical role entry point: identity, purpose, scope,
+exclusions, shared rules, procedure selection, and references. Its linked
+`procedures/` files own their execution steps, procedure-specific rules, and local input/output contracts;
+a single procedure may remain inline. This deliberately separates procedure files
+from shared role rules without moving execution behavior into conventions. Concepts
+explain meaning and rationale; prerequisites state entry conditions, rules state
+obligations, and steps state ordered actions/branches. The
+[Procedure concept](../concepts/procedure.md) explains their relationship.
 
-Shared agent conventions define role-independent identity, structure, selection,
-handoff, and ownership principles. Reference those shared contracts instead of
-copying them into each definition. Operation-specific workflows remain in the
-owning agent's `SKILL.md` even when several roles participate; each participant
-defines its own handoff obligations in its `SKILL.md`.
+Agent-local `concepts/` contain purposeful concept definitions and `conventions/`
+contain reusable formats and domain contracts. Neither is a substitute for the
+agent's execution procedures. Shared agent conventions define role-independent
+identity, structure, selection, handoff, and ownership contracts; reference those
+contracts rather than copying them into each role. Each participant owns its own
+handoff procedures even when several roles participate in a workflow.
 
-Optional standard folders are `scripts/` for owned helpers and usage documentation
-and `conventions/` for those formats and contracts. Other justified resources,
+Optional supporting folders are `procedures/`, `concepts/`, `conventions/`, and
+`scripts/` for owned helpers and usage documentation. Other justified resources,
 including existing `templates/`, remain permitted. Create no unused scaffold.
 Framework-wide concepts and conventions retain their canonical framework location.
-A role's domain knowledge may live in its package as the single public authority,
-with shared readers linking to it rather than duplicating it. Scripts follow
-[tooling_conv.md](tooling_conv.md).
+Role-owned domain knowledge remains in its package as a single authority, with
+shared readers linking to it. Scripts follow [tooling_conv.md](tooling_conv.md).
 
 ## Registration ownership and verification
 
@@ -237,10 +269,11 @@ updating an unregistered definition never adds a row. Independent format tools a
 read-only prerequisite diagnosis need no initialized environment. Substantive HAI
 maintenance/audits follow mandatory Activity context; workspace mutations additionally
 retain their valid initialized environment prerequisite. Environment-manager owns
-configuration, model profiles, and the lightweight startup-validation policy; leader
+core environment configuration, model profiles, and the lightweight startup-validation policy; leader
 may execute the shared read-only startup helper directly under its bounded exception
-and otherwise owns selection and execution. Initialization, configuration changes,
-repairs, and migration remain environment-manager work. Audits do not repair, rename,
+and otherwise owns selection and execution. Core initialization/configuration,
+profile changes, and their repairs/migrations remain environment-manager work;
+extension owners retain their declared scoped configuration. Audits do not repair, rename,
 unregister, or delete.
 Neither role silently repairs the other's data. Preserve unrelated state, rows,
 and prose. Register only after validating the definition.
@@ -249,9 +282,9 @@ inputs, preserve partial results on failure, and report inconsistencies without
 automatic retries, removal, or overwrite.
 
 Validate names, canonical paths, collisions, YAML fields, string metadata,
-model/effort declarations, all nine headings and their order, local aliases,
-inputs/defaults, outcome criteria, conditional references, independence, and shared
-rules. Author `description` first, then copy its decoded value into the catalogue
+model/effort declarations, six role headings, procedure layout and containment,
+local input/output declarations, Mandatory/Optional requirements, outcome criteria,
+term mappings, reference conditions, independence, and shared rules. Author `description` first, then copy its decoded value into the catalogue
 using the state convention's table encoding. Compare decoded strings exactly,
 including punctuation and whitespace; do not copy YAML quotes or scalar syntax.
 
@@ -278,3 +311,7 @@ silently drop invalid registrations, extra metadata, missing descriptions, or
 conflicting old/new files: resolve them within the authorized scope before writing.
 Verify all affected links and decoded catalogue equality after writes; report any
 partial failure. Historical transcripts are records and are not rewritten.
+
+## References
+
+- [term:Activity] → [Activity concept](../agents/activity-manager/concepts/activity.md) — mandatory work context.

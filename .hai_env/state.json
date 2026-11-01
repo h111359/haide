@@ -6,7 +6,8 @@
       "location": ".hai_env/specifications"
     },
     "chronicles": {
-      "enabled": true
+      "enabled": true,
+      "record_every_prompts": 5
     }
   },
   "integrations": {

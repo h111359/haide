@@ -2,7 +2,7 @@
 
 ## Definition
 
-[environment] is HAI's persistent installation-specific configuration, instructions,
+[term:environment] is HAI's persistent installation-specific configuration, instructions,
 Activities, optional records and local references. Mandatory configuration lives
 in `.hai_env/`, separately from reusable framework material in `.hai/`.
 
@@ -16,107 +16,111 @@ and durable specification remain in their canonical product locations.
 ### Mandatory context and Activities
 
 Mandatory files are `.hai_env/state.json` and fixed `.hai_env/agent_instructions.md`.
-Load safe readable instructions before dependent work independently of state validity.
-Empty content is valid; missing/unreadable instructions are a reported failure.
-Instructions have no configurable location or enabled flag.
+Instruction availability is independent of state validity: empty readable content
+adds no instructions, while missing or unreadable content leaves dependent work
+without its required context. Instructions have no configurable location or
+enabled flag. The state convention defines file, containment, and compatibility
+contracts; the owning agents define loading, diagnosis, and repair workflows.
 
-Current development uses state format 2. It requires root activities.location,
-default `.hai_env/activities`, as a safe workspace-relative store. Activities are
-mandatory for all substantive HAI work and have no switch. They include brainstorming,
-advice, analysis, planning, framework maintenance, implementation and verification.
-Only startup/bootstrap work needed to establish usable context and read-only diagnosis
-may precede a record. A new chat alone creates none: after compatible validation,
-leader routes current-record discovery to Activity-manager and resumes it, or creates
-one when meaningful new substantive work begins with no current record. Conflicting
-current/new intent requires an explicit boundary decision, never silent replacement.
+The configured Activity store supplies continuity for every substantive HAI task,
+including advice, brainstorming, analysis, planning, maintenance, implementation,
+and verification. Activities are mandatory rather than an optional feature. A new
+chat is not a new work identity. One current Activity and closed history preserve
+the distinction between continuity, a new objective, and a lifecycle decision.
+Bounded startup/setup and read-only diagnosis exist to establish usable context,
+not as an alternative to tracking later substantive work.
 
-At most one Activity is active at `00000000_000000_active`; previous records are
-closed under UTC closure timestamp folders. Each keeps a stable activity_id.
-Environment-manager validates configuration and directory availability without
-loading Activity states. Activity-manager owns record discovery, artifacts and
-lifecycle; leader alone orchestrates specialists. Store absence is valid before
-meaningful work. There is no global current pointer or collection state file.
+Environment-manager owns core configuration and availability checks; Activity-manager
+owns record discovery, artifacts, and lifecycle. Leader alone coordinates agents
+and boundary decisions. Configuration availability is distinct from discovery of
+the current record, so startup does not infer current work by scanning the store.
+Activity identity, lifecycle, performed steps, and closure outcome have different
+meanings, explained in the Activity concept and its supporting sources.
 
 ### Optional features and transcripts
 
-State has two optional features, both off on initialization:
+Specification and chronicles are optional core features, initially disabled.
+Their settings express capability choices, not evidence that content exists.
+Disabling preserves content; a changed location is a reference change rather than
+an implicit move or deletion. Feature enablement, agent registration, and task
+permission are separate: a registered role's availability does not enable a disabled
+capability or establish permission to use it.
 
-- features.specification has enabled and safe workspace-relative location, default
-  `.hai_env/specifications`.
-- features.chronicles has enabled only. There is no global transcript location.
+Chronicles are exact-source transcript segments assigned to Activities, with no
+global transcript store. A chat may span Activities, and an Activity may contain
+segments from several chats. Segment attribution and source coverage distinguish
+the work record from the chat container. Enabling recording covers subsequent
+exchanges; historical imports are distinct provenance-sensitive work rather than
+implicit backfill. Late synchronization or attributable supplements to closed work
+are different from new substantive continuation.
 
-Disabling preserves files. Changing Activity/specification location changes its
-reference only; it does not move or delete content. Enabling specification does not
-fabricate a tree; linking an existing tree requires verified intent and location.
-HAI-managed work requires validated feature context, without a standalone bypass.
-Registered framework roles remain available independently of optional enablement.
-
-Chronicles live under their assigned Activity's `chronicles/`. A chat can span
-Activities and an Activity can span chats or multiple segments of the same chat.
-Leader assigns exact exchange boundaries and resolves ambiguity with the human;
-chronicles-manager applies and verifies them, never opening/closing Activities.
-Off means no new recording; enabling covers subsequent exchanges with no implicit
-backfill of off periods. Explicit historical imports preserve provenance and source
-limitations. Closed Activities allow attributable dated supplements and delayed
-synchronization of completed old source exchanges without substantive reopening.
-
-Synchronization is asynchronous from exact completed durable saved source by
-default. Delivery does not wait for optional recording. If after-turn continuation
-is unsupported, leader routes catch-up on the next active turn and reports deferred
-status. Missing source/divergence is reported, never fabricated or repaired silently.
-Mandatory workspace timing requirements take precedence. The synchronous pre-commit
-gate verifies eligible segments or returns verified off/no-obligation status.
+Asynchronous recording separates transcript catch-up from task delivery, while
+mandatory timing and requested synchronous verification still determine when
+recording evidence is required.
+Pending synchronization is not completed coverage, and after-turn continuation
+depends on actual runtime support. Leader owns attribution and prompt-batch
+scheduling; Activity-manager owns source-backed synchronization and evidence in
+separate recording procedures. The configurable prompt threshold defaults to five.
+Ordinary Activity edits and transcript batches are separate operations. When
+recording is enabled or independently mandatory, fresh recording coverage is a
+closure prerequisite. Owner procedures define ordering, source failures, disabled
+behavior and the mandatory pre-delivery exception.
 
 ### Startup, configuration and compatibility
 
-Leader runs the bounded read-only startup helper without a specialist profile.
-Safely absent state permits environment-manager's minimal initialization, preserving
-existing unrelated resources and readable instructions; create empty instructions
-only when safely absent. Initialization creates configuration, not Activity records,
-optional content, profiles or agent scaffolding. Leader then offers chat setup and
-meaningful work; optional setup may be deferred.
+Startup is a read-only observation of existing context; initialization creates
+minimal core configuration, and migration transforms explicitly scoped existing
+data. These operations are not interchangeable. Safely absent state differs from
+invalid, incompatible, or unverified state. Minimal initialization preserves existing
+resources and does not fabricate optional content, work records, profiles, or agents.
+Optional chat setup is distinct from establishing the mandatory core environment.
 
-The installed environment-manager contract defines supported state formats independently
-of release numbering. Current development supports format 2 only; historical 0.1.0
-bundles support format 1. Invalid/incompatible state is preserved and reported,
-not reinitialized or silently migrated. Explicit format-1 migration maps configuration
-under the state convention; record/transcript migration is separate scoped work
-coordinated by leader and owned by Activity-manager/chronicles-manager. Marker-only
-version changes do not migrate structure or history.
+The installed environment-manager contract defines supported state formats
+independently of framework release numbering. A version marker alone cannot migrate
+structure or history. Environment configuration migration and Activity/transcript
+migration have separate owners and scopes. Leader's bounded read-only helper
+exception does not transfer environment mutation ownership. The state convention
+defines compatibility; owner procedures define initialization, validation, and migration.
 
-### Agents, profiles and integrations
+### Agents, profiles and extensions
 
-Workspace definitions live under `.hai_env/agents/<name>/SKILL.md`; their catalogue
-is `.hai_env/agents/catalogue.md`. Its absence means no registered workspace agents.
-Read registered entries together with the framework catalogue for normal selection;
-an explicit human call can select an unregistered canonical workspace definition
-without registering it. Agent-definition-manager owns definitions and catalogue
-mutations. Workspace mutations require compatible initialized context. Independent format tools and
-read-only prerequisite diagnosis remain usable without it; substantive HAI framework
-maintenance and audits follow Activity recording after bootstrap.
+Workspace definitions and their catalogue live under `.hai_env/agents/`; an absent
+catalogue means no registered workspace agents. Framework and workspace registration
+are both eligibility contracts, separate from definition creation or maintenance.
+An explicit name or path identifies an agent; it does not register it or permit execution.
+Agent-definition-manager owns definitions/catalogue mutations; leader owns selection
+and delegation. The Agent concept explains this boundary. Compatible initialized
+context underpins workspace mutations; independent read-only format inspection and
+prerequisite diagnosis are distinct from substantive tracked maintenance.
 
 Optional `.hai_env/model_profiles.json` maps specialist classes to concrete model
-IDs. Environment-manager owns explicit setup/repair; minimal initialization creates
-none. Missing profiles do not invalidate core state. Normal spawning needs supported
-exact model/effort resolution or an explicit human override; only the named startup
-bootstrap may inherit settings under the model-profile convention.
+IDs. Profiles separate reusable role requirements from installation-specific model
+choices; runtime evidence establishes whether a requested pair is actually supported.
+Environment-manager owns profile configuration. Absent profiles do not invalidate
+core state or imply permission to guess settings. Exact resolution, explicit human
+overrides, and the bounded inherited startup bootstrap are distinct cases defined
+by the model-profile convention and leader's procedures.
 
-Independent integrations.git.enabled and integrations.github.enabled default off;
-missing settings are valid/unconfigured. They contain no credentials, repository
-identity or branch choice and grant no unrelated destructive/publication authority.
-Agent-executed push separately requires integrations.git.auto_push.enabled and fresh
-Git-manager readiness evidence. Configuration alone does not prove live readiness.
+Selecting an optional workspace extension for execution requires valid registration
+and the user's agreed task and permission. Core startup and minimal initialization require no extension
+agent or extension tooling. An extension owns its declared configuration and exact
+authorized state subtree rather than general environment configuration. Unknown
+extension values are preserved but not interpreted by the core: preservation is
+not validation or activation.
 
 ## Supporting Terms
 
-- [state]: mandatory format-versioned HAI configuration, including Activity location and optional settings.
-- [agent_instructions]: fixed mandatory instructions, independently loaded; empty adds no instructions.
-- [chronicles]: optional exact-source Activity transcript segments owned by chronicles-manager.
+- [term:state]: mandatory format-versioned HAI configuration, including Activity location and optional settings.
+- [term:agent_instructions]: fixed mandatory instructions, independently loaded; empty adds no instructions.
+- [term:chronicles]: optional exact-source Activity transcript segments owned by Activity-manager.
 
 ## References
 
-- [Activity](../agents/activity-manager/concepts/activity.md): mandatory independent work unit and continuity.
+- [term:Activity] → [Activity concept](../agents/activity-manager/concepts/activity.md): mandatory independent work unit and continuity.
 - [State convention](../conventions/state_conv.md): configuration schema, safe paths and authorized migration.
 - [Agent convention](../conventions/agent_conv.md): identities, catalogues, handoffs and registration.
 - [Model profiles](../conventions/model-profiles_conv.md): local mappings, bootstrap and runtime resolution.
+- [Environment-manager](../agents/environment-manager/SKILL.md): configuration, profile, initialization, validation, and migration procedures.
+- [Leader](../agents/leader/SKILL.md): startup, boundary decisions, delegation, and recording coordination.
+- [Activity-manager](../agents/activity-manager/SKILL.md): exact-source synchronization, synchronous verification, and timing exceptions.
 - [HAI](hai.md): reusable framework and product workspace boundaries.

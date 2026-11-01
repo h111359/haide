@@ -11,8 +11,12 @@ import sys
 NAMES = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*\Z")
 CLASSES = {"light", "standard", "advanced"}
 EFFORTS = {"low", "medium", "high", "xhigh", "max", "ultra"}
-HEADINGS = ["Purpose", "Scope", "Definitions", "Required inputs", "Optional inputs",
-            "Rules", "Procedures", "Expected outcome", "References"]
+HEADINGS = ["Purpose", "Scope", "Out of Scope", "Rules", "Procedures", "References"]
+PROCEDURE_HEADINGS = ["Description", "Inputs", "Prerequisites", "Rules", "Steps", "Outputs", "References"]
+LOCAL_NAME = r"[a-z][a-z0-9]*(?:_[a-z0-9]+)*"
+LOCAL_REFERENCE = re.compile(r"\[(input|output):([^\[\]\r\n]+)\]")
+TERM_REFERENCE = re.compile(r"\[term:([^\[\]:\r\n]+)\]")
+NAMED_REFERENCE = re.compile(r"\[(term|input|output):([^\]\r\n]*)\]")
 EXTENSIONS = {"hai-model-class", "hai-reasoning-effort"}
 
 
@@ -264,7 +268,263 @@ def contained(workspace, relative):
     return target
 
 
-def read_definition(path):
+def unfenced(text):
+    """Remove backtick/tilde fenced examples, preserving line boundaries."""
+    result, fence = [], None
+    for line in text.splitlines():
+        marker = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line)
+        if fence:
+            if marker and marker[1][0] == fence[0] and len(marker[1]) >= fence[1] and not marker[2].strip():
+                fence = None
+            result.append("")
+        elif marker:
+            fence = (marker[1][0], len(marker[1]))
+            result.append("")
+        else:
+            result.append(line)
+    if fence:
+        raise Invalid("Unclosed Markdown fence")
+    return "\n".join(result)
+
+
+def sections(text, level, expected):
+    pattern = re.compile(r"^" + "#" * level + r" (.+)$", re.M)
+    matches = list(pattern.finditer(text))
+    if [m[1].strip() for m in matches] != expected:
+        raise Invalid(f"Expected headings in order: {', '.join(expected)}")
+    return {m[1].strip(): text[m.end():matches[i + 1].start() if i + 1 < len(matches) else len(text)]
+            for i, m in enumerate(matches)}
+
+
+def contract_table(text, headers):
+    """Read one simple pipe table; HTML entities encode literal cell pipes."""
+    lines = text.splitlines()
+    positions = [i for i, line in enumerate(lines) if line.lstrip().startswith("|")]
+    if len(positions) < 2 or positions != list(range(positions[0], positions[-1] + 1)):
+        raise Invalid(f"Expected one contiguous table: {' | '.join(headers)}")
+    rows = []
+    for i in positions:
+        line = lines[i].strip()
+        if not line.endswith("|"):
+            raise Invalid("Contract table rows must begin and end with pipes")
+        row = [cell.strip() for cell in line[1:-1].split("|")]
+        if len(row) != len(headers) or any(not cell for cell in row):
+            raise Invalid("Contract table has wrong width or blank cells; encode literal pipes")
+        rows.append(row)
+    if rows[0] != headers or any(not re.fullmatch(r":?-{3,}:?", cell) for cell in rows[1]):
+        raise Invalid(f"Expected table headers: {' | '.join(headers)}")
+    return rows[2:]
+
+
+def reference_path(source, href, workspace, concepts=False, package=None):
+    relative, _, fragment = href.partition("#")
+    if (not relative or relative.startswith(("/", "\\")) or "\\" in relative
+            or ":" in relative or "?" in relative or ("#" in href and not fragment)):
+        raise Invalid(f"Unsafe reference path: {href!r}")
+    try:
+        target = (source.parent / relative).resolve()
+        if not target.is_relative_to(workspace) or not target.is_file():
+            raise Invalid(f"Missing or escaping reference: {href}")
+        if package is not None and not target.is_relative_to(package):
+            raise Invalid(f"Reference escapes its agent package: {href}")
+        if concepts and (target.suffix != ".md" or "concepts" not in target.parts):
+            raise Invalid(f"Term mapping must reference a concept Markdown file: {href}")
+        target.read_text(encoding="utf-8-sig")
+    except (OSError, UnicodeError, RuntimeError, ValueError) as exc:
+        raise Invalid(f"Unreadable reference: {href}: {exc}") from exc
+    return target
+
+
+def term_mappings(text, source, workspace, inherited=None):
+    result, local = dict(inherited or {}), set()
+    for line in text.splitlines():
+        terms = TERM_REFERENCE.findall(line)
+        if not terms:
+            continue
+        # A mapping is a single reference token plus an actual inline Markdown
+        # link on that bullet's line; prose references are not declarations.
+        links = re.findall(r"\[[^\]\n]+\]\(([^)\n]+)\)", line)
+        if not re.match(r"^\s*- ", line) or len(terms) != 1 or len(links) != 1:
+            raise Invalid("Declare each term mapping on one References bullet with one concept link")
+        name = terms[0]
+        if name != name.strip() or not name or name in local:
+            raise Invalid(f"Invalid or duplicate term mapping: {name!r}")
+        target = reference_path(source, links[0], workspace, concepts=True)
+        if name in result and result[name] != target:
+            raise Invalid(f"Conflicting term mapping: {name}")
+        local.add(name)
+        result[name] = target
+    return result
+
+
+def check_terms(text, mappings):
+    for name in TERM_REFERENCE.findall(text):
+        if name not in mappings:
+            raise Invalid(f"Undeclared term reference: {name}")
+
+
+def check_reference_spelling(text):
+    for start in re.finditer(r"\[(?:term|input|output):", text):
+        match = NAMED_REFERENCE.match(text, start.start())
+        if not match:
+            raise Invalid("Unclosed named reference")
+        kind, name = match.groups()
+        if kind == "term":
+            valid = name == name.strip() and re.fullmatch(r"[^\[\]:\r\n]+", name)
+        else:
+            valid = re.fullmatch(LOCAL_NAME, name)
+        if not valid:
+            raise Invalid(f"Invalid {kind} reference name: {name!r}")
+
+
+def rule_wording(text):
+    """Check explicit modal spelling, not whether a sentence has that meaning."""
+    prose = re.sub(r"(?<!`)(`+)(?!`)(.*?)\1(?!`)", " ", text, flags=re.S)
+    if re.search(r"\b(?:should|shall)\b|\bought\s+to\b|\bmustn['’]t\b", prose, re.I):
+        raise Invalid("Rule wording permits MUST, MUST NOT, and MAY, not SHOULD/SHALL or obligation aliases")
+    if re.search(r"\bMAY\s+NOT\b", prose):
+        raise Invalid("Use MUST NOT for prohibition or a positive MAY permission, not MAY NOT")
+    if any(match[0] not in ("MUST", "MAY")
+           for match in re.finditer(r"\b(?:must|may)\b", prose, re.I)):
+        raise Invalid("Rule modals MUST and MAY must be uppercase")
+    if not re.search(r"\b(?:MUST|MAY)\b", prose):
+        raise Invalid("Each rule body requires explicit MUST, MUST NOT, or MAY outside literal code")
+
+
+def rule_contract(text, group_level=3, local=False):
+    """Check the titled-bullet subset, not rule meaning, scope, or precedence."""
+    if text.strip() in (("None.",) if local else ("None", "None.")):
+        return
+    titles = set()
+    in_rule = False
+    has_content = False
+    rule_body = []
+    group = None
+    group_has_rule = False
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        if re.fullmatch("#" * group_level + r" \S.*", line):
+            if in_rule and not has_content:
+                raise Invalid("Each rule must contain text after its title")
+            if in_rule:
+                rule_wording("\n".join(rule_body))
+            if group is not None and not group_has_rule:
+                raise Invalid("Rule groups must not be empty")
+            group, group_has_rule = line, False
+            in_rule = False
+            continue
+        match = re.match(r"^- \*\*([^*]+)\*\*(.*)$", line)
+        if match:
+            if in_rule and not has_content:
+                raise Invalid("Each rule must contain text after its title")
+            if in_rule:
+                rule_wording("\n".join(rule_body))
+            title = match[1].strip().rstrip(".:").casefold()
+            if not title or title in titles or re.fullmatch(r"(?:r|rule[-_ ]?)\d+", title):
+                raise Invalid(f"Duplicate or non-descriptive rule title: {match[1]}")
+            titles.add(title)
+            in_rule, has_content, group_has_rule = True, bool(match[2].strip()), True
+            rule_body = [match[2]]
+        elif (in_rule and line[:1].isspace()
+              and not re.match(r"^\s*(?:[-*+] |\d+[.)] |#)", line)):
+            has_content = True
+            rule_body.append(line)
+        else:
+            raise Invalid("Rules require titled '-' bullets, optional subject groups, or None. alone")
+    if not titles or (in_rule and not has_content):
+        raise Invalid("Rules must contain titled instructions or None. alone")
+    if in_rule:
+        rule_wording("\n".join(rule_body))
+    if group is not None and not group_has_rule:
+        raise Invalid("Rule groups must not be empty")
+
+
+def procedure_contract(text, source, workspace, inherited_terms, level=2):
+    check_reference_spelling(text)
+    parts = sections(text, level, PROCEDURE_HEADINGS)
+    if parts["Description"].strip() in ("", "None", "None."):
+        raise Invalid("Procedure Description must contain a short purpose and intended result")
+    rule_contract(parts["Rules"], group_level=level + 1, local=True)
+    inputs = contract_table(parts["Inputs"], ["Input", "Meaning", "Requirement", "Source", "If absent"])
+    outputs = contract_table(parts["Outputs"], ["Output", "Meaning", "Completion criteria"])
+    declared = {"input": set(), "output": set()}
+    for kind, rows in (("input", inputs), ("output", outputs)):
+        for row in rows:
+            token = row[0]
+            if token.startswith("`") and token.endswith("`"):
+                token = token[1:-1]
+            match = re.fullmatch(r"\[" + kind + ":(" + LOCAL_NAME + r")\]", token)
+            if not match or match[1] in declared[kind]:
+                raise Invalid(f"Invalid or duplicate {kind} declaration: {row[0]}")
+            declared[kind].add(match[1])
+            if kind == "input" and row[2] not in ("Mandatory", "Optional"):
+                raise Invalid("Input Requirement must be Mandatory or Optional")
+    for kind, name in LOCAL_REFERENCE.findall(text):
+        if not re.fullmatch(LOCAL_NAME, name) or name not in declared[kind]:
+            raise Invalid(f"Undeclared local {kind} reference: {name}")
+    mappings = term_mappings(parts["References"], source, workspace, inherited_terms)
+    check_terms(text, mappings)
+
+
+def definition_body(text, path, workspace):
+    body = unfenced(text)
+    check_reference_spelling(body)
+    if re.search(r"^# ", body, re.M):
+        raise Invalid("Agent body must not contain an H1 title")
+    parts = sections(body, 2, HEADINGS)
+    mappings = term_mappings(parts["References"], path, workspace)
+    rule_contract(parts["Rules"])
+    procedures = parts["Procedures"]
+    if re.search(r"^### ", procedures, re.M):
+        names = re.findall(r"^### (.+)$", procedures, re.M)
+        if len(names) != 1:
+            raise Invalid("Only a single procedure may be inline")
+        if procedures[:procedures.index("### ")].strip():
+            raise Invalid("Inline procedure must begin with its name")
+        header = procedures.index("#### ") if "#### " in procedures else len(procedures)
+        trigger = procedures[procedures.index("\n", procedures.index("### ")):header].strip()
+        if not re.fullmatch(r"Trigger: \S[^\n]*", trigger):
+            raise Invalid("Inline procedure requires one nonblank Trigger: line")
+        procedure_contract(procedures, path, workspace, mappings, level=4)
+        outside = "\n".join(value for key, value in parts.items() if key != "Procedures")
+        if LOCAL_REFERENCE.search(outside):
+            raise Invalid("Input/output references must be local to a procedure")
+        check_terms(outside, mappings)
+    else:
+        if LOCAL_REFERENCE.search(body):
+            raise Invalid("Input/output references must be local to a procedure")
+        check_terms(body, mappings)
+        rows = contract_table(procedures, ["Procedure", "Trigger", "File"])
+        if not rows:
+            raise Invalid("Procedure index must contain at least one procedure")
+        seen_names, seen_files = set(), set()
+        for name, trigger, link in rows:
+            match = re.fullmatch(r"\[[^\]\n]+\]\((procedures/[a-z][a-z0-9]*(?:-[a-z0-9]+)*\.md)\)", link)
+            if not match or name.casefold() in seen_names:
+                raise Invalid("Procedure index requires unique names and local procedures/<name>.md links")
+            relative = match[1]
+            target = reference_path(path, relative, workspace, package=path.parent.resolve())
+            if not target.is_relative_to(path.parent.resolve()) or target in seen_files:
+                raise Invalid("Procedure file must be unique and remain inside its agent package")
+            seen_names.add(name.casefold())
+            seen_files.add(target)
+            content = unfenced(target.read_text(encoding="utf-8-sig"))
+            headings = re.findall(r"^# (.+)$", content, re.M)
+            if len(headings) != 1 or not content.lstrip().startswith("# "):
+                raise Invalid(f"Procedure requires one initial H1 name: {relative}")
+            if not re.match(r"\A\s*# [^\n]+\n\s*(?=## Description(?:\n|$))", content):
+                raise Invalid("External procedure Description must immediately follow its H1 name")
+            if re.search(r"^\s*(?:\*\*)?Trigger(?:\*\*)?:", content, re.M):
+                raise Invalid("External procedure trigger belongs only in the SKILL index")
+            procedure_contract(content, target, workspace, mappings)
+
+
+def read_definition(path, workspace=None):
+    # CLI callers pass the original validated workspace explicitly, even when the
+    # canonical definition path resolves through a contained alias. Direct library
+    # use without it assumes a canonical resolved origin/agents/name/SKILL.md path.
+    workspace = Path(workspace).resolve() if workspace is not None else path.parents[3]
     try:
         if not path.is_file():
             raise InputInvalid("Expected a readable regular definition file")
@@ -305,18 +565,7 @@ def read_definition(path):
     elif (metadata.get("hai-model-class") not in CLASSES
           or metadata.get("hai-reasoning-effort") not in EFFORTS):
         raise Invalid("Specialist requires valid hai-model-class and hai-reasoning-effort metadata")
-    headings = []
-    fenced = False
-    for line in lines[end + 1:]:
-        if line.startswith("```") or line.startswith("~~~"):
-            fenced = not fenced
-        if not fenced:
-            if re.match(r"^#\s", line):
-                raise Invalid("Agent body must not contain an H1 title")
-            if line.startswith("## "):
-                headings.append(line[3:].strip())
-    if headings != HEADINGS:
-        raise Invalid("Body must contain exactly the nine required headings in order")
+    definition_body("\n".join(lines[end + 1:]), path, workspace)
     return fields
 
 
@@ -328,7 +577,7 @@ def validate(workspace, definition):
     try:
         if path.with_name("knowledge.md").exists():
             raise Invalid("Both legacy and current definitions exist; explicit conflict resolution required")
-        fields = read_definition(path)
+        fields = read_definition(path, workspace)
         if fields["name"] != definition.split("/")[-2]:
             raise Invalid("Resolved definition identity differs from the selected canonical agent path")
     except UnsupportedYAML as exc:
@@ -358,7 +607,7 @@ def resolve(workspace, definition, runtime):
         raise Invalid("Definition must use a canonical HAI agent path")
     if path.with_name("knowledge.md").exists():
         raise Invalid("Both legacy and current definitions exist; explicit conflict resolution required")
-    fields = read_definition(path)
+    fields = read_definition(path, workspace)
     if fields["name"] == "leader":
         raise Invalid("Leader uses interface settings and is not spawned")
     metadata = fields["metadata"]
@@ -435,7 +684,7 @@ def audit(workspace):
                     path = contained(workspace, f"{origin}/agents/{name}/SKILL.md")
                     if path.with_name("knowledge.md").exists():
                         raise Invalid("Conflicting legacy knowledge.md remains")
-                    definition = read_definition(path)
+                    definition = read_definition(path, workspace)
                     if decode_cell(row[1]) != definition["description"]:
                         raise Invalid("Catalogue copy differs from canonical decoded description")
                     agents.append({"name": name, "definition": f"{origin}/agents/{name}/SKILL.md"})

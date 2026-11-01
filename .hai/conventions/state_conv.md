@@ -35,7 +35,7 @@ The root MUST be a JSON object with these required properties:
 | `activities` | object | Mandatory Activity store configuration with a safe workspace-relative `location`; default `.hai_env/activities`, with no enable switch. |
 | `features` | object | Required optional configuration entries for `specification` and `chronicles`. |
 
-Each optional feature is an object with a required Boolean `enabled`. Specification also has a nonempty workspace-relative `location`, retained while disabled. Chronicles has no global location; its transcript directory is `chronicles/` inside each Activity. Both optional flags default to `false`. The mandatory `activities` object has a safe workspace-relative `location`, defaults to `.hai_env/activities`, and MUST NOT contain `enabled`. Additional properties are preserved and ignored.
+Each optional feature is an object with a required Boolean `enabled`. Specification also has a nonempty workspace-relative `location`, retained while disabled. Chronicles has no global location; its transcript directory is `chronicles/` inside each Activity. Its optional `record_every_prompts` is a positive JSON integer, defaulting to `5` when absent; Booleans, zero, negative numbers, fractions, strings and null are invalid, including while disabled. Both optional flags default to `false`. The mandatory `activities` object has a safe workspace-relative `location`, defaults to `.hai_env/activities`, and MUST NOT contain `enabled`. Unrecognized additional properties are preserved and ignored.
 
 | Feature | Default location | Target type |
 | --- | --- | --- |
@@ -44,41 +44,27 @@ Each optional feature is an object with a required Boolean `enabled`. Specificat
 
 The installed `.hai/agents/environment-manager/contract.json` is the single authority for the current and supported `state_format_version` values. Startup reads the contract from the installed framework package, never from a target workspace copy. A state version must be an integer listed in `supported_state_format_versions`; Booleans are invalid even though JSON decodes them as Python integers. The former `compatible_version` field is incompatible and must produce a clear error; never accept it as a fallback. Legacy `agents`, root `requests`, `current_request`, `current_activity`, `features.requests`, and `features.chronicles.location` properties are incompatible. Instructions have no state flag or configurable location. Preserve unrelated additional root and feature properties when updating state; duplicate JSON property names are invalid. Unknown properties do not implicitly enable a feature.
 
-Optional `integrations` configuration is additive within state format 2 and has no
-filesystem location or credential fields:
+### Extension-owned properties
 
-```json
-"integrations": {
-  "git": { "enabled": false, "auto_push": { "enabled": false } },
-  "github": { "enabled": false }
-}
-```
+The core owns only its declared state properties and core feature configuration.
+Additional extension properties are opaque JSON data: core startup does not
+interpret them, validate extension policy, enable their capabilities, or expose
+them as capability status. Their presence, absence, or JSON value does not alter
+core validity. JSON syntax and duplicate-key checks still apply to the whole file.
 
-The canonical template initializes both switches to `false`. In format-2
-state, an absent `integrations` object or absent supported entry is valid and means
-unconfigured/disabled. A present supported entry requires an object with Boolean
-`enabled`; malformed configuration makes the affected integration unavailable and
-is reported separately, without invalidating otherwise valid core state or
-mandatory instructions. Unknown root and integration properties are preserved and
-never enable an integration. Git and GitHub are independent switches.
-`integrations.git.auto_push` is a separate subordinate Boolean policy, defaulting
-to `false`. When its entry is absent in an existing state it is unconfigured and
-disabled. A present entry must be an object with Boolean `enabled`; malformed
-values make automatic push unavailable without invalidating the Git integration or
-core state. Enabling auto-push while `integrations.git.enabled` is false or
-unconfigured is invalid and unavailable.
+Core initialization supplies only core defaults. Core configuration writers and
+migrations preserve unknown extension properties and nested values without
+normalizing or repairing them. Keeping existing extension data requires no state
+format-version change and grants no authority to activate an extension.
 
-The startup helper validates this saved policy only; it does not check current
-tooling, authentication, repository identity, remote write access, or branch rules.
-Environment-manager may enable it only after receiving fresh Git readiness evidence
-from leader/git-manager for the actual repository and remote: Git is installed,
-the selected HTTPS/SSH authentication is configured for noninteractive use, remote
-write access is verified, and the requested target can be pushed without force.
-Do not send a smoke push or change credentials/settings to establish readiness.
-Runtime pushes must recheck current prerequisites because authentication and remote
-permissions can change. State stores no credentials, remote identity, or branch
-choice. Neither integration enablement nor auto-push setting grants authority for
-destructive repository changes or publication.
+An extension-owned subtree has a declared registered owner and an exact state
+path. Authorized extension changes are limited to that subtree; core properties,
+other extensions, unknown siblings, instructions, profiles, and registries remain
+preserved. Extension ownership does not transfer general environment configuration
+or initialization authority. Extension configuration and tooling requirements
+belong to the owning agent's definition and procedures.
+Invalid extension data is an extension dependency, not permission for core startup
+or another role to repair, replace, or discard it.
 
 ### Paths and validation
 
@@ -90,8 +76,9 @@ Activity configuration is mandatory and supplies a safe workspace-relative store
 
 ### Feature configuration
 
-Environment-manager owns environment state, feature configuration, and validation
-policy. Leader may run the shared read-only
+Environment-manager owns core environment state, core feature configuration, and
+validation policy. Extension owners retain only their declared subtrees under the
+extension contract above. Leader may run the shared read-only
 [startup helper](../tools/startup/README.md) directly for existing-state validation
 and context loading. This exception changes no mutation ownership; unavailable
 checks remain unverified and absent state still goes to environment-manager.
@@ -100,13 +87,18 @@ location change preserves existing records and does not close, move, or delete
 them. Report the old and new location when a location changes; any record handling
 is a separate authorized task, not an implicit part of configuration.
 
-Environment-manager owns feature flags and locations. Minimal initialization creates state and mandatory instructions, with no optional resources. Subsequent chat setup records explicit choices for the two optional features, retaining unmentioned values. Instructions are always loaded from their fixed file and are never offered as an on/off or location choice. The mandatory Activity store is created by the authorized Activity/history migration workflow, not startup validation. Enabling specification does not fabricate specification contents. Chronicles-manager owns transcript contents within Activity-local `chronicles/` folders after the leader routes enabled recording. Disabling a feature preserves its files and does not override mandatory instructions. Moving existing contents requires separately scoped authorization.
+Environment-manager owns feature flags and locations. Minimal initialization creates state and mandatory instructions, with no optional resources. Subsequent chat setup records explicit choices for the two optional features, retaining unmentioned values. Instructions are always loaded from their fixed file and are never offered as an on/off or location choice. The mandatory Activity store is created by the authorized Activity/history migration workflow, not startup validation. Enabling specification does not fabricate specification contents. Activity-manager owns transcript contents and the recording checkpoint within Activity-local `chronicles/` folders after Leader assigns enabled recording. Disabling a feature preserves its files and does not override mandatory instructions. Moving existing contents requires separately scoped authorization.
 
-Chronicles synchronization is asynchronous by default under chronicles-manager's
-procedures, with mandatory workspace timing instructions taking precedence. This
-workflow does not introduce a feature flag, change configured locations, or require
-a state version migration. Only verified source-backed transcript writes may be
-reported as completed; deferred catch-up does not disable recording.
+The effective chronicles startup/settings result includes `enabled` and
+`record_every_prompts`, including the backward-compatible default when the property
+is absent. This additive optional property leaves state format `2` unchanged.
+Global state holds configuration, not a per-prompt counter, verified transcript
+coverage or an in-flight worker marker. Activity-local progress uses
+[Activity-manager's checkpoint contract](../agents/activity-manager/conventions/transcript-segment_conv.md).
+Environment-manager returns attributable enablement-change boundaries separately
+from the configuration value; a threshold change does not reset recording coverage.
+Batch dispatch, synchronous verification, closure ordering and continuation limits
+belong to the Leader and Activity-manager procedures, not state validation.
 
 ## Local model profiles
 
@@ -149,11 +141,13 @@ Agent-definition-manager owns explicitly requested registration and synchronizat
 of existing entries after definition updates. Creation alone does not register an
 agent; updating an unregistered definition leaves it unregistered. Workspace
 mutations require valid initialized environment context. Environment-manager owns
-general state, model profiles, and lightweight startup catalogue validation, without
+core state, model profiles, and lightweight startup catalogue validation, without
 repairing definitions or registrations. Preserve unrelated rows, prose, and state
-settings during updates. Explicitly calling an allowed unregistered workspace agent
-does not register it. Framework roles require their framework catalogue entry for
-selection but need neither workspace registration nor enabled optional features.
+settings during updates. Selection for execution and delegation require a valid
+entry in the target's origin catalogue for both framework and workspace agents.
+An explicit name or path does not bypass registration or authorize it. Unregistered
+definitions may be inspected, maintained, validated, or registered without executing
+them. Framework roles need neither workspace registration nor enabled optional features.
 
 ## Initialization template and compatibility
 
@@ -194,8 +188,8 @@ a `state_format_version`.
 Format-1 state is incompatible with the format-2 startup helper. Migrate only under
 explicit leader authorization after inspecting the complete state and relevant
 filesystem paths. Validate duplicate-free JSON, source shape, containment, directory
-types, and the installed format-2 contract/template. Preserve integrations (including
-nested settings), specification configuration, and every unknown property that
+types, and the installed format-2 contract/template. Preserve extension-owned data (including
+nested values), specification configuration, and every unknown property that
 remains meaningful. Do not silently discard unrecognized properties; report
 properties that cannot be carried forward and resolve them within the authorized
 migration scope.
@@ -216,7 +210,7 @@ typed when present, and do not overlap reserved paths or each other. Record and
 resolve any path mapping or collision before writing. Recheck the source state and
 paths immediately before a guarded write, preserve a recoverable copy of the
 inspected source under the authorized procedure, then read back and run the
-startup helper. Verify preserved integrations, specification settings, chronicle
+startup helper. Verify preserved extension data, specification settings, chronicle
 enablement, unrelated properties, and all new format-2 invariants. On conflict or
 verification failure, preserve partial results and report them; do not retry or
 claim migration success. Future format changes update the contract and convention

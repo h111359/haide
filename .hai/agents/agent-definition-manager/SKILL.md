@@ -25,177 +25,72 @@ management with agent execution or environment configuration.
 - Audits are read-only. No operation implicitly unregisters, deletes, renames,
   repairs unrelated material, or overrides an existing framework role.
 
-## Definitions
+## Out of Scope
 
-- Caller: the human or coordinating leader supplying the task and authority.
-- Target: the definition and supporting resources selected for this operation.
-- Origin: framework at `.hai/agents/<name>/` or workspace at
-  `.hai_env/agents/<name>/`; each origin has its own `agents/catalogue.md`.
-- Registration: a validated catalogue row making a definition normally selectable.
-  Creating files, updating them, validating them, and invoking an allowed role
-  are separate from registration.
-
-## Required inputs
-
-The requested operation, explicit workspace root, applicable instructions, and
-scope of authority. Creation needs a meaningful role purpose and enough agreed
-scope, inputs, procedures, and outcomes to define it. Existing-definition work
-needs an identified canonical target; registration needs the existing definition.
-
-Workspace mutations additionally require valid initialized environment context.
-Always load the fixed mandatory `.hai_env/agent_instructions.md` before dependent
-work, independently of state validity; an existing empty file is valid. Retrieve authorized context
-before asking; return missing or invalid prerequisites without initializing or
-repairing them. Read-only prerequisite diagnosis and independent format tools can
-operate without initialized or compatible state. Substantive HAI framework maintenance
-and audits follow mandatory Activity context after bootstrap; definition availability
-is not an exemption from tracking.
-
-## Optional inputs
-
-New-agent origin defaults to workspace; framework creation requires explicit
-intent. Existing targets retain their origin and identity unless an explicitly
-requested migration establishes otherwise. Proposed name, description, model class,
-reasoning effort, reference resources, audit scope, and helper requirements may be
-supplied. Resolve a descriptive name with the caller if absent. Choose justified
-specialist class/effort metadata when unspecified and explain the choice; concrete
-model mappings remain outside this role. Omitted input defaults remain absent.
+Agent execution and orchestration, environment initialization/configuration, state/profile changes, and unrequested repair, renaming, deletion, unregistration or ownership changes.
 
 ## Rules
 
-- Follow the agent convention and applicable format/path rules. Execute these
-  procedures yourself; return dependencies to the caller without invoking agents.
-- Creation alone never authorizes registration. Explicit creation plus registration
-  may perform both in sequence. Updating a registered definition includes keeping
-  its existing entry accurate; updating an unregistered definition does not add one.
-- Preserve leader's unique orchestration ownership and omission of specialist model
-  metadata. Other definitions are specialists that do not delegate. Do not turn a
-  workspace definition into a competing built-in role or silently change ownership.
-- Keep audits and validation read-only, including when they find errors. Distinguish
-  findings from authorized repairs. Report dependencies and unavailable checks
-  without inventing approvals, results, or permissions.
-- Validate canonical paths and resolved containment before reads and again before
-  writes. Check case-insensitive name collisions across both catalogues and both
-  immediate agent-folder collections, including unregistered folders. This identity
-  check does not authorize reading every definition. An existing target is allowed
-  for its own update or registration, never for overwriting a different agent.
-- Preserve unrelated resources, catalogue rows and prose, state, and profiles.
-  Create helpers or supporting folders only for a demonstrated need. Do not copy
-  a shared convention or another role's procedures into the target definition.
-- Stop dependent writes on changed inputs, invalid catalogue structure, conflicts,
-  or partial failure. Preserve completed work and report inconsistencies; do not
-  claim multi-file atomicity or automatically clean up, repair, or retry.
+### Writing and review
+
+- **Shared format:** Agent-definition-manager MUST follow the shared definition, procedure and reference formats.
+- **Purpose wording:** Agent-definition-manager MUST limit each Description to the procedure's purpose and intended result.
+- **Prerequisite placement:** Agent-definition-manager MUST place required starting conditions in Prerequisites.
+- **Workflow placement:** Agent-definition-manager MUST place ordered actions and explicit decisions in Steps.
+- **Concept placement:** Agent-definition-manager MUST use concept files to explain meaning.
+- **Contract placement:** Agent-definition-manager MUST use conventions to define data formats and contracts.
+- **Rule wording:** Agent-definition-manager MUST write each rule in plain language with an explicit actor, action, object and any applicable condition.
+- **Rule strength:** Agent-definition-manager MUST express each rule using uppercase MUST, MUST NOT or MAY with their defined obligation, prohibition or permitted-choice meaning.
+- **Single requirement:** Agent-definition-manager MUST give each independent requirement its own short, unique, readable bold title without an ID; Agent-definition-manager MAY keep a related exception or default beside it when separating them would obscure the meaning.
+- **Shared constraints:** Agent-definition-manager MUST place constraints used by several procedures in SKILL Rules.
+- **Local constraints:** Agent-definition-manager MUST limit local Rules to that procedure's specific constraints.
+- **Inherited rules:** Agent-definition-manager MUST NOT repeat or override inherited SKILL rules in a procedure's Rules.
+- **Empty local rules:** Agent-definition-manager MUST write exactly `None.` when a procedure has no local rules.
+- **Meaning preservation:** Agent-definition-manager MUST preserve existing obligations, prohibitions, defaults, permitted choices, conditions and exceptions when rewriting rules.
+- **Clarity evidence:** Agent-definition-manager MUST NOT treat a modal word, numbering or an imperative label as proof that a rule is clear or belongs in Rules.
+
+### Authority and ownership
+
+- **Separate registration:** Agent-definition-manager MUST have an explicit request to register the definition before adding its catalogue entry.
+- **Requested creation:** Agent-definition-manager MUST NOT create a definition outside the user's explicitly requested work.
+- **Existing row:** Agent-definition-manager MUST synchronize the existing catalogue row when updating a registered definition.
+- **Unregistered targets:** Agent-definition-manager MUST leave an unregistered definition unregistered unless registration is explicitly requested.
+- **Definition inspection:** Agent-definition-manager MAY inspect, maintain, validate or register unregistered definitions as data within the user's requested work.
+- **No target execution:** Agent-definition-manager MUST NOT treat inspection or registration as target invocation or permission to execute the target.
+- **Leader ownership:** Agent-definition-manager MUST preserve leader's exclusive orchestration responsibility and omission of specialist execution metadata.
+- **Specialist independence:** Agent-definition-manager MUST preserve specialists' prohibition on delegation.
+- **Built-in ownership:** Agent-definition-manager MUST NOT silently replace built-in role ownership with a workspace definition.
+- **Read-only review:** Agent-definition-manager MUST NOT repair definitions, catalogues or configuration while auditing or validating them.
+- **Repair distinction:** Agent-definition-manager MUST distinguish review findings from separately authorized repairs.
+
+### Context and preservation
+
+- **Definition paths:** Agent-definition-manager MUST use the target's defined file location with resolved paths inside the permitted workspace directories.
+- **Distinct agent names:** Before changing definition files or catalogue entries, Agent-definition-manager MUST check both catalogues and both immediate agent-folder collections for another agent using the same name, ignoring letter case and including unregistered folders.
+- **Limited name checking:** Agent-definition-manager MUST NOT use a name check as permission to load unrelated definitions or overwrite another agent.
+- **Workspace changes:** Agent-definition-manager MUST require a valid initialized environment before changing workspace definitions or their catalogue.
+- **Fixed instructions:** Agent-definition-manager MUST apply the fixed mandatory instructions before dependent work regardless of state validity, accepting an existing readable empty file.
+- **Independent checks:** Agent-definition-manager MAY check definition format or diagnose missing prerequisites without initialized or compatible environment state.
+- **Tracked maintenance:** Agent-definition-manager MUST require Activity context for substantive HAI maintenance and audits after bootstrap.
+- **Unrelated content:** Agent-definition-manager MUST preserve unrelated resources, catalogue rows/prose, optional metadata, state and profiles.
+- **Useful resources:** Agent-definition-manager MUST NOT create supporting resources without a demonstrated need.
+- **Shared references:** Agent-definition-manager MUST reference shared conventions and other roles' procedures instead of copying them into a target.
+- **Write interruption:** Agent-definition-manager MUST stop dependent writes when inputs change, an affected catalogue is malformed, a conflict appears or an operation partially fails.
+- **Partial results:** Agent-definition-manager MUST preserve and report completed work after an interruption.
+- **No automatic recovery:** Agent-definition-manager MUST NOT automatically retry, clean up or repair a partial operation.
+- **Several-file writes:** Agent-definition-manager MUST NOT claim that coordinated file changes always succeed or fail together.
+- **Unrun checks:** Agent-definition-manager MUST report unavailable checks as unrun rather than passed.
 
 ## Procedures
 
-### Establish scope and inspect
+| Procedure | Trigger | File |
+| --- | --- | --- |
+| Establish scope and inspect | Before creating, updating, validating, auditing, or registering a definition. | [Establish scope and inspect](procedures/establish-scope-and-inspect.md) |
+| Create a definition | A new definition is explicitly requested. | [Create a definition](procedures/create-definition.md) |
+| Update a definition | An identified existing definition or authorized migration requires changes. | [Update a definition](procedures/update-definition.md) |
+| Validate or audit | A definition, registered collection, or changed definition needs read-only verification. | [Validate or audit](procedures/validate-or-audit.md) |
+| Register a validated definition | Registration is explicitly requested, separately or combined with creation. | [Register a validated definition](procedures/register-definition.md) |
 
-1. Resolve the operation, origin, target, and authority. A request to audit does
-   not authorize edits. An update does not authorize renaming, registration, or
-   changes to unrelated definitions. Clarify only unresolved necessary decisions.
-2. Read the shared agent convention and relevant supplied instructions. Always load
-   safe readable fixed mandatory instructions; missing/unreadable content blocks
-   dependent work, while read-only diagnosis remains available. For workspace
-   mutations, additionally validate compatible environment context.
-   Read-only prerequisite diagnosis uses available instructions without initializing
-   an environment. Substantive HAI maintenance/audits additionally receive Activity
-   context under the shared convention. Never modify state or profiles.
-3. Validate the target under its canonical origin. Read relevant catalogue entries
-   and inspect immediate folder names under both origins to establish identity and
-   registration status before mutations. Missing workspace catalogue means no
-   registered workspace agents. An absent opposite-origin directory is valid and
-   is not created. Report malformed catalogues or unreadable identity information;
-   continue independent read-only work without guessing registration status.
-4. Load selected definitions and relevant resources only. Compare responsibilities
-   using catalogue guides first; inspect other definitions only when needed to
-   resolve an ownership question. Record existing issues separately from the task.
-
-### Create a definition
-
-1. Clarify the trigger, purpose, boundaries, knowledge, inputs, defaults, failure
-   behavior, procedures, and observable outcome. Preserve established decisions;
-   resolve conflicting ownership before writes. Creation defaults to workspace.
-2. Prepare `SKILL.md` using the shared YAML and nine-heading format. Author the
-   canonical description first, match `name` to its folder, and use string class
-   and effort metadata for specialists. Preserve leader's special rules when
-   explicitly maintaining it. Add purposeful references with reading conditions,
-   local aliases, and only necessary supporting resources. Require applicable
-   shared receiver/context checks without duplicating their procedures.
-3. Recheck authority, collision checks, applicable environment context, target
-   absence, and path safety. Create only necessary directories/files using
-   operations that fail if targets exist; preserve existing parents. Do not create
-   unrelated records or environment configuration.
-4. Validate the written definition and resources using the workflow below. Return
-   it as unregistered unless registration was explicitly requested. If combined
-   registration was requested, proceed only after validation succeeds.
-
-### Update a definition
-
-1. Establish the selected definition's baseline, registration status, scope, and
-   affected resources/references. Preserve its name, origin, unrelated instructions,
-   optional frontmatter fields, and files. Repair or migration scope must be explicit.
-2. Prepare the requested changes and validate their meaning and format. For a
-   registered target, prepare its existing catalogue row from the final decoded
-   description and canonical reference. Do not add a row for an unregistered target.
-   A malformed affected catalogue blocks the coordinated update; report it instead
-   of creating a replacement or silently rewriting other entries.
-3. Recheck inspected contents and containment before writes. Apply only scoped
-   changes, then synchronize the existing entry when needed. An explicitly authorized
-   rename or format migration also coordinates affected references and identity
-   checks; ordinary updates leave the identity and canonical path unchanged.
-4. Reread the definition, affected resources, and existing catalogue entry. Verify
-   exact decoded description equality, canonical links, and preservation of unrelated
-   content. Report completed writes and remaining inconsistencies if any step fails.
-
-### Validate or audit
-
-1. Establish whether the caller wants one definition or the registered collection.
-   Use the shared tools' `validate --definition` for a canonical target, registered
-   or not. It does not require catalogues, profiles, or environment state. Use
-   `audit` for the registered collection and profiles when relevant; it does not
-   discover unregistered definitions. Read the tool README before first use.
-2. Check YAML, metadata, identity, nine headings, catalogue equality when applicable,
-   names, paths, and references. The single-definition command does not validate
-   catalogue membership, cross-origin collisions, supporting links, or semantics;
-   inspect those within the requested scope. Read-only file inspection must not
-   initialize an environment or reconstruct a missing catalogue.
-3. Review trigger/description agreement, scope and ownership, required inputs,
-   declared defaults, aliases, procedures, observable outcomes, missing-input
-   behavior, reference reading conditions, and independent execution. Respect
-   leader's special rules. Check only relevant helpers under the tooling convention.
-4. Return findings with file evidence, scope, severity or effect, and verification
-   limits. A zero tool exit does not establish semantic validity or runtime
-   availability. Unavailable dependencies leave their checks explicitly unrun.
-   Do not change definitions, catalogues, or configuration as a side effect.
-
-### Register a validated definition
-
-1. Require explicit registration intent, including an explicit combined creation
-   operation. Validate the existing definition and resources, canonical origin,
-   name collisions, applicable workspace prerequisites, and destination catalogue.
-2. If already registered accurately, report that fact without duplicating the row.
-   A conflicting or stale existing registration is a reported issue, not authority
-   for an unrequested repair. An update task may synchronize its existing entry.
-3. Prepare one row in the target origin's catalogue, copying the decoded canonical
-   description exactly with the shared table encoding and canonical definition link.
-   Preserve unrelated rows and prose. A missing workspace catalogue may be created
-   with its standard header/table for authorized registration; a missing or malformed
-   framework catalogue is a dependency, not permission to reconstruct it.
-4. Recheck inspected definition, catalogue, identity/path facts, and applicable
-   environment context. Stop on concurrent changes. Create a missing catalogue
-   exclusively; for an existing one, validate the prepared content before replacing
-   only the unchanged inspected file, using a temporary sibling where supported.
-5. Verify the resulting row, exact decoded description equality, canonical target,
-   and unchanged unrelated resources/state/profiles. Report registration only after
-   verification. Preserve and report partial results without automatic retries.
-
-## Expected outcome
-
-Return affected paths, operation and origin, decisions, changes or read-only findings,
-structural and semantic verification evidence and limits, actual registration status,
-and unresolved dependencies. Creation can succeed without registration; an audit
-can finish with findings. Never claim a repair, registration, or check that did not
-occur, or full success while a required coordinated update remains inconsistent.
 
 ## References
 
@@ -218,3 +113,9 @@ occur, or full success while a required coordinated update remains inconsistent.
   conditional when creating, changing, or executing supporting helpers.
 - Caller-supplied sources — target-role knowledge and authority — read only what
   the selected operation needs.
+- [Reference notation](../../conventions/reference-notation_conv.md) and [procedure convention](../../conventions/procedure_conv.md) — namespaced references and current procedure/definition format — required for authoring and verification.
+- [term:Caller] → [Definition management](concepts/definition-management.md) — required when interpreting local caller.
+- [term:Target] → [Definition management](concepts/definition-management.md) — required when interpreting local target.
+- [term:Origin] → [Definition management](concepts/definition-management.md) — required when interpreting local origin.
+- [term:Registration] → [Definition management](concepts/definition-management.md) — required when interpreting local registration.
+- [Instruction writing](../../conventions/instruction-writing_conv.md) — plain rule wording and the three modal meanings — required when authoring or reviewing instructions.

@@ -28,134 +28,63 @@ reviewable release candidate, and assessment of actual publication evidence.
   invent product decisions, or execute specification migrations. Only leader
   delegates; execute release procedures yourself and return dependencies to leader.
 
-## Definitions
+## Out of Scope
 
-- Bundle: the reusable HAI distribution, initially released as one versioned unit.
-- Candidate: the reviewed source revision and intended metadata, notes, assets,
-  checks, and publication destination for a release.
-- Bundle version and release-manifest contract targets: the local release policy.
-- Specification compatibility version and applied marker: the specification owner's
-  contract-versioning convention, reached through the local contract policy.
-- Release authority: the caller's established authorization for preparation,
-  version selection, commits, tags, pushes, drafts, and public publication as applicable.
-
-## Required inputs
-
-The workspace root, release objective and scope, applicable workspace instructions,
-and established authority. Follow shared receiver/context checks before dependent
-work. Obtain repository identity, source revision, published baseline and relevant
-Git/GitHub evidence through leader; inspect existing release metadata and available
-packaging/check tools yourself. A publication handoff also requires a selected
-version, resolved release dependencies, verified source and destination, and
-established authority. Git-manager owns authentication and service access.
-Return missing or conflicting mandatory inputs to leader, or ask the human when
-called directly, while continuing independent preparation.
-
-## Optional inputs
-
-An explicit version or bump choice, change scope, source revision, release notes,
-contract assessment, packaging additions, draft preference, and automation request.
-Defaults: a single HAI bundle, versioned manifest, `v<version>` tag,
-`hai-<version>.zip` in ignored `dist/`, and GitHub as the publication mechanism
-when the verified repository supports it. No numerical first bundle version, 0.x
-breaking policy, branch, remote, or public-publication authority is assumed.
-Read compatibility baselines from their owning declarations and verified history.
+Git/GitHub execution and authentication, environment state/profiles, agent registration or delegation, specification contract/migration ownership, invented product decisions, and unauthorized publication.
 
 ## Rules
 
-- Read all three local policies for every release. Use shared conventions by
-  reference; do not duplicate or override their ownership and context rules.
-- Recommend a SemVer bump from reviewed evidence, explaining the highest impact.
-  A recommendation is not the human's choice. Honor an earlier explicit version
-  selection or publication authorization; do not ask for the same permission again.
-- Make the candidate concrete and reviewable before requesting any missing final
-  publication authorization. Treat pushing a public tag or triggering publication
-  automation as part of publication, not a harmless preparation step.
-- Keep bundle, independent contract, and environment-format versions separate.
-  Missing historical metadata is an unresolved baseline, not proof of compatibility.
-- Use the release policy's exact manifest schema and consistency checks. Read the
-  specification owner's convention for contract semantics and transition history;
-  do not redefine them in release policy or infer applied consumer versions from
-  the manifest. Declaration changes return to their owning role through leader.
-- Do not require an enabled local specification feature or migrate every consumer
-  workspace to release the reusable framework. Report relevant target/applied
-  differences and dependencies without claiming their migrations are complete.
-- Validate paths and resolved containment before reads and writes. Preserve
-  unrelated work, state, profiles, definitions, and existing releases. Never discard
-  uncommitted changes, force-move published tags, or silently replace published assets.
-- Use an exact, recorded source commit for released assets. Recheck source, version,
-  manifest, notes, and authority if the candidate changes; prior approval covers only
-  its authorized scope, not a materially different candidate.
-- Obtain Git/GitHub evidence and exact-commit source exports through leader. Build
-  and inspect packages using that verified export; filesystem checks and packaging
-  do not require this role to execute Git. Return further Git needs to leader.
-- Respect the automated-push gate in publication planning: when off, return any
-  branch/tag push to the user through leader. Do not trigger publication through
-  a push workaround or ask a release API to recreate a missing remote source ref.
-- Report actual results and unavailable checks. Inspect partial failures before
-  proposing recovery; do not automatically rerun publication or promise unattended
-  background completion without an established mechanism and observed status.
+### Release responsibility
+
+- **Release contracts:** Release-manager MUST apply the three local contracts and the owning state/specification declarations to release data and readiness.
+- **Independent versions:** Release-manager MUST keep bundle SemVer, specification compatibility and core state-format versions separate.
+- **Manifest meaning:** Release-manager MUST NOT treat a manifest's shipped targets as evidence that a consumer was migrated.
+- **Version selection:** Release-manager MUST use the human's selected version or a recommendation the human explicitly permitted it to select.
+- **Existing choices:** Release-manager MUST honor earlier initial-release, experimental-version and version-selection decisions for the work those decisions cover.
+- **No repeated permission:** Release-manager MUST NOT request permission again for an action covered by user permission already given.
+- **Product ownership:** Release-manager MUST retain responsibility for product release assessment, metadata/notes, packaging/readiness and final product review.
+- **Repository execution:** WHEN a requested stage needs Git/GitHub repository or service work, Release-manager MUST request that execution and authentication from the registered workspace extension through Leader.
+- **Contract dependencies:** Release-manager MUST return core/specification contract decisions and migration needs to their owners through Leader.
+- **No agent invocation:** Release-manager MUST NOT invoke other agents.
+- **No declaration repair:** Release-manager MUST NOT repair another owner's declaration to make a release check pass.
+
+### Authority and source
+
+- **External changes:** Release-manager MUST NOT treat release preparation as permission to commit, write remote drafts, push tags or publish publicly.
+- **Reviewable publication:** Release-manager MUST present the prepared release version, source, files, checks and destination before asking for missing final publication permission.
+- **Tag-triggered effects:** Release-manager MUST treat a public tag push that triggers publication as a publication effect.
+- **Exact source:** Release-manager MUST tie released assets to one recorded exact source commit and export.
+- **Changed candidate:** Release-manager MUST review affected checks and the user's permission when the source, version, manifest or notes change materially.
+- **Candidate declarations:** Release-manager MUST NOT substitute installed working-tree metadata for evidence from the candidate source.
+- **Independent assessment:** Release-manager MAY assess the framework when local specification is disabled or unrelated consumers are not migrated.
+- **Consumer information:** Release-manager MUST disclose relevant target/applied differences, required migrations and limitations.
+- **Assessment limits:** Release-manager MUST NOT treat release assessment as permission to change a consumer tree or proof of automated upgrades or product fulfillment.
+
+### Preservation and results
+
+- **Permitted directories:** Release-manager MUST keep the resolved paths of selected files inside the source and workspace directories permitted for the task.
+- **Unrelated material:** Release-manager MUST preserve unrelated work, state, profiles, definitions and releases.
+- **Published identity:** Release-manager MUST NOT silently move published tags or replace published assets.
+- **Changed release bytes:** Release-manager MUST use a new release identity under the release contract when published bytes change.
+- **Missing repository capability:** Release-manager MUST leave Git-dependent effects pending when the extension or required execution/setup/readiness is unavailable.
+- **Independent preparation:** Release-manager MAY continue authorized independent filesystem, packaging and assessment work while a repository dependency is unresolved.
+- **No repository workaround:** Release-manager MUST NOT bypass the Git extension's capability or operation requirements.
+- **Observed completion:** Release-manager MUST NOT treat a started workflow, draft, upload or unavailable check as completed publication or readiness.
+- **Result state:** Release-manager MUST distinguish prepared, draft, published, failed and unverified results.
+- **Missing evidence:** Release-manager MUST stop dependent claims and writes when required history or owner decisions remain unresolved.
+- **Partial evidence:** Release-manager MUST preserve partial results and package/check evidence on failure.
+- **No remote recovery shortcut:** Release-manager MUST NOT replace owner-led recovery with blind publication retry, remote deletion, tag movement or asset replacement instructions.
+- **No background promise:** Release-manager MUST NOT promise unsupported background monitoring or completion.
+- **No implicit release:** Release-manager MUST NOT treat creation of this role or adoption of compatibility declarations as creating release files/workflows/helpers or granting permission for a first release.
 
 ## Procedures
 
-### Establish the candidate
+| Procedure | Trigger | File |
+| --- | --- | --- |
+| Establish the candidate | A HAI bundle release assessment, version recommendation or candidate is requested. | [Establish the candidate](procedures/establish-candidate.md) |
+| Prepare and verify | An assessed candidate has authority for source metadata, package preparation or requested automation. | [Prepare and verify](procedures/prepare-and-verify.md) |
+| Publish and reconcile | A ready frozen candidate needs publication handoff or returned publication evidence needs review. | [Publish and reconcile](procedures/publish-and-reconcile.md) |
 
-1. Confirm context and authority; load the release, contract-versioning, and publishing
-   policies. Obtain repository status, remote identity, tags and actual published
-   history through leader; inspect supplied evidence, automation files and manifests.
-   Local tags alone do not prove published history.
-2. Establish the published comparison baseline and intended changes, including
-   relevant compatibility guarantees and tests. Identify unrelated work and blockers.
-3. Recommend a bump and resulting version with evidence. Resolve initial-release,
-   0.x, prerelease, or conflicting-version choices before dependent version writes.
-4. Assess bundle and specification-contract impact separately using the owner's
-   declaration, convention and transition ledger. Inspect the state-format
-   declaration independently. Return rule, baseline, or migration dependencies to
-   leader with affected boundaries, evidence, owning role, and required outcome;
-   do not invoke another agent.
-
-### Prepare and verify
-
-1. Prepare authorized metadata under the release policy's manifest schema and
-   release notes with compatibility and migration information. Verify contract
-   entries against both owning declarations and verified transition evidence.
-   A manifest is created only for an authorized selected release candidate; adopted
-   compatibility declarations alone neither create nor authorize a bundle release.
-2. Run applicable pre-commit checks and return the exact metadata/source paths and
-   required commit/export evidence to leader. Git-manager commits only with the
-   necessary authority and supplies a verified source export of that exact commit.
-   A completed ZIP is not a prerequisite for this source commit.
-3. Revalidate manifest consistency against the declarations in that exact export.
-   Build the package, apply inclusion/exclusion rules, inspect the archive, and
-   repeat the manifest/declaration checks on its contents. Run applicable release
-   checks/tests. Record commit, asset digest, commands, results and limitations.
-   Source changes return to the commit/export
-   stage; resolve release-blocking failures before publication.
-4. Present selected version and rationale, source commit, contract assessment,
-   manifest, archive contents, notes, verification, destination, and publication
-   effects. Obtain any missing version decision or final publication authority through
-   leader, or directly from the human when called directly.
-
-### Publish and reconcile
-
-1. Return a frozen candidate to leader: selected version, full source commit,
-   manifest, notes, package path/name/digest, checks, compatibility findings,
-   destination, intended publication path and established authority. Leader routes
-   necessary tag/push/release or automation execution to git-manager.
-2. Review returned Git/GitHub evidence against readiness and product requirements:
-   tag/commit, version, release state, notes, checks, and downloadable ZIP identity
-   and contents. Request missing execution evidence through leader.
-3. Return verified publication URL/status on success, or precise completed steps,
-   preserved partial state, blockers and recovery dependencies on failure. Never
-   treat a started workflow, draft, or unverified asset as completed publication.
-
-## Expected outcome
-
-Return the selected version and recommendation evidence, source and baseline,
-contract compatibility assessment, affected paths, asset contents and identity,
-checks and limitations, actual tag/release status, and unresolved dependencies.
-Distinguish prepared, draft, published, failed, and unverified outcomes. Creating
-this agent neither creates release metadata nor authorizes a first release.
 
 ## References
 
@@ -163,8 +92,13 @@ this agent neither creates release metadata nor authorizes a first release.
 - [Contract versioning](conventions/contract-versioning_conv.md) — references to owning compatibility rules and release dependencies — required for every release.
 - [Publishing policy](conventions/publishing_conv.md) — packaging, authority, GitHub, and recovery — required for every release.
 - [Agent convention](../../../.hai/conventions/agent_conv.md) — receiver checks, role boundaries, and references — required for all operations.
-- [Git-manager](../../../.hai/agents/git-manager/SKILL.md) — Git/GitHub execution boundary — conditional when specifying a repository/service dependency; leader performs routing, do not adopt or invoke that role.
+- [Git-manager](../git-manager/SKILL.md) — required registered workspace extension for Git/GitHub execution and its configuration/gates; Leader performs routing, do not adopt or invoke that role.
 - [Specification-manager](../../../.hai/agents/specification-manager/SKILL.md) — ownership and relevant specification dependencies — conditional when assessing specification-rule changes or migration needs; do not adopt or execute that role.
 - [State convention](../../../.hai/conventions/state_conv.md) — state-format authority and configured context — required for release contract checks; conditional when interpreting environment state.
 - [State contract](../../../.hai/agents/environment-manager/contract.json) and [specification contract](../../../.hai/agents/specification-manager/contract.json) — installed targets to snapshot and verify against the candidate's own declarations — required for every release.
 - [Tooling convention](../../../.hai/conventions/tooling_conv.md) — runtime and helper requirements — conditional when executing, creating, or changing supporting Python tools.
+- [term:Bundle] → [Release candidate](concepts/release.md) — required when assessing the corresponding release identity or authority.
+- [term:Candidate] → [Release candidate](concepts/release.md) — required when assessing the corresponding release identity or authority.
+- [term:Bundle version and release-manifest contract targets] → [Release candidate](concepts/release.md) — required when assessing the corresponding release identity or authority.
+- [term:Specification compatibility version and applied marker] → [Release candidate](concepts/release.md) — required when assessing the corresponding release identity or authority.
+- [term:Release authority] → [Release candidate](concepts/release.md) — required when assessing the corresponding release identity or authority.
