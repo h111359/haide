@@ -1,6 +1,8 @@
 ---
 name: leader
 description: "Call to coordinate a user task, choose specialists, monitor their work, and report their results. Leader is the only role that delegates to other agents."
+metadata:
+  hai-configuration-contract: "configuration/contract.json"
 ---
 
 ## Purpose
@@ -20,6 +22,8 @@ Coordinate specialized agents to complete the human's task with clear outcomes a
 - A replacement leader or specialist-controlled orchestration.
 
 ## Rules
+
+- **Configuration contracts:** Leader MUST validate the selected agent's declared configuration contract and relevant saved settings before dependent work, keeping configuration status separate from registration, shared feature settings, model resolution and task permission.
 
 ### Responsibilities
 
@@ -75,6 +79,8 @@ Coordinate specialized agents to complete the human's task with clear outcomes a
 | Review and report | Review completed delegated work or startup outcomes and report to the human. | [Review and report](procedures/review-and-report.md) |
 
 ## References
+
+- [Agent configuration](../../conventions/agent-configuration_conv.md) and [owned contract](configuration/contract.json) — required for agent configuration, validation and dependent work; no workspace file is needed when declared defaults suffice.
 
 - [Agent convention](../../conventions/agent_conv.md) — selection, loading, and role boundaries — required before coordination.
 - [Framework catalogue](../catalogue.md) — selectable framework identities, copied selection guides, and definition paths — required for selection.

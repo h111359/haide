@@ -10,9 +10,12 @@ import sys
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "agents"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "configuration"))
 from agent_tools import Invalid, NAMES, decode_cell, load_json, read_profiles
+from configuration_tools import (ConfigurationError, load_contract as load_agent_contract,
+                                 read_configuration)
 
-FEATURES = {"specification": "directory", "chronicles": None}
+FEATURES = {"chronicles": None}
 ACTIVITIES_LOCATION = ".hai_env/activities"
 CHRONICLES_RECORD_EVERY_PROMPTS = 5
 INSTRUCTIONS = ".hai_env/agent_instructions.md"
@@ -94,6 +97,7 @@ def readable_file(path: Path) -> None:
 def instruction_path(workspace: Path) -> Path:
     target = safe_path(workspace, INSTRUCTIONS)
     for relative in (".hai", ".git", ".hai_env/state.json", ".hai_env/agents",
+                     ".hai_env/config",
                      ".hai_env/model_profiles.json"):
         reserved_paths = [workspace / relative]
         try:
@@ -113,16 +117,13 @@ def state_context(workspace: Path, state: dict, template: dict,
             or template["activities"] != {"location": ACTIVITIES_LOCATION}
             or not isinstance(template.get("features"), dict)
             or set(template["features"]) != set(FEATURES)):
-        raise Invalid("Canonical format-2 template is invalid")
-    spec = template["features"].get("specification")
+        raise Invalid("Canonical format-3 template is invalid")
     chronicles = template["features"].get("chronicles")
-    if (not isinstance(spec, dict) or spec.get("enabled") is not False
-            or spec.get("location") != ".hai_env/specifications"
-            or not isinstance(chronicles, dict)
+    if (not isinstance(chronicles, dict)
             or chronicles.get("enabled") is not False
             or type(chronicles.get("record_every_prompts")) is not int
             or chronicles.get("record_every_prompts") != CHRONICLES_RECORD_EVERY_PROMPTS):
-        raise Invalid("Canonical template requires disabled specification and chronicles defaults")
+        raise Invalid("Canonical format-3 template requires disabled chronicles and threshold defaults")
     if isinstance(state, dict) and "compatible_version" in state:
         raise Invalid("Incompatible core state: legacy compatible_version is unsupported; migrate explicitly to state_format_version")
     if isinstance(state, dict) and isinstance(state.get("features"), dict):
@@ -142,12 +143,17 @@ def state_context(workspace: Path, state: dict, template: dict,
             or not isinstance(state.get("features"), dict)
             or "requests" in state["features"]
             or "agent_instructions" in state["features"]):
-        raise Invalid("Incompatible core state: expected format 2 with mandatory activities and features; legacy requests/current pointers and retired features.agent_instructions are unsupported")
+        raise Invalid("Incompatible core state: expected a supported state format with mandatory activities and features; legacy requests/current pointers and retired features.agent_instructions are unsupported")
+    if version == 3 and "specification" in state["features"]:
+        raise Invalid("Incompatible format-3 core state: features.specification is agent-owned and must be migrated to Specification-manager configuration")
+    if version == 2 and "specification" not in state["features"]:
+        raise Invalid("Incompatible format-2 core state: mandatory legacy features.specification is missing")
     activities = state["activities"]
     if ("enabled" in activities or not isinstance(activities.get("location"), str)
             or not activities["location"].strip()):
         raise Invalid("Mandatory activities requires a nonblank workspace-relative location and no enabled switch")
-    reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agents", INSTRUCTIONS]
+    reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agents",
+                ".hai_env/config", INSTRUCTIONS]
     reserved_paths = [workspace / name for name in reserved]
     reserved_paths += [safe_path(workspace, name) for name in reserved]
     locations, features = {}, {}
@@ -172,25 +178,24 @@ def state_context(workspace: Path, state: dict, template: dict,
                 raise Invalid("Feature chronicles.record_every_prompts must be a positive integer")
             features[name] = {"enabled": value["enabled"],
                               "record_every_prompts": threshold}
-            continue
+    if version == 2:
+        value = state["features"].get("specification")
         if (not isinstance(value, dict) or type(value.get("enabled")) is not bool
                 or not isinstance(value.get("location"), str) or not value["location"].strip()):
-            raise Invalid(f"Feature {name} requires Boolean enabled and nonblank location")
+            raise Invalid("Legacy format-2 specification requires Boolean enabled and nonblank location")
         relative = value["location"]
         target = safe_path(workspace, relative)
         lexical = workspace / relative
         if any(overlaps(candidate, reserved_path)
                for candidate in (lexical, target) for reserved_path in reserved_paths):
-            raise Invalid(f"Feature {name} overlaps a reserved location")
+            raise Invalid("Legacy specification location overlaps a reserved location")
         for other, (other_lexical, other_target) in locations.items():
             if any(overlaps(candidate, previous) for candidate in (lexical, target)
                    for previous in (other_lexical, other_target)):
-                raise Invalid(f"Feature locations collide: {name} and {other}")
+                raise Invalid(f"Legacy specification location collides with {other}")
         if target.exists() and not target.is_dir():
-            raise Invalid(f"Feature {name} must target a directory")
-        locations[name] = (lexical, target)
-        features[name] = {"enabled": value["enabled"], "location": relative,
-                          "available": target.exists(), "target_type": "directory"}
+            raise Invalid("Legacy specification location must target a directory")
+        locations["legacy_specification"] = (lexical, target)
     return features, locations, activity_config
 
 
@@ -267,6 +272,39 @@ def catalogue(workspace: Path, origin: str, reserved: set[str] | None = None) ->
     return result
 
 
+def specification_configuration(workspace: Path, agents: list[dict]) -> dict:
+    """Read only the registered installed Specification-manager package/config."""
+    result = {"status": "unavailable", "path": ".hai_env/config/agents/specification-manager.json",
+              "settings": {}, "configured_fields": [], "issues": []}
+    entry = next((agent for agent in agents
+                  if agent.get("name") == "specification-manager"
+                  and agent.get("origin") == ".hai_env"), None)
+    if entry is None:
+        return result
+    contract_relative = ".hai_env/agents/specification-manager/configuration/contract.json"
+    try:
+        definition = safe_path(workspace, entry["definition"])
+        package = definition.parent
+        contract_path = safe_path(workspace, contract_relative)
+        if not contract_path.is_relative_to(package):
+            raise Invalid("Specification-manager contract resolves outside its installed package")
+        contract = load_agent_contract(contract_path, "specification-manager")
+        expected = {"enabled", "location"}
+        if (contract["contract_format_version"] != 2
+                or contract["current_config_format_version"] != 1
+                or set(contract["settings"]) != expected
+                or contract["settings"]["enabled"] != {"type": "boolean", "default": False}
+                or contract["settings"]["location"].get("type") != "workspace-relative-directory"
+                or contract["settings"]["location"].get("default") != ".hai_env/specifications"):
+            raise Invalid("Specification-manager contract must declare disabled-by-default enablement and a workspace-relative directory")
+        result.update(read_configuration(workspace, "specification-manager", contract))
+    except (Invalid, ConfigurationError, OSError, UnicodeError, RuntimeError) as exc:
+        result["status"] = "invalid"
+        result["issues"].append({"code": "agent_configuration", "path": contract_relative,
+                                 "agent": "specification-manager", "message": str(exc)})
+    return result
+
+
 def check(workspace: Path) -> dict:
     workspace = workspace.resolve(strict=True)
     if not workspace.is_dir():
@@ -274,6 +312,8 @@ def check(workspace: Path) -> dict:
     result = {"ok": False, "environment": "invalid", "activities": {}, "features": {},
               "agent_instructions": None, "instructions_status": "unverified",
               "agents": [], "catalogues": {},
+              "agent_configurations": {"specification-manager": {
+                  "status": "unavailable", "settings": {}, "configured_fields": [], "issues": []}},
               "profiles": {"status": "unverified", "runtime_availability": "not_checked"},
               "issues": []}
     issues = result["issues"]
@@ -309,6 +349,15 @@ def check(workspace: Path) -> dict:
             result.update(environment="valid", activities=activities, features=features,
                           current_state_format_version=contract["current_state_format_version"],
                           state_format_version=state["state_format_version"])
+            if state["state_format_version"] == 2:
+                result["migration_required"] = {
+                    "status": "required", "from_state_format_version": 2,
+                    "to_state_format_version": 3,
+                    "reason": "Specification settings remain in format-2 state; no agent-owned settings fallback is active"}
+                result["agent_configurations"]["specification-manager"] = {
+                    "status": "migration_required", "settings": {}, "configured_fields": [], "issues": []}
+                issues.append({"code": "migration_required", "path": ".hai_env/state.json",
+                               "message": "Explicitly migrate format-2 specification settings to Specification-manager configuration"})
     except (Invalid, OSError, UnicodeError) as exc:
         issues.append({"code": "state", "path": ".hai_env/state.json", "message": str(exc)})
     result["state_status"] = result["environment"]
@@ -325,8 +374,19 @@ def check(workspace: Path) -> dict:
     else:
         result["catalogues"]["workspace"] = "unverified"
 
+    if (result["environment"] == "valid"
+            and result.get("state_format_version") == 3):
+        specification = specification_configuration(workspace, result["agents"])
+        result["agent_configurations"]["specification-manager"] = specification
+        issues.extend(specification["issues"])
+
     try:
         path = safe_path(workspace, ".hai_env/model_profiles.json")
+        config_root = safe_path(workspace, ".hai_env/config")
+        if any(overlaps(candidate, root) for candidate in
+               (workspace / ".hai_env/model_profiles.json", path)
+               for root in (workspace / ".hai_env/config", config_root)):
+            raise Invalid("Model profiles overlap agent configuration storage")
         if any(overlaps(candidate, feature_path)
                for candidate in (workspace / ".hai_env/model_profiles.json", path)
                for feature_pair in locations.values() for feature_path in feature_pair):

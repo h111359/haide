@@ -5,6 +5,7 @@ import copy
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -23,7 +24,7 @@ class StartupTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="hai_startup_")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name).resolve()
-        self.state = {"state_format_version": 2, **copy.deepcopy(DEFAULT)}
+        self.state = {"state_format_version": 3, **copy.deepcopy(DEFAULT)}
         self.write(startup.TEMPLATE, TEMPLATE.read_text(encoding="utf-8"))
         self.write(".hai/agents/leader/SKILL.md", "This is deliberately not a parsed definition.")
         self.table(".hai", [("leader", "Call to coordinate.", "leader/SKILL.md")])
@@ -50,6 +51,22 @@ class StartupTests(unittest.TestCase):
         return self.write(".hai_env/model_profiles.json", text or json.dumps({
             "format_version": 1, "models": {"light": "one", "standard": "two", "advanced": "three"}}))
 
+    def register_specification_manager(self, settings=None, contract=None):
+        self.write(".hai_env/agents/specification-manager/SKILL.md", "Not parsed during startup.")
+        contract = contract or {
+            "contract_format_version": 2, "agent": "specification-manager",
+            "current_config_format_version": 1, "supported_config_format_versions": [1],
+            "settings": {"enabled": {"type": "boolean", "default": False},
+                         "location": {"type": "workspace-relative-directory",
+                                      "default": ".hai_env/specifications"}},
+        }
+        self.write(".hai_env/agents/specification-manager/configuration/contract.json", json.dumps(contract))
+        self.table(".hai_env", [("specification-manager", "Manage durable specifications.",
+                                  "specification-manager/SKILL.md")])
+        if settings is not None:
+            self.write(".hai_env/config/agents/specification-manager.json", json.dumps({
+                "config_format_version": 1, "settings": settings}))
+
     def snapshot(self):
         return {str(path.relative_to(self.root)): path.read_bytes() if path.is_file() else None
                 for path in self.root.rglob("*")}
@@ -62,9 +79,10 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["state_status"], "valid")
         self.assertEqual(result["instructions_status"], "loaded")
         self.assertEqual(result["agent_instructions"]["text"], "")
-        self.assertEqual(result["state_format_version"], 2)
+        self.assertEqual(result["state_format_version"], 3)
         self.assertEqual(result["activities"], {"location": ".hai_env/activities", "available": False, "target_type": "directory"})
-        self.assertEqual(set(result["features"]), {"specification", "chronicles"})
+        self.assertEqual(set(result["features"]), {"chronicles"})
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "unavailable")
         self.assertEqual(result["features"]["chronicles"],
                          {"enabled": False, "record_every_prompts": 5})
         self.assertNotIn("integrations", result)
@@ -72,6 +90,32 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["catalogues"]["workspace"], "absent")
         self.assertEqual([a["name"] for a in result["agents"]], ["leader"])
         self.assertEqual(before, self.snapshot())
+
+    def test_registered_specification_defaults_and_configured_values_are_bounded(self):
+        self.register_specification_manager()
+        before = self.snapshot()
+        result = startup.check(self.root)
+        self.assertTrue(result["ok"], result)
+        status = result["agent_configurations"]["specification-manager"]
+        self.assertEqual(status["status"], "defaulted")
+        self.assertEqual(status["settings"], {"enabled": False, "location": ".hai_env/specifications"})
+        self.assertEqual(before, self.snapshot())
+
+        self.register_specification_manager(settings={"enabled": True, "location": "docs/specs"})
+        (self.root / "docs/specs").mkdir(parents=True)
+        result = startup.check(self.root)
+        self.assertEqual(result["environment"], "valid")
+        self.assertTrue(result["agent_configurations"]["specification-manager"]["settings"]["enabled"])
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["settings"]["location"], "docs/specs")
+
+    def test_invalid_spec_configuration_is_isolated_and_has_no_active_values(self):
+        self.register_specification_manager(settings={"enabled": "true", "location": ".hai_env/specifications"})
+        result = startup.check(self.root)
+        self.assertEqual(result["environment"], "valid")
+        self.assertEqual(result["state_status"], "valid")
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["settings"], {})
+        self.assertFalse(result["ok"])
 
     def test_core_startup_without_optional_extension_or_executable(self):
         self.state.pop("integrations", None)
@@ -134,7 +178,8 @@ class StartupTests(unittest.TestCase):
 
     def test_unknown_extension_data_does_not_mask_invalid_core(self):
         self.state["integrations"] = {"unknown": "opaque"}
-        self.state["features"]["specification"]["enabled"] = "invalid"
+        self.state["features"]["specification"] = {"enabled": False,
+                                                       "location": ".hai_env/specifications"}
         self.save_state()
         before = self.snapshot()
         result = startup.check(self.root)
@@ -191,7 +236,8 @@ class StartupTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.write(".hai_env/state.json", json.dumps(value))
                 self.assertEqual(startup.check(self.root)["environment"], "invalid")
-        self.state["features"]["specification"]["enabled"] = 1
+        self.state["features"]["specification"] = {"enabled": 1,
+                                                       "location": ".hai_env/specifications"}
         self.save_state()
         self.assertEqual(startup.check(self.root)["environment"], "invalid")
 
@@ -203,8 +249,8 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(startup.check(self.root)["environment"], "valid")
         contract_path = self.root / "installed/contract.json"
         contract_path.parent.mkdir(parents=True)
-        valid = {"current_state_format_version": 2,
-                 "supported_state_format_versions": [2]}
+        valid = {"current_state_format_version": 3,
+                 "supported_state_format_versions": [2, 3]}
         with patch.object(startup, "CONTRACT", contract_path):
             result = startup.check(self.root)
             self.assertEqual(result["state_status"], "invalid")
@@ -224,7 +270,6 @@ class StartupTests(unittest.TestCase):
         invalid_contracts = [
             "{\"current_state_format_version\":1,\"current_state_format_version\":1,\"supported_state_format_versions\":[1]}",
             {}, [], {**valid, "current_state_format_version": True},
-            {**valid, "current_state_format_version": 3},
             {**valid, "supported_state_format_versions": []},
             {**valid, "supported_state_format_versions": [2, 2]},
             {**valid, "supported_state_format_versions": [True]},
@@ -241,9 +286,11 @@ class StartupTests(unittest.TestCase):
                     self.assertEqual(result["agent_instructions"]["text"], "")
                     self.assertIn("contract", result["issues"][0]["message"].lower())
             contract_path.write_text(json.dumps(valid), encoding="utf-8")
-            self.state["state_format_version"] = 3
+            self.state["state_format_version"] = 2
+            self.state["features"]["specification"] = {"enabled": False,
+                                                          "location": ".hai_env/specifications"}
             self.save_state()
-            self.assertEqual(startup.check(self.root)["state_status"], "invalid")
+            self.assertEqual(startup.check(self.root)["state_status"], "valid")
 
     def test_strict_json_rejects_constants_in_unknown_properties(self):
         for constant in ("NaN", "Infinity", "-Infinity"):
@@ -256,20 +303,24 @@ class StartupTests(unittest.TestCase):
                          " ", ".git/data", ".hai/data", ".hai_env", ".hai_env/state.json",
                          ".hai_env/agents/x", "CON", "data. "):
             with self.subTest(location=location):
-                self.state["features"]["specification"]["location"] = location
-                self.save_state()
-                self.assertEqual(startup.check(self.root)["environment"], "invalid")
+                self.register_specification_manager(settings={"enabled": False, "location": location})
+                result = startup.check(self.root)
+                self.assertEqual(result["environment"], "valid")
+                self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
 
     def test_types_container_state_and_features(self):
+        self.register_specification_manager()
         self.write(".hai_env/specifications", "wrong type")
-        self.assertEqual(startup.check(self.root)["environment"], "invalid")
+        result = startup.check(self.root)
+        self.assertEqual(result["environment"], "valid")
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
         (self.root / ".hai_env/specifications").unlink()
         (self.root / ".hai_env/state.json").unlink()
         (self.root / ".hai_env/state.json").mkdir()
         self.assertEqual(startup.check(self.root)["environment"], "invalid")
         (self.root / ".hai_env/state.json").rmdir()
         (self.root / startup.INSTRUCTIONS).unlink()
-        (self.root / ".hai_env").rmdir()
+        shutil.rmtree(self.root / ".hai_env")
         self.write(".hai_env", "wrong container type")
         self.assertEqual(startup.check(self.root)["environment"], "invalid")
 
@@ -326,7 +377,10 @@ class StartupTests(unittest.TestCase):
                 state_issue = next(issue for issue in result["issues"] if issue["code"] == "state")
                 self.assertIn(expected, state_issue["message"])
 
-    def test_format2_rejects_legacy_global_chronicles_location_and_reports_activity_store(self):
+    def test_format2_reports_migration_without_effective_specification_fallback(self):
+        self.state["state_format_version"] = 2
+        self.state["features"]["specification"] = {"enabled": True,
+                                                       "location": ".hai_env/specifications"}
         self.write(".hai_env/activities/one/chronicles/session.md", "transcript")
         self.state["features"]["chronicles"]["enabled"] = True
         self.save_state()
@@ -334,6 +388,9 @@ class StartupTests(unittest.TestCase):
         result = startup.check(self.root)
         self.assertEqual(result["activities"]["available"], True)
         self.assertTrue(result["features"]["chronicles"]["enabled"])
+        self.assertEqual(result["migration_required"]["status"], "required")
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "migration_required")
+        self.assertNotIn("specification", result["features"])
         self.assertEqual(before, self.snapshot())
         self.state["features"]["chronicles"]["location"] = ".hai_env/chronicles"
         self.save_state()
@@ -342,7 +399,7 @@ class StartupTests(unittest.TestCase):
         self.assertIn("global features.chronicles.location", result["issues"][0]["message"])
 
     def test_chronicles_prompt_threshold_defaults_validates_and_propagates(self):
-        # Older format-2 states remain valid and receive the documented effective default.
+        # Missing chronicles thresholds receive the documented effective default.
         self.state["features"]["chronicles"].pop("record_every_prompts", None)
         self.save_state()
         result = startup.check(self.root)
@@ -374,7 +431,7 @@ class StartupTests(unittest.TestCase):
         result = startup.check(self.root)
         self.assertEqual(result["activities"], {"location": "workspace-activities", "available": True, "target_type": "directory"})
         self.assertEqual(self.state["activities"]["note"], "keep")
-        for location in ("../outside", ".hai", ".hai_env/state.json", ".hai_env/agent_instructions.md", ".hai_env/specifications") :
+        for location in ("../outside", ".hai", ".hai_env/state.json", ".hai_env/agent_instructions.md") :
             with self.subTest(location=location):
                 self.state["activities"] = {"location": location}
                 self.save_state()
@@ -424,9 +481,34 @@ class StartupTests(unittest.TestCase):
     def test_feature_cannot_overlap_mandatory_file_even_when_disabled(self):
         for location in (startup.INSTRUCTIONS, startup.INSTRUCTIONS + "/nested"):
             with self.subTest(location=location):
-                self.state["features"]["specification"]["location"] = location
+                self.register_specification_manager(settings={"enabled": False, "location": location})
+                result = startup.check(self.root)
+                self.assertEqual(result["state_status"], "valid")
+                self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
+
+    def test_core_destinations_cannot_overlap_agent_configuration_storage(self):
+        for location in (".hai_env/config", ".hai_env/config/agents"):
+            with self.subTest(location=location):
+                self.state["activities"] = {"location": location}
                 self.save_state()
-                self.assertEqual(startup.check(self.root)["state_status"], "invalid")
+                result = startup.check(self.root)
+                self.assertEqual(result["state_status"], "invalid")
+                self.state["activities"] = {"location": ".hai_env/activities"}
+        self.save_state()
+
+        self.register_specification_manager(settings={"enabled": False, "location": ".hai_env/config"})
+        result = startup.check(self.root)
+        self.assertEqual(result["state_status"], "valid")
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
+        self.register_specification_manager(settings={"enabled": False, "location": ".hai_env/specifications"})
+        config_root = self.root / ".hai_env/config"
+        config_root.mkdir(parents=True, exist_ok=True)
+        profiles = self.root / ".hai_env/model_profiles.json"
+        profiles.unlink(missing_ok=True)
+        profiles.symlink_to(config_root)
+        result = startup.check(self.root)
+        self.assertEqual(result["state_status"], "valid")
+        self.assertEqual(result["profiles"]["status"], "invalid")
 
     def test_startup_does_not_enumerate_optional_stores_or_parse_definitions(self):
         self.state["features"]["chronicles"]["enabled"] = True
@@ -557,23 +639,27 @@ class StartupTests(unittest.TestCase):
 
     def test_dangling_ancestor_is_invalid_even_with_absent_descendant(self):
         self.make_link("dangling", self.root / "missing", True)
-        self.state["features"]["specification"]["location"] = "dangling/specs"
-        self.save_state()
-        self.assertEqual(startup.check(self.root)["environment"], "invalid")
+        self.register_specification_manager(settings={"enabled": False, "location": "dangling/specs"})
+        result = startup.check(self.root)
+        self.assertEqual(result["environment"], "valid")
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
 
     def test_escaping_feature_link_and_safe_alias_collision(self):
         with tempfile.TemporaryDirectory(prefix="hai_outside_") as outside:
             link = self.make_link("escape", Path(outside), True)
-            self.state["features"]["specification"]["location"] = "escape/missing"
-            self.save_state()
-            self.assertEqual(startup.check(self.root)["environment"], "invalid")
+            self.register_specification_manager(settings={"enabled": False, "location": "escape/missing"})
+            result = startup.check(self.root)
+            self.assertEqual(result["environment"], "valid")
+            self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
             link.unlink()
         (self.root / "shared").mkdir()
         self.make_link("alias", self.root / "shared", True)
-        self.state["features"]["specification"]["location"] = "alias/specs/nested"
-        self.state["features"]["chronicles"] = {"enabled": False, "location": "shared"}
+        self.state["activities"] = {"location": "shared"}
         self.save_state()
-        self.assertEqual(startup.check(self.root)["environment"], "invalid")
+        self.register_specification_manager(settings={"enabled": False, "location": "alias/specs/nested"})
+        result = startup.check(self.root)
+        self.assertEqual(result["environment"], "valid")
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
 
     def test_escaping_catalogue_reference_is_excluded(self):
         with tempfile.TemporaryDirectory(prefix="hai_definition_") as outside:
@@ -593,9 +679,10 @@ class StartupTests(unittest.TestCase):
             if proc.returncode:
                 self.skipTest("Junction creation unavailable")
             self.addCleanup(lambda: link.rmdir() if link.exists() else None)
-            self.state["features"]["specification"]["location"] = "junction/not-created"
-            self.save_state()
-            self.assertEqual(startup.check(self.root)["environment"], "invalid")
+            self.register_specification_manager(settings={"enabled": False, "location": "junction/not-created"})
+            result = startup.check(self.root)
+            self.assertEqual(result["environment"], "valid")
+            self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
 
     @unittest.skipUnless(os.name == "nt", "Windows junction behavior")
     def test_windows_bad_profile_junction_does_not_suppress_instructions(self):
@@ -620,11 +707,12 @@ class StartupTests(unittest.TestCase):
 
     def test_case_sensitive_or_insensitive_collisions_follow_filesystem(self):
         (self.root / "Feature").mkdir()
-        self.state["features"]["specification"]["location"] = "feature"
+        self.state["activities"] = {"location": "Feature"}
         self.save_state()
+        self.register_specification_manager(settings={"enabled": False, "location": "feature"})
         result = startup.check(self.root)
-        expected = "invalid" if (self.root / "feature").exists() else "valid"
-        self.assertEqual(result["environment"], expected)
+        expected = "invalid" if (self.root / "feature").exists() else "configured"
+        self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], expected)
 
     def test_cli_isolated_read_only_and_exit_codes(self):
         before = self.snapshot()

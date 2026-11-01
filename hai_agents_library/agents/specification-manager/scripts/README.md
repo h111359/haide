@@ -3,7 +3,7 @@
 `audit_specification.py` is a read-only Python 3.11+ helper for Windows,
 Linux, and macOS. It uses only the standard library; no packages or
 installation steps run automatically. Copy the entire `specification-manager/`
-folder, including `SKILL.md`, `contract.json`, `concepts/`, `conventions/`, and `scripts/`,
+folder, including `SKILL.md`, tree `contract.json`, `configuration/`, `concepts/`, `conventions/`, procedures and `scripts/`,
 to use it independently. No HAI framework, environment state, leader, Activity
 records, or model profiles are required. The format does not install or activate
 a runtime skill; invoke the instructions and script using their installed paths.
@@ -29,9 +29,9 @@ python -B C:/tools/specification-manager/scripts/audit_specification.py --root '
 ```
 
 The tool never discovers a location, creates a tree, or changes state. An explicit
-path does not authorize content edits. For HAI invocation, caller validation of
-the enabled feature and configured location happens before running the tool;
-the tool itself does not load or validate HAI state. From the HAI workspace root,
+path does not authorize content edits. For HAI invocation, the owner settings helper locally validates enablement/location
+separately from core/Activity assurance before running the tree audit; the audit
+itself does not load or validate HAI state or saved settings. From the HAI workspace root,
 retain the explicit workspace containment boundary:
 
 ```text
@@ -220,3 +220,43 @@ skip if creation privileges are unavailable. Target support is Windows,
 Linux, and macOS. The baseline-1 changes were verified on Linux with Python
 3.12.3; Windows junction tests are skipped there. Windows, macOS, and other
 supported Python versions were not executed for these changes.
+
+## HAI settings
+
+`specification_configuration.py` requires the adjacent installed HAI shared
+configuration/startup tools. This HAI-only helper is separate from the portable
+tree auditor; standalone explicit-root audits never import it or require HAI.
+It reads this package's `configuration/contract.json` (contract format 2), then
+`.hai_env/config/agents/specification-manager.json` (config format 1). It never
+uses `state.features.specification` as active settings or modifies a tree.
+
+```text
+<absolute-python> -B .hai_env/agents/specification-manager/scripts/specification_configuration.py --workspace .
+<absolute-python> -B .hai_env/agents/specification-manager/scripts/specification_configuration.py --workspace . --enabled false --location .hai_env/specifications
+<absolute-python> -B .hai_env/agents/specification-manager/scripts/specification_configuration.py --workspace . --enabled false --location .hai_env/specifications --apply --expected-source-sha256 <reviewed-hash-or-absent>
+```
+
+The first command validates only. Chosen settings without `--apply` produce a
+read-only candidate and source hash. Apply additionally requires caller task/
+Activity authority, compatible format-3 core, readable fixed instructions and the
+reviewed unchanged hash. Missing values use defaults; invalid existing values need
+separate repair scope. The helper preserves unknown saved values, unchosen fields,
+core/chronicles/instructions and content. It validates directory defaults/overrides
+even while disabled, creates only owner-file parents when needed and never creates
+the referenced product directory. Existing owner files use guarded sibling-file
+replacement; writes reject linked ancestors/hardlink aliases. Changed inputs and
+partial writes are reported without automatic retries, cleanup or rollback.
+
+JSON reports `ok`, scope and configuration status/path/known settings/provenance for
+validation, or dry-run/apply mode, source hash and actual stages for setup. Unknown
+saved data is never echoed as active settings. Exit 0 means the requested check or
+setup completed; 1 means a dependency, validation or operation failure; argparse
+errors use 2. This is not tree compatibility, operation permission or a transaction.
+A format-2-to-3 extraction belongs to Environment-manager's explicit transition
+adapter, not this ordinary setup command. The tree compatibility target stays 1.
+
+Settings fixtures:
+
+```text
+<absolute-python> -B .hai_env/agents/specification-manager/scripts/test_specification_configuration.py
+```

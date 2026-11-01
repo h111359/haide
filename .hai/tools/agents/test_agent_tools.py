@@ -37,6 +37,13 @@ class AgentTests(unittest.TestCase):
 
     def write_definition(self, name="worker", metadata=None, extra=""):
         metadata = metadata or 'metadata:\n  hai-model-class: "light"\n  hai-reasoning-effort: "high"\n'
+        if 'metadata:' in metadata:
+            metadata = metadata.replace('metadata:\n', 'metadata:\n  hai-configuration-contract: "configuration/contract.json"\n', 1)
+        else:
+            metadata += 'metadata:\n  hai-configuration-contract: "configuration/contract.json"\n'
+        self.write(str(Path(self.definition).parent / 'configuration/contract.json'), json.dumps({
+            'contract_format_version': 1, 'agent': name, 'current_config_format_version': 1,
+            'supported_config_format_versions': [1], 'settings': {}}))
         # Literal fixture intentionally does not derive its structure from HEADINGS.
         body = '''## Purpose
 Inspect scoped material.
@@ -436,6 +443,8 @@ None.
         text = path.read_text(encoding='utf-8').replace(
             '\n## References\nNone.', '\n## References\n- [term:Activity] → [Concept](../../../.hai/concepts/activity.md).')
         target = self.write('deep/relocated/worker/SKILL.md', text)
+        self.write('deep/relocated/worker/configuration/contract.json',
+                   (self.root / '.hai/agents/worker/configuration/contract.json').read_text())
         self.write('.hai/concepts/activity.md', '# Activity\n')
         path.unlink()
         try:
@@ -453,11 +462,49 @@ None.
                 target = isolated / relative
                 target.parent.mkdir(parents=True)
                 target.write_bytes(content)
+                (target.parent / 'configuration').mkdir()
+                (target.parent / 'configuration/contract.json').write_bytes(
+                    (self.root / '.hai/agents/worker/configuration/contract.json').read_bytes())
                 self.assertTrue(validate(isolated, relative)["ok"])
                 self.assertFalse((isolated / ".hai_env/state.json").exists())
                 self.assertFalse((isolated / origin / "agents/catalogue.md").exists())
                 if origin == ".hai":
                     self.assertFalse((isolated / ".hai_env").exists())
+
+    def test_configuration_contract_required_and_package_contained(self):
+        path = self.root / self.definition
+        original = path.read_text()
+        path.write_text(original.replace('  hai-configuration-contract: "configuration/contract.json"\n', ''))
+        self.assertFalse(validate(self.root, self.definition)['ok'])
+        path.write_text(original)
+        contract = path.parent / 'configuration/contract.json'
+        data = json.loads(contract.read_text())
+        for change in ({'agent': 'other'}, {'settings': {'enabled': {'type': 'boolean', 'default': 1}}},
+                       {'current_config_format_version': True}):
+            with self.subTest(change=change):
+                contract.write_text(json.dumps(dict(data, **change)))
+                self.assertFalse(validate(self.root, self.definition)['ok'])
+        contract.write_text(json.dumps(data))
+        self.assertTrue(validate(self.root, self.definition)['ok'])
+        contract.unlink()
+        outside = self.write('elsewhere/contract.json', json.dumps(data))
+        try:
+            contract.symlink_to(outside)
+        except (OSError, NotImplementedError):
+            self.skipTest('Symlinks unavailable')
+        self.assertFalse(validate(self.root, self.definition)['ok'])
+
+    def test_configuration_contract_hardlink_alias_is_invalid(self):
+        path = self.root / self.definition
+        contract = path.parent / 'configuration/contract.json'
+        alias = self.root / 'contract-alias.json'
+        try:
+            alias.hardlink_to(contract)
+        except (OSError, NotImplementedError):
+            self.skipTest('Hardlinks unavailable')
+        result = validate(self.root, self.definition)
+        self.assertFalse(result['ok'])
+        self.assertIn('hardlink', result['issues'][0]['message'])
 
     def test_validate_format_findings(self):
         path = self.root / self.definition
@@ -681,6 +728,9 @@ None.
         target = isolated / self.definition
         target.parent.mkdir(parents=True)
         target.write_bytes((self.root / self.definition).read_bytes())
+        (target.parent / "configuration").mkdir()
+        (target.parent / "configuration/contract.json").write_bytes(
+            (self.root / self.definition).parent.joinpath("configuration/contract.json").read_bytes())
         result = self.run_cli("validate", "--definition", self.definition, workspace=isolated)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)["agent"], "worker")

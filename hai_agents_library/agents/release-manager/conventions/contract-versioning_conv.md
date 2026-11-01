@@ -16,6 +16,13 @@ state declaration in the candidate. The state-format version is independent of H
 SemVer. A release manifest records shipped targets, never proof that an installed
 consumer's environment state was migrated.
 
+Agent configuration contracts at each installed package's `configuration/contract.json`
+are independent of state format and release SemVer. Release checks assess shipped
+core declarations and compatibility without migrating consumer settings. External
+configuration is excluded from bundles and preserved by upgrades. Optional agent
+contracts remain part of their separate packages; they do not add a mandatory
+optional-owner dependency to core startup.
+
 ## Release and upgrade scope
 
 A bundle can ship a new state-format target without migrating every consumer workspace. Release assessment does not authorize changing a consumer environment; environment-manager owns any separately authorized state migration.

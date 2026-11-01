@@ -10,7 +10,7 @@ Paths below are relative to this catalogue.
 | Agent | Selection guide | Definition |
 | --- | --- | --- |
 | `leader` | Call to coordinate a user task, choose specialists, monitor their work, and report their results. Leader is the only role that delegates to other agents. | [SKILL.md](leader/SKILL.md) |
-| `environment-manager` | Call to load or validate workspace environment, initialize safely absent core state while preserving existing resources, or configure mandatory Activity location and optional features through chat. Returns validated context, setup choices, and unresolved issues. | [SKILL.md](environment-manager/SKILL.md) |
+| `environment-manager` | Call to load or validate workspace environment, initialize safely absent core state while preserving existing resources, configure mandatory Activity location and chronicles, or perform explicitly scoped core migrations. Returns validated context, setup choices, and unresolved issues. | [SKILL.md](environment-manager/SKILL.md) |
 | `activity-manager` | Call to discover, create, revise or close HAI Activities and perform scoped clarification, analysis, planning, implementation or verification. Also synchronizes optional exact-source Activity transcripts and verifies recording. Returns consistent records, lifecycle and step status, source coverage, actual evidence and unresolved dependencies; leader alone coordinates specialists. | [SKILL.md](activity-manager/SKILL.md) |
 
 Workspace agents and copies of their selection guides are listed exclusively

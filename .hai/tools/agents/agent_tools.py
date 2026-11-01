@@ -3,10 +3,13 @@ from __future__ import annotations
 
 import argparse
 import html
+import importlib.util
 import json
 from pathlib import Path
 import re
 import sys
+
+sys.dont_write_bytecode = True
 
 NAMES = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*\Z")
 CLASSES = {"light", "standard", "advanced"}
@@ -18,6 +21,7 @@ LOCAL_REFERENCE = re.compile(r"\[(input|output):([^\[\]\r\n]+)\]")
 TERM_REFERENCE = re.compile(r"\[term:([^\[\]:\r\n]+)\]")
 NAMED_REFERENCE = re.compile(r"\[(term|input|output):([^\]\r\n]*)\]")
 EXTENSIONS = {"hai-model-class", "hai-reasoning-effort"}
+CONFIGURATION_CONTRACT = "configuration/contract.json"
 
 
 class Invalid(ValueError):
@@ -520,6 +524,26 @@ def definition_body(text, path, workspace):
             procedure_contract(content, target, workspace, mappings)
 
 
+def configuration_contract(path, workspace, metadata, name):
+    """Validate package data using the helper installed beside this auditor."""
+    if metadata.get("hai-configuration-contract") != CONFIGURATION_CONTRACT:
+        raise Invalid("Every agent requires hai-configuration-contract: configuration/contract.json")
+    package = path.parent.resolve()
+    contract_path = (package / CONFIGURATION_CONTRACT).resolve()
+    if not contract_path.is_relative_to(package) or not contract_path.is_relative_to(workspace):
+        raise Invalid("Configuration contract must remain inside its agent package and workspace")
+    helper = Path(__file__).resolve().parents[1] / "configuration/configuration_tools.py"
+    spec = importlib.util.spec_from_file_location("hai_configuration_tools", helper)
+    module = importlib.util.module_from_spec(spec)
+    try:
+        if not contract_path.is_file() or contract_path.stat().st_nlink > 1:
+            raise Invalid("Configuration contract must be a regular file without hardlink aliases")
+        spec.loader.exec_module(module)
+        module.load_contract(contract_path, name)
+    except (OSError, ValueError, RuntimeError) as exc:
+        raise Invalid(f"Invalid configuration contract: {exc}") from exc
+
+
 def read_definition(path, workspace=None):
     # CLI callers pass the original validated workspace explicitly, even when the
     # canonical definition path resolves through a contained alias. Direct library
@@ -565,6 +589,7 @@ def read_definition(path, workspace=None):
     elif (metadata.get("hai-model-class") not in CLASSES
           or metadata.get("hai-reasoning-effort") not in EFFORTS):
         raise Invalid("Specialist requires valid hai-model-class and hai-reasoning-effort metadata")
+    configuration_contract(path, workspace, metadata, name)
     definition_body("\n".join(lines[end + 1:]), path, workspace)
     return fields
 
@@ -575,6 +600,8 @@ def validate(workspace, definition):
     if not re.fullmatch(r"(?:\.hai|\.hai_env)/agents/[^/]+/SKILL\.md", definition):
         raise InputInvalid("Definition must use a canonical HAI agent path")
     try:
+        if path.parent.name != definition.split("/")[-2]:
+            raise Invalid("Resolved definition identity differs from the selected canonical agent path")
         if path.with_name("knowledge.md").exists():
             raise Invalid("Both legacy and current definitions exist; explicit conflict resolution required")
         fields = read_definition(path, workspace)

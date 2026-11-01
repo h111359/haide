@@ -1,0 +1,8 @@
+{
+  "activity_id": "963b571a-13e1-4b39-a3aa-d2938d388b67",
+  "previous_path": ".hai_env/activities/00000000_000000_active",
+  "archive_path": ".hai_env/activities/20261101_172502_agent-owned-configuration",
+  "closed_at": "2026-11-01T17:25:02Z",
+  "reason": "Authorized completed closure after fresh exact-source recording verification",
+  "historical_links": "Preserved historical transcript and record references to the reusable current path refer to this stable Activity. Current backup and evidence paths are relative to this archive."
+}

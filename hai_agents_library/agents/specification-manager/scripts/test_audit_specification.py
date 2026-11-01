@@ -294,7 +294,7 @@ class AuditTests(unittest.TestCase):
         with patch("audit_specification.PACKAGE_ROOT", package):
             registry = Audit(self.workspace, "spec").registry()
         conventions = {file.name.removesuffix("_conv.md") for file in (package / "conventions").glob("*_conv.md")}
-        self.assertEqual(set(registry), conventions - {"contract-versioning"})
+        self.assertEqual(set(registry), conventions - {"contract-versioning", "configuration"})
         self.assertEqual(len(registry), 28)
         self.assertTrue(all(registry.values()))
 

@@ -32,11 +32,11 @@ Read the shared Environment, state and model-profile references plus the install
 
 2. Read duplicate-free complete source state, validate relevant safe paths, and record old store/destination provenance needed for separately scoped history handling.
 
-3. Prepare the format-2 candidate under the approved mapping: mandatory Activity location, preserved specification configuration and chronicles enablement, with obsolete request settings/global chronicles location removed. Preserve unrelated and opaque extension-owned properties; return uncarryable properties or path conflicts for resolution.
+3. For a format-2 source, use the installed `migrate_specification_configuration.py` dry-run/apply workflow only under explicit extraction authority: preserve complete specification settings in the verified owner file, then remove that state entry and finalize format 3 while retaining chronicles. Resolve existing-destination conflicts and preserve partial stages/backups. For an explicitly scoped older source, prepare the historical intermediate format-2 candidate under the approved mapping: mandatory Activity location, preserved specification configuration and chronicles enablement, with obsolete request settings/global chronicles location removed. Preserve unrelated and opaque extension-owned properties; return uncarryable properties or path conflicts for resolution.
 
 4. Validate the complete candidate and preserve a recoverable inspected source under the authorized state-convention procedure. Recheck unchanged source/paths immediately before the guarded write.
 
-5. Read back and run the startup helper; compare preserved properties and all format-2 invariants. Return partial results on conflict/verification failure.
+5. Read back and run the startup helper; compare preserved properties and the selected transition invariants, including unchanged chronicles and separate owner settings for format 3. Return partial results on conflict/verification failure.
 
 6. Return [output:migration_result] with verified configuration, provenance and separate record/transcript dependencies for leader routing.
 

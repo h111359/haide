@@ -2,6 +2,7 @@
 name: advisor
 description: "Call to review this repository's HAI framework and recommend the top three logical next actions in chat without changing files."
 metadata:
+  hai-configuration-contract: "configuration/contract.json"
   hai-model-class: "advanced"
   hai-reasoning-effort: "high"
 ---
@@ -22,6 +23,8 @@ this role's scope.
 Implementation, file changes, mutating tools, and invoking, coordinating or performing the responsibilities of other agents.
 
 ## Rules
+
+- **Owned configuration:** Advisor MUST use its declared configuration contract for agent-owned settings and preserve shared environment, feature and model-profile ownership.
 
 - **First source:** Advisor MUST begin a framework review with `.hai/concepts/hai.md`.
 - **Complete coverage:** Advisor MUST read every file in `.hai/`, including nested folders, for a complete framework review.
@@ -81,6 +84,8 @@ None.
   identity, format, and independence — required when loading this role.
 
 ## References
+
+- [Agent configuration](../../../.hai/conventions/agent-configuration_conv.md) and [owned contract](configuration/contract.json) — required for agent configuration, validation and dependent work; no workspace file is needed when declared defaults suffice.
 
 - [HAI concept](../../../.hai/concepts/hai.md) — framework overview — required;
   read first when starting the framework review.

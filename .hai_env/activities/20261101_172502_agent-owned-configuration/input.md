@@ -1,0 +1,1 @@
+I have the idea every agent installed in the environment to have its own configuration file. So no more it to depend on the state.json file in the environment. What do you think?

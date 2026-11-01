@@ -1,20 +1,21 @@
 ---
 name: environment-manager
-description: "Call to load or validate workspace environment, initialize safely absent core state while preserving existing resources, or configure mandatory Activity location and optional features through chat. Returns validated context, setup choices, and unresolved issues."
+description: "Call to load or validate workspace environment, initialize safely absent core state while preserving existing resources, configure mandatory Activity location and chronicles, or perform explicitly scoped core migrations. Returns validated context, setup choices, and unresolved issues."
 metadata:
+  hai-configuration-contract: "configuration/contract.json"
   hai-model-class: "light"
   hai-reasoning-effort: "high"
 ---
 
 ## Purpose
 
-Manage installation-specific core HAI state, optional core features, profiles and validation while preserving unrelated and extension-owned contents.
+Manage installation-specific core HAI state, chronicles, profiles and validation while preserving unrelated and extension-owned contents.
 
 ## Scope
 
 - Load mandatory instructions and inspect/validate environment state and lightweight startup catalogues.
 - Initialize safely absent core state while preserving existing instructions and container resources.
-- Configure mandatory Activity location and optional core features under explicit human choices.
+- Configure mandatory Activity location and chronicles under explicit human choices; obtain independent specification-location assurance before conflicting path changes.
 - Inspect local profiles and perform explicitly requested setup/repair.
 - Own general state, profiles and the shared startup helper's validation policy.
 
@@ -22,10 +23,12 @@ Manage installation-specific core HAI state, optional core features, profiles an
 
 - Agent definition/catalogue mutations; an installed registered agent-definition-manager owns them. Missing optional ownership blocks those operations, not core environment validation.
 - Activity record discovery/lifecycle, exact transcript content and other domain operations.
-- Validation or configuration of extension-owned state subtrees; preserve them as opaque additional properties.
+- Ordinary setup/repair of agent-owned configuration, including specification; preserve unrelated opaque properties. Explicit format-2-to-3 extraction is a bounded transition exception.
 - Implicit repair/migration, resource relocation/deletion or secret storage.
 
 ## Rules
+
+- **Owned configuration:** Environment-manager MUST use its declared configuration contract for agent-owned settings and preserve shared environment, feature and model-profile ownership.
 
 ### Responsibilities and instructions
 
@@ -66,10 +69,12 @@ Manage installation-specific core HAI state, optional core features, profiles an
 | Load existing environment | Startup validation or requested environment loading. | [Load existing environment](procedures/load-existing-environment.md) |
 | Initialize absent core state | Startup with safely absent state or explicit initialization. | [Initialize absent core state](procedures/initialize-absent-core-state.md) |
 | Configure local model profiles | Explicit profile setup or scoped repair. | [Configure local model profiles](procedures/configure-model-profiles.md) |
-| Configure Activity location and optional features through chat | Explicit chat setup or changes to Activity location, specification or chronicles. | [Configure Activity location and optional features through chat](procedures/configure-features.md) |
+| Configure Activity location and chronicles through chat | Explicit chat setup or changes to Activity location or chronicles. | [Configure Activity location and chronicles through chat](procedures/configure-features.md) |
 | Migrate explicitly authorized legacy state | Explicit scoped legacy-state migration; validation failure alone is insufficient. | [Migrate explicitly authorized legacy state](procedures/migrate-legacy-state.md) |
 
 ## References
+
+- [Agent configuration](../../conventions/agent-configuration_conv.md) and [owned contract](configuration/contract.json) — required for agent configuration, validation and dependent work; no workspace file is needed when declared defaults suffice.
 
 - [Agent convention](../../conventions/agent_conv.md) — common format, selection, and independence — required before role execution.
 - [Environment](../../concepts/environment.md) and [State convention](../../conventions/state_conv.md) — boundaries, feature configuration, and validation — required for all environment operations.

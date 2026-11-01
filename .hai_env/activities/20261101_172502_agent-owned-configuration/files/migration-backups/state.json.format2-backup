@@ -1,0 +1,17 @@
+{
+  "state_format_version": 2,
+  "features": {
+    "specification": {
+      "enabled": false,
+      "location": ".hai_env/specifications"
+    },
+    "chronicles": {
+      "enabled": true,
+      "record_every_prompts": 5
+    }
+  },
+  "integrations": {},
+  "activities": {
+    "location": ".hai_env/activities"
+  }
+}

@@ -125,6 +125,7 @@ each and in order:
 name: example-specialist
 description: "Call to perform a specific task and return its verified result."
 metadata:
+  hai-configuration-contract: "configuration/contract.json"
   hai-model-class: "standard"
   hai-reasoning-effort: "high"
 ---
@@ -147,6 +148,7 @@ metadata:
 | Perform work | The caller requests the supported work. | [Perform work](procedures/perform-work.md) |
 
 ## References
+[Owned configuration contract](configuration/contract.json) — required for configuration and dependent work.
 <Path — purpose — reading condition; declared concept mappings when used.>
 ```
 
@@ -192,6 +194,34 @@ decisions, permission, or approval. References specify reading conditions; a fol
 reference does not require recursive loading. Preserve paths and resolved containment
 before reads and writes.
 
+## Agent-owned configuration
+
+Every agent, including Leader, declares string metadata
+`hai-configuration-contract: "configuration/contract.json"` and ships the matching
+package-local contract under [agent-configuration_conv.md](agent-configuration_conv.md).
+Agents with no customizable settings declare an empty settings map. Keep all six
+SKILL headings; do not add a configuration body section or concrete model mappings.
+Creation, update, validation, registration and installation check this characteristic.
+
+Before dependent execution, validate the selected installed contract and read that
+agent's fixed workspace configuration with the shared read-only
+[configuration helper](../tools/configuration/README.md). Retain its path, status,
+known effective values, configured fields and issues in the handoff. Missing files
+use declared defaults; invalid/unverified files do not silently become defaults.
+The receiving role checks that evidence and rereads when inputs changed. Scope
+failures to dependent work; owner-specific validators may preserve independent
+valid capabilities where the generic aggregate result is invalid. Read-only
+configuration diagnosis and explicitly authorized scoped repair remain possible.
+Do not scan every agent's configuration during ordinary startup.
+
+Definition validation checks contract data without loading workspace settings or
+requiring initialized state. Saved settings do not affect registration identity,
+replace model-profile resolution, or override task permission. Package installation
+preserves external config bytes and reports format incompatibility; it never
+performs an implicit config migration. Activity location and chronicles remain Environment-manager-owned in state
+format 3; Specification-manager owns enablement/root and validates it independently
+from core/Activity context. Format 2 is migration context, never an owner-settings fallback.
+
 ## Model resolution and orchestration
 
 Follow [model-profiles_conv.md](model-profiles_conv.md) before spawning. Resolve
@@ -231,6 +261,11 @@ MUST explicitly cover this checklist in the task message:
 4. **Open dependencies:** unresolved questions, conflicts, and dependencies.
 5. **Scope and authorization:** allowed changes, task boundaries, and established
    authorization, including any actions that still require a decision.
+
+Include selected-agent configuration path/status, effective known values/default
+provenance and issues with relevant context; keep shared feature/profile assurance
+separate. Configuration diagnosis may carry an invalid result without authorizing
+ordinary dependent operations.
 
 Identify missing information or not-applicable items explicitly; never silently
 omit a checklist field or fabricate context, decisions, or approval. Include the

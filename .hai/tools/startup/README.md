@@ -35,7 +35,9 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
   validity so missing instructions are not mistaken for absent state. Only safely
   absent state permits routing minimal initialization to environment-manager;
   initialized missing instructions need scoped repair. This command never initializes.
-- `current_state_format_version`, `state_format_version`, `activities`, and optional `features`: returned only for validated core state. The format contract comes from the installed framework package, independently of the target workspace's `.hai` copy. `activities` reports the mandatory configured store location (default `.hai_env/activities`) and directory availability/type; startup does not enumerate records or discover the current Activity. Specification reports its flag, location, and availability. Chronicles reports its flag and effective `record_every_prompts` threshold; absent thresholds in older format-2 states default to `5`. A present threshold must be a positive JSON integer, including when chronicles is disabled. Transcript paths are derived inside each Activity.
+- `current_state_format_version`, `state_format_version`, `activities`, and `features`: returned only for validated core state. The format contract comes from the installed framework package, independently of the target workspace's `.hai` copy. Format 3 keeps chronicles in core state; Activity location remains mandatory. Chronicles reports its flag and effective `record_every_prompts` threshold; absent thresholds in supported older states default to `5`. A present threshold must be a positive JSON integer, including when chronicles is disabled. Transcript paths are derived inside each Activity.
+- `migration_required`: present for valid format-2 state. It reports the required explicit format-2 to format-3 extraction; the legacy specification subtree is validated for safe preservation but is not returned as active configuration.
+- `agent_configurations.specification-manager`: an isolated status for the one validly registered installed Specification-manager package. Startup reads its fixed `configuration/contract.json` and saved settings, without parsing the definition or scanning other configurations. Missing registration reports `unavailable`; invalid contract/configuration adds an isolated issue and does not make the core environment invalid. Source packages are never a runtime fallback.
 - `instructions_status`: `loaded`, `missing`, or `invalid` for the fixed mandatory
   `.hai_env/agent_instructions.md`, checked before state and independently of its
   validity/version. `agent_instructions` contains that path and exact decoded text
@@ -65,9 +67,12 @@ run, and is never validation success.
 
 Checks include duplicate keys at every JSON depth, nonstandard numeric constants,
 required state types and compatibility against the installed state-format contract,
-canonical core format-2 template defaults,
+canonical core format-3 template defaults,
 legacy request/current-pointer properties and retired `features.agent_instructions`, configured paths, target types,
-reserved locations, Activity/specification collisions and profile overlap. Global
+reserved locations (including `.hai_env/config` for agent-owned settings),
+Activity/specification-config collisions and profile overlap. The configuration
+directory cannot alias the fixed mandatory instructions, core state, profiles,
+Activity store, or Specification-manager's configured directory. Global
 chronicles locations are rejected; Activity-local transcript paths are derived and
 not scanned. Fixed mandatory instructions are reserved against feature/profile
 aliases; actual aliases to state, profiles, framework, or registry are rejected.
@@ -89,19 +94,40 @@ values remain untouched, including values the extension owner may consider inval
 Core initialization and validation require no optional extension agent or executable.
 Extension owners handle their own requested setup, configuration, and tooling.
 
-The helper reads mandatory fixed instructions and no optional feature contents.
-It performs filesystem checks on the configured Activity store and specification path
-without listing their directories. It does not interpret a saved session source,
+The helper reads mandatory fixed instructions and only the bounded registered
+Specification-manager contract/configuration. It performs filesystem checks on the
+configured Activity store and Specification-manager directory without listing their
+directories. It does not interpret a saved session source,
 synchronize chronicles, check mandatory instructions beyond the supplied context,
 or establish runtime support. Results describe a read-only observation, not a
 transaction or a persistent cache. Rerun if relevant files/paths change; any later
 writer must independently recheck its inputs and containment before writing.
 
 State containing the retired `compatible_version` key is reported incompatible
-without migration. An explicitly authorized prototype reset belongs to
-environment-manager under the state convention; startup never interprets or rewrites
-legacy state. The read-only helper tests nonmutation and diagnostic results, not
-manager writes.
+without migration. Startup never rewrites legacy state; format-2 extraction is an
+explicit environment-manager operation documented below. The read-only helper tests
+nonmutation and diagnostic results, not manager writes.
+
+## Explicit format-2 specification extraction
+
+Rehearse the migration first, then apply only under the user's explicit request:
+
+```text
+<absolute-python-executable> -B .hai/tools/startup/migrate_specification_configuration.py --workspace .
+<absolute-python-executable> -B .hai/tools/startup/migrate_specification_configuration.py --workspace . --apply
+<absolute-python-executable> -B .hai/tools/startup/test_migrate_specification_configuration.py
+```
+
+The migration requires a valid format-2 environment, readable mandatory
+instructions, and a registered installed Specification-manager with a compatible
+contract. It copies `features.specification` to
+`.hai_env/config/agents/specification-manager.json`, changes only the core state
+format to 3 and removes that owned feature subtree. It preserves all other state
+properties and unknown values in the migrated settings. Before applying, it creates
+an exclusive byte-for-byte backup at `.hai_env/state.json.format2-backup`; it then
+creates the configuration exclusively and replaces state from a verified candidate.
+Existing destinations, backups, candidates, unsafe paths, or changed inputs stop the
+operation. A partial result is preserved and reported without automatic retry.
 
 Tests use isolated temporary workspaces, Unicode/CRLF fixtures, isolated CLI
 processes, filesystem snapshots, state/profile/catalogue failures, and symlink/

@@ -1,0 +1,14 @@
+{
+  "config_format_version": 1,
+  "settings": {
+    "git": {
+      "enabled": true,
+      "auto_push": {
+        "enabled": false
+      }
+    },
+    "github": {
+      "enabled": true
+    }
+  }
+}

@@ -2,6 +2,7 @@
 name: activity-manager
 description: "Call to discover, create, revise or close HAI Activities and perform scoped clarification, analysis, planning, implementation or verification. Also synchronizes optional exact-source Activity transcripts and verifies recording. Returns consistent records, lifecycle and step status, source coverage, actual evidence and unresolved dependencies; leader alone coordinates specialists."
 metadata:
+  hai-configuration-contract: "configuration/contract.json"
   hai-model-class: "advanced"
   hai-reasoning-effort: "high"
 ---
@@ -27,6 +28,8 @@ initial intent to its outcome, including work completed through discussion alone
 - Standalone-mode bypasses, silently replacing current work or substantive work under a closed Activity.
 
 ## Rules
+
+- **Owned configuration:** Activity-manager MUST use its declared configuration contract for agent-owned settings and preserve shared environment, feature and model-profile ownership.
 
 ### Context and records
 
@@ -123,6 +126,8 @@ initial intent to its outcome, including work completed through discussion alone
 | Mandatory pre-delivery recording | Applicable mandatory workspace instructions require recording before final delivery. | [Mandatory pre-delivery recording](procedures/mandatory-pre-delivery.md) |
 
 ## References
+
+- [Agent configuration](../../conventions/agent-configuration_conv.md) and [owned contract](configuration/contract.json) — required for agent configuration, validation and dependent work; no workspace file is needed when declared defaults suffice.
 
 - [Activity concept](concepts/activity.md) and [Activity convention](conventions/activity_conv.md) — work unit, lifecycle, records, revisions, paths, and closure — required for record work.
 - [Agent convention](../../conventions/agent_conv.md) — mandatory Activity context, handoff, ownership and independence — required for HAI execution.

@@ -9,6 +9,12 @@ are separate from `.hai_env/state.json` and optional-feature flags; they do not
 change the core state format version or enable a feature. An absent profile file is
 valid environment state, but normal specialist spawning requires configuration.
 
+Agent configuration under `.hai_env/config/agents/` is separate from this shared
+profile. A local agent file cannot change model-class resolution or runtime proof.
+The configuration root is reserved against profile aliases; package updates and
+configuration migrations preserve profiles. Missing/no-settings configuration does
+not add another prerequisite to the bounded inherited startup bootstrap.
+
 ## Format
 
 UTF-8 JSON with no duplicate property names:
@@ -30,10 +36,15 @@ be integer `1`. Preserve unrelated additional properties when updating the file;
 unknown properties never grant implicit runtime support. Profile configuration
 must resolve inside the workspace, be a readable regular file, and not escape via
 symlinks/junctions. Before setup or use, ensure the profile file does not overlap
-any configured optional-feature location, including disabled ones, or the fixed
+the owner-validated specification location, including while disabled, or the fixed
 mandatory `.hai_env/agent_instructions.md`, including aliases. Report a profile
 configuration conflict without invalidating previously compatible core state or
 overwriting feature content. Do not create it during minimal initialization.
+
+A profile mutation requires fresh separate specification-location assurance from
+the bounded installed-owner reader; invalid/unverified owner settings stop dependent
+path changes instead of a guessed default. Optional-owner absence does not invalidate
+core startup; resolve any dormant potentially conflicting root before such changes.
 
 Environment-manager owns profile inspection and explicitly requested setup or
 repair policy. Leader may obtain read-only profile status and mappings through

@@ -46,6 +46,15 @@ stated conditions help a human review the rule; keywords alone cannot establish
 clarity or preserve the meaning of an older rule. The Procedure concept explains
 these meanings and the writing convention defines their representation.
 
+### Configuration
+
+Every agent has a package-owned configuration contract, including agents without
+customizable settings. Optional saved values live outside its package under
+`.hai_env/config/agents/`; replacing a definition package preserves these choices.
+The [configuration concept](agent-configuration.md) explains defaults, ownership,
+validation and compatibility. Universal declaration does not require empty local
+files, remove shared environment dependencies or grant configuration permission.
+
 ### Availability
 
 Selection for execution and delegation require a valid entry in the corresponding

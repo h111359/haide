@@ -35,11 +35,11 @@ Read the shared Environment, state and model-profile references plus the install
 
 4. In fallback, validate the environment container and state path/target. Record safely absent state as an initialization dependency, or record exact invalid/unreadable/unsafe-target findings; keep state-dependent checks unavailable while continuing independent checks.
 
-5. For a readable safe existing state, parse duplicate-free state and validate the installed supported version, mandatory Activity location, optional flags and safe paths. Report malformed/incompatible core state before optional content loading.
+5. For a readable safe existing state, parse duplicate-free state and validate the installed supported version, mandatory Activity location, central chronicles settings and safe paths; recognize supported format 2 as read-only migration context with no specification fallback. Report malformed/incompatible core state before optional content loading.
 
 6. Validate the independently available framework and workspace catalogue structure, identity and canonical references under the shared agent/state contracts. Return independent valid entries and excluded row/table findings; report any discovered stale description copy.
 
-7. For usable core state, return validated Activity-store location/type and enabled specification location/availability; report chronicles enablement and effective record_every_prompts threshold, default 5 when absent. Inspect optional model profiles and report absent/valid/invalid mappings and supported-runtime evidence limits.
+7. For usable core state, return validated Activity-store location/type and central chronicles enablement/effective threshold, default 5 when absent. Boundedly inspect only the valid registered installed Specification-manager configuration contract/file, without scripts or tree contents, and return its separate `agent_configurations` status/settings/path or isolated unavailable/invalid result. Core startup remains independent of this optional owner; format-2 context reports migration_required with no effective owner fallback. Inspect optional model profiles and report absent/valid/invalid mappings and supported-runtime evidence limits.
 
 8. Assemble [output:environment_context] with core condition, instruction text/status, validated independent registrations, locations/flags, profile findings and isolated issues; identify checks that could not run.
 
@@ -47,7 +47,7 @@ Read the shared Environment, state and model-profile references plus the install
 
 | Output | Meaning | Completion criteria |
 | --- | --- | --- |
-| [output:environment_context] | Environment condition, instructions exact decoded text/status, Activity location, optional flags/location, independent valid registrations, profile mappings/runtime limits and issues. | Complete every applicable startup check or identify it as unverified; separate invalid core state from isolated optional/registry problems. No configuration or record discovery is performed. |
+| [output:environment_context] | Environment condition, instructions exact decoded text/status, Activity location, central chronicles, separate owner-configuration and migration status, independent valid registrations, profile mappings/runtime limits and issues. | Complete every applicable startup check or identify it as unverified; separate invalid core state from isolated optional/registry problems. No configuration or record discovery is performed. |
 
 ## References
 

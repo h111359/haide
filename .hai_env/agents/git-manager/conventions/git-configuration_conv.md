@@ -1,65 +1,81 @@
-# Git extension configuration
+# Git-owned configuration
 
 ## Ownership and location
 
-This optional workspace extension owns only `integrations.git` and
-`integrations.github` in the existing `.hai_env/state.json` envelope. Core startup
-preserves unknown data and neither validates nor returns these extension fields.
-Their absence does not affect core startup or selection of other registered roles.
-Git-manager owns requested setup and scoped repair directly; other-agent needs go
-through Leader. State creation, core format migration, features, instructions,
-profiles and unrelated extension configuration remain outside this subtree.
+This optional agent owns `.hai_env/config/agents/git-manager.json`. Its adjacent
+`configuration/contract.json` declares the three Boolean settings and false
+defaults. It uses the shared [configuration convention](../../../../.hai/conventions/agent-configuration_conv.md)
+and [configuration tools](../../../../.hai/tools/configuration/README.md).
+Core startup neither loads nor returns these settings. Ordinary operations never
+read legacy `integrations.git` or `integrations.github` as a settings fallback.
+Core usability, instructions, Activity context and operation authority are
+independent prerequisites. Other-agent dependencies go through Leader.
 
 ## Saved contract
 
-The supported settings are independent Boolean switches, with no location,
-credential, remote or branch fields:
-
 ```json
 {
-  "integrations": {
+  "config_format_version": 1,
+  "settings": {
     "git": { "enabled": false, "auto_push": { "enabled": false } },
     "github": { "enabled": false }
   }
 }
 ```
 
-This is an extension example, not a core initialization default or instruction to
-write settings. Missing `integrations` or missing entries are valid unconfigured,
-disabled settings. A present container must be an object; a present supported
-entry must be an object with Boolean `enabled`. An invalid supported entry makes
-only that integration unavailable; an invalid shared container makes both
-unavailable. Unknown root, container and nested properties remain preserved and
-never enable a capability.
+An absent file or declared leaf uses the contract's false default. A present
+malformed envelope, unsupported configuration version or nonobject `settings`
+makes the file unavailable, without falling back to old state. Missing leaves
+remain unconfigured/off; malformed present supported containers or Boolean
+values are invalid. An invalid GitHub field leaves valid Git usable; malformed
+`git.auto_push` blocks push while leaving valid Git inspection and commits usable.
+Unknown values never enable capabilities and are preserved on chosen changes.
 
-`integrations.git.auto_push` is a separate subordinate policy, default false.
-A present value must be an object with Boolean `enabled`. Malformed policy blocks
-push without disabling valid Git inspection or commits. A true stored push switch
-with Git disabled, unconfigured or invalid is unavailable. Git and GitHub switches
-remain independent: Git commands against a GitHub remote require Git; service
-connector/API/CLI operations require GitHub; operations using both require both.
+Git and GitHub switches are independent: Git commands against a GitHub remote
+require Git; service connector/API/CLI operations require GitHub; combined
+operations require both. A true push switch with Git disabled, unconfigured or
+invalid is unavailable. Saved enablement never establishes live readiness.
 
 ## Validation evidence
 
-Saved statuses are `enabled`, `disabled`, `unconfigured` or `invalid`; a helper
-that cannot safely read the configuration returns `unverified`. Automatic push
-always reports live readiness `not_checked`. Saved enablement proves neither
-installed tools, credentials, remote write access, branch readiness nor operation
-authority. Invalid extension settings block only their dependent operations,
-not core environment usability, independent integrations or general diagnosis.
+The Git-owned validator reports `enabled`, `disabled`, `unconfigured`, `invalid`
+or `unverified` for each gate. `configuration_status` reports `defaulted`,
+`configured` or `invalid`. Automatic push readiness always remains `not_checked`.
+For compatibility its output groups gates under `integrations`; that is an output
+shape, not a saved state location. The shared loader can validate the complete
+file separately; the Git validator isolates supported-field failures for the
+operation-specific independent gates. No read-only validator mutates files or
+assesses tooling, credentials, remote write access, branch readiness or authority.
 
-## Ownership boundary
+## Mutation and migration boundary
 
-The extension's mutable fields are the three supported `enabled` Booleans under
-`integrations.git` and `integrations.github`. The core state-format version, other
-core values, unmentioned switches, unknown properties at every level and other
-extensions are outside those chosen field changes. Credential material and live
-readiness evidence are not configuration fields. Malformed data remains invalid
-until an explicitly scoped repair produces a valid owned value.
+Ordinary chosen changes affect only `settings.git.enabled`,
+`settings.git.auto_push.enabled` and `settings.github.enabled`. Preserve owner-file
+unknown root and nested properties, configuration version and all unchosen values.
+Core state and sibling owner files remain untouched. Credential material and live
+readiness evidence are never configuration values. Malformed data requires
+explicit scoped repair before replacement.
+
+An explicitly authorized legacy migration is the sole extraction path from
+`.hai_env/state.json`: move complete `integrations.git` and `integrations.github`
+objects into the owner's settings, preserving unknown nested values; preserve
+every unrelated state value and sibling integration. Keep the state-format
+version unchanged. Reject malformed legacy entries rather than repair them.
+
+A dry-run produces the inspected source hash without writes. Apply requires that
+hash, verified backups, unchanged source/path identities, safe destination creation
+and complete old/new readback before removing the old authoritative keys. Existing
+destinations are conflicts by default; explicit acceptance permits only a complete
+exactly identical envelope. A partial cutover retains and reports completed writes
+and backups. Both old and new data after interruption require reviewed resolution;
+never claim migration complete or overwrite/retry automatically. These are guarded
+individual writes, not a multi-file transaction. Preserving true Git/true GitHub/
+false push needs no remote readiness probe. Newly effective push enablement still
+requires its normal explicit choice and fresh readiness checks.
 
 ## References
 
-- [Configure integrations](../procedures/configure-integrations.md) — setup/readiness/write sequence.
-- [Operation workflow](../procedures/operate.md) — independent runtime gates and authority.
-- [Extension validator](../scripts/README.md) — read-only saved-setting statuses and limits.
-- [Core state convention](../../../../.hai/conventions/state_conv.md) — generic envelope, containment and preservation.
+- [Configure integrations](../procedures/configure-integrations.md) — setup, scoped repair and explicit migration.
+- [Operation workflow](../procedures/operate.md) — runtime gates and authority.
+- [Git helpers](../scripts/README.md) — commands, safety limits and exit codes.
+- [Core state convention](../../../../.hai/conventions/state_conv.md) — independent core assurance and legacy-data preservation.

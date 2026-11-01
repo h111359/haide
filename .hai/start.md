@@ -28,8 +28,8 @@ safe instructions file independently of state validity; empty content is valid,
 while missing/unreadable content blocks dependent work and must be reported.
 Initialization or explicitly authorized migration may create the empty file;
 startup validation never silently repairs an initialized environment.
-Activities are mandatory; specification and chronicles remain disabled until chosen
-by the human. With compatible validated context, leader routes current-record
+Activities are mandatory; central chronicles and owner-configured specification
+each default disabled until chosen by the human. With compatible validated context, leader routes current-record
 discovery to Activity-manager, resuming the current Activity when present. A new
 chat alone creates none. Meaningful new substantive work with no current record
 creates one; conflicting current/new intent requires a boundary decision. Startup
@@ -76,6 +76,30 @@ without executing them. Creation and registration remain separate operations.
 Follow leader's registration handoff when registration is requested, and the agent
 convention for eligibility, conflicts, and invalid references; never implicitly
 override framework roles.
+
+## Selected-agent configuration
+
+Validate/read Leader's own declared configuration with the read-only
+[configuration helper](tools/configuration/README.md), without requiring profiles or
+initialized state. After selecting another registered role, validate its installed
+contract and load that role's fixed saved-config path. Pass status, path, known
+effective values/default provenance and issues in the handoff; do not enumerate all
+agents' config files at startup. The owner checks changed inputs and its own policy.
+Empty contracts/default files are valid; nonempty overrides for a no-settings agent
+are invalid. Independent diagnosis/scoped repair remains available when ordinary
+dependent work cannot proceed. Bootstrap does not invoke an owner merely to read
+its configuration and cannot require a valid config in order to diagnose that file.
+
+Git's saved values now belong to its file outside the installed package; legacy
+state values require its explicit extraction workflow. Specification enabled/location
+now belong to Specification-manager, while Activity location and chronicles remain
+under Environment-manager in state format 3. Supported format 2 is read-only
+migration context; route explicit specification extraction before dependent owner
+work, never use the old state entry as active settings. Startup reports the bounded
+registered specification-owner configuration separately from core/chronicles status
+and never requires the optional owner or its tree for core startup. The
+configuration contract does not replace model-profile resolution, mandatory
+instructions/Activities, registration or the user's permission.
 
 ## Load further knowledge when needed
 

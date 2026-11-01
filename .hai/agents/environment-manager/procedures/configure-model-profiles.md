@@ -27,7 +27,7 @@ None.
 
 1. Establish [input:workspace_root], load [input:instructions] and record the substantive operation under [input:activity_context]/[input:authority].
 
-2. Inspect existing safe canonical profiles and retrieve already supplied [input:profile_choices]. Compare requested model/effort combinations with [input:runtime_evidence]; report unresolved/unavailable combinations for decision before affected configuration.
+2. Obtain fresh separate specification-owner location/status assurance before dependent profile changes, including disabled specification. Reject aliases/overlaps and unresolved invalid/unverified/dormant roots rather than guessing; optional-owner absence does not invalidate core startup. Inspect existing safe canonical profiles and retrieve already supplied [input:profile_choices]. Compare requested model/effort combinations with [input:runtime_evidence]; report unresolved/unavailable combinations for decision before affected configuration.
 
 3. Parse duplicate-free existing JSON, or establish safe absence. If malformed/conflicting material lacks explicit repair scope, return that dependency.
 

@@ -39,7 +39,8 @@ meanings, explained in the Activity concept and its supporting sources.
 
 ### Optional features and transcripts
 
-Specification and chronicles are optional core features, initially disabled.
+Chronicles is an optional core feature, initially disabled. Specification is an
+optional installed-agent capability whose owned settings also default disabled.
 Their settings express capability choices, not evidence that content exists.
 Disabling preserves content; a changed location is a reference change rather than
 an implicit move or deletion. Feature enablement, agent registration, and task
@@ -82,6 +83,17 @@ migration have separate owners and scopes. Leader's bounded read-only helper
 exception does not transfer environment mutation ownership. The state convention
 defines compatibility; owner procedures define initialization, validation, and migration.
 
+### Agent-owned settings
+
+Each agent declares its configuration contract in the installed package. Saved
+values live at `.hai_env/config/agents/<agent-name>.json`; missing files use declared
+defaults and invalid values affect dependent work. Package upgrades preserve these
+external files. Git and Specification-manager settings use this location; chronicles and
+Activity location retain central ownership in state format 3. Format 2 is read-only
+migration context for explicit specification extraction.
+Instructions, catalogues and model profiles keep their separate locations.
+The [configuration concept](agent-configuration.md) explains the distinction.
+
 ### Agents, profiles and extensions
 
 Workspace definitions and their catalogue live under `.hai_env/agents/`; an absent
@@ -103,8 +115,8 @@ by the model-profile convention and leader's procedures.
 
 Selecting an optional workspace extension for execution requires valid registration
 and the user's agreed task and permission. Core startup and minimal initialization require no extension
-agent or extension tooling. An extension owns its declared configuration and exact
-authorized state subtree rather than general environment configuration. Unknown
+agent or extension tooling. An extension owns its declared agent configuration rather than general
+environment configuration. Remaining legacy state subtrees stay opaque. Unknown
 extension values are preserved but not interpreted by the core: preservation is
 not validation or activation.
 

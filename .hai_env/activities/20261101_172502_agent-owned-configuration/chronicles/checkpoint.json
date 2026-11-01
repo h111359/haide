@@ -1,0 +1,72 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "963b571a-13e1-4b39-a3aa-d2938d388b67",
+  "sources": [
+    {
+      "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/01/rollout-2026-11-01T15-22-33-01a19746-abc2-7fb0-b30a-f5785903e80d.jsonl",
+      "original_started_at": "2026-11-01T13:22:33.547Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+            "message_id": "msg_01a1974a-d301-7dd2-b0b8-bc652bab4dd6"
+          },
+          "end": {
+            "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+            "message_id": "msg_01a19821-b9f0-7603-9c71-4213aee92852"
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+            "message_id": "msg_01a1974a-d301-7dd2-b0b8-bc652bab4dd6"
+          },
+          "end": null,
+          "provenance": "Leader confirms enabled throughout assigned discussion from verified startup; unchanged chronicles true / threshold 5."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+          "message_id": "msg_01a1974a-d301-7dd2-b0b8-bc652bab4dd6"
+        },
+        "end": {
+          "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+          "message_id": "msg_01a19821-b9f0-7603-9c71-4213aee92852"
+        }
+      },
+      "segment_path": "chronicles/20261101_1522_segment-01.md",
+      "verified_at": "2026-11-01T17:24:19Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a19746-abc2-7fb0-b30a-f5785903e80d": {
+      "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+      "message_id": "msg_01a19821-b9f0-7603-9c71-4213aee92852"
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "b9e74da3-3bdc-452d-8fed-4bb9feca5773",
+    "dispatch_cursors": {
+      "01a19746-abc2-7fb0-b30a-f5785903e80d": {
+        "source_session_id": "01a19746-abc2-7fb0-b30a-f5785903e80d",
+        "message_id": "msg_01a19821-b9f0-7603-9c71-4213aee92852"
+      }
+    },
+    "started_at": "2026-11-01T17:24:19Z",
+    "finished_at": "2026-11-01T17:24:19Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-01T17:24:19Z",
+  "in_flight": null
+}

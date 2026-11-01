@@ -51,6 +51,13 @@ it exists or whether a tool can perform it. The
 [instruction-writing convention](../conventions/instruction-writing_conv.md)
 defines readable wording without turning an existing preference into a requirement.
 
+### Agent configuration
+
+Every agent declares a configuration contract; no-settings agents declare that
+explicitly. Workspace settings are kept outside reusable packages, preserving
+local choices during upgrades. See the [configuration concept](agent-configuration.md).
+Shared core state and feature settings remain distinct from agent-owned values.
+
 ### Tools
 
 HAI automation scripts are written in Python and support Windows, Linux,

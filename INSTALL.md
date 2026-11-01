@@ -3,8 +3,9 @@
 HAI is a prototype framework of agent instructions and Python validation tools.
 It is not a Python package or a service that starts when a ZIP is extracted.
 
-The current source is the **HAI 0.2.0 candidate**, with environment
-state format **2**. The immutable **0.1.0** bundle supports format **1** and retains
+The current source is **unreleased development beyond the recorded 0.2.0 candidate**,
+with current environment state format **3** and format **2** recognized as read-only
+specification-migration context. The immutable **0.1.0** bundle supports format **1** and retains
 its original behavior. Its [release notes](release-notes/0.1.0.md) and
 [preserved manifest](release-notes/0.1.0-manifest.json) describe that bundle; they
 do not identify this source as a published release. The selected candidate has
@@ -36,7 +37,7 @@ do not identify this source as a published release. The selected candidate has
    push is a separate opt-in requiring verified readiness. Packages exclude this
    repository's local environment, profiles, credentials, workspace agents and history.
 
-## Current 0.2.0 candidate
+## Recorded 0.2.0 candidate
 
 Inspect the candidate source or its exact-commit package in a temporary directory.
 Verify the package's current manifest declares version `0.2.0`, environment state
@@ -57,6 +58,26 @@ For a read-only check, use a verified Python 3.11+ executable with
 [helper instructions](.hai/tools/startup/README.md) for output and limits. The
 helper validates configuration without discovering Activity records or writing files.
 
+## Current source: specification-owned settings
+
+Current core defaults use format 3 with mandatory Activity location and central
+chronicles. Specification-manager's contract format 2 supplies Boolean enabled and
+a safe workspace-relative directory location; its saved file remains config format
+1. Missing files default disabled at `.hai_env/specifications`, without creating
+that directory. Startup reports only the registered installed owner's separate
+status and requires no optional owner for core validity.
+
+For an existing format-2 workspace, use Environment-manager's explicit read-only
+extraction review followed by authorized apply; preserve complete specification
+settings in `.hai_env/config/agents/specification-manager.json`, verify readback,
+then remove only the old feature entry and set state 3. Retain chronicles exactly.
+The helper requires the installed registered owner contract for this conversion;
+it never executes a library fallback. Ordinary specification setup goes to that
+owner, independently of core/Activity assurance and tree compatibility. Copying a
+package does not migrate values, enable work or adopt a tree. Preserved candidate
+manifests remain release evidence; later development needs its own authorized
+release assessment before packaging/publication claims.
+
 ## Existing installations and migration
 
 Back up framework, environment and configured data before changing an installation.
@@ -65,7 +86,8 @@ avoid overlays leaving stale role folders or manifests. Preserve `.hai_env/`, al
 configured record/specification data and product files. A framework copy is not a
 state, record or transcript migration.
 
-The 0.2.0 candidate supports format 2 only. Existing format-1 or older state must
+The recorded 0.2.0 candidate supports format 2 only; the later working source
+uses current format 3 and recognizes format 2 for explicit specification extraction. Existing format-1 or older state must
 be reported and preserved until a scoped migration is authorized; do not reset it
 or merely change the version marker. Environment-manager owns configuration mapping;
 Activity-manager owns record migration and exact-source transcript handling under
@@ -80,6 +102,29 @@ nor changing a marker performs that migration. Candidate selection, packaging an
 public publication are separate steps; a prepared candidate is not a published
 release.
 
+
+## Agent configuration contracts and upgrades
+
+All agents, including the three core roles, ship `configuration/contract.json`
+and declare it in SKILL metadata. No-settings agents use an empty settings map;
+no workspace values file is needed. Saved values belong at
+`.hai_env/config/agents/<agent-name>.json` and survive complete package replacement.
+Do not copy workspace values into a reusable package or include credentials.
+
+Upgrade the core conventions/helpers and selected optional packages together to
+this definition standard. Stage and validate complete packages first; older packages
+without declarations need a scoped definition update, not silent reinterpretation.
+Inspect existing saved configuration versions/defaults, preserve their bytes and
+report incompatible versions for owner migration. Installation and registration
+never implicitly enable capabilities or create defaults files. Existing model
+profiles and the mandatory instruction/Activity prerequisites remain independent.
+
+Git-manager's explicit migration extracts legacy `integrations.git` and
+`integrations.github`, verifies the new file, then removes only those old keys.
+See the [migration guide](release-notes/agent-configuration-migration.md) for conflict,
+backup and partial-failure handling. Specification enabled/location now belong to its installed owner file. Core
+format 3 retains Activity location and chronicles; format 2 is a read-only transition
+source. Chronicles extraction is outside this change.
 
 ## Optional copied agents and manual bootstrap
 
@@ -99,7 +144,7 @@ registration to it. If that owner is absent, the human can bootstrap manually:
    catalogues/folder names for conflicts; source counterparts are not runtime names.
 2. Copy the whole selected `agent-definition-manager` package into an absent
    `.hai_env/agents/agent-definition-manager/` using ordinary independent files.
-   Include `SKILL.md`, procedures, concepts and all supporting resources; do not
+   Include `SKILL.md`, the mandatory configuration contract, procedures, concepts and all supporting resources; do not
    use a symlink/hardlink back to source. Stop on an existing target or conflicting name.
 3. Run `python -B .hai/tools/agents/agent_tools.py validate --definition .hai_env/agents/agent-definition-manager/SKILL.md`
    with a verified Python 3.11+ interpreter. Read the shared helper instructions;

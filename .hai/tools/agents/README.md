@@ -45,11 +45,21 @@ Use `--workspace /path/to/workspace` before the command when running elsewhere.
 The audit reads both catalogues, their referenced definitions, and optional model
 profiles. This full authoring/migration audit is not ordinary startup discovery.
 It checks YAML (including duplicate keys and string metadata), names, specialist
-execution labels, the six ordered role headings, procedure contracts, absence of agent H1 titles, canonical
+execution labels, required configuration metadata and matching package-contained
+`configuration/contract.json` (including explicit no-settings contracts), the six ordered role headings, procedure contracts, absence of agent H1 titles, canonical
 links, catalogue description equality, collisions, path containment, legacy links,
 and the profile schema. Missing workspace catalogue/profiles are valid and stay
 absent. Legacy rows and conflicts are reported with names and never removed;
 valid independent registrations remain in the result.
+
+Every definition, including Leader, requires
+`metadata.hai-configuration-contract: "configuration/contract.json"`. The auditor
+uses the configuration helper installed beside itself to validate strict contract
+data, identity, versions and Boolean defaults. It rejects escaping contract aliases
+and multiply-linked contract files. It does not load workspace override files,
+require those files for registration, or prove runtime settings/operation readiness.
+Use the separate [configuration helper](../configuration/README.md) for the selected
+agent's saved values. Source packages are validated in disposable installed layouts.
 
 `validate --definition <canonical-workspace-relative-path>` checks one existing
 `SKILL.md` under `.hai/agents/<name>/` or `.hai_env/agents/<name>/`, including an

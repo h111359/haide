@@ -2,6 +2,7 @@
 name: release-manager
 description: "Call to prepare a HAI bundle release, recommend an evidence-based SemVer bump, and verify release readiness and publication evidence. Returns release assets, readiness findings, publication status, and unresolved dependencies."
 metadata:
+  hai-configuration-contract: "configuration/contract.json"
   hai-model-class: "standard"
   hai-reasoning-effort: "high"
 ---
@@ -30,6 +31,8 @@ reviewable release candidate, and assessment of actual publication evidence.
 Git/GitHub execution and authentication, environment state/profiles or migrations, agent registration or delegation, specification content or compatibility tracking, library or individual-agent versioning, invented product decisions, and unauthorized publication.
 
 ## Rules
+
+- **Owned configuration:** Release-manager MUST use its declared configuration contract for agent-owned settings and preserve shared environment, feature and model-profile ownership.
 
 ### Release responsibility
 
@@ -84,6 +87,8 @@ Git/GitHub execution and authentication, environment state/profiles or migration
 
 
 ## References
+
+- [Agent configuration](../../../.hai/conventions/agent-configuration_conv.md) and [owned contract](configuration/contract.json) — required for agent configuration, validation and dependent work; no workspace file is needed when declared defaults suffice.
 
 - [Release policy](conventions/release_conv.md) — bundle versioning and readiness — required for every release.
 - [Contract versioning](conventions/contract-versioning_conv.md) — references to owning compatibility rules and release dependencies — required for every release.

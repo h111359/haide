@@ -1,104 +1,97 @@
 # State
 
-## File format
+## File format and mandatory resources
 
-JSON
+Strict UTF-8 JSON. `.hai_env/state.json` and `.hai_env/agent_instructions.md` are
+mandatory in every initialized environment and cannot be disabled or relocated.
+Load safe mandatory instructions before dependent work, independently of state
+validity. Existing readable empty content adds no instructions. Missing, unreadable,
+wrong-type, dangling or escaping instructions are failures; initialization or an
+explicitly scoped repair/migration may resolve them, never silent startup repair.
+Validate existing ancestors/containment before reading and again before writing.
+Instructions cannot alias framework, Git, state, profiles, registries, configuration
+or configured content directories. Apply shared instruction precedence/handoff rules.
 
-## Location
+## Current content: format 3
 
-`.hai_env/state.json` and `.hai_env/agent_instructions.md` are mandatory in every
-initialized environment. Neither can be disabled or relocated through state.
-
-### Mandatory instructions
-
-Always validate and load `.hai_env/agent_instructions.md` before dependent work,
-independently of state validity or compatibility. An existing readable UTF-8 file
-with empty content means no extra instructions. Missing, unreadable, wrong-type,
-dangling, or escaping targets are failures, never an implicit empty file. Read-only
-diagnosis and authorized initialization/migration/repair may resolve those failures;
-do not proceed with other instruction-dependent work while instructions are unavailable.
-Apply the shared agent convention's instruction precedence and handoff rules.
-
-Validate containment and existing ancestors before reading and again before writing.
-The fixed file must not alias `.hai/`, `.git/`, state, profiles, or the agent registry;
-optional Activity/specification paths and profiles must not overlap it, including through aliases.
-Only initialization, explicitly authorized migration, or scoped repair may create a
-missing file. Startup validation never silently recreates a missing initialized file.
-
-## Content
-
-The root MUST be a JSON object with these required properties:
+The root is an object with required properties:
 
 | Property | Type | Meaning and initial value |
 | --- | --- | --- |
-| `state_format_version` | positive integer | State schema version declared by the installed environment-manager contract; currently `2`. |
-| `activities` | object | Mandatory Activity store configuration with a safe workspace-relative `location`; default `.hai_env/activities`, with no enable switch. |
-| `features` | object | Required optional configuration entries for `specification` and `chronicles`. |
+| `state_format_version` | positive integer | Current installed Environment-manager contract version `3`; Booleans are invalid. |
+| `activities` | object | Mandatory safe workspace-relative `location`, default `.hai_env/activities`; no `enabled` switch. |
+| `features` | object | Required `chronicles` object; specification is no longer a core feature entry. |
 
-Each optional feature is an object with a required Boolean `enabled`. Specification also has a nonempty workspace-relative `location`, retained while disabled. Chronicles has no global location; its transcript directory is `chronicles/` inside each Activity. Its optional `record_every_prompts` is a positive JSON integer, defaulting to `5` when absent; Booleans, zero, negative numbers, fractions, strings and null are invalid, including while disabled. Both optional flags default to `false`. The mandatory `activities` object has a safe workspace-relative `location`, defaults to `.hai_env/activities`, and MUST NOT contain `enabled`. Unrecognized additional properties are preserved and ignored.
+`features.chronicles.enabled` is a required Boolean, default false.
+`record_every_prompts` is an optional positive JSON integer, default 5; Booleans,
+zero, negative/fractional/string/null values are invalid even while disabled.
+Transcripts remain Activity-local under `chronicles/`; no global location exists.
+Core state stores no current Activity pointer, prompt counter, transcript coverage
+or in-flight-worker marker. Activity-manager owns record discovery, lifecycle and
+checkpoint formats. Configuration changes never alter record lifecycle/content.
 
-| Feature | Default location | Target type |
-| --- | --- | --- |
-| `specification` | `.hai_env/specifications` | Specification root directory |
-| `chronicles` | Derived under each Activity at `chronicles/` | Activity-local session transcripts; no global location |
+The installed `.hai/agents/environment-manager/contract.json` is the single
+current/supported-version authority, independent of release SemVer or target copies.
+Current is 3, supported versions are 2 and 3. Format 2 remains read-only migration
+context with `migration_required`; it supplies no active specification fallback.
+Ordinary core/path configuration targets format 3. Retired `compatible_version`,
+legacy agents/requests/current pointers, request features and global chronicles
+locations remain incompatible. Format-3 `features.specification` is a mixed-authority
+error, not opaque configuration. Unknown unrelated root/feature values are preserved
+and ignored; duplicate JSON keys/nonstandard constants anywhere are invalid.
 
-The installed `.hai/agents/environment-manager/contract.json` is the single authority for the current and supported `state_format_version` values. Startup reads the contract from the installed framework package, never from a target workspace copy. A state version must be an integer listed in `supported_state_format_versions`; Booleans are invalid even though JSON decodes them as Python integers. The former `compatible_version` field is incompatible and must produce a clear error; never accept it as a fallback. Legacy `agents`, root `requests`, `current_request`, `current_activity`, `features.requests`, and `features.chronicles.location` properties are incompatible. Instructions have no state flag or configurable location. Preserve unrelated additional root and feature properties when updating state; duplicate JSON property names are invalid. Unknown properties do not implicitly enable a feature.
+### Agent configuration and preservation
 
-### Extension-owned properties
+Specification-manager owns enabled/location in
+`.hai_env/config/agents/specification-manager.json`; Git-manager owns its settings
+in its corresponding file. Neither is read from state as runtime settings.
+Their installed configuration contracts define defaults/types/versions. Optional
+owner absence or invalid configuration does not invalidate core startup. Startup
+can boundedly report the registered installed Specification-manager's separate
+`agent_configurations` result without loading scripts, product contents or the library.
 
-The core owns only its declared state properties and core feature configuration.
-Additional extension properties are opaque JSON data: core startup does not
-interpret them, validate extension policy, enable their capabilities, or expose
-them as capability status. Their presence, absence, or JSON value does not alter
-core validity. JSON syntax and duplicate-key checks still apply to the whole file.
+Environment-manager owns central state, chronicles, model profiles and startup
+policy. It does not perform ordinary specification setup. The explicit format-2-to-3
+extraction is its narrow transition exception, coordinated by Leader; it does not
+grant tree-edit authority. Other extensions' unknown subtrees remain opaque:
+core neither interprets/enables them nor repairs invalid domain data. Authorized
+writers preserve unknown root/nested/sibling values and operate only on owned fields.
+New agent settings use [agent-configuration_conv.md](agent-configuration_conv.md),
+not new state subtrees. Initialization supplies only core defaults.
 
-Core initialization supplies only core defaults. Core configuration writers and
-migrations preserve unknown extension properties and nested values without
-normalizing or repairing them. Keeping existing extension data requires no state
-format-version change and grants no authority to activate an extension.
+### Paths and dependent assurance
 
-An extension-owned subtree has a declared registered owner and an exact state
-path. Authorized extension changes are limited to that subtree; core properties,
-other extensions, unknown siblings, instructions, profiles, and registries remain
-preserved. Extension ownership does not transfer general environment configuration
-or initialization authority. Extension configuration and tooling requirements
-belong to the owning agent's definition and procedures.
-Invalid extension data is an extension dependency, not permission for core startup
-or another role to repair, replace, or discard it.
+All configured paths use `/` separators and are relative to the workspace. Reject
+absolute/drive/UNC/blank/traversal paths, dangling or escaping links, nonportable
+Windows names and trailing-dot/space aliases. Resolve existing ancestors before
+reads and immediately before writes. Reject workspace root, `.hai/`, `.git/`, state,
+instructions, profiles, agent registries/packages and `.hai_env/config/` collisions.
+Validate existing target directory types; missing directories are valid and do not
+authorize creation. An Activity-store reference never moves/deletes records.
 
-### Paths and validation
+The owner's specification location follows the same safe-directory rules even
+when disabled and cannot overlap the Activity store or another reserved/configured
+location. Before a dependent Activity-location or profile mutation, obtain fresh
+separate specification configuration/location assurance from the bounded reader.
+Invalid/unverified owner settings stop affected path changes rather than supply a
+guessed root. An unavailable optional owner remains an isolated dependency; setup
+must resolve any potentially conflicting dormant configured root before a path
+change. Core read-only startup and unrelated work remain independent.
 
-All state paths use `/` separators and are relative to the workspace root. Reject absolute, drive-qualified, UNC, blank, and parent-traversal paths, dangling links, and nonportable Windows device names or trailing-dot/space aliases. Resolve existing ancestors, symlinks, and junctions before validation and again before writing; even an absent target must remain inside the workspace after resolution. Reject workspace-root targets and paths inside `.hai/` or `.git/`. The Activity store and specification paths must not overlap `.hai_env/state.json` or `.hai_env/agents/` (including its `catalogue.md`), contain those reserved locations, or collide with another configured path. The Activity store and specification directory locations must not equal, contain, or be contained by one another; an instructions file must not equal or fall inside a configured feature directory. Validate paths even for disabled entries so saved locations remain safe when enabled. Existing target types must match the table.
+### Chronicles configuration
 
-An absent configured Activity store is valid configuration; creation and migration are handled by the explicitly authorized Activity workflow. An absent specification folder is valid configuration and does not assert content exists. Chronicles are stored under individual Activities only when enabled. Disabled targets need not exist and their contents are preserved without loading them as active context. A location reference alone does not authorize moving, deleting, overwriting, or inventing content. Explicitly linking an existing specification requires verifying the supplied folder. Every feature path must also avoid the fixed mandatory instructions file; removing instructions from state does not remove that reservation.
+Environment-manager applies explicit chosen Activity-location/chronicles changes,
+preserving unmentioned values and all optional owner files. Initialization creates
+state and mandatory instructions only; no catalogue, profiles, Activity records,
+specification/config file or transcript contents are fabricated. Activity-manager
+creates the Activity store under its authorized workflow and owns exact-source
+transcripts/checkpoints after Leader assigns recording.
 
-Activity configuration is mandatory and supplies a safe workspace-relative store location, defaulting to `.hai_env/activities`. Environment validation checks its path and directory type without scanning Activity folders or discovering a current Activity. Startup returns this configuration for Activity-manager, which performs current-record discovery separately. No global current Activity pointer is stored.
-
-### Feature configuration
-
-Environment-manager owns core environment state, core feature configuration, and
-validation policy. Extension owners retain only their declared subtrees under the
-extension contract above. Leader may run the shared read-only
-[startup helper](../tools/startup/README.md) directly for existing-state validation
-and context loading. This exception changes no mutation ownership; unavailable
-checks remain unverified and absent state still goes to environment-manager.
-Activity lifecycle operations never change this state. A configuration toggle or
-location change preserves existing records and does not close, move, or delete
-them. Report the old and new location when a location changes; any record handling
-is a separate authorized task, not an implicit part of configuration.
-
-Environment-manager owns feature flags and locations. Minimal initialization creates state and mandatory instructions, with no optional resources. Subsequent chat setup records explicit choices for the two optional features, retaining unmentioned values. Instructions are always loaded from their fixed file and are never offered as an on/off or location choice. The mandatory Activity store is created by the authorized Activity/history migration workflow, not startup validation. Enabling specification does not fabricate specification contents. Activity-manager owns transcript contents and the recording checkpoint within Activity-local `chronicles/` folders after Leader assigns enabled recording. Disabling a feature preserves its files and does not override mandatory instructions. Moving existing contents requires separately scoped authorization.
-
-The effective chronicles startup/settings result includes `enabled` and
-`record_every_prompts`, including the backward-compatible default when the property
-is absent. This additive optional property leaves state format `2` unchanged.
-Global state holds configuration, not a per-prompt counter, verified transcript
-coverage or an in-flight worker marker. Activity-local progress uses
-[Activity-manager's checkpoint contract](../agents/activity-manager/conventions/transcript-segment_conv.md).
-Environment-manager returns attributable enablement-change boundaries separately
-from the configuration value; a threshold change does not reset recording coverage.
-Batch dispatch, synchronous verification, closure ordering and continuation limits
-belong to the Leader and Activity-manager procedures, not state validation.
+Enabling/disabling chronicles preserves existing content and does not override
+mandatory instructions. Return attributable enablement-change boundaries separately;
+threshold changes do not reset coverage or dispatch progress. Leader owns counting,
+batch dispatch and continuation limits; Activity-manager owns verification/closure
+ordering under its procedures. This extraction changes none of those rules.
 
 ## Local model profiles
 
@@ -170,10 +163,10 @@ directory only if absent. Recheck safe paths, state absence, inspected contract
 and template contents, and candidate validity immediately before exclusive state
 creation; stop on changed inputs and never replace an existing file or conflicting
 target. Read back and verify the current supported version, all template defaults,
-and disabled optional feature defaults with their default locations, then run the startup
+and disabled chronicles/default threshold, then run the startup
 helper. Create no catalogue or optional resources. Verify both mandatory resources
 and that existing unrelated contents remain unchanged, rather
-than requiring an empty container. No feature-location questions or additional
+than requiring an empty container. No optional-setting questions or additional
 authorization precede this minimal startup action. The leader then recommends chat
 setup; the human may defer it or keep all features off.
 
@@ -183,9 +176,12 @@ initialization remains a reported failure, not permission for an automatic retry
 The prototype `compatible_version` field is rejected clearly and is never treated as
 a `state_format_version`.
 
-### Explicit format-1 to format-2 migration
+### Historical format-1 to format-2 mapping
 
-Format-1 state is incompatible with the format-2 startup helper. Migrate only under
+This historical intermediate mapping is not the current runtime target. Current
+format-3 upgrades need an explicit ordered mapping through the specification
+extraction below; do not mark an intermediate state fully upgraded. Format-1 state
+is incompatible with current startup. Migrate only under
 explicit leader authorization after inspecting the complete state and relevant
 filesystem paths. Validate duplicate-free JSON, source shape, containment, directory
 types, and the installed format-2 contract/template. Preserve extension-owned data (including
@@ -215,3 +211,25 @@ enablement, unrelated properties, and all new format-2 invariants. On conflict o
 verification failure, preserve partial results and report them; do not retry or
 claim migration success. Future format changes update the contract and convention
 together; editing the template alone never changes the accepted format.
+
+### Explicit format-2 to format-3 specification extraction
+
+Environment-manager's installed
+[extraction helper](../tools/startup/migrate_specification_configuration.py) provides
+read-only dry-run and explicitly authorized guarded apply. Validate complete strict
+source state, safe paths and the registered installed Specification-manager contract;
+never load a source-library fallback or invoke that optional role merely to parse data.
+An absent optional owner does not block fresh format-3 core initialization/startup,
+but missing migration dependencies must be resolved before this conversion.
+
+Preserve recoverable source/destination bytes. Extract the complete prior
+`features.specification` object into config-format-1 `settings` under the owner file,
+including unknown nested values. Preserve enabled/location exactly, including false
+and missing directories; validate the directory even while disabled. Verify the
+new envelope and source stability before removing only `features.specification`
+and setting core version 3. Preserve chronicles, Activity location, unknown siblings,
+instructions, profiles, registries and content. Existing different destination values
+are conflicts, never silent merges or precedence. Retain/describe partial writes,
+stop on changed inputs, and do not retry/rollback automatically. Re-run core and
+owner checks before claiming completion. This is not a multi-file transaction,
+a new enablement choice, a content move or a specification-tree migration.

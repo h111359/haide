@@ -2,6 +2,7 @@
 name: agent-definition-manager
 description: "Call to maintain framework and workspace agent definitions or reusable source packages, copy explicitly selected packages into the workspace, validate, audit, or register installed definitions. New agents default to workspace origin. Creation does not register an agent; registration must be requested separately or explicitly combined. Returns verified definition changes, findings, registration status, and unresolved decisions."
 metadata:
+  hai-configuration-contract: "configuration/contract.json"
   hai-model-class: "standard"
   hai-reasoning-effort: "high"
 ---
@@ -32,6 +33,8 @@ Agent execution and orchestration, environment initialization/configuration, sta
 
 ## Rules
 
+- **Owned configuration:** Agent-definition-manager MUST use its declared configuration contract for agent-owned settings and preserve shared environment, feature and model-profile ownership.
+
 ### Writing and review
 
 - **Shared format:** Agent-definition-manager MUST follow the shared definition, procedure and reference formats.
@@ -49,6 +52,12 @@ Agent execution and orchestration, environment initialization/configuration, sta
 - **Empty local rules:** Agent-definition-manager MUST write exactly `None.` when a procedure has no local rules.
 - **Meaning preservation:** Agent-definition-manager MUST preserve existing obligations, prohibitions, defaults, permitted choices, conditions and exceptions when rewriting rules.
 - **Clarity evidence:** Agent-definition-manager MUST NOT treat a modal word, numbering or an imperative label as proof that a rule is clear or belongs in Rules.
+
+### Configuration contracts
+
+- **Universal contracts:** Agent-definition-manager MUST include and validate the declared configuration contract for every agent, including an explicit empty settings map when the agent has no customizable settings.
+- **Settings separation:** Agent-definition-manager MUST preserve workspace configuration files during definition and package operations and report required migrations without performing them implicitly.
+- **Compatibility review:** Agent-definition-manager MUST assess supported versions, defaults, owner boundaries and existing saved-setting compatibility when changing a configuration contract.
 
 ### Authority and ownership
 
@@ -99,6 +108,8 @@ Agent execution and orchestration, environment initialization/configuration, sta
 
 
 ## References
+
+- [Agent configuration](../../../.hai/conventions/agent-configuration_conv.md) and [owned contract](configuration/contract.json) — required for agent configuration, validation and dependent work; no workspace file is needed when declared defaults suffice.
 
 - [Agent convention](../../../.hai/conventions/agent_conv.md) — definition format, identity,
   selection, and ownership — required for all operations.

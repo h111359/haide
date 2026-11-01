@@ -1,0 +1,18 @@
+{
+  "contract_format_version": 2,
+  "agent": "specification-manager",
+  "current_config_format_version": 1,
+  "supported_config_format_versions": [
+    1
+  ],
+  "settings": {
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "location": {
+      "type": "workspace-relative-directory",
+      "default": ".hai_env/specifications"
+    }
+  }
+}

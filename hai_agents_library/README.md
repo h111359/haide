@@ -10,7 +10,7 @@ read selected source files as data without adopting their roles.
 
 | Package | Intended use and dependencies | Source |
 | --- | --- | --- |
-| Specification-manager | Durable product specification; independently portable package. HAI work requires validated enabled specification/root and Activity context. | `agents/specification-manager/` |
+| Specification-manager | Durable product specification; independently portable package. HAI work requires its own validated enabled/location file plus separate core/Activity context; standalone roots remain explicit. | `agents/specification-manager/` |
 | Agent-definition-manager | HAI definition/source maintenance and human-directed copy/validate/register operations; requires compatible core conventions/tools and normal HAI context. | `agents/agent-definition-manager/` |
 | Git-manager | Compatible HAI workspace Git/GitHub operations; requires installed core helpers, explicit integration settings and operation-specific recording checks. | `agents/git-manager/` |
 | Release-manager | HAI core bundle releases, not generic product release policy; requires installed Git-manager for repository/service work and Environment-manager's state contract. Does not track specification compatibility, library versions or individual agent versions. | `agents/release-manager/` |
@@ -19,6 +19,12 @@ The `agents/` depth matches `.hai_env/agents/` so copied relative core/peer path
 retain their meaning. Copy each complete package, never just `SKILL.md`. This
 library is currently repository source only: the HAI release allowlist ships core,
 license and required documentation, excluding this library and `.hai_env`.
+
+Every source package includes `configuration/contract.json` and its SKILL metadata
+declaration, even when settings are empty. Copy these with the complete package.
+Workspace values at `.hai_env/config/agents/<name>.json` are external: upgrades
+preserve them, assess compatibility and report owner migrations without silently
+converting settings. Source packages and installation never activate capabilities.
 
 Use the manual human bootstrap and installation/update instructions in the root
 `INSTALL.md` when the registered definition owner is absent. Source packages cannot

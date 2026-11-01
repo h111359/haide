@@ -44,6 +44,15 @@ Shared role rules remain in `SKILL.md`; a procedure's local rules neither overri
 nor duplicate them. Meanings and rationale are explained by the
 [Procedure concept](../concepts/procedure.md), separately from the format contract.
 
+## Agent configuration resources
+
+Every agent package includes `configuration/contract.json`, declared through its
+SKILL string metadata. This required resource is separate from existing role
+contracts such as Environment-manager's state `contract.json`. Mutable workspace
+values live only at `.hai_env/config/agents/<agent-name>.json`, outside complete
+source/installed package replacements. Empty contracts require no values file.
+See [agent-configuration_conv.md](agent-configuration_conv.md) for the one format.
+
 ## Workspace agent structure
 
 Workspace agents use `.hai_env/agents/<name>/SKILL.md` with the same
@@ -56,7 +65,7 @@ framework definitions available.
 
 Activity-manager owns the canonical [Activity concept](../agents/activity-manager/concepts/activity.md)
 and [Activity convention](../agents/activity-manager/conventions/activity_conv.md)
-in its package. Environment configuration supplies a mandatory activities.location,
+in its package. Core state format 3 retains a mandatory activities.location,
 default `.hai_env/activities`, with one fixed current folder and closed archives.
 Activity artifacts and optional transcript segments belong there; product code and
 durable specification remain at canonical product locations. There is no reusable

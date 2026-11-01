@@ -3,10 +3,6 @@
     "location": ".hai_env/activities"
   },
   "features": {
-    "specification": {
-      "enabled": false,
-      "location": ".hai_env/specifications"
-    },
     "chronicles": {
       "enabled": false,
       "record_every_prompts": 5
