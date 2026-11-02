@@ -49,7 +49,7 @@ Safely absent state initializes at format 2 with mandatory fixed instructions an
 `activities.location`, default `.hai_env/activities`. Specification and chronicles
 start off. Activity records are created when meaningful substantive work begins;
 startup and a new chat alone create none. Existing current work resumes through
-Activity-manager. Optional chat setup configures specification, recording and
+the candidate's historical record owner. Current-source ownership is described below. Optional chat setup configures specification, recording and
 supported model profiles; there is no Activity switch or global transcript location.
 Git/GitHub and automated push retain their independent setup gates.
 
@@ -90,8 +90,7 @@ The recorded 0.2.0 candidate supports format 2 only; the later working source
 uses current format 3 and recognizes format 2 for explicit specification extraction. Existing format-1 or older state must
 be reported and preserved until a scoped migration is authorized; do not reset it
 or merely change the version marker. Environment-manager owns configuration mapping;
-Activity-manager owns record migration and exact-source transcript handling under
-Leader's coordination. Historical input and source remain attributable;
+Environment-manager owns Activity record maintenance/migration; optional installed Codex Chronicle-manager handles exact-source transcripts under Leader's coordination. Historical input and source remain attributable;
 missing transcript source is reported, never reconstructed. See
 [Activity migration notes](release-notes/activity-migration.md).
 
@@ -105,7 +104,7 @@ release.
 
 ## Agent configuration contracts and upgrades
 
-All agents, including the three core roles, ship `configuration/contract.json`
+All agents, including the two core roles, ship `configuration/contract.json`
 and declare it in SKILL metadata. No-settings agents use an empty settings map;
 no workspace values file is needed. Saved values belong at
 `.hai_env/config/agents/<agent-name>.json` and survive complete package replacement.
@@ -124,12 +123,12 @@ Git-manager's explicit migration extracts legacy `integrations.git` and
 See the [migration guide](release-notes/agent-configuration-migration.md) for conflict,
 backup and partial-failure handling. Specification enabled/location now belong to its installed owner file. Core
 format 3 retains Activity location and chronicles; format 2 is a read-only transition
-source. Chronicles extraction is outside this change.
+source. Recording settings remain core-owned; exact-source procedures and contracts now belong to the optional `codex-chronicle-manager` package.
 
 ## Selective optional-agent installation
 
 External workspaces initially need only the complete `.hai` bundle. Its Leader,
-Environment-manager and Activity-manager provide startup and environment creation;
+Environment-manager provide startup, environment creation and Activity record/lifecycle maintenance;
 no `hai_agents_library` checkout or optional authoring agent is needed.
 
 For a later optional agent, ask Leader to route the explicitly selected package
@@ -171,3 +170,25 @@ review and a covering replacement decision, including unattributed differences.
 No automatic updater, uninstall workflow, package-version/provenance scheme or
 implicit dependency installation is introduced. Partial writes stop dependent work
 and preserve actual results; there is no automatic retry, cleanup or rollback.
+
+## Current source: Activity ownership split
+
+The current core contains Leader and Environment-manager. Five complete optional
+packages have golden definitions in `hai_agents_library/agents/`: `business-analyst`,
+`solution-architect`, `software-developer`, `quality-assurance` and
+`codex-chronicle-manager`. Install selected packages into `.hai_env/agents/` and
+register them in the workspace catalogue through Environment-manager; never put
+their runtime definitions in `.hai/` or execute a library source. No whole-library
+download is required. Profiles, agent installation/registration and Activity records
+remain Environment-manager duties; Leader retains orchestration and scheduling.
+
+Upgrade complete core resources and optional consumers together. Retire the old
+retired core record-owner folder and its framework registration only after new owners,
+canonical references, workspace registration and verification are ready. Preserve
+all Activity IDs, record paths, original inputs, revision history and transcript
+bytes; this ownership migration requires no environment state-version change.
+Missing optional Chronicle support/source blocks dependent recording and required
+closure, not core validation, initialization, discovery or disabled-recording closure.
+Required closure uses fresh operation-bound Chronicle evidence through Leader and
+Environment-manager rechecks unchanged sources/artifacts before archival. Historical
+candidate notes/manifests retain their original role/version descriptions.

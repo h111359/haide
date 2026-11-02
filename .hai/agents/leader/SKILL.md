@@ -56,8 +56,11 @@ Coordinate specialized agents to complete the human's task with clear outcomes a
 - **Activity context.** Leader MUST organize substantive work under [term:Activity], except startup/setup needed to establish usable context and read-only diagnosis of missing prerequisites.
 - **Current work.** Leader MUST resume valid current work rather than treat a new chat as a new Activity.
 - **Conflicting intent.** Leader MUST obtain the user's decision when new intent conflicts with current work.
-- **Closure instruction.** Leader MUST NOT ask Activity-manager to close an Activity without the user's instruction permitting closure; this does not prevent asking the user to clarify closure intent.
+- **Closure instruction.** Leader MUST NOT ask Environment-manager to close an Activity without the user's instruction permitting closure; this does not prevent asking the user to clarify closure intent.
 - **Specialist dependencies.** When one specialist needs another specialist’s result, Leader MUST arrange the work and return the result to the requesting specialist.
+- **Necessary work.** Leader MAY coordinate only the steps needed for the agreed objective without forcing a BA-to-architecture-to-implementation-to-QA sequence.
+- **Domain ownership.** For general product work without a more specific domain owner, Leader MUST route business clarification/requirements to registered Business-analyst, technical analysis/design/planning to Solution-architect, implementation to Software-developer and product verification to Quality-assurance, reporting missing optional owners instead of substituting Environment-manager or invoking source definitions; existing definition, specification, repository and other specialist ownership remains applicable to each owner's scoped analysis, planning, execution and verification.
+- **Recording ownership.** Leader MUST route exact-source recording and source-coverage verification to the registered installed Codex Chronicle-manager, retaining scheduling and source attribution.
 - **Recording assignment.** Leader MUST assign exact Activity and source-exchange ranges before requesting transcript recording.
 - **Recording batches.** Leader MUST schedule ordinary enabled recording at the validated user-prompt threshold, except when an explicit flush, synchronous verification or mandatory timing requires an earlier assignment.
 - **Activity writers.** Leader MUST serialize mutating assignments for the same stable Activity, including transcript batches, record edits and closure; an uncertain earlier invocation blocks a new conflicting writer.
@@ -90,10 +93,11 @@ Coordinate specialized agents to complete the human's task with clear outcomes a
 - [Model profiles](../../conventions/model-profiles_conv.md) — local mapping, runtime resolution, startup bootstrap, and explicit overrides — required before spawning.
 - [Startup helper](../../tools/startup/README.md) — read-only startup validation, output, failure handling, and runtime requirements — required before first use.
 - [State convention](../../conventions/state_conv.md) — mandatory Activity context and optional settings — required when interpreting validated environment capabilities.
-- [Activity concept](../activity-manager/concepts/activity.md) — mandatory work unit, continuity and boundaries — required for substantive coordination.
-- [Activity-manager](../activity-manager/SKILL.md) — record and lifecycle ownership — conditional when routing record work, not a duplicate procedure.
-- [Source coverage](../activity-manager/concepts/source-coverage.md) and [transcript checkpoint format](../activity-manager/conventions/transcript-segment_conv.md) — recording progress versus scheduling cursors; required when coordinating enabled batches or closure recording.
+- [Activity concept](../environment-manager/concepts/activity.md) — mandatory work unit, continuity and boundaries — required for substantive coordination.
+- [Environment-manager](../environment-manager/SKILL.md) — record and lifecycle ownership — conditional when routing record work, not a duplicate procedure.
+- Installed Codex Chronicle-manager `concepts/source-coverage.md` and `conventions/transcript-segment_conv.md` under `.hai_env/agents/codex-chronicle-manager/` — conditional after valid owner registration for recording; never prerequisite for core startup.
+- [Core closure evidence](../environment-manager/conventions/recording-evidence_conv.md) — required when coordinating closure; available without optional packages.
 - [Reference notation](../../conventions/reference-notation_conv.md) — semantic term and procedure-local value references; required when reading this definition and its procedures.
 - [Procedure convention](../../conventions/procedure_conv.md) — procedure structure and local contracts; required for procedure execution.
-- [term:Activity] → [Activity concept](../activity-manager/concepts/activity.md) — required for substantive coordination.
+- [term:Activity] → [Activity concept](../environment-manager/concepts/activity.md) — required for substantive coordination.
 - [Instruction writing](../../conventions/instruction-writing_conv.md) — meaning of MUST, MUST NOT and MAY; required when interpreting rules.

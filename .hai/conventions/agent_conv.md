@@ -89,7 +89,7 @@ selection and leader orchestration remain explicit.
 All substantive HAI work belongs to a [term:Activity],
 including advice, brainstorming, analysis, planning, framework maintenance,
 implementation and verification. Activities have no enabled flag. A compatible
-validated environment supplies activities.location; Activity-manager discovers
+validated environment supplies activities.location; Environment-manager discovers
 and maintains the sole current record, while leader alone coordinates specialists.
 Startup validation, bootstrap/setup required to establish usable context, and
 read-only prerequisite diagnosis may proceed before a record exists. These bounded
@@ -99,8 +99,7 @@ Startup resumes valid current work. A new chat alone creates none; meaningful ne
 work with no current record creates an Activity within the user's agreed task and permission.
 Conflicting current/new intent needs leader's boundary resolution, not silent
 closure or replacement. Substantive specialist handoffs include stable Activity ID,
-path and relevant context; return actual results for recording. The Activity-manager
-is a records/lifecycle owner and scoped executor, never a second orchestrator.
+path and relevant context; return actual results for recording. Environment-manager owns records/lifecycle and administration, never orchestration or substantive domain execution. Optional registered Business-analyst, Solution-architect, Software-developer and Quality-assurance own assigned work; optional Codex Chronicle-manager owns exact-source transcripts and recording evidence. Missing owners are reported dependencies, never source-library execution fallbacks.
 
 Lifecycle active/closed, performed steps and completed/cancelled/stopped outcomes
 are separate. Analysis alone may complete its objective. Material definition,
@@ -384,4 +383,4 @@ partial failure. Historical transcripts are records and are not rewritten.
 
 ## References
 
-- [term:Activity] → [Activity concept](../agents/activity-manager/concepts/activity.md) — mandatory work context.
+- [term:Activity] → [Activity concept](../agents/environment-manager/concepts/activity.md) — mandatory work context.

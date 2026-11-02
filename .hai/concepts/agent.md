@@ -92,7 +92,7 @@ core initialization and core environment/profile configuration changes remain
 environment-manager work. Optional extension owners retain their declared scope.
 
 Substantive specialist work receives the current Activity ID/path and relevant
-context through leader; Activity-manager owns records and lifecycle, not orchestration.
+context through leader; Environment-manager owns records and lifecycle, not orchestration. Business-analyst, Solution-architect, Software-developer and Quality-assurance are optional workspace execution owners; Codex Chronicle-manager owns optional exact-source recording. Their absence is a task dependency, never permission to execute a source package or substitute core administration for domain work.
 Bootstrap/setup and read-only diagnosis follow the shared bounded exceptions.
 
 Only leader may select another agent, delegate work to it, monitor execution,

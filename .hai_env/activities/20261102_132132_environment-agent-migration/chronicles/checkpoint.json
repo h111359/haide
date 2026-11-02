@@ -1,0 +1,89 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "5dbeb3de-68e6-4978-a75f-6ac3b0ad909f",
+  "sources": [
+    {
+      "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/01/rollout-2026-11-01T22-41-52-01a198d8-df74-7c72-8a8b-32d208566210.jsonl",
+      "original_started_at": "2026-11-01T20:41:52.265Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+            "source_position": 84
+          },
+          "end": {
+            "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+            "source_position": 1227
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "provenance": "Chronicles enabled in validated state at Activity creation and throughout this conversation; Leader assigns initial merger question through closure request",
+          "start": {
+            "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+            "source_position": 84
+          },
+          "end": {
+            "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+            "source_position": 1227
+          }
+        }
+      ],
+      "retained_source_complete": true,
+      "representation": "event_msg",
+      "immutable_prefix_snapshot": {
+        "original_durable_path": "/home/hromar/.codex/sessions/2026/11/01/rollout-2026-11-01T22-41-52-01a198d8-df74-7c72-8a8b-32d208566210.jsonl",
+        "snapshot_path": "/tmp/hai-closure-5dbeb3de/source-through-1227.jsonl",
+        "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+        "original_started_at": "2026-11-01T20:41:52.265Z",
+        "representation": "event_msg",
+        "inclusive_source_position_cutoff": 1227,
+        "byte_length": 1731237,
+        "sha256": "15e3eba87c9e22118276636eefb73c926a06c3c4fce1f623b2c7c49a9c675652",
+        "created_at": "2026-11-02T13:15:08Z",
+        "creation_authority": "Leader explicitly assigned immutable exact-byte prefix snapshot for closure operation close-5dbeb3de-68e6-4978-a75f-6ac3b0ad909f-20261102-1",
+        "original_positions_preserved": true
+      }
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+          "source_position": 84
+        },
+        "end": {
+          "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+          "source_position": 1227
+        }
+      },
+      "segment_path": "chronicles/20261101_2241_segment-01.md",
+      "verified_at": "2026-11-02T13:15:08Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a198d8-df74-7c72-8a8b-32d208566210": {
+      "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+      "source_position": 1227
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "11c6bd96-db82-4062-bf68-7ca08c9ede8a",
+    "dispatch_cursors": {
+      "01a198d8-df74-7c72-8a8b-32d208566210": {
+        "source_session_id": "01a198d8-df74-7c72-8a8b-32d208566210",
+        "source_position": 1227
+      }
+    },
+    "started_at": "2026-11-02T13:15:08Z",
+    "finished_at": "2026-11-02T13:15:08Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-02T13:15:08Z",
+  "in_flight": null
+}

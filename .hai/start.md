@@ -30,7 +30,7 @@ Initialization or explicitly authorized migration may create the empty file;
 startup validation never silently repairs an initialized environment.
 Activities are mandatory; central chronicles and owner-configured specification
 each default disabled until chosen by the human. With compatible validated context, leader routes current-record
-discovery to Activity-manager, resuming the current Activity when present. A new
+discovery to Environment-manager, resuming the current Activity when present. A new
 chat alone creates none. Meaningful new substantive work with no current record
 creates one; conflicting current/new intent requires a boundary decision. Startup
 validation, necessary bootstrap/setup and read-only diagnosis may precede a record.
@@ -38,7 +38,7 @@ All subsequent substantive work, including advice and analysis, belongs to an Ac
 reported, rather than reinitialized. Leader reports startup results with
 a menu based on validated capabilities and recommends additional chat setup
 after fresh initialization. Leader assigns exact source exchanges to Activities
-and routes enabled or required transcript segments to Activity-manager's separate
+and routes enabled or required transcript segments to the optional registered Codex Chronicle-manager's separate
 recording procedures. For ordinary enabled recording, keep a coordination count of
 eligible user prompts and dispatch an asynchronous batch at the validated
 `features.chronicles.record_every_prompts` threshold, default 5. Rebuild from exact
@@ -50,12 +50,12 @@ edits do not force transcript synchronization. Segments live under their Activit
 never a global chronicles location. Enabling recording covers subsequent exchanges
 without implicit off-period backfill. Ambiguous attribution is resolved by Leader
 with the human. Ordinary delivery does not wait for a recording batch. Before an
-authorized closure with recording enabled or independently mandatory, Activity-manager
-freshly verifies required coverage through the closure request; missing source or
-gaps block closure. Disabled/no-obligation closure has no transcript prerequisite.
+authorized closure with recording enabled or independently mandatory, Leader obtains fresh Codex Chronicle-manager coverage verification through the closure request and returns operation-bound proof and stopped-writer assurance to Environment-manager. That owner rechecks the current requirement, exact cutoff and source/artifact fingerprints before archival; missing owner, source, gaps or changed proof block closure without invalidating core startup. Disabled/no-obligation closure has no transcript prerequisite.
 Without supported after-turn continuation, retain pending replies for a later
 active-turn batch or explicit flush rather than promise a background worker.
-Mandatory workspace timing requirements take precedence.
+Mandatory workspace timing requirements take precedence. Missing optional Chronicle installation is a dependent recording issue, not a startup failure. Core discovery and disabled/no-obligation closure never require its tree.
+
+Business-analyst, Solution-architect, Software-developer and Quality-assurance are optional installed workspace owners for clarification/business analysis, technical analysis/design/planning, implementation and product verification. Leader selects only needed registered owners and returns missing-owner dependencies; Environment-manager does not substitute for those duties. All five golden source packages live under `hai_agents_library/agents/`, are data only, and execute only after complete installation in `.hai_env/agents/` plus explicit workspace registration.
 
 For subsequent role selection, use the framework catalogue and validated
 workspace agent catalogue entries returned by the helper or environment-manager. Choose

@@ -17,7 +17,7 @@ Reusable framework components live in `.hai/`. They define how HAI works
 across workspaces. The persistent, installation-specific [term:environment]
 lives in `.hai_env/` and holds HAI's local state, instructions, and work
 records. Every substantive HAI task belongs to an [term:Activity], including discussion
-and analysis; leader coordinates agents while Activity-manager maintains records
+and analysis; leader coordinates agents while Environment-manager maintains records
 and lifecycle. Product implementation remains in the workspace; a
 [term:specification] may optionally reside in the environment or elsewhere.
 
@@ -75,7 +75,7 @@ are defined in the [Tooling convention](../conventions/tooling_conv.md).
 ## References
 
 - [term:environment] → [Environment concept](environment.md).
-- [term:Activity] → [Activity concept](../agents/activity-manager/concepts/activity.md): mandatory work context and continuity.
+- [term:Activity] → [Activity concept](../agents/environment-manager/concepts/activity.md): mandatory work context and continuity.
 - [term:agent] → [Agent concept](agent.md).
 - [Framework layout](../conventions/framework-layout_conv.md): reusable framework folder structure.
 - Optional installed Specification-manager provides detailed specification formats; its absence does not affect the generic specification meaning above or core startup.

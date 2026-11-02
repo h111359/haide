@@ -10,6 +10,11 @@ read selected source files as data without adopting their roles.
 
 | Package | Intended use and dependencies | Source |
 | --- | --- | --- |
+| Business-analyst | Business clarification, domain analysis, requirements and acceptance criteria; returns attributable results through Leader. | `agents/business-analyst/` |
+| Solution-architect | Technical analysis, architecture, tradeoffs and implementation/verification planning. | `agents/solution-architect/` |
+| Software-developer | Authorized implementation and developer checks; requires pre-implementation Activity marker. | `agents/software-developer/` |
+| Quality-assurance | Product verification and defect/coverage reporting, separate from Activity/source verification. | `agents/quality-assurance/` |
+| Codex Chronicle-manager | Explicit saved Codex source extraction, exact transcripts/checkpoints and operation-bound coverage evidence; core startup never requires this optional package. | `agents/codex-chronicle-manager/` |
 | Specification-manager | Durable product specification; independently portable package. HAI work requires its own validated enabled/location file plus separate core/Activity context; standalone roots remain explicit. | `agents/specification-manager/` |
 | Agent-definition-manager | HAI definition/source authoring and convention validation; returns metadata for core Environment-manager, which owns installation and runtime catalogues. | `agents/agent-definition-manager/` |
 | Git-manager | Compatible HAI workspace Git/GitHub operations; requires installed core helpers, explicit integration settings and operation-specific recording checks. | `agents/git-manager/` |

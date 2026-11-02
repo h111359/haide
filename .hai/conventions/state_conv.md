@@ -27,8 +27,7 @@ The root is an object with required properties:
 zero, negative/fractional/string/null values are invalid even while disabled.
 Transcripts remain Activity-local under `chronicles/`; no global location exists.
 Core state stores no current Activity pointer, prompt counter, transcript coverage
-or in-flight-worker marker. Activity-manager owns record discovery, lifecycle and
-checkpoint formats. Configuration changes never alter record lifecycle/content.
+or in-flight-worker marker. Environment-manager owns record discovery and lifecycle; optional installed Codex Chronicle-manager owns transcript/checkpoint formats and writes. Configuration changes never alter record lifecycle/content.
 
 The installed `.hai/agents/environment-manager/contract.json` is the single
 current/supported-version authority, independent of release SemVer or target copies.
@@ -50,7 +49,7 @@ owner absence or invalid configuration does not invalidate core startup. Startup
 can boundedly report the registered installed Specification-manager's separate
 `agent_configurations` result without loading scripts, product contents or the library.
 
-Environment-manager owns central state, chronicles, model profiles and startup
+Environment-manager owns central state, chronicles configuration, model profiles and startup
 policy. It does not perform ordinary specification setup. The explicit format-2-to-3
 extraction is its narrow transition exception, coordinated by Leader; it does not
 grant tree-edit authority. Other extensions' unknown subtrees remain opaque:
@@ -83,15 +82,12 @@ change. Core read-only startup and unrelated work remain independent.
 Environment-manager applies explicit chosen Activity-location/chronicles changes,
 preserving unmentioned values and all optional owner files. Initialization creates
 state and mandatory instructions only; no catalogue, profiles, Activity records,
-specification/config file or transcript contents are fabricated. Activity-manager
-creates the Activity store under its authorized workflow and owns exact-source
-transcripts/checkpoints after Leader assigns recording.
+specification/config file or transcript contents are fabricated. Environment-manager creates the Activity store under its authorized record workflow. Optional installed Codex Chronicle-manager owns exact-source transcripts/checkpoints after Leader assigns recording; missing owner or source is an isolated recording dependency.
 
 Enabling/disabling chronicles preserves existing content and does not override
 mandatory instructions. Return attributable enablement-change boundaries separately;
 threshold changes do not reset coverage or dispatch progress. Leader owns counting,
-batch dispatch and continuation limits; Activity-manager owns verification/closure
-ordering under its procedures. This extraction changes none of those rules.
+batch dispatch and continuation limits; Chronicle verifies source coverage and Environment-manager consumes Leader-returned fresh operation-bound evidence before required-recording closure. Core startup and independent record operations need no Chronicle tree; disabled/no-obligation closure needs no transcript source.
 
 ## Local model profiles
 

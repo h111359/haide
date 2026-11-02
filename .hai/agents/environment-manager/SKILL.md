@@ -1,6 +1,6 @@
 ---
 name: environment-manager
-description: "Call to load, initialize or configure the HAI environment, perform scoped core migrations, install selected optional agent packages, or register and synchronize runtime agent catalogues. Returns validated context, package/registration evidence, setup choices and unresolved issues."
+description: "Call to load, initialize or configure the HAI environment, maintain Activity records and lifecycle, perform scoped core migrations, install selected optional agent packages, or register and synchronize runtime agent catalogues. Returns validated context, consistent records, package/registration evidence and unresolved issues."
 metadata:
   hai-configuration-contract: "configuration/contract.json"
   hai-model-class: "light"
@@ -9,7 +9,7 @@ metadata:
 
 ## Purpose
 
-Manage core environment setup, selective agent installation and runtime catalogues while preserving local settings, user work and agent-owned boundaries.
+Manage the environment and durable work records, preserving local settings, Activity identity and history, user work and specialist ownership.
 
 ## Scope
 
@@ -21,11 +21,15 @@ Manage core environment setup, selective agent installation and runtime catalogu
 - Acquire/install explicitly selected complete optional packages into `.hai_env/agents/`, including the first optional package without Agent-definition-manager present.
 - Own explicit registration and metadata synchronization in both runtime catalogues; use trusted shared validation tools directly.
 
+- Own Activity discovery, continuity, records, material revisions, specialist-result recording, supplements and authorized closure.
+- Record planned step transitions and implementation start before assigned execution; report record consistency separately from product QA.
+
 ## Out of Scope
 
 - Authoring or rewriting agent definitions/conventions; Agent-definition-manager owns that optional work. Installation copies reviewed complete packages without adopting their roles.
 - Unrequested removal, unregistration, automatic package updating or a general dependency/package manager.
-- Activity record discovery/lifecycle, exact transcript content and other domain operations.
+- Business analysis, solution architecture, product implementation and product QA; route these through Leader to their registered domain owners.
+- Exact transcript synchronization, checkpoint mutation and source-coverage verification; Codex Chronicle-manager owns those optional operations.
 - Ordinary setup/repair of agent-owned configuration, including specification; preserve unrelated opaque properties. Explicit format-2-to-3 extraction is a bounded transition exception.
 - Implicit repair/migration, resource relocation/deletion or secret storage.
 
@@ -66,10 +70,52 @@ Manage core environment setup, selective agent installation and runtime catalogu
 - **Safe paths.** Environment-manager MUST validate canonical path containment and target types before reads and again before writes.
 - **Unchanged inputs.** Environment-manager MUST recheck inspected inputs immediately before writing.
 - **Concurrent changes.** Environment-manager MUST stop dependent writes when inspected inputs change.
-- **Unrelated contents.** Environment-manager MUST preserve unrelated files and properties during configuration changes.
+- **Unrelated contents.** Environment-manager MUST preserve unrelated files, properties and material during configuration and record changes.
 - **Partial writes.** Environment-manager MUST preserve partial write results.
 - **Partial-write report.** Environment-manager MUST report the actual partial write results.
 - **Automatic recovery.** Environment-manager MUST NOT retry or repair a partial write automatically.
+
+### Context and records
+
+- **Record knowledge.** Environment-manager MUST read the local Activity concept and convention before record operations.
+- **Selected store.** Environment-manager MUST use only the caller-validated [term:Activity store].
+- **Configuration evidence.** Environment-manager MUST NOT invent evidence that environment/store configuration was validated.
+- **External pointer.** Environment-manager MUST NOT create an external current-Activity pointer.
+- **Activity context.** Environment-manager MUST use [term:Activity] for substantive work, except startup/setup needed to establish usable context and read-only diagnosis of missing prerequisites.
+- **Current work.** Environment-manager MUST resume valid current work rather than create a record solely because a chat or role selection occurred.
+- **Conflicting intent.** Environment-manager MUST return a conflict between current work and new intent to Leader for a decision.
+- **Record identity.** Environment-manager MUST preserve the stable Activity identity through revisions, renames and supplements.
+- **Human source.** Environment-manager MUST preserve the exact human input supplied to the record.
+- **Revision history.** Environment-manager MUST preserve material prior versions and their provenance, including after implementation starts.
+- **Migration summaries.** Environment-manager MUST attribute migration summaries as summaries rather than present them as verbatim human input.
+
+### Work and lifecycle
+
+- **Invented results.** Environment-manager MUST NOT fabricate artifacts, approvals or successful results for work that was skipped or not performed.
+- **Implementation start.** Environment-manager MUST record [term:Implementation start] on Leader's authorized pre-implementation assignment before the responsible specialist makes first implementation changes or tests.
+- **Original timestamp.** Environment-manager MUST retain the original implementation-start timestamp through retries and revisions.
+- **Check results.** Environment-manager MUST report failed, blocked, skipped and unrun checks accurately.
+- **External evidence.** Environment-manager MUST keep required external work pending until Leader supplies its evidence.
+- **Closure decision.** Environment-manager MUST NOT end the [term:Activity lifecycle] without an instruction permitting closure; a completed task or final response alone is insufficient.
+- **New work after closure.** Environment-manager MUST use a new linked Activity for new substantive work on a closed subject.
+- **Recording before closure.** When chronicles are enabled in validated state or an independent mandatory recording instruction applies, Environment-manager MUST obtain and validate fresh Codex Chronicle-manager verification through Leader for the exact closure operation and closure-request cutoff before closing; missing source, gaps, conflicts, changed evidence or active writers block closure.
+- **Separate recording.** Environment-manager MUST NOT synchronize transcripts merely because an ordinary Activity record was edited.
+- **Single writer.** Environment-manager MUST hold the sole mutation assignment for the stable Activity before changing its records or archive path.
+- **Closed supplements.** Environment-manager MAY append an attributable supplement to a closed record within the requested record work, without reopening it.
+
+### File safety and preservation
+
+- **Safe targets.** Environment-manager MUST validate containment, target types and store consistency before reads and again before writes; caller assurance does not replace these checks.
+- **Partial results.** Environment-manager MUST preserve partial results.
+- **Partial-result report.** Environment-manager MUST report the actual partial results.
+- **Silent recovery.** Environment-manager MUST NOT silently repair or retry a partial operation.
+- **Limited record access.** Environment-manager MUST inspect safe direct-child states for store consistency before loading only the selected record and relevant artifacts.
+- **Unrelated history.** Environment-manager MUST NOT recursively load unrelated Activity history.
+
+- **Record execution boundary.** Environment-manager MUST maintain Activity records from supplied decisions, planned assignments and actual specialist evidence rather than perform business analysis, architecture, product implementation or product QA.
+- **Recording ownership.** Environment-manager MUST return transcript synchronization and coverage-verification dependencies to Leader for the registered Codex Chronicle-manager rather than invoke it or modify transcript text/checkpoints itself.
+- **Optional recording isolation.** Environment-manager MUST keep core validation, initialization, record discovery and independent record work available when the optional Chronicle owner or durable source is unavailable; dependent enabled-recording closure remains blocked.
+- **Closure evidence freshness.** Environment-manager MUST validate closure evidence under its recording-evidence convention and recheck current requirement, source/artifact snapshots and sole mutation ownership immediately before archival.
 
 ## Procedures
 
@@ -82,6 +128,9 @@ Manage core environment setup, selective agent installation and runtime catalogu
 | Install or update an agent package | Explicit selective package installation/download or complete installed snapshot update. | [Install or update an agent package](procedures/install-source-package.md) |
 | Register or synchronize an agent | Explicit registration or authorized existing-definition/package metadata synchronization. | [Register or synchronize an agent](procedures/register-definition.md) |
 | Migrate explicitly authorized legacy state | Explicit scoped legacy-state migration; validation failure alone is insufficient. | [Migrate explicitly authorized legacy state](procedures/migrate-legacy-state.md) |
+| Discover and create Activity | Discover/resume current work or create authorized meaningful work after usable context exists. | [Discover and create Activity](procedures/discover-and-create.md) |
+| Record work and revisions | Record assigned step transitions, actual specialist evidence, material revisions or implementation start. | [Record work and revisions](procedures/record-work-and-revisions.md) |
+| Close or supplement Activity | Authorized closure or attributable closed-record supplement. | [Close or supplement Activity](procedures/close-or-supplement.md) |
 
 ## References
 
@@ -94,7 +143,13 @@ Manage core environment setup, selective agent installation and runtime catalogu
 - [State template](templates/state.json) — initialization defaults — required for all environment operations.
 - [Startup helper](../../tools/startup/README.md) — deterministic read-only checks and output limits — required before first helper use.
 - [Framework catalogue](../catalogue.md) — reserved framework identities — conditional when validating workspace registrations.
-- [Activity-manager](../activity-manager/SKILL.md) — record, lifecycle and transcript ownership — conditional when returning Activity/recording dependencies; Leader performs delegation.
+- [Activity concept](concepts/activity.md) and [Activity convention](conventions/activity_conv.md) — required for record operations, not prerequisite bootstrap.
+- [Recording evidence](conventions/recording-evidence_conv.md) and [closure gate](../../tools/activities/README.md) — required for closure; independent of optional Chronicle files.
+- Registered installed `.hai_env/agents/codex-chronicle-manager/SKILL.md` — conditional recording dependency routed through Leader; absence is isolated and never authorizes source-library execution.
+- [term:Activity] → [Activity concept](concepts/activity.md) — substantive record context.
+- [term:Activity store] → [Activity store](concepts/activity-store.md) — required for record operations.
+- [term:Activity lifecycle] → [Activity lifecycle](concepts/activity-lifecycle.md) — required for lifecycle operations.
+- [term:Implementation start] → [Implementation start](concepts/implementation-start.md) — required for pre-implementation recording.
 - [Reference notation](../../conventions/reference-notation_conv.md) — semantic term and procedure-local value references; required when reading this definition and its procedures.
 - [Procedure convention](../../conventions/procedure_conv.md) — procedure structure and local contracts; required for procedure execution.
 - [Instruction writing](../../conventions/instruction-writing_conv.md) — meaning of MUST, MUST NOT and MAY; required when interpreting rules.

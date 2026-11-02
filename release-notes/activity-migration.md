@@ -1,5 +1,12 @@
 # Activity migration — 0.2.0 candidate
 
+These are historical candidate instructions and evidence. In current unreleased
+source, Environment-manager owns Activity records/lifecycle and optional installed
+Codex Chronicle-manager owns exact transcripts; substantive execution uses four
+optional workspace specialists. Follow [current installation guidance](../INSTALL.md#current-source-activity-ownership-split)
+for that ownership migration. The old role names and verification counts below
+describe the recorded candidate, not current runtime routing.
+
 This document describes the [0.2.0 candidate](0.2.0.md) compatibility boundaries.
 The human selected this version for release preparation; these notes do not
 identify a published release or certify every consumer migration. The published

@@ -63,11 +63,11 @@ framework definitions available.
 
 ## Activity resources
 
-Activity-manager owns the canonical [Activity concept](../agents/activity-manager/concepts/activity.md)
-and [Activity convention](../agents/activity-manager/conventions/activity_conv.md)
+Environment-manager owns the canonical [Activity concept](../agents/environment-manager/concepts/activity.md)
+and [Activity convention](../agents/environment-manager/conventions/activity_conv.md)
 in its package. Core state format 3 retains a mandatory activities.location,
 default `.hai_env/activities`, with one fixed current folder and closed archives.
-Activity artifacts and optional transcript segments belong there; product code and
+The five optional golden packages are `business-analyst`, `solution-architect`, `software-developer`, `quality-assurance` and `codex-chronicle-manager`; their runtime copies live only in `.hai_env/agents/`. Codex Chronicle-manager owns its transcript concepts, format and procedures. Activity artifacts and optional transcript segments belong in the configured Activity store; product code and
 durable specification remain at canonical product locations. There is no reusable
 framework store, Activity toggle or global chronicles location.
 
@@ -83,7 +83,7 @@ framework store, Activity toggle or global chronicles location.
 `hai_agents_library/README.md` is an installation index, never a runtime registry.
 Only `.hai/agents` and `.hai_env/agents` are executable origins. Matching source
 and installed names are expected; only installed origins participate in runtime
-collision checks. Core remains Leader, Environment-manager and Activity-manager.
+collision checks. Core remains Leader and Environment-manager; substantive execution and Codex recording owners are optional workspace packages.
 The library is not included in the current HAI release package allowlist.
 Environment-manager installs only selected complete packages into
 `.hai_env/agents/<name>/`, validates them with shared core tools and performs

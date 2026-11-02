@@ -30,8 +30,7 @@ the distinction between continuity, a new objective, and a lifecycle decision.
 Bounded startup/setup and read-only diagnosis exist to establish usable context,
 not as an alternative to tracking later substantive work.
 
-Environment-manager owns core configuration and availability checks; Activity-manager
-owns record discovery, artifacts, and lifecycle. Leader alone coordinates agents
+Environment-manager owns core configuration, availability checks, record discovery, artifacts and lifecycle. Leader alone coordinates agents
 and boundary decisions. Configuration availability is distinct from discovery of
 the current record, so startup does not infer current work by scanning the store.
 Activity identity, lifecycle, performed steps, and closure outcome have different
@@ -60,11 +59,11 @@ mandatory timing and requested synchronous verification still determine when
 recording evidence is required.
 Pending synchronization is not completed coverage, and after-turn continuation
 depends on actual runtime support. Leader owns attribution and prompt-batch
-scheduling; Activity-manager owns source-backed synchronization and evidence in
+scheduling; optional installed Codex Chronicle-manager owns source-backed synchronization and evidence in
 separate recording procedures. The configurable prompt threshold defaults to five.
 Ordinary Activity edits and transcript batches are separate operations. When
 recording is enabled or independently mandatory, fresh recording coverage is a
-closure prerequisite. Owner procedures define ordering, source failures, disabled
+closure prerequisite. Leader returns fresh Chronicle evidence to Environment-manager, which independently checks its closure binding and unchanged source/artifact snapshots. Missing optional Chronicle support blocks dependent recording or enabled-recording closure, not core startup or independent record work. Owner procedures define ordering, source failures, disabled
 behavior and the mandatory pre-delivery exception.
 
 ### Startup, configuration and compatibility
@@ -79,7 +78,7 @@ Optional chat setup is distinct from establishing the mandatory core environment
 The installed environment-manager contract defines supported state formats
 independently of framework release numbering. A version marker alone cannot migrate
 structure or history. Environment configuration migration and Activity/transcript
-migration have separate owners and scopes. Leader's bounded read-only helper
+migration have separately scoped operations; transcript work belongs to the optional Chronicle owner. Leader's bounded read-only helper
 exception does not transfer environment mutation ownership. The state convention
 defines compatibility; owner procedures define initialization, validation, and migration.
 
@@ -126,15 +125,15 @@ not validation or activation.
 
 - [term:state]: mandatory format-versioned HAI configuration, including Activity location and optional settings.
 - [term:agent_instructions]: fixed mandatory instructions, independently loaded; empty adds no instructions.
-- [term:chronicles]: optional exact-source Activity transcript segments owned by Activity-manager.
+- [term:chronicles]: optional exact-source Activity transcript segments owned by the installed Codex Chronicle-manager.
 
 ## References
 
-- [term:Activity] → [Activity concept](../agents/activity-manager/concepts/activity.md): mandatory independent work unit and continuity.
+- [term:Activity] → [Activity concept](../agents/environment-manager/concepts/activity.md): mandatory independent work unit and continuity.
 - [State convention](../conventions/state_conv.md): configuration schema, safe paths and authorized migration.
 - [Agent convention](../conventions/agent_conv.md): identities, catalogues, handoffs and registration.
 - [Model profiles](../conventions/model-profiles_conv.md): local mappings, bootstrap and runtime resolution.
 - [Environment-manager](../agents/environment-manager/SKILL.md): configuration, profile, initialization, validation, and migration procedures.
 - [Leader](../agents/leader/SKILL.md): startup, boundary decisions, delegation, and recording coordination.
-- [Activity-manager](../agents/activity-manager/SKILL.md): exact-source synchronization, synchronous verification, and timing exceptions.
+- Installed `.hai_env/agents/codex-chronicle-manager/SKILL.md`: optional exact-source synchronization, synchronous verification and timing exceptions; load only after valid registration and only for dependent recording work.
 - [HAI](hai.md): reusable framework and product workspace boundaries.
