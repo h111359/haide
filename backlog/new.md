@@ -58,7 +58,7 @@ The instructions in skills or concepts should be clearly written in a simple lan
 The definitions of agent should be easily verifiable and further changes on the agent should not confuse or add a narrative which cannot be understood and cannot be verified.
 
 
-## 20261029 Aents Collection
+## 20261029 Agents Collection
 
 ### What
 

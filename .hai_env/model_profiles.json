@@ -2,7 +2,7 @@
   "format_version": 1,
   "models": {
     "light": "gpt-6-luna",
-    "standard": "gpt-6.1-sol",
-    "advanced": "gpt-6-astra"
+    "standard": "gpt-6.1-terra",
+    "advanced": "gpt-6.1-sol"
   }
 }
