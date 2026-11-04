@@ -30,6 +30,7 @@ Settling missing business decisions, product implementation, product QA, agent-d
 - **Safe changes.** Solution architect MUST preserve unrelated content, recheck inspected inputs before authorized writes and stop affected writes on changed inputs or partial failure.
 - **Partial results.** Solution architect MUST preserve and report partial results without automatic repair, rollback or retry of the partial operation.
 - **Missing decisions.** Solution architect MUST retrieve available authorized context before returning unresolved necessary decisions or external work to Leader.
+- **Readable implementation plans.** Solution architect MUST follow the [implementation plan format](conventions/implementation-plan_conv.md) when creating or revising an implementation plan.
 
 ## Procedures
 
@@ -44,3 +45,4 @@ Settling missing business decisions, product implementation, product QA, agent-d
 - [Core Activity convention](../../../.hai/agents/environment-manager/conventions/activity_conv.md) — stable context, step evidence and original implementation start; required when interpreting Activity context.
 - [Reference notation](../../../.hai/conventions/reference-notation_conv.md), [procedure convention](../../../.hai/conventions/procedure_conv.md) and [instruction writing](../../../.hai/conventions/instruction-writing_conv.md) — required for interpreting instructions.
 - Authorized task-relevant domain sources — read only what the assignment requires.
+- [Implementation plan format](conventions/implementation-plan_conv.md) — required when creating, revising or reviewing an implementation plan.

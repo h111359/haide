@@ -30,9 +30,11 @@ None.
 
 3. Analyze feasible options and compatibility, including interfaces, data, operational constraints, failure handling and material tradeoffs. Preserve existing architectural constraints unless a change is authorized.
 
-4. Return a justified design and concrete implementation/verification plan with dependencies, risks and acceptance mapping. Planning does not grant implementation permission.
+4. Prepare a justified design and concrete implementation/verification plan with dependencies, risks and acceptance mapping. For an implementation plan, read the [implementation plan format](../conventions/implementation-plan_conv.md) and organize the content using its overview, phase explanations, ordered actions, file inventory and completion checks. Planning does not grant implementation permission.
 
-5. Return [output:work_result] with performed work, attributable decisions, exact artifact paths or prepared record content, actual checks and limits. Keep external work pending until Leader returns the responsible owner's evidence; do not mark Activity steps or close records yourself.
+5. Review any implementation plan against that format before returning it. Check that a reader can understand each phase's purpose, timing, visible result and scope without the chat; follow the action order and dependency reasons; locate affected files; and identify observable completion checks. Correct missing explanations, unclear terms and long prose while preserving requirements, risks, constraints and unresolved decisions.
+
+6. Return [output:work_result] with performed work, attributable decisions, exact artifact paths or prepared record content, actual checks and limits. Keep external work pending until Leader returns the responsible owner's evidence; do not mark Activity steps or close records yourself.
 
 ## Outputs
 
