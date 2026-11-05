@@ -45,7 +45,7 @@ Verified `operation_context` output from [Operation workflow](operate.md), suppl
 ## References
 
 - [Role rules and references](../SKILL.md) — gates, authority, safety and applicable sources.
-- [Agent convention](../../../../.hai/conventions/agent_conv.md) — receiver checks and leader-only routing — required for all tasks.
+- [Agent convention](../../../../.hai/conventions/agent_conv.md) — receiver checks and host coordinator-only routing — required for all tasks.
 - [State convention](../../../../.hai/conventions/state_conv.md) — generic core-state envelope and preservation requirements — required before extension configuration writes.
 - [Startup helper](../../../../.hai/tools/startup/README.md) — core environment assurance only; it does not validate extension settings — conditional when interpreting core helper output.
 - [Tooling convention](../../../../.hai/conventions/tooling_conv.md) — Python runtime and helpers — conditional when executing or changing supporting Python tools.

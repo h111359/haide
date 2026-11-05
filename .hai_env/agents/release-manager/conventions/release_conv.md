@@ -40,7 +40,7 @@ selected bundle version:
 
 | Manifest entry | Owning declaration within the candidate |
 | --- | --- |
-| `contracts.environment_state` | `.hai/agents/environment-manager/contract.json` in its entirety |
+| `contracts.environment_state` | `.hai/contracts/state.json` in its entirety |
 
 Duplicate JSON keys at any depth, nonstandard numeric constants, extra/missing
 schema keys and malformed values are invalid. All version numbers in `contracts`

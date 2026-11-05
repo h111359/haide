@@ -2,7 +2,7 @@
 
 ## Description
 
-Apply scoped definition/resource changes and return verified metadata for any required Environment-manager catalogue synchronization, without installing packages or changing membership.
+Apply scoped definition/resource changes and return verified metadata for any required runtime catalogue synchronization, without installing packages or changing membership.
 
 ## Inputs
 
@@ -22,12 +22,12 @@ Verified `inspection` output from [Establish scope and inspect](establish-scope-
 
 ## Steps
 
-1. Establish the baseline of [input:target], installed or source-package kind, registration status, affected resources/references and [input:change_request] against [input:inspection]. Identify any explicitly authorized identity migration. A source update changes only the selected golden package; a requested installed snapshot replacement returns through Leader to Environment-manager. Direct authorized workspace-only definition edits remain authoring work, not a source-package installation.
+1. Establish the baseline of [input:target], installed or source-package kind, registration status, affected resources/references and [input:change_request] against [input:inspection]. Identify any explicitly authorized identity migration. A source update changes only the selected golden package; a requested installed snapshot replacement returns through host coordinator to runtime. Direct authorized workspace-only definition edits remain authoring work, not a source-package installation.
 2. Review the mandatory configuration contract, supported versions and defaults against the existing contract and relevant saved values. Report breaking changes and owner migration dependencies; preserve external settings and do not implicitly migrate them. Prepare the scoped changes. Review each statement's semantic destination: shared constraints in SKILL Rules, unique local constraints in procedure Rules, conditions in Prerequisites and ordered actions/branches in Steps. Correct misplaced behavior in supporting concepts/conventions within the requested scope; retain their domain meaning and data contracts.
 3. Rewrite genuine rules in plain words with an explicit actor, action, object and applicable condition. Use only uppercase `MUST`, `MUST NOT` and `MAY` for their defined strengths, with one independent requirement per short bold title. Compare the before/after wording against the baseline for preserved defaults, preferences, permitted alternatives, conditions and exceptions; return unresolved meaning instead of silently changing strength. Do not treat a modal keyword as proof of clarity.
 4. Derive the final canonical identity, exact decoded description and definition/contract check evidence. For a registered installed target, identify any existing row that needs synchronization; for a source target, record its separate installed counterpart without changing either registration or snapshot. An unregistered target stays unregistered. Return malformed/conflicting catalogue findings without repairing the table.
 5. Recheck inspected definition/resource bytes, scope and containment, then apply only authorized authoring changes. Preserve catalogues and installed snapshots for source-only edits. Stop dependent writes and report partial results on changed inputs or failure.
-6. Reread and validate the changed definition/resources under [Validate or audit](validate-or-audit.md), supplying the current `inspection` and canonical `target`. Return the metadata and covering update authority through Leader for Environment-manager's existing-row synchronization or separately authorized installation. Treat required catalogue coherence as pending until that owner's actual verified result, without invoking it yourself.
+6. Reread and validate the changed definition/resources under [Validate or audit](validate-or-audit.md), supplying the current `inspection` and canonical `target`. Return the metadata and covering update authority through host coordinator for runtime's existing-row synchronization or separately authorized installation. Treat required catalogue coherence as pending until that owner's actual verified result, without invoking it yourself.
 
 ## Outputs
 
@@ -45,7 +45,7 @@ Verified `inspection` output from [Establish scope and inspect](establish-scope-
 - [State convention](../../../../.hai/conventions/state_conv.md) — catalogue encoding and workspace
   prerequisites — required for interpreting catalogue identity and HAI context; independent format
   checks and prerequisite diagnosis remain available without initialized state.
-- [Framework catalogue](../../../../.hai/agents/catalogue.md) and the workspace catalogue when present —
+- [Workspace catalogue](../../../../.hai_env/agents/catalogue.md) when present —
   registration and identity checks — required before mutations; conditional on audit scope.
 - [Model profiles](../../../../.hai/conventions/model-profiles_conv.md) — model metadata and
   runtime evidence boundaries — conditional when choosing execution declarations.

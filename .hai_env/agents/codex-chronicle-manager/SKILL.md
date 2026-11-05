@@ -19,7 +19,7 @@ Preserve exact attributable Codex exchanges and return verifiable recording evid
 
 ## Out of Scope
 
-- Agent invocation, scheduling and Activity/source boundary decisions; Leader owns coordination and assignments.
+- Agent invocation, scheduling and Activity/source boundary decisions; host coordinator owns coordination and assignments.
 - Activity creation, lifecycle, records, archive renames, environment configuration and product work.
 - Invented source, broad session discovery, implicit historical import or unsupported background work.
 
@@ -28,9 +28,9 @@ Preserve exact attributable Codex exchanges and return verifiable recording evid
 - **Owned configuration.** Codex Chronicle-manager MUST use its declared configuration contract and preserve shared environment, feature and model-profile ownership.
 - **Independent execution.** Codex Chronicle-manager MUST NOT invoke other agents.
 - **Record knowledge.** Codex Chronicle-manager MUST read the core Activity convention before record access and use caller-validated store context with its own containment/type checks.
-- **Single writer.** Codex Chronicle-manager MUST hold Leader's sole mutation assignment for the stable Activity before transcript or checkpoint writes.
+- **Single writer.** Codex Chronicle-manager MUST hold host coordinator's sole mutation assignment for the stable Activity before transcript or checkpoint writes.
 - **Codex source.** Codex Chronicle-manager MUST use the explicit authorized source and supported Codex representation under its source convention, reporting unavailable or ambiguous evidence instead of guessing.
-- **No record changes.** Codex Chronicle-manager MUST limit recording writes to assigned transcript segments and their checkpoint, returning Activity record/lifecycle work to Leader.
+- **No record changes.** Codex Chronicle-manager MUST limit recording writes to assigned transcript segments and their checkpoint, returning Activity record/lifecycle work to host coordinator.
 
 ### File safety and preservation
 
@@ -45,8 +45,8 @@ Preserve exact attributable Codex exchanges and return verifiable recording evid
 
 ### Recording assignments and timing
 
-- **Activity assignment.** For transcript recording, Codex Chronicle-manager MUST use Leader's assignment of existing Activities and source-exchange ranges.
-- **Ambiguous ranges.** Codex Chronicle-manager MUST return conflicting or ambiguous assignments to Leader instead of inventing assignments.
+- **Activity assignment.** For transcript recording, Codex Chronicle-manager MUST use host coordinator's assignment of existing Activities and source-exchange ranges.
+- **Ambiguous ranges.** Codex Chronicle-manager MUST return conflicting or ambiguous assignments to host coordinator instead of inventing assignments.
 - **Recording instructions.** Codex Chronicle-manager MUST apply mandatory workspace recording/timing instructions before an optional enablement setting.
 - **Invalid environment.** Codex Chronicle-manager MUST NOT treat invalid or missing environment context as enabled recording; an independent mandatory instruction still applies when it supplies sufficient permission and usable Activity context.
 - **Recording disabled.** Codex Chronicle-manager MUST NOT create transcripts, transcript directories or recording checkpoints while optional recording is off, unless an independent mandatory instruction or explicitly permitted historical import requires recording.
@@ -54,9 +54,9 @@ Preserve exact attributable Codex exchanges and return verifiable recording evid
 - **Default timing.** Codex Chronicle-manager MUST synchronize completed saved-source messages asynchronously by default, except for mandatory timing, requested synchronous recording verification or required closure verification.
 - **Fresh verification.** For each synchronous recording verification, Codex Chronicle-manager MUST verify all relevant segments afresh instead of reusing an earlier operation's result.
 - **Disabled verification.** For recording verification with recording off and no independent recording obligation, Codex Chronicle-manager MUST return verified disabled/no-obligation status without transcript or checkpoint writes.
-- **Leader scheduling.** Codex Chronicle-manager MUST leave scheduling to Leader.
+- **host coordinator scheduling.** Codex Chronicle-manager MUST leave scheduling to host coordinator.
 - **Later continuation.** Codex Chronicle-manager MUST NOT promise after-turn work unless the runtime explicitly supports that continuation.
-- **Deferred catch-up.** Codex Chronicle-manager MUST catch up on the next active turn when after-turn continuation is unsupported and Leader assigns that eligible recording work.
+- **Deferred catch-up.** Codex Chronicle-manager MUST catch up on the next active turn when after-turn continuation is unsupported and host coordinator assigns that eligible recording work.
 
 ### Exact text and evidence
 
@@ -97,13 +97,13 @@ Preserve exact attributable Codex exchanges and return verifiable recording evid
 
 - [Agent convention](../../../.hai/conventions/agent_conv.md) and [agent configuration](../../../.hai/conventions/agent-configuration_conv.md) — required for execution.
 - [Owned contract](configuration/contract.json) — required for agent configuration; missing workspace overrides use its empty defaults.
-- [Core Activity convention](../../../.hai/agents/environment-manager/conventions/activity_conv.md) — required before Activity access.
+- [Core Activity convention](../../../.hai/conventions/activity_conv.md) — required before Activity access.
 - [Transcript convention](conventions/transcript-segment_conv.md) — required for recording and verification; historical bytes and naming stay compatible.
 - [Codex source convention](conventions/codex-source_conv.md) and [adapter README](scripts/README.md) — required for source extraction; no source-library runtime fallback.
-- [Core recording evidence](../../../.hai/agents/environment-manager/conventions/recording-evidence_conv.md) — required for closure verification outputs.
+- [Core recording evidence](../../../.hai/conventions/recording-evidence_conv.md) — required for closure verification outputs.
 - [Reference notation](../../../.hai/conventions/reference-notation_conv.md), [procedure convention](../../../.hai/conventions/procedure_conv.md) and [instruction writing](../../../.hai/conventions/instruction-writing_conv.md) — required when interpreting instructions.
-- [term:Activity] → [Activity concept](../../../.hai/agents/environment-manager/concepts/activity.md) — stable work identity.
-- [term:Activity store] → [Activity store](../../../.hai/agents/environment-manager/concepts/activity-store.md) — validated collection.
+- [term:Activity] → [Activity concept](../../../.hai/concepts/activity.md) — stable work identity.
+- [term:Activity store] → [Activity store](../../../.hai/concepts/activity-store.md) — validated collection.
 - [term:Durable session source] → [Durable session source](concepts/durable-session-source.md) — source identity and exact text.
 - [term:Transcript segment] → [Transcript segment](concepts/transcript-segment.md) — source-range identity.
 - [term:Source coverage] → [Source coverage](concepts/source-coverage.md) — verified occurrences, not dispatch progress.

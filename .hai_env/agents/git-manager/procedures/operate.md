@@ -30,7 +30,7 @@ None.
 4. Inspect the relevant repository/remote state: identity, branch/HEAD, requested worktree/index changes, destination/access, existing operation state and relevant automation. Discover rather than assume remotes/default branches; read installed help or official documentation when command behavior is uncertain.
 5. Choose the smallest authorized sequence and prepare any unresolved destructive/publication effects for concrete review. Finalize [output:operation_context] after verified preflight.
 6. Pass [output:operation_context] as `operation_context` to the selected [commit/export](commit-and-export.md), [synchronization](synchronize.md), [collaboration](collaborate.md), [release/recovery](release-and-recover.md) or [targeted discovery](inspect-discovery.md) procedure, along with actual scoped task values under that target's declared input names. Apply its operation-specific gates and recheck candidate facts before writes.
-7. Verify actual local/remote outcomes and observe required checks. Request further owner evidence through Leader if needed, then return [output:result] with identifiers, paths/resources, URLs, checks, preserved work, publication status and dependencies. For release work include source/asset evidence for the product owner's final review.
+7. Verify actual local/remote outcomes and observe required checks. Request further owner evidence through host coordinator if needed, then return [output:result] with identifiers, paths/resources, URLs, checks, preserved work, publication status and dependencies. For release work include source/asset evidence for the product owner's final review.
 
 ## Outputs
 
@@ -42,7 +42,7 @@ None.
 ## References
 
 - [Role rules and references](../SKILL.md) — gates, authority, safety and applicable sources.
-- [Agent convention](../../../../.hai/conventions/agent_conv.md) — receiver checks and leader-only routing — required for all tasks.
+- [Agent convention](../../../../.hai/conventions/agent_conv.md) — receiver checks and host coordinator-only routing — required for all tasks.
 - [State convention](../../../../.hai/conventions/state_conv.md) — generic core-state envelope and preservation requirements — required before extension configuration writes.
 - [Startup helper](../../../../.hai/tools/startup/README.md) — core environment assurance only; it does not validate extension settings — conditional when interpreting core helper output.
 - [Tooling convention](../../../../.hai/conventions/tooling_conv.md) — Python runtime and helpers — conditional when executing or changing supporting Python tools.

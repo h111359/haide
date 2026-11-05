@@ -15,7 +15,7 @@ from unittest.mock import patch
 import startup_check as startup
 
 SCRIPT = Path(startup.__file__).resolve()
-TEMPLATE = SCRIPT.parents[2] / "agents/environment-manager/templates/state.json"
+TEMPLATE = SCRIPT.parents[2] / "templates/state.json"
 DEFAULT = json.loads(TEMPLATE.read_text(encoding="utf-8"))
 
 
@@ -26,8 +26,6 @@ class StartupTests(unittest.TestCase):
         self.root = Path(self.temp.name).resolve()
         self.state = {"state_format_version": 3, **copy.deepcopy(DEFAULT)}
         self.write(startup.TEMPLATE, TEMPLATE.read_text(encoding="utf-8"))
-        self.write(".hai/agents/leader/SKILL.md", "This is deliberately not a parsed definition.")
-        self.table(".hai", [("leader", "Call to coordinate.", "leader/SKILL.md")])
         self.write(startup.INSTRUCTIONS, "")
         self.save_state()
 
@@ -88,7 +86,7 @@ class StartupTests(unittest.TestCase):
         self.assertNotIn("integrations", result)
         self.assertEqual(result["profiles"]["status"], "absent")
         self.assertEqual(result["catalogues"]["workspace"], "absent")
-        self.assertEqual([a["name"] for a in result["agents"]], ["leader"])
+        self.assertEqual([a["name"] for a in result["agents"]], [])
         self.assertEqual(before, self.snapshot())
 
     def test_registered_specification_defaults_and_configured_values_are_bounded(self):
@@ -115,7 +113,7 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["state_status"], "valid")
         self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
         self.assertEqual(result["agent_configurations"]["specification-manager"]["settings"], {})
-        self.assertFalse(result["ok"])
+        self.assertTrue(result["ok"])
 
     def test_core_startup_without_optional_extension_or_executable(self):
         self.state.pop("integrations", None)
@@ -166,7 +164,7 @@ class StartupTests(unittest.TestCase):
     def test_optional_workspace_extension_requires_catalogue_registration(self):
         self.write('.hai_env/agents/git-manager/SKILL.md', 'Not parsed during startup.')
         before = startup.check(self.root)
-        self.assertEqual([agent['name'] for agent in before['agents']], ['leader'])
+        self.assertEqual([agent['name'] for agent in before['agents']], [])
         self.assertEqual(before['catalogues']['workspace'], 'absent')
         self.table('.hai_env', [('git-manager', 'Operate the optional extension.', 'git-manager/SKILL.md')])
         result = startup.check(self.root)
@@ -340,7 +338,7 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["instructions_status"], "missing")
         self.assertIsNone(result["agent_instructions"])
         self.assertIn("agent_instructions", [i["code"] for i in result["issues"]])
-        self.assertTrue(result["agents"])
+        self.assertEqual(result["agents"], [])
         self.assertEqual(before, self.snapshot())
 
     def test_wrong_type_invalid_utf8_and_unreadable_instructions_fail(self):
@@ -526,8 +524,8 @@ class StartupTests(unittest.TestCase):
                                 ("legacy", "Legacy.", "legacy/knowledge.md")], "\r\n")
         result = startup.check(self.root)
         self.assertEqual(result["catalogues"]["workspace"], "partial")
-        self.assertEqual([a["name"] for a in result["agents"]], ["leader", "good"])
-        self.assertEqual(result["agents"][1]["selection_guide"], "Call: A & B | C \\ D.")
+        self.assertEqual([a["name"] for a in result["agents"]], ["good"])
+        self.assertEqual(result["agents"][0]["selection_guide"], "Call: A & B | C \\ D.")
         self.assertEqual(len(result["issues"]), 3)
 
     def test_duplicate_names_exclude_all_rows_including_case_conflicts(self):
@@ -535,7 +533,7 @@ class StartupTests(unittest.TestCase):
         self.table(".hai_env", [("good", "One.", "good/SKILL.md"),
                                 ("Good", "Two.", "Good/SKILL.md")])
         result = startup.check(self.root)
-        self.assertEqual([a["name"] for a in result["agents"]], ["leader"])
+        self.assertEqual([a["name"] for a in result["agents"]], [])
         self.assertEqual(len(result["issues"]), 2)
 
     def test_malformed_whole_catalogue_and_isolated_row(self):
@@ -544,32 +542,33 @@ class StartupTests(unittest.TestCase):
         path.write_text(path.read_text() + "| malformed |\n", encoding="utf-8")
         result = startup.check(self.root)
         self.assertEqual(result["catalogues"]["workspace"], "partial")
-        self.assertEqual([a["name"] for a in result["agents"]], ["leader", "good"])
+        self.assertEqual([a["name"] for a in result["agents"]], ["good"])
         path.write_text("| Bad | Header |\n| --- | --- |\n", encoding="utf-8")
         result = startup.check(self.root)
         self.assertEqual(result["environment"], "valid")
         self.assertEqual(result["catalogues"]["workspace"], "invalid")
 
-    def test_invalid_framework_prevents_guessing_workspace_collisions(self):
+    def test_no_framework_registry_dependency(self):
         self.write(".hai/agents/catalogue.md", "malformed")
-        self.assertEqual(startup.check(self.root)["catalogues"]["workspace"], "unverified")
+        self.assertEqual(startup.check(self.root)["catalogues"]["workspace"], "absent")
+        self.assertTrue(startup.check(self.root)["ok"])
 
     def test_fenced_example_is_not_a_registration_table(self):
-        path = self.root / ".hai/agents/catalogue.md"
+        path = self.table(".hai_env", [])
         table = path.read_text(encoding="utf-8")
         path.write_text("```markdown\n" + table + "```\n", encoding="utf-8")
-        self.assertEqual(startup.check(self.root)["catalogues"]["framework"], "invalid")
+        self.assertEqual(startup.check(self.root)["catalogues"]["workspace"], "invalid")
         path.write_text("~~~markdown\n" + table + "~~~\n\n" + table, encoding="utf-8")
-        self.assertEqual(startup.check(self.root)["catalogues"]["framework"], "valid")
+        self.assertEqual(startup.check(self.root)["catalogues"]["workspace"], "valid")
 
-    def test_invalid_core_does_not_load_workspace_catalogue_but_loads_instructions(self):
+    def test_invalid_core_still_reports_workspace_catalogue_and_instructions(self):
         self.write(".hai_env/state.json", "bad JSON")
         self.write(".hai_env/agents/catalogue.md", "malformed")
         result = startup.check(self.root)
-        self.assertEqual(result["catalogues"]["workspace"], "unverified")
-        self.assertEqual([i["code"] for i in result["issues"]], ["state"])
+        self.assertEqual(result["catalogues"]["workspace"], "invalid")
+        self.assertEqual([i["code"] for i in result["issues"]], ["state", "catalogue"])
         self.assertEqual(result["instructions_status"], "loaded")
-        self.assertTrue(result["agents"])
+        self.assertFalse(result["agents"])
 
     def test_profiles_schema_duplicates_and_overlap_are_isolated(self):
         self.profiles()
@@ -668,7 +667,7 @@ class StartupTests(unittest.TestCase):
             self.make_link(".hai_env/agents/escape/SKILL.md", target)
             self.table(".hai_env", [("escape", "Call.", "escape/SKILL.md")])
             result = startup.check(self.root)
-            self.assertEqual([a["name"] for a in result["agents"]], ["leader"])
+            self.assertEqual([a["name"] for a in result["agents"]], [])
             self.assertEqual(result["catalogues"]["workspace"], "partial")
 
     @unittest.skipUnless(os.name == "nt", "Windows junction behavior")

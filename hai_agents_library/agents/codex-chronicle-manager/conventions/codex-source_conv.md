@@ -2,7 +2,7 @@
 
 ## Explicit source and identity
 
-This package targets Codex saved JSONL sessions. Leader supplies one explicit
+This package targets Codex saved JSONL sessions. host coordinator supplies one explicit
 authorized canonical regular source file, original session ID/start time, chosen
 representation and assigned source occurrences. The adapter never searches the
 Codex home, unrelated sessions, conversation history or the source library.
@@ -25,7 +25,7 @@ source has not been rewritten; changed/divergent history blocks synchronization.
 
 ## Supported representations
 
-Leader explicitly chooses one representation for the source/segment and retains
+host coordinator explicitly chooses one representation for the source/segment and retains
 it in source provenance. The reader never combines duplicate event and response
 representations or deduplicates identical text.
 
@@ -62,7 +62,7 @@ unchanged; Codex-specific provenance belongs in source metadata.
 
 ## Explicit immutable prefix snapshots
 
-For a live saved source, Leader may explicitly assign Chronicle to create an
+For a live saved source, host coordinator may explicitly assign Chronicle to create an
 immutable exact-byte prefix snapshot through an inclusive physical source cutoff
 in an authorized disposable location. The prefix starts at original position zero
 and ends at that cutoff's complete JSONL record, retaining its exact bytes and
@@ -78,7 +78,7 @@ Before supplying closure evidence and again immediately before archival, confirm
 the original file still has that exact byte prefix and inspect later complete
 records for new eligible exchanges in the assigned enabled intervals. A changed
 original prefix, unavailable original, ambiguous/malformed tail or new eligible
-exchange blocks stale proof and returns to Leader for fresh assignment/verification.
+exchange blocks stale proof and returns to host coordinator for fresh assignment/verification.
 Later excluded tool/progress records or consistent resume metadata alone do not
 change verified eligible coverage or invalidate an identical prefix. They never
 authorize ignoring later human prompts or delivered finals. Closure proof may hash

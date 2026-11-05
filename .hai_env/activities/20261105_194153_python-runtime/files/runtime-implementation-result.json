@@ -1,0 +1,12 @@
+{
+  "activity_id": "10e8dc6b-c280-4ac1-81b8-7085d9390715",
+  "steps": {
+    "implementation": "completed",
+    "verification": "completed"
+  },
+  "log": "Implemented the approved modular Python runtime at .hai/tools/hai.py, retained .hai/start.md as its bootstrap, retired built-in Leader/Environment-manager packages, moved state/Activity contracts to shared paths, and updated installed/source extension consumers and documentation. Environment formats, settings, Activity identity/history and original implementation-start timestamp were preserved. Developer verification: 4 core runtime tests, 6 workflow tests, and 11 specification consumer tests passed in Activity-local staging. Independent QA ran the 170-test helper suite with 2 Windows-only skips and passed additional lifecycle, package byte-preservation, invalid package, stale recording proof, no-overwrite rename, symlink/hardlink and lock probes. Root live startup returned valid format-3 environment, sole expected Activity and zero issues; git diff --check passed. All test execution/generated artifacts stayed under this Activity. Linux/Python 3.12.3 verified; Windows/macOS behavior and concurrent race injection remain unverified. Host invocation, automatic transcript/source integration and remote package acquisition remain explicit integration limits; no complete transcript coverage is claimed. No commit, release, environment configuration migration or Activity closure was performed.",
+  "provenance": {
+    "source": "host coordinator review of Software-developer, Agent-definition-manager and independent Quality-assurance results, plus live runtime readback",
+    "reason": "record the authorized runtime implementation and actual verification results"
+  }
+}

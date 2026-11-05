@@ -51,10 +51,9 @@ class CoreIsolationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='hai-core-only-') as directory:
             stage = Path(directory).resolve()
             copy_core(stage)
-            catalogue(stage, '.hai', ('leader', 'environment-manager'))
             env = stage/'.hai_env'
             env.mkdir()
-            state = json.loads((stage/'.hai/agents/environment-manager/templates/state.json').read_text())
+            state = json.loads((stage/'.hai/templates/state.json').read_text())
             state['state_format_version'] = 3
             state['features']['chronicles']['enabled'] = True
             (env/'state.json').write_text(json.dumps(state))
@@ -68,30 +67,18 @@ class CoreIsolationTests(unittest.TestCase):
             self.assertTrue(result['ok'], result)
             self.assertEqual(result['environment'], 'valid')
             self.assertTrue(result['features']['chronicles']['enabled'])
-            self.assertEqual({agent['name'] for agent in result['agents']}, {'leader', 'environment-manager'})
+            self.assertEqual(result['agents'], [])
             self.assertFalse((env/'agents/codex-chronicle-manager').exists())
-            for name in ('leader', 'environment-manager'):
-                result = validate(stage, f'.hai/agents/{name}/SKILL.md')
-                self.assertTrue(result['ok'], result)
             self.assertEqual(snapshot(stage), before)
 
     def test_bootstrap_and_recording_have_separate_owners_and_prerequisites(self):
-        profile = (ROOT/'.hai/conventions/model-profiles_conv.md').read_text()
-        self.assertIn('create no model profiles, Activity records or', profile)
-        self.assertIn('does not extend inherited bootstrap permission', profile)
-        closure = (ROOT/'.hai/agents/environment-manager/procedures/close-or-supplement.md').read_text()
-        self.assertIn('Do not invoke that specialist or execute its procedures', closure)
-        self.assertIn('without source inspection, optional-owner invocation', closure)
-        self.assertIn('rerun the gate immediately before mutation', closure)
-        leader = (ROOT/'.hai/agents/leader/procedures/coordinate-recording.md').read_text()
-        self.assertIn('fresh unique closure operation ID', leader)
-        self.assertIn('Transfer sole mutation ownership', leader)
-        self.assertIn('needs neither Chronicle registration nor transcript source', leader)
+        runtime = (ROOT/'.hai/tools/runtime/recording.py').read_text()
+        self.assertIn('unsupported', runtime)
+        self.assertIn('unverified', runtime)
 
     def test_live_core_and_consumers_have_no_retired_owner_routing(self):
         paths = [ROOT/'README.md', ROOT/'INSTALL.md', ROOT/'.hai/start.md']
-        for directory in (ROOT/'.hai/agents/leader', ROOT/'.hai/agents/environment-manager',
-                          ROOT/'.hai/concepts', ROOT/'.hai/conventions'):
+        for directory in (ROOT/'.hai/concepts', ROOT/'.hai/conventions'):
             paths.extend(directory.rglob('*.md'))
         for path in paths:
             with self.subTest(path=path):
@@ -109,7 +96,6 @@ class SourceStagingTests(unittest.TestCase):
         source = ROOT/'hai_agents_library/agents'
         cls.source_before = snapshot(source)
         shutil.copytree(source, cls.stage/'.hai_env/agents', ignore=shutil.ignore_patterns('__pycache__'))
-        catalogue(cls.stage, '.hai', ('leader', 'environment-manager'))
         names = sorted(path.name for path in (cls.stage/'.hai_env/agents').iterdir() if path.is_dir())
         catalogue(cls.stage, '.hai_env', names)
 
@@ -148,9 +134,8 @@ class SourceStagingTests(unittest.TestCase):
             self.assertIn('rather than mutate Activity records', skill)
         developer = (self.stage/'.hai_env/agents/software-developer/procedures/perform-assigned-work.md').read_text()
         self.assertIn('original implementation-start marker', developer)
-        route = (self.stage/'.hai/agents/leader/procedures/delegate-work.md').read_text()
-        self.assertIn('without a more specific owner', route)
-        self.assertIn('definition, specification and repository owners', route)
+        self.assertTrue((self.stage/'.hai/tools/hai.py').is_file())
+        self.assertFalse((self.stage/'.hai/agents').exists())
 
 
 if __name__ == '__main__':

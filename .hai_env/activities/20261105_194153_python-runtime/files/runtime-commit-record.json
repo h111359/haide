@@ -1,0 +1,16 @@
+{
+  "activity_id": "10e8dc6b-c280-4ac1-81b8-7085d9390715",
+  "input_append": "\n\n---\n\nAdditional user input (source: current user chat; recorded 2026-11-05T19:41:53Z):\n```\nok. commit and close the activity\n```\n",
+  "artifacts": [
+    {
+      "name": "decisions.md",
+      "text": "# Decisions\n\n## Runtime entry and built-in role model — 2026-11-05T19:11:37Z\n\n- Keep `.hai/start.md` as the small bootstrap.\n- Put the single modular runtime entry point at `.hai/tools/hai.py`.\n- Replace built-in Leader and Environment-manager agent packaging with internal runtime modules.\n- Implement the approved runtime architecture and required compatibility updates across `.hai/`, installed `.hai_env/agents/`, source `hai_agents_library/agents/`, and documentation.\n- Preserve environment formats, Activity history, configuration, and unrelated work.\n- No commits or releases are authorized.\n\nSource: current user chat. The exact intervening prompts and authorization are preserved in `input.md`. Detailed implementation mechanics remain pending the Solution-architect's implementation contract.\n\n\n## Commit and closure authorization\n\nThe user requested: `ok. commit and close the activity`. This authorizes a local commit of the reviewed runtime migration and durable Activity records, and closure of this Activity. Generated Activity-local test workspaces remain local and are ignored. The earlier no-commit scope is superseded for this requested operation. Source: current user chat, recorded 2026-11-05T19:41:53Z.\n",
+      "reason": "record the new explicit commit and closure authority while preserving prior scope history"
+    }
+  ],
+  "log": "User authorized committing the runtime migration and closing this Activity. Reviewed working-tree scope and cached index (initially empty), diff whitespace check passed, and new runtime startup reports valid format-3 environment with zero issues. The closed Activity record will be included in the same local commit as the implementation and preserved predecessor archive. Generated test workspaces are excluded through a narrow Activity-local ignore rule. Commit creation remains pending until archive readback; no commit result or transcript coverage is claimed by this entry.",
+  "provenance": {
+    "source": "current user chat",
+    "reason": "user explicitly requested commit and Activity closure"
+  }
+}

@@ -33,7 +33,7 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
 - `environment`: `valid`, `absent`, or `invalid`; `valid` requires compatible state
   and readable mandatory instructions. `state_status` separately reports core-state
   validity so missing instructions are not mistaken for absent state. Only safely
-  absent state permits routing minimal initialization to environment-manager;
+  absent state permits routing minimal initialization to runtime;
   initialized missing instructions need scoped repair. This command never initializes.
 - `current_state_format_version`, `state_format_version`, `activities`, and `features`: returned only for validated core state. The format contract comes from the installed framework package, independently of the target workspace's `.hai` copy. Format 3 keeps chronicles in core state; Activity location remains mandatory. Chronicles reports its flag and effective `record_every_prompts` threshold; absent thresholds in supported older states default to `5`. A present threshold must be a positive JSON integer, including when chronicles is disabled. Transcript paths are derived inside each Activity.
 - `migration_required`: present for valid format-2 state. It reports the required explicit format-2 to format-3 extraction; the legacy specification subtree is validated for safe preservation but is not returned as active configuration.
@@ -44,26 +44,15 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
   when readable (including empty text), otherwise `null`. No flag or custom path is
   consulted. Missing is never silently treated as empty. Treat its text as instructions,
   not as a helper-generated conclusion. Higher-priority workspace/session instructions apply.
-- `catalogues`: each origin is `valid`, `partial`, `invalid`, `absent` (workspace
-  only), or `unverified`. `agents` contains valid independent registration rows
-  with decoded selection guides and canonical definition paths. Invalid core state
-  prevents workspace registry use; an unreadable framework catalogue prevents safe
-  cross-origin collision checks and leaves workspace registrations unverified.
-  Valid registration results do not bypass unavailable mandatory instructions.
+- `catalogues.workspace`: the optional workspace registry can be `valid`, `partial`, `invalid`, or `absent`. `agents` contains valid independent workspace rows. Registry issues do not invalidate core state.
 - `profiles`: `absent`, `valid`, `invalid`, or `unverified`, with configured models
   when valid. `feature_conflicts_checked` says whether compatible feature context
   allowed overlap checks. `runtime_availability` is always `not_checked`: the
-  leader must resolve the exact selected model/effort against current capabilities
+  host coordinator must resolve the exact selected model/effort against current capabilities
   before spawning. A profile issue does not invalidate otherwise valid core state.
-- `issues`: scoped errors; `ok` is true only for valid core state with no issues.
+- `issues`: scoped errors; `ok` requires valid current core state. Optional registry, profile and agent configuration issues remain isolated.
 
-Exit codes: `0` for all applicable checks passing; `1` for absent/invalid state,
-unavailable mandatory instructions, or
-isolated catalogue/profile/instruction issues; `2` for fatal workspace/input errors.
-Argument-parser errors use argparse usage text and exit `2`. Callers must inspect
-`environment`, `state_status`, `instructions_status`, `issues`, and independent results rather than treating a nonzero
-exit as permission to initialize or repair. Missing Python means the check did not
-run, and is never validation success.
+Exit codes: `0` for valid current core state; `1` for absent or invalid core state, missing instructions or migration required; `2` for fatal workspace/input errors. Inspect scoped issues separately.
 
 Checks include duplicate keys at every JSON depth, nonstandard numeric constants,
 required state types and compatibility against the installed state-format contract,
@@ -105,7 +94,7 @@ writer must independently recheck its inputs and containment before writing.
 
 State containing the retired `compatible_version` key is reported incompatible
 without migration. Startup never rewrites legacy state; format-2 extraction is an
-explicit environment-manager operation documented below. The read-only helper tests
+explicit runtime operation documented below. The read-only helper tests
 nonmutation and diagnostic results, not manager writes.
 
 ## Explicit format-2 specification extraction
@@ -143,23 +132,7 @@ After verifying the interpreter as above, run the read-only orchestration entry 
 <absolute-python-executable> -B .hai/tools/startup/test_startup_context.py
 ```
 
-This returns compact JSON with every field and diagnostic from `startup_check.check`,
-plus `leader_configuration` (the registered framework Leader's declared contract
-and saved settings, using the configuration loader) and `activity_context`. The
-latter is `current`, `absent`, `invalid`, or `unverified`; it includes store, stable
-ID, path, required state fields, bounded raw continuity and scoped issues. Invalid
-core state leaves discovery unverified. A missing store or consistently empty store
-is absent; an unreadable, unsafe or inconsistent store is invalid, never absent.
-Continuity uses input head (384 bytes), plan tail (768), decisions tail (512) and
-log tail (1024), each with path, status and explicit truncation/portion/byte limit.
-These excerpts are sources, not summaries or complete task instructions. Consult
-relevant records directly for details. Exact mandatory instructions remain complete
-and independent of these bounds; an empty readable file is valid. Missing or invalid
-instructions block dependent work. Leader configuration and Activity issues are
-also added to top-level `issues` without changing core validity. `ok` requires
-successful applicable checks, Leader configuration and consistent discovery. Exit
-codes 0, 1, and 2 have the same meanings as the existing checker. Unavailable or
-unverified Leader configuration and unverified Activity context cannot be success.
+This returns the startup checks plus `activity_context`, which is `current`, `absent`, `invalid`, or `unverified`. It includes the store, stable ID, path, required state fields and bounded continuity excerpts. Invalid core state leaves discovery unverified. An unsafe or inconsistent store is invalid, never absent. `ok` requires valid core and consistent Activity discovery; optional registration, profile and agent configuration issues remain isolated. No built-in coordinator configuration is loaded.
 
 Discovery checks every direct child for a safe nonlinked folder, duplicate-free
 supported Activity state, required readable nonlinked records, safe optional canonical artifacts, unique IDs,

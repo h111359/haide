@@ -19,8 +19,8 @@ FEATURES = {"chronicles": None}
 ACTIVITIES_LOCATION = ".hai_env/activities"
 CHRONICLES_RECORD_EVERY_PROMPTS = 5
 INSTRUCTIONS = ".hai_env/agent_instructions.md"
-TEMPLATE = ".hai/agents/environment-manager/templates/state.json"
-CONTRACT = Path(__file__).resolve().parents[2] / "agents/environment-manager/contract.json"
+TEMPLATE = ".hai/templates/state.json"
+CONTRACT = Path(__file__).resolve().parents[2] / "contracts/state.json"
 
 
 def state_contract(path: Path | None = None) -> dict:
@@ -153,9 +153,14 @@ def state_context(workspace: Path, state: dict, template: dict,
             or not activities["location"].strip()):
         raise Invalid("Mandatory activities requires a nonblank workspace-relative location and no enabled switch")
     reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agents",
-                ".hai_env/config", INSTRUCTIONS]
+                ".hai_env/config", ".hai_env/model_profiles.json", INSTRUCTIONS]
     reserved_paths = [workspace / name for name in reserved]
-    reserved_paths += [safe_path(workspace, name) for name in reserved]
+    for name in reserved:
+        try:
+            reserved_paths.append(safe_path(workspace, name))
+        except Invalid:
+            if name != ".hai_env/model_profiles.json":
+                raise
     locations, features = {}, {}
     activity_relative = activities["location"]
     activity_target = safe_path(workspace, activity_relative)
@@ -362,17 +367,11 @@ def check(workspace: Path) -> dict:
         issues.append({"code": "state", "path": ".hai_env/state.json", "message": str(exc)})
     result["state_status"] = result["environment"]
 
-    framework = catalogue(workspace, ".hai")
-    result["catalogues"]["framework"] = framework["status"]
-    result["agents"].extend(framework["entries"])
-    issues.extend(framework["issues"])
-    if result["environment"] == "valid" and framework["status"] != "invalid":
-        local = catalogue(workspace, ".hai_env", framework["names"])
-        result["catalogues"]["workspace"] = local["status"]
-        result["agents"].extend(local["entries"])
-        issues.extend(local["issues"])
-    else:
-        result["catalogues"]["workspace"] = "unverified"
+    # The workspace catalogue is optional and independent of core validity.
+    local = catalogue(workspace, ".hai_env")
+    result["catalogues"]["workspace"] = local["status"]
+    result["agents"].extend(local["entries"])
+    issues.extend(local["issues"])
 
     if (result["environment"] == "valid"
             and result.get("state_format_version") == 3):
@@ -408,7 +407,7 @@ def check(workspace: Path) -> dict:
 
     if result["environment"] == "valid" and result["instructions_status"] != "loaded":
         result["environment"] = "invalid"
-    result["ok"] = result["environment"] == "valid" and not issues
+    result["ok"] = (result["environment"] == "valid" and result.get("state_format_version") == 3)
     return result
 
 

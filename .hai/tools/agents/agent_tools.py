@@ -665,7 +665,7 @@ def decode_cell(cell):
 def audit(workspace):
     issues, agents = [], []
     framework_names = set()
-    for origin in (".hai", ".hai_env"):
+    for origin in (".hai_env",):
         relative = f"{origin}/agents/catalogue.md"
         try:
             catalogue = contained(workspace, relative)

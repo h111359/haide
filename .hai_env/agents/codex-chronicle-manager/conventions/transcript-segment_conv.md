@@ -65,7 +65,7 @@ The UTF-8 JSON root is an object with unique property names and these fields:
 | `cadence_cursors` | Object mapping source-session IDs to the last observed user-prompt Occurrence at the most recent batch dispatch; scheduling only, never recording completeness. |
 | `last_attempt` | Attempt object with actual status, or `null` before the first attempt. |
 | `last_successful_at` | Actual UTC completion time of the last fully verified assigned batch, or `null`; a recent success does not erase earlier pending ranges. |
-| `in_flight` | Current invocation/attempt identity and assigned cutoff, or `null`. An interrupted invocation is unresolved until Leader reconciles it with actual runtime and files. |
+| `in_flight` | Current invocation/attempt identity and assigned cutoff, or `null`. An interrupted invocation is unresolved until host coordinator reconciles it with actual runtime and files. |
 
 Nested shapes use the following field names and types. Every listed field is
 present unless explicitly optional; timestamps use `YYYY-MM-DDTHH:MM:SSZ`.
@@ -102,7 +102,7 @@ source coverage. Prepared final-text entries remain distinct from saved source.
 ## References
 
 - [Codex Chronicle-manager](../SKILL.md) — inherited recording and exact-text rules and owner procedures.
-- [Activity convention](../../../../.hai/agents/environment-manager/conventions/activity_conv.md) — Activity identity, paths and lifecycle.
-- [State convention](../../../../.hai/conventions/state_conv.md) — enablement and prompt threshold; configuration remains environment-manager's responsibility.
+- [Activity convention](../../../../.hai/conventions/activity_conv.md) — Activity identity, paths and lifecycle.
+- [State convention](../../../../.hai/conventions/state_conv.md) — enablement and prompt threshold; configuration remains runtime's responsibility.
 - [Durable session source](../concepts/durable-session-source.md) — source meaning and evidence limits.
 - [Source coverage](../concepts/source-coverage.md) — exact coverage meaning.

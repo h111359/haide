@@ -4,7 +4,7 @@
 Linux, and macOS. It uses only the standard library; no packages or
 installation steps run automatically. Copy the entire `specification-manager/`
 folder, including `SKILL.md`, tree `contract.json`, `configuration/`, `concepts/`, `conventions/`, procedures and `scripts/`,
-to use it independently. No HAI framework, environment state, leader, Activity
+to use it independently. No HAI framework, environment state, host coordinator, Activity
 records, or model profiles are required. The format does not install or activate
 a runtime skill; invoke the instructions and script using their installed paths.
 
@@ -252,7 +252,7 @@ validation, or dry-run/apply mode, source hash and actual stages for setup. Unkn
 saved data is never echoed as active settings. Exit 0 means the requested check or
 setup completed; 1 means a dependency, validation or operation failure; argparse
 errors use 2. This is not tree compatibility, operation permission or a transaction.
-A format-2-to-3 extraction belongs to Environment-manager's explicit transition
+A format-2-to-3 extraction belongs to runtime's explicit transition
 adapter, not this ordinary setup command. The tree compatibility target stays 1.
 
 Settings fixtures:

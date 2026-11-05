@@ -32,7 +32,7 @@ Verified `operation_context` output from [Operation workflow](operate.md), suppl
 1. Bound [input:source_roots] by [input:operation_context] and [input:exclusions]. Read governing instructions and identify permitted explicit targets without following escaping links or inventorying unrelated descendants.
 2. Evaluate effective Git ignore rules for those targets, including nested `.gitignore`, precedence, negation and excluded-parent behavior. Collect only required classifications/rule provenance from actual Git-aware evidence, rather than fixed folder-name guesses.
 3. Identify permitted library root/purpose evidence from manifests, lockfiles, configuration or reliable documentation outside excluded descendants. Distinguish verified dependencies from first-party folders merely named `lib`; mark uncertain classifications.
-4. Verify the proposed evidence respects product/ignored/library/privacy boundaries, then return [output:discovery_evidence] through Leader with roots/targets, effective rule coverage, exclusions, uncertainty and unavailable checks.
+4. Verify the proposed evidence respects product/ignored/library/privacy boundaries, then return [output:discovery_evidence] through host coordinator with roots/targets, effective rule coverage, exclusions, uncertainty and unavailable checks.
 
 ## Outputs
 

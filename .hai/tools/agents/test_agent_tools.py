@@ -18,13 +18,13 @@ class AgentTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="hai-agent-test-")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name).resolve()
-        self.definition = ".hai/agents/worker/SKILL.md"
+        self.definition = ".hai_env/agents/worker/SKILL.md"
         self.description = "Call to inspect café & pipes | paths \\ and report."
         self.write_definition()
         encoded = self.description.replace("&", "&amp;").replace("\\", "&#92;").replace("|", "&#124;")
         self.catalogue = ("# Agents\n\n| Agent | Selection guide | Definition |\n| --- | --- | --- |\n"
                           f"| `worker` | {encoded} | [SKILL.md](worker/SKILL.md) |\n")
-        self.write(".hai/agents/catalogue.md", self.catalogue)
+        self.write(".hai_env/agents/catalogue.md", self.catalogue)
         self.profiles = {"format_version": 1, "models": {"light": "small", "standard": "normal", "advanced": "large"}}
         self.write(".hai_env/model_profiles.json", json.dumps(self.profiles))
         self.runtime = {"models": {"small": ["low", "high"], "normal": ["high"], "large": ["high", "ultra"]}}
@@ -108,14 +108,14 @@ None.
 
     def test_validate_registered_and_unregistered_without_other_context(self):
         self.assertTrue(validate(self.root, self.definition)["ok"])
-        (self.root / ".hai/agents/catalogue.md").unlink()
+        (self.root / ".hai_env/agents/catalogue.md").unlink()
         self.write(".hai_env/state.json", "not JSON")
         self.write(".hai_env/model_profiles.json", "not JSON")
         self.write(".hai_env/agents/catalogue.md", "not a catalogue")
         result = validate(self.root, self.definition)
         self.assertTrue(result["ok"], result)
         self.assertEqual(result["agent"], "worker")
-        self.assertFalse((self.root / ".hai/agents/catalogue.md").exists())
+        self.assertEqual((self.root / ".hai_env/agents/catalogue.md").read_text(), 'not a catalogue')
 
     def external_definition(self):
         path = self.write_definition()
@@ -127,7 +127,7 @@ None.
 | Inspect | A scoped review is requested. | [Inspect](procedures/inspect.md) |
 '''
         path.write_text(text[:start] + index + text[end:], encoding="utf-8")
-        procedure = self.write('.hai/agents/worker/procedures/inspect.md', '''# Inspect
+        procedure = self.write('.hai_env/agents/worker/procedures/inspect.md', '''# Inspect
 
 ## Description
 Inspect the requested material and return findings supported by evidence.
@@ -394,7 +394,7 @@ None.
             '| Inspect | A scoped review is requested. | [Inspect](procedures/inspect.md) |\n'
             '| Other | Another review is requested. | [Other](procedures/other.md) |')
         path.write_text(index, encoding='utf-8')
-        other = self.write('.hai/agents/worker/procedures/other.md', procedure.read_text(encoding='utf-8'))
+        other = self.write('.hai_env/agents/worker/procedures/other.md', procedure.read_text(encoding='utf-8'))
         self.assertTrue(validate(self.root, self.definition)['ok'])
         other.write_text(other.read_text(encoding='utf-8').replace(
             '| [input:task] | Requested review.', '| [input:other] | Requested review.'), encoding='utf-8')
@@ -403,9 +403,9 @@ None.
     def test_term_mapping_inheritance_and_local_additions(self):
         path, procedure = self.external_definition()
         self.write('.hai/concepts/activity.md', '# Activity\n\n## Definition\nA work unit.\n')
-        self.write('.hai/agents/worker/concepts/local.md', '# Local\n\n## Definition\nLocal meaning.\n')
+        self.write('.hai_env/agents/worker/concepts/local.md', '# Local\n\n## Definition\nLocal meaning.\n')
         path.write_text(path.read_text(encoding='utf-8').replace(
-            '\n## References\nNone.', '\n## References\n- [term:Activity] → [Concept](../../concepts/activity.md).'), encoding='utf-8')
+            '\n## References\nNone.', '\n## References\n- [term:Activity] → [Concept](../../../.hai/concepts/activity.md).'), encoding='utf-8')
         original = procedure.read_text(encoding='utf-8').replace(
             '## Prerequisites\nNone.', '## Prerequisites\nUse [term:Activity].').replace(
             '## References\nNone.', '## References\n- [term:Local] → [Local](../concepts/local.md).')
@@ -444,7 +444,7 @@ None.
             '\n## References\nNone.', '\n## References\n- [term:Activity] → [Concept](../../../.hai/concepts/activity.md).')
         target = self.write('deep/relocated/worker/SKILL.md', text)
         self.write('deep/relocated/worker/configuration/contract.json',
-                   (self.root / '.hai/agents/worker/configuration/contract.json').read_text())
+                   (self.root / '.hai_env/agents/worker/configuration/contract.json').read_text())
         self.write('.hai/concepts/activity.md', '# Activity\n')
         path.unlink()
         try:
@@ -464,12 +464,12 @@ None.
                 target.write_bytes(content)
                 (target.parent / 'configuration').mkdir()
                 (target.parent / 'configuration/contract.json').write_bytes(
-                    (self.root / '.hai/agents/worker/configuration/contract.json').read_bytes())
+                    (self.root / '.hai_env/agents/worker/configuration/contract.json').read_bytes())
                 self.assertTrue(validate(isolated, relative)["ok"])
                 self.assertFalse((isolated / ".hai_env/state.json").exists())
                 self.assertFalse((isolated / origin / "agents/catalogue.md").exists())
                 if origin == ".hai":
-                    self.assertFalse((isolated / ".hai_env").exists())
+                    self.assertFalse((isolated / ".hai_env/state.json").exists())
 
     def test_configuration_contract_required_and_package_contained(self):
         path = self.root / self.definition
@@ -531,7 +531,7 @@ None.
         self.assertFalse(validate(self.root, self.definition)["ok"])
 
     def test_validate_rejects_legacy_conflict(self):
-        self.write(".hai/agents/worker/knowledge.md", "preserve legacy")
+        self.write(".hai_env/agents/worker/knowledge.md", "preserve legacy")
         result = validate(self.root, self.definition)
         self.assertFalse(result["ok"])
         self.assertIn("legacy", result["issues"][0]["message"])
@@ -551,9 +551,9 @@ None.
 
     def test_validate_rejects_unsafe_or_noncanonical_paths(self):
         for relative in ("../outside/SKILL.md", "/tmp/SKILL.md", "C:/SKILL.md",
-                         "other/SKILL.md", ".hai/agents/worker/../worker/SKILL.md",
-                         ".hai\\agents\\worker\\SKILL.md", ".hai/agents/worker/SKILL.md#part",
-                         ".hai/agents/worker/SKILL.md?query", ".hai/agents/worker"):
+                         "other/SKILL.md", ".hai_env/agents/worker/../worker/SKILL.md",
+                         ".hai\\agents\\worker\\SKILL.md", ".hai_env/agents/worker/SKILL.md#part",
+                         ".hai_env/agents/worker/SKILL.md?query", ".hai/agents/worker"):
             with self.subTest(relative=relative), self.assertRaises(Invalid):
                 validate(self.root, relative)
 
@@ -611,7 +611,7 @@ None.
         return '\n'.join(self.catalogue.splitlines()[:4]) + '\n'
 
     def test_empty_catalogue_and_profile_audit_need_no_yaml(self):
-        self.write('.hai/agents/catalogue.md', self.empty_catalogue())
+        self.write('.hai_env/agents/catalogue.md', self.empty_catalogue())
         result = self.run_cli('audit', isolated=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         output = json.loads(result.stdout)
@@ -620,20 +620,20 @@ None.
         output = audit(self.root)
         self.assertTrue(output['ok'])
         self.assertEqual(output['profiles'], 'absent')
-        self.assertFalse((self.root / '.hai_env/agents/catalogue.md').exists())
+        self.assertTrue((self.root / '.hai_env/agents/catalogue.md').exists())
 
     def test_malformed_catalogues_report_structural_errors_isolated(self):
         invalid = ('not a table', self.empty_catalogue().replace('Selection guide', 'Wrong'),
                    self.empty_catalogue() + '\n' + self.empty_catalogue())
         for content in invalid:
             with self.subTest(content=content):
-                self.write('.hai/agents/catalogue.md', content)
+                self.write('.hai_env/agents/catalogue.md', content)
                 result = self.run_cli('audit', isolated=True)
                 self.assertEqual(result.returncode, 1, result.stderr)
                 self.assertEqual(json.loads(result.stdout)['issues'][0]['code'], 'catalogue')
 
     def test_duplicate_catalogue_rows_rejected_before_definition_parsing(self):
-        self.write('.hai/agents/catalogue.md', self.catalogue + self.catalogue.splitlines()[-1] + '\n')
+        self.write('.hai_env/agents/catalogue.md', self.catalogue + self.catalogue.splitlines()[-1] + '\n')
         result = self.run_cli('audit', isolated=True)
         self.assertEqual(result.returncode, 1, result.stderr)
         output = json.loads(result.stdout)
@@ -734,7 +734,7 @@ None.
         result = self.run_cli("validate", "--definition", self.definition, workspace=isolated)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)["agent"], "worker")
-        self.assertFalse((isolated / ".hai_env").exists())
+        self.assertFalse((isolated / ".hai_env/state.json").exists())
 
     def test_existing_audit_and_resolve_cli_dispatch(self):
         result = self.run_cli("audit")
@@ -939,20 +939,20 @@ plain: https://example.test/a#part # removed
             resolve(self.root, self.definition, self.runtime)
 
     def test_stale_copy_rejected(self):
-        self.write(".hai/agents/catalogue.md", self.catalogue.replace('Call to inspect', 'Call to write'))
+        self.write(".hai_env/agents/catalogue.md", self.catalogue.replace('Call to inspect', 'Call to write'))
         self.assertFalse(audit(self.root)["ok"])
 
     def test_duplicate_rows_and_workspace_collisions(self):
-        self.write(".hai_env/agents/catalogue.md", self.catalogue)
+        self.write('.hai/agents/catalogue.md', self.catalogue)
         result = audit(self.root)
-        self.assertFalse(result["ok"])
-        self.assertEqual(len(result["agents"]), 1)
-        self.write(".hai/agents/catalogue.md", self.catalogue + self.catalogue.splitlines()[-1] + '\n')
-        self.assertFalse(audit(self.root)["agents"])
+        self.assertTrue(result['ok'], result)
+        self.assertEqual(len(result['agents']), 1)
+        self.write('.hai_env/agents/catalogue.md', self.catalogue + self.catalogue.splitlines()[-1] + '\n')
+        self.assertFalse(audit(self.root)['agents'])
 
     def test_legacy_registration_preserved_and_independent_entry_kept(self):
         text = self.catalogue + '| `old` | Call to help. | [knowledge.md](old/knowledge.md) |\n'
-        path = self.write(".hai/agents/catalogue.md", text)
+        path = self.write(".hai_env/agents/catalogue.md", text)
         result = audit(self.root)
         self.assertFalse(result["ok"])
         self.assertEqual(len(result["agents"]), 1)
@@ -960,7 +960,7 @@ plain: https://example.test/a#part # removed
         self.assertEqual(path.read_text(), text)
 
     def test_old_new_conflict_rejected(self):
-        self.write(".hai/agents/worker/knowledge.md", "# Old worker\n")
+        self.write(".hai_env/agents/worker/knowledge.md", "# Old worker\n")
         self.assertFalse(audit(self.root)["ok"])
         with self.assertRaises(Invalid):
             resolve(self.root, self.definition, self.runtime)
@@ -982,7 +982,7 @@ plain: https://example.test/a#part # removed
                 validate(self.root, self.definition)
 
     def test_dangling_profile_is_invalid_not_absent(self):
-        self.write(".hai/agents/catalogue.md", '\n'.join(self.catalogue.splitlines()[:4]) + '\n')
+        self.write(".hai_env/agents/catalogue.md", '\n'.join(self.catalogue.splitlines()[:4]) + '\n')
         path = self.root / ".hai_env/model_profiles.json"
         path.unlink()
         try:

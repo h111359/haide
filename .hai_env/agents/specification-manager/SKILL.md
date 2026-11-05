@@ -24,7 +24,7 @@ can navigate without reading unrelated material.
 - Preserve existing meaning, stable identifiers, approval status, and
   traceability when changing content or structure.
 - Report contradictions, unknowns, structural conflicts, and verification
-  results to the caller (the human directly or the coordinating leader).
+  results to the caller (the human directly or the coordinating host coordinator).
 
 ## Out of Scope
 
@@ -43,7 +43,7 @@ Core HAI state, chronicles, profiles, Activity or transcript management, delegat
 - **No legacy fallback:** Specification-manager MUST NOT obtain active enablement or location from `state.features.specification`.
 - **Missing context:** Specification-manager MUST report missing or conflicting inputs and unresolved decisions as dependencies.
 - **No invented decisions:** Specification-manager MUST NOT invent facts, permissions, types or approval to resolve a dependency.
-- **Standalone use:** Specification-manager MAY perform authorized standalone package work without HAI installation, leader, state, profiles, Activities or recording setup.
+- **Standalone use:** Specification-manager MAY perform authorized standalone package work without HAI installation, host coordinator, state, profiles, Activities or recording setup.
 - **Compatible environment:** Specification-manager MUST require verified compatible environment settings before HAI-managed specification work.
 - **Enabled specification:** Specification-manager MUST require locally validated owner settings showing specification enabled before HAI-managed tree work.
 - **Settings freshness:** Specification-manager MUST revalidate owner settings when their source, core path context or inputs change rather than rely on stale caller assurance.

@@ -2,111 +2,11 @@
 
 ## Identity and availability
 
-Framework definitions live at `.hai/agents/<name>/SKILL.md`; registered framework
-roles are selectable without environment initialization. Workspace definitions live at
-`.hai_env/agents/<name>/SKILL.md`. Names match
-`[a-z][a-z0-9]*(?:-[a-z0-9]+)*`, are at most 64 characters, and match their
-parent directory exactly. Names must be unique across both origins, including
-case-insensitive comparison on supported platforms. Framework definitions take
-precedence over conflicting workspace names; report conflicts without renaming,
-overriding, unregistering, or repairing them.
+Optional installed workspace definitions live at `.hai_env/agents/<name>/SKILL.md`. Names match `[a-z][a-z0-9]*(?:-[a-z0-9]+)*`, are at most 64 characters, match their parent directory and are unique case-insensitively. `.hai_env/agents/catalogue.md` contains explicit registrations and exact decoded description copies. Creation or installation does not register a package or grant permission to execute it. Unregistered packages may be inspected and validated as data. Selection requires an authorized task and the host's actual execution capability; a profile or catalogue row does not prove that capability. Core startup and administration do not depend on any optional package.
 
-The [framework catalogue](../agents/catalogue.md) and
-`.hai_env/agents/catalogue.md` contain names, copied descriptions, and definition
-links. Selection for execution and leader delegation require a valid registration
-in the corresponding catalogue for both origins. Creation alone does not register
-a definition. An explicit human call, name, or path does not bypass registration
-or authorize it. Unregistered definitions in either origin may be inspected,
-maintained, validated, or registered without executing them. Supplied paths must
-identify the definition's canonical folder or `SKILL.md` and resolve inside the
-workspace. Do not search unrelated locations. Ask for a
-path when ambiguous. Before definition creation or registration, check both
-catalogues and immediate folder names in both origins for case-insensitive
-collisions, including unregistered folders; this does not authorize loading every
-definition or discovering unregistered roles during ordinary selection.
+Source packages under `hai_agents_library/agents/` are data, not an execution origin. Source maintenance, installed replacement, registration and execution are separate scopes. Preserve external settings and records, review local differences or unknown baselines before replacing a package, and do not infer execution authority from installation.
 
-## Reusable source packages and installed snapshots
-
-`hai_agents_library/agents/<name>/` contains golden source packages, not a third
-runtime origin or registry. Source and installed counterparts may share a name;
-runtime uniqueness still covers both installed origins and unregistered runtime
-folders. Source presence never grants execution eligibility. Runtime instructions,
-helpers, contracts and peer references use installed copies or stable core paths,
-never the library as a fallback. Ordinary startup and selection do not scan it.
-
-Explicit source maintenance, installation, staging/tests and packaging may read
-selected library files as data without adopting their roles. Shared source edits
-leave installed snapshots unchanged. Human-approved updates copy complete packages;
-local differences or an unknown baseline require review before replacement. No
-automatic updater, agent-version scheme or new state dependency is introduced.
-
-Agent-definition-manager owns authorized definition/source authoring and convention
-review when installed. Environment-manager owns selective package acquisition,
-installation/replacement and both runtime catalogues, using the trusted shared
-read-only tools directly. Its bundled core definition does not depend on an absent
-authoring agent. A `.hai`-only workspace initializes normal context, then asks
-Environment-manager to install one selected optional package into `.hai_env/agents`.
-No whole library download or source fallback is required. Missing package peers are
-reported dependencies, never permission to install the entire collection.
-
-Source maintenance, installed replacement and registration remain distinct scopes.
-A combined explicit request can cover several steps, coordinated by Leader; no
-specialist invokes another. Environment-manager preserves external config/records,
-reviews existing-package differences, stages complete packages and retains recovery
-copies before authorized replacement. A new package stays unregistered without
-explicit registration intent. An authorized existing-definition/package update can
-cover metadata synchronization without changing membership.
-
-## Selection and loading
-
-Read the framework catalogue and valid workspace entries together. Catalogue
-Selection guide cells are exact copies of the decoded YAML `description` value,
-which is canonical selection text. Descriptions briefly state when to call a role
-and what it produces, consistent with its scope and ownership. Select from copies
-before loading the selected `SKILL.md`; do not open every definition to choose a
-role or recover missing descriptions. An explicit call identifies the requested
-target; its valid catalogue entry is still required before selection for execution.
-
-Validate a selected definition's identity, format, references, and description
-copy. Report discovered stale copies without repairing them. Ordinary startup
-validates catalogue structure and references without loading all definitions.
-Always load safe readable `.hai_env/agent_instructions.md` independently of state
-validity before dependent work, as well as applicable higher-priority workspace
-instructions and this convention. An existing empty file adds no instructions;
-missing/unreadable content blocks dependent work, allowing diagnosis and authorized
-initialization, migration, or repair under the state convention. Preserve this
-instruction context in specialist handoffs. Then
-follow supporting references only when needed. An invalid workspace entry does
-not make framework roles unavailable.
-
-These definitions reuse the [Agent Skills format](https://agentskills.io/specification).
-The filename alone does not install a skill, add it to a runtime's discovery
-paths, select a model, create a subprocess, or spawn an agent. HAI catalogue
-selection and leader orchestration remain explicit.
-
-## Mandatory Activity context
-
-All substantive HAI work belongs to a [term:Activity],
-including advice, brainstorming, analysis, planning, framework maintenance,
-implementation and verification. Activities have no enabled flag. A compatible
-validated environment supplies activities.location; Environment-manager owns
-discovery policy and maintains the sole current record. The shared startup context
-helper may discover it read-only for Leader, who alone coordinates specialists.
-Startup validation, bootstrap/setup required to establish usable context, and
-read-only prerequisite diagnosis may proceed before a record exists. These bounded
-exceptions do not authorize later untracked substantive work.
-
-Startup resumes valid current work. A new chat alone creates none; meaningful new
-work with no current record creates an Activity within the user's agreed task and permission.
-Conflicting current/new intent needs leader's boundary resolution, not silent
-closure or replacement. Substantive specialist handoffs include stable Activity ID,
-path and relevant context; return actual results for recording. Environment-manager owns records/lifecycle and administration, never orchestration or substantive domain execution. Optional registered Business-analyst, Solution-architect, Software-developer and Quality-assurance own assigned work; optional Codex Chronicle-manager owns exact-source transcripts and recording evidence. Missing owners are reported dependencies, never source-library execution fallbacks.
-
-Lifecycle active/closed, performed steps and completed/cancelled/stopped outcomes
-are separate. Analysis alone may complete its objective. Material definition,
-analysis and plan revisions preserve history even after implementation begins.
-Closed Activities accept dated attributable supplements and delayed exact old-source
-transcript synchronization; new substantive work needs a new linked Activity.
+Apply the safe fixed `.hai_env/agent_instructions.md` and higher-priority instructions before dependent work. Substantive work uses the current Activity; startup, necessary setup and read-only diagnosis can establish context first. Pass relevant task scope, authority, Activity identity and evidence to any selected extension.
 
 ## Required definition format
 
@@ -120,9 +20,7 @@ metadata maps string keys to string values. YAML duplicate keys are invalid.
 Spawned specialists MUST declare both HAI extension keys under `metadata`:
 `hai-model-class` is `light`, `standard`, or `advanced`, and
 `hai-reasoning-effort` is a standard effort label (`low`, `medium`, `high`,
-`xhigh`, `max`, or `ultra`). Quote metadata values as strings. The leader omits
-both keys: it remains the root chat using the interface-selected model and effort.
-Concrete model IDs belong only in local model profiles, never agent declarations.
+`xhigh`, `max`, or `ultra`). Quote metadata values as strings. Concrete model IDs belong only in local model profiles, never agent declarations.
 
 There is no agent H1 title, Selection guide body section, embedded Definitions,
 or agent-level Inputs/Outputs section. Include exactly these six H2 headings once
@@ -196,7 +94,7 @@ concept files, with `[term:name]` mappings declared in References. Agent-level t
 mappings apply to its procedures; procedure-local additions are allowed.
 
 Retrieve missing mandatory inputs from authorized context before returning the
-dependency to leader or asking the human when called directly. Continue independent
+dependency to host coordinator or asking the human when called directly. Continue independent
 work; optional values use declared defaults or remain absent. Never invent values,
 decisions, permission, or approval. References specify reading conditions; a folder
 reference does not require recursive loading. Preserve paths and resolved containment
@@ -204,7 +102,7 @@ before reads and writes.
 
 ## Agent-owned configuration
 
-Every agent, including Leader, declares string metadata
+Every optional agent declares string metadata
 `hai-configuration-contract: "configuration/contract.json"` and ships the matching
 package-local contract under [agent-configuration_conv.md](agent-configuration_conv.md).
 Agents with no customizable settings declare an empty settings map. Keep all six
@@ -226,80 +124,13 @@ Definition validation checks contract data without loading workspace settings or
 requiring initialized state. Saved settings do not affect registration identity,
 replace model-profile resolution, or override task permission. Package installation
 preserves external config bytes and reports format incompatibility; it never
-performs an implicit config migration. Activity location and chronicles remain Environment-manager-owned in state
+performs an implicit config migration. Activity location and chronicles remain runtime-owned in state
 format 3; Specification-manager owns enablement/root and validates it independently
 from core/Activity context. Format 2 is migration context, never an owner-settings fallback.
 
-## Model resolution and orchestration
+## Model resolution and coordination
 
-Follow [model-profiles_conv.md](model-profiles_conv.md) before spawning. Resolve
-the selected specialist's class through `.hai_env/model_profiles.json` and check
-the exact model/effort pair against the current runtime's advertised capabilities.
-Report missing or unavailable settings; do not silently substitute a model, class,
-or effort. Direct role use in the root chat does not change its interface settings.
-Startup bootstrap and explicit human overrides follow the named exceptions in the
-model-profile convention. They must be reported and never rewrite declarations.
-
-Only leader selects, delegates to, monitors, and coordinates other agents.
-Specialists execute their own procedures using inputs, references, and tools;
-they return missing dependencies to leader and do not invoke agents. Each role
-owns its shared rules in `SKILL.md` and its execution procedures, including any
-genuinely local rules, in linked
-`procedures/` files (or the sole inline procedure); callers do not duplicate them. Runtime spawn interfaces may impose additional constraints:
-when explicit model/effort overrides require an empty history fork (for example
-`fork_turns="none"`), use that supported combination and pass the definition path,
-workspace instructions, relevant task context, and expected outcome explicitly.
-Do not assume inherited history, settings, or automatic skill discovery.
-
-Available agents/tools and enabled features do not expand the user's permission
-or the role's responsibilities. Do not bypass
-disabled or invalid capabilities through another role or tool.
-
-## Context handoff and input checks
-
-For every specialist handoff, including startup and follow-up assignments, leader
-MUST explicitly cover this checklist in the task message:
-
-1. **Objective and acceptance criteria:** the user's objective and the agreed
-   criteria for completing the delegated work.
-2. **Constraints and decisions:** applicable constraints and explicit decisions,
-   distinguishing settled decisions from assumptions.
-3. **Relevant context:** relevant files, verified findings, and completed work
-   the specialist needs to use or preserve.
-4. **Open dependencies:** unresolved questions, conflicts, and dependencies.
-5. **Scope and authorization:** allowed changes, task boundaries, and established
-   authorization, including any actions that still require a decision.
-
-Include selected-agent configuration path/status, effective known values/default
-provenance and issues with relevant context; keep shared feature/profile assurance
-separate. Configuration diagnosis may carry an invalid result without authorizing
-ordinary dependent operations.
-
-Identify missing information or not-applicable items explicitly; never silently
-omit a checklist field or fabricate context, decisions, or approval. Include the
-selected definition path, applicable workspace instructions, stable current Activity
-ID/path and context for substantive work (or the applicable bootstrap/diagnosis
-exception), expected
-output, and relevant verification requirements. Supply concise facts and precise
-references the receiver can access; do not reproduce full conversation history
-or duplicate the specialist's procedures. Inherited history does not replace this
-handoff, and a follow-up must make retained context and changed requirements clear.
-
-Before dependent work, the receiving specialist MUST load its definition and
-applicable instructions, compare the handoff with the selected procedure's **Inputs** and prerequisites,
-and check for missing or conflicting inputs. First retrieve needed context from
-available, authorized sources within scope. If a required input remains missing
-or conflicting, report the specific issue and dependent work to leader, pause that
-work, and continue meaningful independent work. When called directly, report or
-ask the human instead. Do not treat an assumption as a settled decision or infer
-authorization from missing context. Shared checks supplement each role's own
-input requirements and failure behavior; they do not replace them.
-
-Leader monitors requests for context or decisions, resolves them from authorized
-evidence or the human, and sends the resulting clarification to the receiver.
-Before reporting completion, review the returned output and verification against
-the objective, agreed acceptance criteria, and authorized scope; route remaining
-gaps rather than claim dependent work is complete.
+For an optional extension, use its declared model and effort only if supported by the actual host; report unavailable combinations without silently substituting. Profiles are optional and do not establish host support. Core runtime commands do not require profiles or agent invocation. The host decides whether to invoke an optional extension, supplies relevant context and authority, and reports actual results and unresolved dependencies.
 
 ## Supporting resources
 
@@ -326,62 +157,12 @@ Framework-wide concepts and conventions retain their canonical framework locatio
 Role-owned domain knowledge remains in its package as a single authority, with
 shared readers linking to it. Scripts follow [tooling_conv.md](tooling_conv.md).
 
-## Registration ownership and verification
+## Registration and verification
 
-Agent-definition-manager owns definition creation, maintenance, audits and selected
-golden-source authoring. Environment-manager owns selective package installation,
-explicit new registration and metadata synchronization in both runtime catalogues.
-The installer validates with shared core tools even when the authoring agent is
-absent. Creation returns an authored target and verified metadata, never an implicit
-installation or catalogue write. An author updating a registered installed definition
-returns its canonical identity, exact decoded description and validation through
-Leader; Environment-manager rereads the installed file and synchronizes the existing
-row under the covering update scope. An unregistered definition remains unregistered
-without explicit registration intent. Source-only changes leave installed snapshots
-and their catalogue rows unchanged until an explicitly scoped Environment-manager
-update. Audits remain read-only and never repair, rename, unregister or delete.
-
-Leader coordinates owner handoffs and verifies required catalogue coherence before
-reporting the overall work complete. Neither specialist invokes the other. Missing
-optional authorship blocks only dependent authoring, not startup, installation or
-trusted independent format checks. Normal fixed instructions, Activity, compatible
-workspace context and exact profile/runtime requirements still apply. Environment
-initialization/configuration, profiles and startup policy remain Environment-manager
-work; domain agents retain their settings. Preserve unrelated state, rows and prose,
-stop on changed inputs/partial failure and report actual results without automatic
-retry or rollback. Multi-file authoring/catalogue changes are not a transaction.
-
-Validate names, canonical paths, collisions, YAML fields, string metadata,
-model/effort declarations, six role headings, procedure layout and containment,
-local input/output declarations, Mandatory/Optional requirements, outcome criteria,
-term mappings, reference conditions, independence, and shared rules. Author `description` first, then return its decoded value for Environment-manager to synchronize the catalogue
-using the state convention's table encoding. Compare decoded strings exactly,
-including punctuation and whitespace; do not copy YAML quotes or scalar syntax.
-
-For authoring or migration verification, use the shared
-[agent tools](../tools/agents/README.md), then review semantic ownership and
-procedures manually. Their full audit is not a startup requirement.
-
-## Legacy definitions and authorized migration
-
-A previous `knowledge.md` definition or catalogue link is legacy agent-format
-material even when core state has the supported version. Report its registered name
-and path and preserve the registration as a pending migration; exclude it from
-execution without silently unregistering or reinterpreting it. Do not scan folders
-to reconstruct registrations or prefer one file when both old and new files exist.
-Core-state compatibility remains governed separately by the state convention.
-
-An explicitly authorized agent-format migration validates every affected existing
-registration and definition, retains each name and exact Selection guide text as
-the new YAML description, agrees or assigns justified specialist class/effort
-settings within scope, renames the definition to `SKILL.md`, and prepares its
-owned references plus exact row metadata for Environment-manager's coordinated catalogue synchronization. Preserve other sections, supporting
-resources, optional-feature settings, existing work records, and unrelated work. Do not
-silently drop invalid registrations, extra metadata, missing descriptions, or
-conflicting old/new files: resolve them within the authorized scope before writing.
-Verify all affected links and decoded catalogue equality after writes; report any
-partial failure. Historical transcripts are records and are not rewritten.
+Explicit registration is separate from package installation, authoring and execution. Validate the installed definition and its configuration contract, identity, path containment and the exact catalogue description; preserve unrelated entries and stop on conflicts. Synchronizing an existing row does not add membership. The shared agent auditor checks format, not semantic equivalence, authorization or runtime availability. See [agent tools](../tools/agents/README.md) and [state convention](state_conv.md).
 
 ## References
 
-- [term:Activity] → [Activity concept](../agents/environment-manager/concepts/activity.md) — mandatory work context.
+- [Activity](../concepts/activity.md) and [Activity convention](activity_conv.md).
+- [Agent configuration](agent-configuration_conv.md), [procedure convention](procedure_conv.md), and [reference notation](reference-notation_conv.md).
+- [Runtime commands](../tools/runtime/README.md).

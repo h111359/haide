@@ -15,4 +15,4 @@ None
 ## References
 
 - [term:Durable session source] → [Durable session source](durable-session-source.md) — original saved exchanges.
-- [term:Activity] → [Activity concept](../../../../.hai/agents/environment-manager/concepts/activity.md) — stable work identity.
+- [term:Activity] → [Activity concept](../../../../.hai/concepts/activity.md) — stable work identity.

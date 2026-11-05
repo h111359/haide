@@ -231,3 +231,6 @@ logs/
 .sandbox/
 
 .aih_draft/
+
+# Disposable Activity-local test workspaces (results are summarized in Activity records).
+.hai_env/activities/*/files/test-work/

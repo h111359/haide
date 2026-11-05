@@ -1,9 +1,0 @@
-{
-  "contract_format_version": 1,
-  "agent": "environment-manager",
-  "current_config_format_version": 1,
-  "supported_config_format_versions": [
-    1
-  ],
-  "settings": {}
-}

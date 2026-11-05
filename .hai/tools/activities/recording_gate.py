@@ -1,4 +1,4 @@
-"""Read-only comparison gate for Leader-returned closure recording evidence."""
+"""Read-only comparison gate for host-returned closure recording evidence."""
 from __future__ import annotations
 
 import argparse

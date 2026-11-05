@@ -18,7 +18,7 @@ The root is an object with required properties:
 
 | Property | Type | Meaning and initial value |
 | --- | --- | --- |
-| `state_format_version` | positive integer | Current installed Environment-manager contract version `3`; Booleans are invalid. |
+| `state_format_version` | positive integer | Current installed runtime contract version `3`; Booleans are invalid. |
 | `activities` | object | Mandatory safe workspace-relative `location`, default `.hai_env/activities`; no `enabled` switch. |
 | `features` | object | Required `chronicles` object; specification is no longer a core feature entry. |
 
@@ -27,9 +27,9 @@ The root is an object with required properties:
 zero, negative/fractional/string/null values are invalid even while disabled.
 Transcripts remain Activity-local under `chronicles/`; no global location exists.
 Core state stores no current Activity pointer, prompt counter, transcript coverage
-or in-flight-worker marker. Environment-manager owns record discovery policy and lifecycle; the shared startup context helper may perform read-only discovery for Leader. Optional installed Codex Chronicle-manager owns transcript/checkpoint formats and writes. Configuration changes never alter record lifecycle/content.
+or in-flight-worker marker. runtime owns record discovery policy and lifecycle; the shared startup context helper may perform read-only discovery for host coordinator. Optional installed Codex Chronicle-manager owns transcript/checkpoint formats and writes. Configuration changes never alter record lifecycle/content.
 
-The installed `.hai/agents/environment-manager/contract.json` is the single
+The installed `.hai/contracts/state.json` is the single
 current/supported-version authority, independent of release SemVer or target copies.
 Current is 3, supported versions are 2 and 3. Format 2 remains read-only migration
 context with `migration_required`; it supplies no active specification fallback.
@@ -49,9 +49,9 @@ owner absence or invalid configuration does not invalidate core startup. Startup
 can boundedly report the registered installed Specification-manager's separate
 `agent_configurations` result without loading scripts, product contents or the library.
 
-Environment-manager owns central state, chronicles configuration, model profiles and startup
+runtime owns central state, chronicles configuration, model profiles and startup
 policy. It does not perform ordinary specification setup. The explicit format-2-to-3
-extraction is its narrow transition exception, coordinated by Leader; it does not
+extraction is its narrow transition exception, coordinated by host coordinator; it does not
 grant tree-edit authority. Other extensions' unknown subtrees remain opaque:
 core neither interprets/enables them nor repairs invalid domain data. Authorized
 writers preserve unknown root/nested/sibling values and operate only on owned fields.
@@ -79,30 +79,30 @@ change. Core read-only startup and unrelated work remain independent.
 
 ### Chronicles configuration
 
-Environment-manager applies explicit chosen Activity-location/chronicles changes,
+runtime applies explicit chosen Activity-location/chronicles changes,
 preserving unmentioned values and all optional owner files. Initialization creates
 state and mandatory instructions only; no catalogue, profiles, Activity records,
-specification/config file or transcript contents are fabricated. Environment-manager creates the Activity store under its authorized record workflow. Optional installed Codex Chronicle-manager owns exact-source transcripts/checkpoints after Leader assigns recording; missing owner or source is an isolated recording dependency.
+specification/config file or transcript contents are fabricated. runtime creates the Activity store under its authorized record workflow. Optional installed Codex Chronicle-manager owns exact-source transcripts/checkpoints after host coordinator assigns recording; missing owner or source is an isolated recording dependency.
 
 Enabling/disabling chronicles preserves existing content and does not override
 mandatory instructions. Return attributable enablement-change boundaries separately;
-threshold changes do not reset coverage or dispatch progress. Leader owns counting,
-batch dispatch and continuation limits; Chronicle verifies source coverage and Environment-manager consumes Leader-returned fresh operation-bound evidence before required-recording closure. Core startup and independent record operations need no Chronicle tree; disabled/no-obligation closure needs no transcript source.
+threshold changes do not reset coverage or dispatch progress. host coordinator owns counting,
+batch dispatch and continuation limits; Chronicle verifies source coverage and runtime consumes host coordinator-returned fresh operation-bound evidence before required-recording closure. Core startup and independent record operations need no Chronicle tree; disabled/no-obligation closure needs no transcript source.
 
 ## Local model profiles
 
 Optional `.hai_env/model_profiles.json` is separate from state and catalogue.
 Its absence is valid for core state; never add it to minimal initialization or
-infer profile choices from feature flags. Environment-manager owns explicitly
+infer profile choices from feature flags. runtime owns explicitly
 requested profile setup under [model-profiles_conv.md](model-profiles_conv.md).
-The leader reports exact runtime availability and bootstrap/override use there.
+The host coordinator reports exact runtime availability and bootstrap/override use there.
 Preserve unrelated profiles during state and catalogue updates.
 
 ## Workspace agent catalogue
 
-`.hai_env/agents/catalogue.md` is the fixed authoritative workspace agent catalogue and registry, separate from state. Read it together with the [framework catalogue](../agents/catalogue.md) for selection, after validating state. State has no `agents` property; a present legacy `agents` property is incompatible registration data, not a fallback. Report and preserve it pending explicitly scoped migration.
+`.hai_env/agents/catalogue.md` is the fixed authoritative workspace agent catalogue and registry, separate from state. Use it for optional workspace extension selection. State has no `agents` property; a present legacy `agents` property is incompatible registration data, not a fallback. Report and preserve it pending explicitly scoped migration.
 
-A missing catalogue means no registered workspace agents and is valid, including after minimal initialization. Do not create it during startup or scan agent definitions to reconstruct it. An existing catalogue must be a readable UTF-8 Markdown file resolving inside the workspace. Reject conflicting directories and escaping symlinks/junctions. Its format matches the framework catalogue:
+A missing catalogue means no registered workspace agents and is valid, including after minimal initialization. Do not create it during startup or scan agent definitions to reconstruct it. An existing catalogue must be a readable UTF-8 Markdown file resolving inside the workspace. Reject conflicting directories and escaping symlinks/junctions. Its format is:
 
 ```markdown
 # Workspace agent catalogue
@@ -112,9 +112,9 @@ A missing catalogue means no registered workspace agents and is valid, including
 | `release-reviewer` | Call to review a proposed release against its readiness criteria and report unresolved release issues. | [SKILL.md](release-reviewer/SKILL.md) |
 ```
 
-Use exactly one table with these three columns. A header-only table is an empty catalogue; surrounding prose is allowed and preserved. Each row registers one unique name, enclosed in backticks, a nonblank short actionable guide, and one definition link. Names and collisions follow the [agent convention](agent_conv.md). Current-format definition destinations MUST be exactly `<name>/SKILL.md`, relative to `.hai_env/agents/catalogue.md`, and resolve to readable files inside the workspace; reject absolute paths, traversal, queries, fragments, and escaped separators. Reject case-insensitive duplicate names and framework-name collisions.
+Use exactly one table with these three columns. A header-only table is an empty catalogue; surrounding prose is allowed and preserved. Each row registers one unique name, enclosed in backticks, a nonblank short actionable guide, and one definition link. Names and collisions follow the [agent convention](agent_conv.md). Current-format definition destinations MUST be exactly `<name>/SKILL.md`, relative to `.hai_env/agents/catalogue.md`, and resolve to readable files inside the workspace; reject absolute paths, traversal, queries, fragments, and escaped separators. Reject case-insensitive duplicate names.
 
-Author the canonical YAML `description` first and copy its decoded string value verbatim into the guide cell. Preserve its characters when encoding table syntax: encode `&`, `\`, and `|` as `&amp;`, `&#92;`, and `&#124;` respectively, in that order; decode those entities once when comparing with the canonical description. Literal Markdown punctuation is retained as source text, not rendered away. Guides must be a single paragraph without line breaks. Existing framework table copies follow the same encoding rule when needed. Validate exact decoded equality when creating or updating a definition or entry; ordinary startup validates table structure and references without loading every definition to compare guide copies. Report discovered stale copies without rewriting them.
+Author the canonical YAML `description` first and copy its decoded string value verbatim into the guide cell. Preserve its characters when encoding table syntax: encode `&`, `\`, and `|` as `&amp;`, `&#92;`, and `&#124;` respectively, in that order; decode those entities once when comparing with the canonical description. Literal Markdown punctuation is retained as source text, not rendered away. Guides must be a single paragraph without line breaks. Validate exact decoded equality when creating or updating a definition or entry; ordinary startup validates table structure and references without loading every definition to compare guide copies. Report discovered stale copies without rewriting them.
 
 Legacy `<name>/knowledge.md` links must be identified as pending agent-format
 migration, with their names and paths reported and rows preserved. They are not
@@ -124,24 +124,24 @@ replacement. Coordinated authorized migration follows the agent convention.
 The legacy version-2 migration described below preserves those links until that
 separate or coordinated agent-format migration is authorized.
 
-Malformed table structure, unreadable catalogue, or conflicting catalogue target blocks catalogue writes and excludes its entries. Isolated invalid rows are reported and excluded; valid independent rows remain selectable. Duplicate-name rows are all excluded. Preserve invalid material without repair, and keep framework agents available. Catalogue problems do not invalidate otherwise valid core state or prevent independent feature loading.
+Malformed table structure, unreadable catalogue, or conflicting catalogue target blocks catalogue writes and excludes its entries. Isolated invalid rows are reported and excluded; valid independent rows remain selectable. Duplicate-name rows are all excluded. Preserve invalid material without repair,. Catalogue problems do not invalidate otherwise valid core state or prevent independent feature loading.
 
-Environment-manager owns explicitly requested registration and synchronization of
-existing rows after authorized definition/package updates in both runtime catalogues.
+runtime owns explicitly requested registration and synchronization of
+existing rows after authorized definition/package updates in the workspace catalogue.
 Agent-definition-manager owns authoring/verification and returns exact decoded
-metadata through Leader; it never copies packages into installation or mutates
-catalogues. Creation alone does not register an agent. Environment-manager can
+metadata through host coordinator; it never copies packages into installation or mutates
+catalogues. Creation alone does not register an agent. runtime can
 install and validate the first selected optional package using shared core tools,
 without the optional authoring agent or a whole library. Workspace mutations retain
 compatible initialized context, instructions and Activity prerequisites. Preserve
 unrelated rows/prose/settings; selection/execution still requires valid registration
-for either origin and remains Leader's responsibility.
+and remains the host coordinator’s responsibility.
 
 ## Initialization template and compatibility
 
-The [state contract](../agents/environment-manager/contract.json) is the authoritative machine-readable source for current and supported state versions. The canonical [state template](../agents/environment-manager/templates/state.json) supplies only initialization defaults. Validate both before initialization; do not ask the human to supply versions or infer them from a framework release.
+The [state contract](../contracts/state.json) is the authoritative machine-readable source for current and supported state versions. The canonical [state template](../templates/state.json) supplies only initialization defaults. Validate both before initialization; do not ask the human to supply versions or infer them from a framework release.
 
-Leader startup delegates minimal initialization when `.hai_env/state.json` is
+The runtime may perform authorized minimal initialization when `.hai_env/state.json` is
 absent and its location can be created safely. `.hai_env/` may already be a directory
 containing independently managed resources; its existence alone does not establish
 initialized core state. Preserve those resources without reading their contents to
@@ -162,7 +162,7 @@ and disabled chronicles/default threshold, then run the startup
 helper. Create no catalogue or optional resources. Verify both mandatory resources
 and that existing unrelated contents remain unchanged, rather
 than requiring an empty container. No optional-setting questions or additional
-authorization precede this minimal startup action. The leader then recommends chat
+authorization precede this minimal startup action. The host coordinator then recommends chat
 setup; the human may defer it or keep all features off.
 
 An existing malformed, unreadable, conflicting, or unsupported state is not absent;
@@ -177,7 +177,7 @@ This historical intermediate mapping is not the current runtime target. Current
 format-3 upgrades need an explicit ordered mapping through the specification
 extraction below; do not mark an intermediate state fully upgraded. Format-1 state
 is incompatible with current startup. Migrate only under
-explicit leader authorization after inspecting the complete state and relevant
+explicit human authorization after inspecting the complete state and relevant
 filesystem paths. Validate duplicate-free JSON, source shape, containment, directory
 types, and the installed format-2 contract/template. Preserve extension-owned data (including
 nested values), specification configuration, and every unknown property that
@@ -209,7 +209,7 @@ together; editing the template alone never changes the accepted format.
 
 ### Explicit format-2 to format-3 specification extraction
 
-Environment-manager's installed
+The installed
 [extraction helper](../tools/startup/migrate_specification_configuration.py) provides
 read-only dry-run and explicitly authorized guarded apply. Validate complete strict
 source state, safe paths and the registered installed Specification-manager contract;

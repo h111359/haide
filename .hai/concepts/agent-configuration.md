@@ -27,7 +27,7 @@ An invalid optional configuration affects its dependent work, rather than every
 other role. Missing values use declared defaults; malformed values do not become
 defaults merely because a caller cannot use them.
 
-Core state remains shared. Activity location and chronicles retain their Environment-manager owner.
+Core state remains shared. Activity location and chronicles retain their runtime owner.
 Specification-manager owns specification enabled/location separately from core
 format 3; format 2 is migration context, not a runtime settings fallback.
 Activity checkpoints, transcript coverage and worker progress are working records,

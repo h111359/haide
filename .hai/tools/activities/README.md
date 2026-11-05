@@ -1,7 +1,7 @@
 # Activity closure recording gate
 
 `recording_gate.py` uses Python 3.11+ and only the standard library. It performs a
-read-only comparison of the core [recording-evidence contract](../../agents/environment-manager/conventions/recording-evidence_conv.md).
+read-only comparison of the core [recording-evidence contract](../../conventions/recording-evidence_conv.md).
 It neither invokes an optional owner nor reads session sources, mutates records,
 initializes state or authorizes closure. Core startup does not run this tool.
 
@@ -29,7 +29,7 @@ are 0 for a passing comparison, 1 for blockers, 2 for unreadable/invalid JSON in
 The Python API is `assess_closure(request)` with the same result shape.
 
 A passing comparison proves neither source coverage, trustworthy supplied input,
-actual stopped workers nor permission. Leader and the responsible owners must
+actual stopped workers nor permission. host coordinator and the responsible owners must
 perform those checks and supply actual fresh evidence. No timestamp alone proves
 freshness. Tests exercise changed sources/artifacts, stale operation binding,
 missing/partial/uncertain evidence and independent disabled closure.

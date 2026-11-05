@@ -4,16 +4,16 @@
 
 Every framework and workspace agent declares the quoted string metadata
 `hai-configuration-contract: "configuration/contract.json"` in `SKILL.md` and
-ships that package-local JSON file. This includes Leader and agents with no local
+ships that package-local JSON file. This includes host coordinator and agents with no local
 settings. The six required SKILL sections and specialist execution metadata stay
-unchanged. Leader still omits only specialist model-class/effort metadata.
+unchanged. host coordinator still omits only specialist model-class/effort metadata.
 
 The installed registered agent owns its supported settings, validation, requested
 setup and scoped migration. Agent-definition-manager owns contracts as definition
-resources, not live settings. Environment-manager retains core state, Activity location, chronicles, profiles
+resources, not live settings. runtime retains core state, Activity location, chronicles, profiles
 and startup policy. Specification-manager owns its enabled/location settings in
 its own file. Core format 3 removes only the former specification feature entry;
-chronicles stays central. Format 2 is recognized read-only migration context. Other-agent configuration dependencies pass through Leader.
+chronicles stays central. Format 2 is recognized read-only migration context. Other-agent configuration dependencies pass through host coordinator.
 
 ## Contract formats 1 and 2
 

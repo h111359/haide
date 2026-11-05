@@ -48,7 +48,7 @@ standalone to bypass missing, invalid or disabled settings.
 
 ## Compatibility and migration
 
-Environment-manager's explicitly authorized format-2-to-3 adapter extracts the
+runtime's explicitly authorized format-2-to-3 adapter extracts the
 complete prior `features.specification` object into this file's `settings`, verifies
 the destination before removing the old field, and preserves chronicles and every
 unrelated setting. This narrow extraction exception grants no ordinary setup or

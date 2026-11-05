@@ -25,9 +25,9 @@ class SettingsTests(unittest.TestCase):
         self.core = {'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
                      'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}}
         self.state.write_text(json.dumps(self.core), encoding='utf-8')
-        template = self.root / '.hai/agents/environment-manager/templates/state.json'
+        template = self.root / '.hai/templates/state.json'
         template.parent.mkdir(parents=True)
-        template.write_bytes((settings._INSTALLED_ROOT / '.hai/agents/environment-manager/templates/state.json').read_bytes())
+        template.write_bytes((settings._INSTALLED_ROOT / '.hai/templates/state.json').read_bytes())
         (self.root / '.hai_env/agent_instructions.md').write_text('', encoding='utf-8')
         self.path = self.root / settings.RELATIVE
 

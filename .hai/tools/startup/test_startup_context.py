@@ -20,13 +20,6 @@ class ContextTests(unittest.TestCase):
     table = fixtures.StartupTests.table
     snapshot = fixtures.StartupTests.snapshot
 
-    def setUp(self):
-        fixtures.StartupTests.setUp(self)
-        self.write('.hai/agents/leader/configuration/contract.json', json.dumps({
-            'contract_format_version': 1, 'agent': 'leader',
-            'current_config_format_version': 1, 'supported_config_format_versions': [1],
-            'settings': {}}))
-
     def activity(self, name='00000000_000000_active', ident='5f99ff6b-793b-475e-b184-8618582598ef', lifecycle='active'):
         base = '.hai_env/activities/' + name
         state = {'activity_id': ident, 'lifecycle': lifecycle, 'created_at': '2026-11-03T18:04:42Z',
@@ -48,7 +41,6 @@ class ContextTests(unittest.TestCase):
             result = context.context(self.root)
             self.assertTrue(result['ok'], result)
             self.assertEqual(result['activity_context']['status'], 'absent')
-            self.assertEqual(result['leader_configuration']['status'], 'defaulted')
             self.assertEqual(result['agent_instructions']['text'], instructions)
             self.assertEqual(before, self.snapshot())
 
@@ -154,17 +146,15 @@ class ContextTests(unittest.TestCase):
 
     def test_independent_failures_and_missing_instructions(self):
         self.activity()
-        self.write('.hai_env/config/agents/leader.json', '{broken')
         self.write('.hai_env/model_profiles.json', '{broken')
         (self.root / '.hai_env/agent_instructions.md').unlink()
         result = context.context(self.root)
         self.assertFalse(result['ok'])
         self.assertEqual(result['instructions_status'], 'missing')
         self.assertEqual(result['state_status'], 'valid')
-        self.assertEqual(result['leader_configuration']['status'], 'invalid')
         self.assertEqual(result['profiles']['status'], 'invalid')
         self.assertEqual(result['activity_context']['status'], 'current')
-        self.assertGreaterEqual(len(result['issues']), 3)
+        self.assertGreaterEqual(len(result['issues']), 2)
         self.write('.hai_env/state.json', '{broken')
         self.assertEqual(context.context(self.root)['activity_context']['status'], 'unverified')
 

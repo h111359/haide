@@ -2,8 +2,8 @@
 
 ## Owning authorities
 
-Environment-manager owns the independent state-format boundary. Its
-[declaration](../../../../.hai/agents/environment-manager/contract.json) provides
+runtime owns the independent state-format boundary. Its
+[declaration](../../../../.hai/contracts/state.json) provides
 `current_state_format_version` and `supported_state_format_versions`; the
 [state convention](../../../../.hai/conventions/state_conv.md) governs compatibility
 and authorized migration. Saved environment state uses `state_format_version`.
@@ -25,7 +25,7 @@ optional-owner dependency to core startup.
 
 ## Release and upgrade scope
 
-A bundle can ship a new state-format target without migrating every consumer workspace. Release assessment does not authorize changing a consumer environment; environment-manager owns any separately authorized state migration.
+A bundle can ship a new state-format target without migrating every consumer workspace. Release assessment does not authorize changing a consumer environment; runtime owns any separately authorized state migration.
 
 ## References
 

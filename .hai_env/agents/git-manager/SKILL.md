@@ -20,14 +20,14 @@ and applying the actual task's authority to each operation.
 - Own GitHub operations, including repository inspection, pull requests, issues,
   tags/releases/assets, and workflow/check inspection or requested actions.
 - Execute requested and necessary routine work without repeated permission requests.
-  Resolve destructive actions and publication outside existing authority with leader.
+  Resolve destructive actions and publication outside existing authority with host coordinator.
 - Own `git.enabled`, `git.auto_push.enabled` and `github.enabled` in `.hai_env/config/agents/git-manager.json`, local validation, requested setup/repair and explicit legacy extraction; establish fresh readiness before enabling automated push.
 - Supply targeted repository/ignore evidence only within explicitly bounded discovery scope.
-- Other-agent dependencies go through leader; never select, invoke or delegate to another role.
+- Other-agent dependencies go through host coordinator; never select, invoke or delegate to another role.
 - Do not choose product release versions, define compatibility policy, create product
   release notes or packages, configure core HAI state outside the explicitly authorized legacy extraction, or delegate to other agents.
   The selected product release owner retains release policy and readiness;
-  environment-manager owns the core environment; leader coordinates other-agent dependencies.
+  runtime owns the core environment; host coordinator coordinates other-agent dependencies.
 
 ## Out of Scope
 
@@ -57,7 +57,7 @@ Product version/compatibility policy, release notes/package ownership, core envi
 - **Branch default:** Git-manager MUST preserve the current branch unless branch or PR work is explicitly requested.
 - **Requested PR branch:** Git-manager MAY prepare a suitable branch when explicitly requested PR work needs one.
 - **Push settings:** Git-manager MUST require valid enabled automated-push settings and permission for the requested update before an agent-executed push.
-- **Manual push status:** Git-manager MUST return manual-push or setup status through Leader when automated push is off, absent or invalid.
+- **Manual push status:** Git-manager MUST return manual-push or setup status through host coordinator when automated push is off, absent or invalid.
 - **No push bypass:** Git-manager MUST NOT bypass push restrictions through an API, connector, alternate transport or recreated remote ref.
 - **Push request limits:** Git-manager MUST NOT treat a push request alone as permission to change saved settings or publish a release.
 - **Tag-triggered publication:** Git-manager MUST treat a public tag push that triggers release automation as publication.
@@ -99,8 +99,8 @@ Product version/compatibility policy, release notes/package ownership, core envi
 - **No automatic recovery:** Git-manager MUST NOT blindly retry, delete partial resources or automatically roll back an interrupted operation.
 - **No background promise:** Git-manager MUST NOT promise unsupported background completion.
 - **Own execution:** Git-manager MUST execute its own selected procedures.
-- **Other-agent dependencies:** Git-manager MUST return other-agent dependencies through Leader.
-- **No specialist invocation:** Git-manager MUST NOT invoke a release owner, environment-manager, recording owner or another specialist.
+- **Other-agent dependencies:** Git-manager MUST return other-agent dependencies through host coordinator.
+- **No specialist invocation:** Git-manager MUST NOT invoke a release owner, runtime, recording owner or another specialist.
 
 ## Procedures
 
@@ -119,7 +119,7 @@ Product version/compatibility policy, release notes/package ownership, core envi
 
 - [Agent configuration](../../../.hai/conventions/agent-configuration_conv.md) and [owned contract](configuration/contract.json) — required for agent configuration, validation and dependent work; no workspace file is needed when declared defaults suffice.
 
-- [Agent convention](../../../.hai/conventions/agent_conv.md) — receiver checks and leader-only routing — required for all tasks.
+- [Agent convention](../../../.hai/conventions/agent_conv.md) — receiver checks and host coordinator-only routing — required for all tasks.
 - [State convention](../../../.hai/conventions/state_conv.md) — shared core assurance and legacy extraction preservation — required for dependent HAI work and state extraction.
 - [Startup helper](../../../.hai/tools/startup/README.md) — core environment assurance only; it does not validate extension settings — conditional when interpreting core helper output.
 - [Tooling convention](../../../.hai/conventions/tooling_conv.md) — Python runtime and helpers — conditional when executing or changing supporting Python tools.

@@ -1,0 +1,7 @@
+{
+  "activity_id": "5f99ff6b-793b-475e-b184-8618582598ef",
+  "recorded_at": "2026-11-05T18:55:15Z",
+  "previous_path": ".hai_env/activities/00000000_000000_active",
+  "canonical_archive_path": ".hai_env/activities/20261105_185515_hai-runtime-exploration",
+  "reason": "Explicit user-authorized completed closure; preserve historical text and resolve former current-path references by stable UUID. Transcript source coverage was unavailable and nonblocking under the user-recorded preference."
+}

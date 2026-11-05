@@ -1,0 +1,18 @@
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'startup'))
+import startup_context
+
+def handle(operation, workspace, request, apply):
+    if operation not in ('', 'check', 'context') or request or apply:
+        raise ValueError('startup accepts no operation, request, or apply')
+    result = startup_context.context(workspace)
+    return {'ok': result['ok'], 'status': 'valid' if result['ok'] else 'blocked', 'result': result,
+            'issues': result['issues'], 'changed_files': []}
+
+def require_mutation_context(workspace):
+    from .storage import SafetyError
+    core = startup_context.check(workspace)
+    if core['environment'] != 'valid' or core['instructions_status'] != 'loaded' or core.get('state_format_version') != 3:
+        raise SafetyError('Valid current core state and readable mandatory instructions are required for mutation')
+    return core

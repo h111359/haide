@@ -5,13 +5,11 @@ resolver for Windows, Linux, and macOS. It never spawns agents, changes state,
 repairs registrations, or installs dependencies. Use a working interpreter per
 [the tooling convention](../../conventions/tooling_conv.md).
 
-Core Environment-manager uses this trusted read-only auditor directly when staging
+Core runtime uses this trusted read-only auditor directly when staging
 and registering selected packages, including the first optional installation with
 no Agent-definition-manager or source library present. The optional authoring role
 creates/maintains definitions and returns verified metadata; the tool itself writes
-neither packages nor catalogues. Installer preflight separately inspects both
-immediate agent-folder collections for unregistered cross-origin collisions; a
-registered-only audit does not prove that those folders are conflict-free.
+neither packages nor catalogues. A registered-only audit does not prove that unregistered folders are conflict-free.
 
 The tool and tests use only the Python standard library. No downloads, package
 installation, or PyYAML are needed. HAI's state and `.hai_env/` are not a Python
@@ -45,13 +43,12 @@ From the workspace root:
 ```text
 python -B .hai/tools/agents/agent_tools.py audit
 python -B .hai/tools/agents/agent_tools.py validate --definition .hai_env/agents/agent-definition-manager/SKILL.md
-python -B .hai/tools/agents/agent_tools.py resolve --definition .hai/agents/environment-manager/SKILL.md --runtime /path/to/runtime.json
+python -B .hai/tools/agents/agent_tools.py resolve --definition .hai_env/agents/software-developer/SKILL.md --runtime /path/to/runtime.json
 python -B .hai/tools/agents/test_agent_tools.py
 ```
 
 Use `--workspace /path/to/workspace` before the command when running elsewhere.
-The audit reads both catalogues, their referenced definitions, and optional model
-profiles. This full authoring/migration audit is not ordinary startup discovery.
+The audit reads the optional workspace catalogue, its referenced definitions, and optional model profiles. This full authoring/migration audit is not ordinary startup discovery.
 It checks YAML (including duplicate keys and string metadata), names, specialist
 execution labels, required configuration metadata and matching package-contained
 `configuration/contract.json` (including explicit no-settings contracts), the six ordered role headings, procedure contracts, absence of agent H1 titles, canonical
@@ -60,7 +57,7 @@ and the profile schema. Missing workspace catalogue/profiles are valid and stay
 absent. Legacy rows and conflicts are reported with names and never removed;
 valid independent registrations remain in the result.
 
-Every definition, including Leader, requires
+Every installed agent definition requires
 `metadata.hai-configuration-contract: "configuration/contract.json"`. The auditor
 uses the configuration helper installed beside itself to validate strict contract
 data, identity, versions and Boolean defaults. It rejects escaping contract aliases
@@ -70,10 +67,7 @@ Use the separate [configuration helper](../configuration/README.md) for the sele
 agent's saved values. Source packages are validated in disposable installed layouts.
 
 `validate --definition <canonical-workspace-relative-path>` checks one existing
-`SKILL.md` under `.hai/agents/<name>/` or `.hai_env/agents/<name>/`, including an
-unregistered definition. It reads neither catalogue, model profiles, nor core
-environment state. Framework validation works with no `.hai_env/` directory;
-workspace definition inspection does not require initialized environment state.
+`SKILL.md` under `.hai_env/agents/<name>/`, including an unregistered definition. For compatibility the helper can also inspect a legacy `.hai/agents/<name>/` path; that path is not a runtime registry. It reads neither catalogue, model profiles, nor core environment state. Definition inspection does not require initialized environment state.
 Paths must use `/` separators, match the canonical layout, and resolve within the
 explicit workspace. The command checks frontmatter, name, metadata, six role headings,
 including agreement between the selected path's name and the resolved definition,
@@ -81,13 +75,11 @@ and conflicting legacy definition files using the same definition validator as
 `audit`. It follows the selected role's indexed procedures and declared concept
 mapping paths. It does not register the target, reconstruct catalogues, inspect other
 supporting references, check cross-origin name collisions, validate role semantics, or establish
-execution permission. Both framework and workspace definitions require valid
-registration before selection for execution or delegation; an explicit name or path
-does not bypass that requirement.
+execution permission. Workspace definitions require valid registration before selection for execution or delegation; an explicit name or path does not bypass that requirement.
 
 Use `validate` for one definition before registration or after editing; use `audit`
 for registered definitions and catalogue/profile consistency. Agent-definition-manager
-owns the creation/update/audit/registration workflow and its semantic review; leader
+owns the creation/update/audit/registration workflow and its semantic review; host coordinator
 owns runtime selection. These shared commands do not perform either role's mutations.
 
 ## Procedure and reference validation
@@ -184,7 +176,7 @@ another session. It reports the requested class, effort, model when resolved, an
 any unavailable combination. Missing profiles return an issue; the caller applies
 the separately documented startup bootstrap or human override instead. Neither
 exception is inferred by the helper. A supplied snapshot cannot prove freshness
-or runtime fork/permission support; leader must verify those before spawning.
+or runtime fork/permission support; host coordinator must verify those before spawning.
 
 JSON output uses `ok` and `issues`; audit adds `agents` and profile status,
 resolution adds `request`, and validation adds `definition` plus `agent` on success.
@@ -216,8 +208,7 @@ symlink checks may skip when unavailable; report those separately from passing t
 ## Library-source verification
 
 The optional `hai_agents_library` is not an execution origin. `validate` accepts
-only canonical installed paths and `audit` continues to read only the two runtime
-catalogues. For source maintenance, copy the selected whole package into a
+only canonical installed paths and `audit` continues to read only the workspace runtime catalogue. For source maintenance, copy the selected whole package into a
 temporary `.hai_env/agents/<name>/` layout beside the compatible core and required
 installed peers, then validate that installed path. Source tests/staging may read
 the selected library as data; ordinary execution never imports from it.

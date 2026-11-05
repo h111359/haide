@@ -9,7 +9,7 @@ and [configuration tools](../../../../.hai/tools/configuration/README.md).
 Core startup neither loads nor returns these settings. Ordinary operations never
 read legacy `integrations.git` or `integrations.github` as a settings fallback.
 Core usability, instructions, Activity context and operation authority are
-independent prerequisites. Other-agent dependencies go through Leader.
+independent prerequisites. Other-agent dependencies go through host coordinator.
 
 ## Saved contract
 

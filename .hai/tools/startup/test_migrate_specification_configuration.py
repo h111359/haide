@@ -26,7 +26,7 @@ class MigrationTests(unittest.TestCase):
                          "location": {"type": "workspace-relative-directory",
                                       "default": ".hai_env/specifications"}},
         }
-        self.write(startup.TEMPLATE, Path(startup.TEMPLATE).read_text(encoding="utf-8"))
+        self.write(startup.TEMPLATE, (Path(startup.__file__).resolve().parents[2] / "templates/state.json").read_text(encoding="utf-8"))
         self.write(startup.INSTRUCTIONS, "")
         self.write(".hai/agents/leader/SKILL.md", "Unparsed leader fixture.")
         self.table(".hai", [("leader", "Coordinate work.", "leader/SKILL.md")])
@@ -35,7 +35,7 @@ class MigrationTests(unittest.TestCase):
         self.table(".hai_env", [("specification-manager", "Manage durable specifications.",
                                   "specification-manager/SKILL.md")])
         self.state = {"state_format_version": 2,
-                      **copy.deepcopy(json.loads(Path(startup.TEMPLATE).read_text(encoding="utf-8"))),
+                      **copy.deepcopy(json.loads((Path(startup.__file__).resolve().parents[2] / "templates/state.json").read_text(encoding="utf-8"))),
                       "extension_data": {"keep": [1, {"x": True}]}}
         self.state["features"]["specification"] = {"enabled": True, "location": "spec-data",
                                                        "owner_note": "keep in migrated config"}

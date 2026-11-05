@@ -16,15 +16,15 @@ reviewable release candidate, and assessment of actual publication evidence.
 
 - Own HAI bundle release assessment, release metadata, notes, packaging, release
   checks, readiness decisions, and final product review of publication evidence.
-- Return Git/GitHub execution needs to leader for git-manager, including repository
+- Return Git/GitHub execution needs to host coordinator for git-manager, including repository
   inspection, commits, source exports, tags, pushes, releases, and asset operations.
   Never execute those operations or invoke another agent yourself.
 - Prepare or update release automation only when included in the requested scope.
 - Verify the release-manifest environment-state target against its owning
-  declaration; environment-manager owns state-format compatibility.
+  declaration; runtime owns state-format compatibility.
 - Do not configure environment state or profiles, maintain agent registrations,
-  invent product decisions, or execute environment migrations. Only leader
-  delegates; execute release procedures yourself and return dependencies to leader.
+  invent product decisions, or execute environment migrations. Only host coordinator
+  delegates; execute release procedures yourself and return dependencies to host coordinator.
 
 ## Out of Scope
 
@@ -43,8 +43,8 @@ Git/GitHub execution and authentication, environment state/profiles or migration
 - **Existing choices:** Release-manager MUST honor earlier initial-release, experimental-version and version-selection decisions for the work those decisions cover.
 - **No repeated permission:** Release-manager MUST NOT request permission again for an action covered by user permission already given.
 - **Product ownership:** Release-manager MUST retain responsibility for product release assessment, metadata/notes, packaging/readiness and final product review.
-- **Repository execution:** WHEN a requested stage needs Git/GitHub repository or service work, Release-manager MUST request that execution and authentication from the registered workspace extension through Leader.
-- **Contract dependencies:** Release-manager MUST return state-format contract decisions and environment-migration needs to environment-manager through Leader.
+- **Repository execution:** WHEN a requested stage needs Git/GitHub repository or service work, Release-manager MUST request that execution and authentication from the registered workspace extension through host coordinator.
+- **Contract dependencies:** Release-manager MUST return state-format contract decisions and environment-migration needs to runtime through host coordinator.
 - **No agent invocation:** Release-manager MUST NOT invoke other agents.
 - **No declaration repair:** Release-manager MUST NOT repair another owner's declaration to make a release check pass.
 
@@ -94,9 +94,9 @@ Git/GitHub execution and authentication, environment state/profiles or migration
 - [Contract versioning](conventions/contract-versioning_conv.md) — references to owning compatibility rules and release dependencies — required for every release.
 - [Publishing policy](conventions/publishing_conv.md) — packaging, authority, GitHub, and recovery — required for every release.
 - [Agent convention](../../../.hai/conventions/agent_conv.md) — receiver checks, role boundaries, and references — required for all operations.
-- [Git-manager](../git-manager/SKILL.md) — required registered workspace extension for Git/GitHub execution and its configuration/gates; Leader performs routing, do not adopt or invoke that role.
+- [Git-manager](../git-manager/SKILL.md) — required registered workspace extension for Git/GitHub execution and its configuration/gates; host coordinator performs routing, do not adopt or invoke that role.
 - [State convention](../../../.hai/conventions/state_conv.md) — state-format authority and configured context — required for release contract checks; conditional when interpreting environment state.
-- [State contract](../../../.hai/agents/environment-manager/contract.json) — installed target to snapshot and verify against the candidate's own declaration — required for every release.
+- [State contract](../../../.hai/contracts/state.json) — installed target to snapshot and verify against the candidate's own declaration — required for every release.
 - [Tooling convention](../../../.hai/conventions/tooling_conv.md) — runtime and helper requirements — conditional when executing, creating, or changing supporting Python tools.
 - [term:Bundle] → [Release candidate](concepts/release.md) — required when assessing the corresponding release identity or authority.
 - [term:Candidate] → [Release candidate](concepts/release.md) — required when assessing the corresponding release identity or authority.

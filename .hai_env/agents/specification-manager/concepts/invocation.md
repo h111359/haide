@@ -21,7 +21,7 @@ creation. Disabled or invalid settings block dependent tree work, not read-only
 settings diagnosis or explicit setup. Tree markers establish a separate contract.
 
 Standalone invocation keeps an explicit root and this portable package's tree
-rules, with no HAI state, configuration file, helper, Leader, Activity or profile
+rules, with no HAI state, configuration file, helper, host coordinator, Activity or profile
 requirement. It does not provide a bypass for work already established as HAI-managed.
 
 ## Supporting Terms

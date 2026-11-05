@@ -45,7 +45,7 @@ them would obscure their relationship. No word-count limit justifies compressed
 phrases, unexplained abbreviations, or deleting a condition.
 
 ```markdown
-- **Authorized scope.** The leader MUST NOT perform or delegate work outside the user's agreed task scope, even when an agent, feature, or tool is available.
+- **Authorized scope.** The host coordinator MUST NOT perform or delegate work outside the user's agreed task scope, even when an agent, feature, or tool is available.
 - **Missing source.** IF the required source is unreadable, the agent MUST report that problem before dependent work.
 ```
 
