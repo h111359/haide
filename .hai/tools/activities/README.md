@@ -33,3 +33,12 @@ actual stopped workers nor permission. Leader and the responsible owners must
 perform those checks and supply actual fresh evidence. No timestamp alone proves
 freshness. Tests exercise changed sources/artifacts, stale operation binding,
 missing/partial/uncertain evidence and independent disabled closure.
+
+## Read-only discovery
+
+`discovery.py` provides the internal `discover(workspace, location)` API used by
+`../startup/startup_context.py`. The supplied location must come from compatible
+validated core state. It checks all direct-child records and returns independent
+consistency issues plus bounded, attributed current-record excerpts; see the startup
+README for status, limits, invocation and operational boundaries. It performs no
+Activity mutation or lifecycle operation.

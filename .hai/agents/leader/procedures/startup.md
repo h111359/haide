@@ -16,7 +16,7 @@ Establish validated startup context through the read-only startup helper and nec
 
 ## Prerequisites
 
-The startup helper README and shared state/model-profile conventions are available; previous observations are usable only while their inspected inputs remain unchanged.
+The bootstrap in `.hai/start.md` supplies the healthy startup flow. Previous observations are usable only while their inspected inputs remain unchanged; read the startup helper documentation and shared state/model-profile conventions when needed for exceptional handling or a specialist handoff.
 
 ## Rules
 
@@ -27,9 +27,9 @@ The startup helper README and shared state/model-profile conventions are availab
 
 ## Steps
 
-1. Establish [input:workspace_root], [input:task] and [input:authority]. Load the safe fixed mandatory [input:instructions] independently of state validation, recording missing/unreadable status for the setup/diagnosis branch.
+1. Establish [input:workspace_root], [input:task] and [input:authority]. Run the shared read-only startup context helper as directed by `.hai/start.md`; apply its exact safe fixed mandatory [input:instructions], loaded independently of state validation. If it cannot run, independently load the safe instructions and record missing/unreadable status for setup or diagnosis.
 
-2. Validate Leader's own declared configuration contract and read its saved configuration with the shared read-only configuration helper; missing files use its empty defaults and nonempty settings are invalid. Preserve independent diagnosis if configuration is invalid. Run the shared read-only startup helper with the explicit workspace and a working interpreter. Compare any [input:environment_context] with its unchanged inspected inputs and retain only still-valid evidence.
+2. Use the helper's independent Leader configuration, state, catalogue, profile, specification and Activity results, including isolated issues; missing Leader configuration uses declared defaults. Preserve independent diagnosis if configuration is invalid. Compare any [input:environment_context] with unchanged inspected inputs and retain only still-valid evidence.
 
 3. If the helper cannot run, report that limit and prepare complete fallback validation for environment-manager. If state is safely absent, prepare its minimal initialization assignment. Otherwise retain the helper's actual core/isolated issues and route only explicitly authorized repairs or migration.
 
@@ -37,9 +37,9 @@ The startup helper README and shared state/model-profile conventions are availab
 
 5. Monitor that assignment and receive verification, or retain its precise unresolved dependency. Build [output:startup_context] from actual core validation, independent registrations, instructions/profile status and available settings.
 
-6. Validate/read Environment-manager's declared configuration through the shared helper and include its evidence when invoking it; its empty settings contract does not replace shared chronicles assurance. Record discovery uses normal resolved settings after usable context exists, never inherited bootstrap permission. Do not load optional Chronicle files or require its registration/source for startup or record discovery; report a missing recording owner only for dependent recording work. If compatible usable context and supported Environment-manager invocation are available, execute [Coordinate Activity](coordinate-activity.md): pass [input:workspace_root] to target `workspace_root`, [input:instructions] to `instructions`, [input:task] to `task`, [input:authority] to `authority`, and validated environment/store assurance from [output:startup_context] to `environment_context`; pass already verified continuity to `current_record` only when available.
+6. Use the helper's verified Activity discovery and continuity when available. For creation, mutation or unresolved discovery requiring owner work, validate/read Environment-manager's configuration and resolve normal supported invocation settings; its empty settings contract does not replace shared chronicles assurance. Do not load optional Chronicle files or require its registration/source for startup or record discovery; report a missing recording owner only for dependent recording work. For substantive Activity coordination execute [Coordinate Activity](coordinate-activity.md), passing workspace, instructions, task, authority, validated environment/store assurance and verified discovery evidence when available.
 
-7. Receive actual current-record/absence/creation evidence before describing current work. If context or invocation remains unusable, record discovery as unverified and keep substantive work pending.
+7. Receive actual current-record/absence/creation evidence before describing current work. Retain valid helper discovery independently of profile or invocation availability. If usable discovery is unavailable, report its actual limit and keep dependent substantive work pending; an unavailable invocation blocks only owner work that needs it.
 
 8. Build [output:next_actions] from [output:startup_context] and the discovery result/limit: offer verified resumption, or meaningful new work after verified absence; recommend Additional setup after initialization and offer it for existing usable environments.
 

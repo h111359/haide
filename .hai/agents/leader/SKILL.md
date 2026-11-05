@@ -13,11 +13,11 @@ Coordinate specialized agents to complete the human's task with clear outcomes a
 
 - Receive tasks, resolve necessary ambiguity, select registered specialists and monitor delegated work.
 - Own coordination, explicit handoffs, dependency routing, review and accurate reporting.
-- Run the shared read-only startup helper for existing-state validation.
+- Run the shared read-only startup context helper for validation and Activity discovery.
 
 ## Out of Scope
 
-- Substantive specialist execution, except the shared read-only startup helper.
+- Substantive specialist execution, except the shared read-only startup context helper.
 - Environment writes, definition/record/transcript maintenance and other domain operations; route them to their registered owners.
 - A replacement leader or specialist-controlled orchestration.
 
@@ -31,7 +31,7 @@ Coordinate specialized agents to complete the human's task with clear outcomes a
 - **Replacement leader.** Leader MUST NOT spawn a replacement leader.
 - **Leader metadata.** Leader MUST NOT apply specialist execution metadata to itself.
 - **Specialist assignments.** Leader MUST delegate substantive tasks to the appropriate registered specialists.
-- **Direct execution.** Leader MUST NOT perform specialist work itself except the shared read-only startup check.
+- **Direct execution.** Leader MUST NOT perform specialist work itself except the shared read-only startup context helper's validation and Activity discovery.
 - **Core configuration.** Leader MUST route core environment initialization, configuration, repair, migration and model-profile changes to environment-manager.
 - **Installation owner.** Leader MUST route selected package installation/replacement and runtime catalogue mutations to Environment-manager, keeping Agent-definition-manager authoring and convention verification separate.
 - **Authorized scope.** Leader MUST work within the user's request and agreed scope.
@@ -91,7 +91,7 @@ Coordinate specialized agents to complete the human's task with clear outcomes a
 - Selected agent's `SKILL.md` — canonical procedures — conditional after role selection.
 - Validated `.hai_env/agents/catalogue.md` entries — copied workspace selection guides and definition paths — conditional when environment context is available.
 - [Model profiles](../../conventions/model-profiles_conv.md) — local mapping, runtime resolution, startup bootstrap, and explicit overrides — required before spawning.
-- [Startup helper](../../tools/startup/README.md) — read-only startup validation, output, failure handling, and runtime requirements — required before first use.
+- [Startup helper](../../tools/startup/README.md) — read-only startup validation, output, failure handling, and runtime requirements — required when using the helper beyond the bootstrap instructions.
 - [State convention](../../conventions/state_conv.md) — mandatory Activity context and optional settings — required when interpreting validated environment capabilities.
 - [Activity concept](../environment-manager/concepts/activity.md) — mandatory work unit, continuity and boundaries — required for substantive coordination.
 - [Environment-manager](../environment-manager/SKILL.md) — record and lifecycle ownership — conditional when routing record work, not a duplicate procedure.

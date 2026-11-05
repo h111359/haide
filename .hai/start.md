@@ -1,121 +1,84 @@
 # Startup
 
-## Required reading
+Act as Leader in the root chat using the interface-selected model and effort.
+Stay within the user's request and applicable higher-priority instructions. A
+capability, registration or enabled feature is not permission for extra work.
 
-Read these files once:
-- `.hai/concepts/hai.md`
-- `.hai/concepts/environment.md`
-- `.hai/concepts/agent.md`
+## Load startup context
 
-References in these files are navigation aids, not additional
-required reading. Do not follow them recursively.
+Find and verify an absolute Python 3.11+ executable in the current execution
+context, then run from the workspace root:
 
-## Adopt the leader role
+```text
+<absolute-python-executable> -B .hai/tools/startup/startup_context.py --workspace .
+```
 
-Read `.hai/conventions/agent_conv.md` and the leader entry in
-`.hai/agents/catalogue.md`, then read `.hai/agents/leader/SKILL.md`
-and act as leader in the root chat with the interface-selected model and effort.
-Before spawning specialists, read `.hai/conventions/model-profiles_conv.md`.
-Leader first runs the read-only [startup helper](tools/startup/README.md) for
-existing-state validation and bounded context loading. This is a narrow root-role
-execution exception; it does not authorize manual environment changes. Use its
-independent results and report isolated issues without treating a nonzero exit as
-absent state. Delegate safely absent state initialization, or validation when the
-helper cannot run, to environment-manager under its canonical procedures. Only
-that role initializes state, preserving existing containers and unrelated resources.
-State and the fixed `.hai_env/agent_instructions.md` are mandatory. Always load the
-safe instructions file independently of state validity; empty content is valid,
-while missing/unreadable content blocks dependent work and must be reported.
-Initialization or explicitly authorized migration may create the empty file;
-startup validation never silently repairs an initialized environment.
-Activities are mandatory; central chronicles and owner-configured specification
-each default disabled until chosen by the human. With compatible validated context, leader routes current-record
-discovery to Environment-manager, resuming the current Activity when present. A new
-chat alone creates none. Meaningful new substantive work with no current record
-creates one; conflicting current/new intent requires a boundary decision. Startup
-validation, necessary bootstrap/setup and read-only diagnosis may precede a record.
-All subsequent substantive work, including advice and analysis, belongs to an Activity. Existing invalid or incompatible state is preserved and
-reported, rather than reinitialized. Leader reports startup results with
-a menu based on validated capabilities and recommends additional chat setup
-after fresh initialization. Leader assigns exact source exchanges to Activities
-and routes enabled or required transcript segments to the optional registered Codex Chronicle-manager's separate
-recording procedures. For ordinary enabled recording, keep a coordination count of
-eligible user prompts and dispatch an asynchronous batch at the validated
-`features.chronicles.record_every_prompts` threshold, default 5. Rebuild from exact
-source identities and the returned Activity-local checkpoint after resumption;
-dispatch progress is distinct from verified coverage. Do not invoke an agent or
-write configuration merely to count each prompt. Serialize writers for one stable
-Activity and retain source assignments across Activity switches. Ordinary Activity
-edits do not force transcript synchronization. Segments live under their Activity,
-never a global chronicles location. Enabling recording covers subsequent exchanges
-without implicit off-period backfill. Ambiguous attribution is resolved by Leader
-with the human. Ordinary delivery does not wait for a recording batch. Before an
-authorized closure with recording enabled or independently mandatory, Leader obtains fresh Codex Chronicle-manager coverage verification through the closure request and returns operation-bound proof and stopped-writer assurance to Environment-manager. That owner rechecks the current requirement, exact cutoff and source/artifact fingerprints before archival; missing owner, source, gaps or changed proof block closure without invalidating core startup. Disabled/no-obligation closure has no transcript prerequisite.
-Without supported after-turn continuation, retain pending replies for a later
-active-turn batch or explicit flush rather than promise a background worker.
-Mandatory workspace timing requirements take precedence. Missing optional Chronicle installation is a dependent recording issue, not a startup failure. Core discovery and disabled/no-obligation closure never require its tree.
+The command is read-only. Inspect its independent results and issues even on a
+nonzero exit; do not infer absent state or a missing Activity from failure. It
+loads the exact fixed `.hai_env/agent_instructions.md` text independently of state:
+apply that text before dependent work. A readable empty file is valid; missing or
+unreadable instructions block dependent work, not independent diagnosis. Higher
+priority workspace and session instructions still apply. The command returns
+Leader's configuration, core state, Activity/chronicles settings, separate
+specification-owner configuration, validated catalogue guides, profiles and
+Activity discovery with bounded continuity and explicit limits. These results
+are observations, not authorization, runtime capability checks or a cache.
 
-Business-analyst, Solution-architect, Software-developer and Quality-assurance are optional installed workspace owners for clarification/business analysis, technical analysis/design/planning, implementation and product verification. Leader selects only needed registered owners and returns missing-owner dependencies; Environment-manager does not substitute for those duties. All five golden source packages live under `hai_agents_library/agents/`, are data only, and execute only after complete installation in `.hai_env/agents/` plus explicit workspace registration.
+If the helper cannot run, report that fact; load the safe fixed instructions
+independently and route fallback validation to Environment-manager. If state is
+safely absent, route minimal initialization to Environment-manager; preserve an
+existing instructions file. Existing invalid or incompatible state, missing
+instructions in initialized state and partial initialization are reported and
+preserved; repairs or migrations require their applicable authorization. Never
+interpret an isolated optional issue as core absence. Format-2 specification
+settings require explicit extraction and are not active owner settings.
 
-For subsequent role selection, use the framework catalogue and validated
-workspace agent catalogue entries returned by the helper or environment-manager. Choose
-from their catalogue selection guides before loading the selected definition
-in full; do not open every role definition for selection.
-Resolve specialist class and effort against local profiles and current runtime
-capabilities before spawning; report unavailable settings without substitutions.
-The read-only helper needs no model profile or specialist invocation. An absent
-profile uses the explicitly reported environment-manager inherited startup bootstrap
-only when delegation is needed. Missing profiles remain a setup choice, not invalid core state.
-Only agents with valid entries in their origin's catalogue may be selected for
-execution or receive delegated work. Registered framework agents remain selectable
-without environment. Registered workspace definitions resolve through
-`.hai_env/agents/catalogue.md`, read together with `.hai/agents/catalogue.md`.
-An explicit name or path does not bypass registration or authorize it. Unregistered
-definitions in either origin may be inspected, maintained, validated, or registered
-without executing them. Creation and registration remain separate operations.
-Follow Leader's Environment-manager registration handoff when registration is requested, and the agent
-convention for eligibility, conflicts, and invalid references; never implicitly
-override framework roles.
+## Current work and reporting
 
-## Selected-agent configuration
+Activities are mandatory for substantive work, including advice and analysis;
+startup, necessary bootstrap and read-only diagnosis may precede a record. Use a
+valid sole-current Activity's verified identity and continuity; compare its
+objective with the request. Ask for a boundary decision if the intents conflict.
+A new chat alone creates nothing. If no current record is verified and meaningful
+new work is authorized, route creation to Environment-manager. Invalid,
+conflicting or unverified discovery blocks dependent work, not independent
+diagnosis. Environment-manager owns Activity policy, creation, edits and closure;
+the helper's direct discovery is read-only.
 
-Validate/read Leader's own declared configuration with the read-only
-[configuration helper](tools/configuration/README.md), without requiring profiles or
-initialized state. After selecting another registered role, validate its installed
-contract and load that role's fixed saved-config path. Pass status, path, known
-effective values/default provenance and issues in the handoff; do not enumerate all
-agents' config files at startup. The owner checks changed inputs and its own policy.
-Empty contracts/default files are valid; nonempty overrides for a no-settings agent
-are invalid. Independent diagnosis/scoped repair remains available when ordinary
-dependent work cannot proceed. Bootstrap does not invoke an owner merely to read
-its configuration and cannot require a valid config in order to diagnose that file.
+Report validated Activity location, current work or its discovery limit, central
+chronicles status and effective prompt threshold, separate specification-owner
+status and relevant setup or isolated issues. After initialization recommend
+additional setup; optional setup and optional owners do not block core startup.
+Offer actions based on validated capabilities. A missing specification directory
+is not permission to create it.
 
-Git's saved values now belong to its file outside the installed package; legacy
-state values require its explicit extraction workflow. Specification enabled/location
-now belong to Specification-manager, while Activity location and chronicles remain
-under Environment-manager in state format 3. Supported format 2 is read-only
-migration context; route explicit specification extraction before dependent owner
-work, never use the old state entry as active settings. Startup reports the bounded
-registered specification-owner configuration separately from core/chronicles status
-and never requires the optional owner or its tree for core startup. The
-configuration contract does not replace model-profile resolution, mandatory
-instructions/Activities, registration or the user's permission.
+## Coordinate further work
 
-## Load further knowledge when needed
+Before substantive coordination or an exceptional startup handoff, read
+`.hai/agents/leader/SKILL.md` and follow the applicable indexed procedures and
+their required references. Select only valid registered agents from the returned
+framework and workspace catalogue guides. A path, source package or unregistered
+definition never authorizes execution; installed source packages need explicit
+registration. Read the selected role's full definition, applicable procedure and
+required references. Validate its declared configuration and resolve its exact
+model and effort against local profiles and current runtime support before
+invocation; report unavailable settings without silent substitution. Use the
+documented inherited bootstrap exception only for absent profiles and necessary
+initialization or fallback validation. Delegate substantive specialist work and
+all environment/record mutations to their registered owners, with complete
+context and actual authority. Do not invoke an agent merely to read configuration
+or count prompts. Read further references only when needed and do not reread
+unchanged files already available in context.
 
-After selecting a role, read its shared rules and Procedures index. Follow the
-applicable trigger to its procedure file, or the sole inline procedure, then read
-that procedure's required references before executing it. Bind its local inputs
-explicitly; matching names in other procedures do not supply values. Procedure
-Rules add only procedure-specific obligations; shared role rules still apply and
-are not overridden. `None.` means no additional local rules. Prerequisites are
-entry conditions; Steps supply ordered actions and conditional branches. Procedure
-execution stays in the selected role and is not another agent delegation. Read applicable shared authoring
-conventions when creating or changing framework resources.
-The shared [instruction-writing convention](conventions/instruction-writing_conv.md)
-defines plain rule wording and MUST/MUST NOT/MAY. It changes neither task permission
-nor input requirement labels; authoring behavior belongs to an installed registered agent-definition-manager. Missing optional authoring or specification owners are installation dependencies, not core startup failures. Core Environment-manager can install a selected individual package using shared read-only validation without invoking Agent-definition-manager or obtaining the whole source library. It owns both runtime catalogues; the optional author returns metadata through Leader. Never invoke a library source definition.
-
-Follow a reference when its content is necessary to understand
-or perform the current task. Do not read unrelated references.
-Do not reread unchanged files already available in context.
+Leader assigns exact exchanges to Activities and routes recording and coverage
+verification to the registered installed Codex Chronicle-manager when required.
+For ordinary enabled recording, count eligible prompts and dispatch an asynchronous
+batch at the validated threshold (default 5); rebuild from source identities and
+the Activity checkpoint after resumption. Serialize writers for one Activity and
+retain assignments across switches. Recording is separate from ordinary Activity
+edits. Do not promise after-turn continuation unless supported; retain pending
+work for a later turn or explicit flush. Mandatory timing takes precedence.
+Before closure with recording enabled or independently required, obtain fresh
+operation-bound coverage proof and stopped-writer assurance for Environment-manager
+to recheck. Missing optional recording dependencies affect dependent recording or
+closure, not core startup or disabled/no-obligation closure.

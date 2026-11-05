@@ -186,3 +186,19 @@ Additional user input (source: user chat; date: 2026-11-04; exact time not provi
 I don't like temporary files to be created in .hai/
 If you need to test somethin - do in in the current activity folder. Chane the plan
 ```
+
+
+---
+
+Additional user input (source: user chat; date: 2026-11-05; exact time not provided):
+```
+Every start of HA environment causes 3% of the 5 hours limit of Codex. Explore what can be reduced from the start.md procedure. Explore what can be automated via Python script, so no need to spend tokens for it. Propose me plan for reduction of the start.md process.
+```
+
+
+---
+
+Additional user input (source: user chat; date: 2026-11-05; exact time not provided):
+```
+OK, apply changes for simplified start
+```

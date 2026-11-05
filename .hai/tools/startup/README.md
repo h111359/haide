@@ -133,3 +133,37 @@ Tests use isolated temporary workspaces, Unicode/CRLF fixtures, isolated CLI
 processes, filesystem snapshots, state/profile/catalogue failures, and symlink/
 junction fixtures where the OS permits creating them. Report skipped OS-dependent
 checks separately; testing on one OS does not establish behavior on another.
+
+## Combined startup context
+
+After verifying the interpreter as above, run the read-only orchestration entry point:
+
+```text
+<absolute-python-executable> -B .hai/tools/startup/startup_context.py --workspace .
+<absolute-python-executable> -B .hai/tools/startup/test_startup_context.py
+```
+
+This returns compact JSON with every field and diagnostic from `startup_check.check`,
+plus `leader_configuration` (the registered framework Leader's declared contract
+and saved settings, using the configuration loader) and `activity_context`. The
+latter is `current`, `absent`, `invalid`, or `unverified`; it includes store, stable
+ID, path, required state fields, bounded raw continuity and scoped issues. Invalid
+core state leaves discovery unverified. A missing store or consistently empty store
+is absent; an unreadable, unsafe or inconsistent store is invalid, never absent.
+Continuity uses input head (384 bytes), plan tail (768), decisions tail (512) and
+log tail (1024), each with path, status and explicit truncation/portion/byte limit.
+These excerpts are sources, not summaries or complete task instructions. Consult
+relevant records directly for details. Exact mandatory instructions remain complete
+and independent of these bounds; an empty readable file is valid. Missing or invalid
+instructions block dependent work. Leader configuration and Activity issues are
+also added to top-level `issues` without changing core validity. `ok` requires
+successful applicable checks, Leader configuration and consistent discovery. Exit
+codes 0, 1, and 2 have the same meanings as the existing checker. Unavailable or
+unverified Leader configuration and unverified Activity context cannot be success.
+
+Discovery checks every direct child for a safe nonlinked folder, duplicate-free
+supported Activity state, required readable nonlinked records, safe optional canonical artifacts, unique IDs,
+archive naming and closure timestamps, and sole-current consistency. Historical
+records are opened only to check access; their content is not loaded except state. It does not initialize, mutate, choose work, validate runtime
+model availability, audit all definitions, or establish recording coverage. Results
+are observations, not locks; writers independently recheck before mutation.

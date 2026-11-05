@@ -30,9 +30,10 @@ the distinction between continuity, a new objective, and a lifecycle decision.
 Bounded startup/setup and read-only diagnosis exist to establish usable context,
 not as an alternative to tracking later substantive work.
 
-Environment-manager owns core configuration, availability checks, record discovery, artifacts and lifecycle. Leader alone coordinates agents
+Environment-manager owns core configuration, discovery policy, artifacts and lifecycle. Leader alone coordinates agents
 and boundary decisions. Configuration availability is distinct from discovery of
-the current record, so startup does not infer current work by scanning the store.
+the current record. The shared startup context helper may verify the store read-only
+and report discovery independently; an incomplete scan does not establish absence.
 Activity identity, lifecycle, performed steps, and closure outcome have different
 meanings, explained in the Activity concept and its supporting sources.
 

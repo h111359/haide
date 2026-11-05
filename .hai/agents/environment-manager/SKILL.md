@@ -21,7 +21,7 @@ Manage the environment and durable work records, preserving local settings, Acti
 - Acquire/install explicitly selected complete optional packages into `.hai_env/agents/`, including the first optional package without Agent-definition-manager present.
 - Own explicit registration and metadata synchronization in both runtime catalogues; use trusted shared validation tools directly.
 
-- Own Activity discovery, continuity, records, material revisions, specialist-result recording, supplements and authorized closure.
+- Own Activity discovery policy, continuity, records, material revisions, specialist-result recording, supplements and authorized closure; the shared startup context helper may perform read-only discovery for Leader.
 - Record planned step transitions and implementation start before assigned execution; report record consistency separately from product QA.
 
 ## Out of Scope

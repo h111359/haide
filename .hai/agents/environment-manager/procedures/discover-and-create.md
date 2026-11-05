@@ -18,7 +18,7 @@ Establish the sole-current Activity context, creating records only within the us
 
 ## Prerequisites
 
-Read the package [Activity concept](../concepts/activity.md) and [Activity convention](../conventions/activity_conv.md). Caller-validated compatible environment/store context and local path/type validation are required.
+Read the package [Activity concept](../concepts/activity.md) and [Activity convention](../conventions/activity_conv.md). Caller-validated compatible environment/store context and local path/type validation are required. The shared startup context helper may independently perform the read-only discovery checks for Leader; record creation and mutation remain with Environment-manager.
 
 ## Rules
 

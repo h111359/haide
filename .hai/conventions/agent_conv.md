@@ -89,8 +89,9 @@ selection and leader orchestration remain explicit.
 All substantive HAI work belongs to a [term:Activity],
 including advice, brainstorming, analysis, planning, framework maintenance,
 implementation and verification. Activities have no enabled flag. A compatible
-validated environment supplies activities.location; Environment-manager discovers
-and maintains the sole current record, while leader alone coordinates specialists.
+validated environment supplies activities.location; Environment-manager owns
+discovery policy and maintains the sole current record. The shared startup context
+helper may discover it read-only for Leader, who alone coordinates specialists.
 Startup validation, bootstrap/setup required to establish usable context, and
 read-only prerequisite diagnosis may proceed before a record exists. These bounded
 exceptions do not authorize later untracked substantive work.

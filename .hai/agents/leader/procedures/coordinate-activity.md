@@ -13,11 +13,11 @@ Coordinate Activity discovery, continuity, and authorized record maintenance, an
 | [input:task] | Human question or task. | Mandatory | Caller and authorized workspace context | Retrieve authorized context first; if unresolved, return the dependency and pause dependent work. |
 | [input:authority] | The user's requested operation, agreed scope, constraints and permissions already given. | Mandatory | Caller and authorized workspace context | Retrieve authorized context first; if unresolved, return the dependency and pause dependent work. |
 | [input:environment_context] | Validated compatible environment and mandatory activities.location. | Mandatory | Caller and authorized workspace context | Retrieve authorized context first; if unresolved, return the dependency and pause dependent work. |
-| [input:current_record] | Existing current-work continuity, if any. | Optional | Environment-manager | Route discovery; meaningful new work without a current record creates one as part of the user's requested work. |
+| [input:current_record] | Verified current-work discovery and continuity, including verified absence when applicable. | Optional | Shared startup context helper or Environment-manager | Route discovery; meaningful new work without a current record creates one as part of the user's requested work. |
 
 ## Prerequisites
 
-Validated compatible environment with its mandatory Activity location. Normal Environment-manager invocation uses supported resolved settings under the model-profile convention.
+Validated compatible environment with its mandatory Activity location. An Environment-manager invocation uses supported resolved settings under the model-profile convention.
 
 ## Rules
 
@@ -29,9 +29,9 @@ None.
 
 2. Extract the validated store from [input:environment_context]. If compatibility/location assurance is missing or conflicting, return the specific setup dependency before record discovery.
 
-3. Prepare an Environment-manager discovery assignment with workspace root, instructions, validated environment/store, requested operation and permitted scope. Include [input:current_record] as previously supplied continuity to recheck, not as a replacement for discovery.
+3. Use [input:current_record] only if it is verified discovery for unchanged relevant inputs and the validated store. Otherwise prepare an Environment-manager discovery assignment with workspace root, instructions, validated environment/store, requested operation and permitted scope; include any earlier continuity for recheck.
 
-4. Select the registered Environment-manager and delegate that assignment under [Delegate work](delegate-work.md), supplying its task, catalogue, exact runtime settings and record-discovery context through that procedure's declared inputs. Receive its actual discovery result.
+4. When discovery is needed, select the registered Environment-manager and delegate that assignment under [Delegate work](delegate-work.md), supplying its task, catalogue, exact runtime settings and record-discovery context through that procedure's declared inputs. Receive its actual discovery result. The shared startup context helper's verified read-only discovery does not require a separate invocation.
 
 5. If discovery reports invalid, inconsistent or ambiguous current work, return the precise boundary/dependency and keep affected work pending.
 

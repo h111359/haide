@@ -125,7 +125,7 @@ belong to their original closed Activity.
 Chronicles have Activity-local segment identity and exact source assignments.
 Their layout, source/naming contract and compatibility are owned by
 the installed Codex Chronicle-manager transcript convention at `.hai_env/agents/codex-chronicle-manager/conventions/transcript-segment_conv.md`.
-Environment-manager owns record mutation; Codex Chronicle-manager owns transcript/checkpoint writes. Leader serializes both for the stable Activity.
+Environment-manager owns discovery policy and record mutation; the shared startup context helper may perform read-only discovery for Leader. Codex Chronicle-manager owns transcript/checkpoint writes. Leader serializes both for the stable Activity.
 
 ## References
 

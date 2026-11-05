@@ -27,7 +27,7 @@ The root is an object with required properties:
 zero, negative/fractional/string/null values are invalid even while disabled.
 Transcripts remain Activity-local under `chronicles/`; no global location exists.
 Core state stores no current Activity pointer, prompt counter, transcript coverage
-or in-flight-worker marker. Environment-manager owns record discovery and lifecycle; optional installed Codex Chronicle-manager owns transcript/checkpoint formats and writes. Configuration changes never alter record lifecycle/content.
+or in-flight-worker marker. Environment-manager owns record discovery policy and lifecycle; the shared startup context helper may perform read-only discovery for Leader. Optional installed Codex Chronicle-manager owns transcript/checkpoint formats and writes. Configuration changes never alter record lifecycle/content.
 
 The installed `.hai/agents/environment-manager/contract.json` is the single
 current/supported-version authority, independent of release SemVer or target copies.
