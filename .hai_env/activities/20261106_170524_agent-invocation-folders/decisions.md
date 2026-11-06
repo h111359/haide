@@ -1,0 +1,5 @@
+# BL-0010 implementation decisions
+
+User instructed implementation after receiving the consolidated four-phase plan. Applying its recommended defaults: each new spawn attempt gets a fresh allocation; follow-up to the same live invocation retains its folder; files stay with the Activity and no cleanup operation is introduced. Allocation metadata proves folder creation only; actual host handle and launch/writer status are recorded by the host, never inferred from allocation. The host checks for ended writers before closure and does not dispatch closure for unknown or running writers. No OS security isolation is claimed. Real-host verification will use controlled disposable Activities so the current product Activity is not closed merely for a test.
+
+Revision provenance: source: User: implement, following consolidated action plan; reason: Start authorized feature implementation; reason: Record implemented technical defaults under user acceptance of action plan; recorded 2026-11-06T09:56:33Z.

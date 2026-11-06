@@ -1,0 +1,299 @@
+{
+  "workspace": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification",
+  "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+  "activity_path": ".hai_env/activities/00000000_000000_active",
+  "allocations": {
+    "not_dispatched": {
+      "allocated": true,
+      "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+      "invocation_id": "4ab09129-824f-4a3b-aec8-b289e935f59a",
+      "agent": "quality-assurance",
+      "path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/4ab09129-824f-4a3b-aec8-b289e935f59a",
+      "activity_relative_path": "files/agent-invocations/4ab09129-824f-4a3b-aec8-b289e935f59a",
+      "metadata_path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/4ab09129-824f-4a3b-aec8-b289e935f59a/invocation.json",
+      "metadata": {
+        "invocation_format_version": 1,
+        "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+        "invocation_id": "4ab09129-824f-4a3b-aec8-b289e935f59a",
+        "agent": "quality-assurance",
+        "created_at": "2026-11-06T10:03:54Z",
+        "provenance": {
+          "source": "BL-0010 controlled host verification",
+          "reason": "Controlled pre-dispatch abort: retain this allocation without launching"
+        }
+      }
+    },
+    "a": {
+      "allocated": true,
+      "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+      "invocation_id": "45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+      "agent": "quality-assurance",
+      "path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+      "activity_relative_path": "files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+      "metadata_path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2/invocation.json",
+      "metadata": {
+        "invocation_format_version": 1,
+        "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+        "invocation_id": "45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+        "agent": "quality-assurance",
+        "created_at": "2026-11-06T10:03:54Z",
+        "provenance": {
+          "source": "BL-0010 controlled host verification",
+          "reason": "Validate real host handoff without closing the product Activity"
+        }
+      }
+    },
+    "b": {
+      "allocated": true,
+      "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+      "invocation_id": "4ddf52c7-9097-4800-b217-129b234853dc",
+      "agent": "quality-assurance",
+      "path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc",
+      "activity_relative_path": "files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc",
+      "metadata_path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc/invocation.json",
+      "metadata": {
+        "invocation_format_version": 1,
+        "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+        "invocation_id": "4ddf52c7-9097-4800-b217-129b234853dc",
+        "agent": "quality-assurance",
+        "created_at": "2026-11-06T10:03:54Z",
+        "provenance": {
+          "source": "BL-0010 controlled host verification",
+          "reason": "Validate real host handoff without closing the product Activity"
+        }
+      }
+    }
+  },
+  "host_handles": {
+    "a": "/root/invocation_probe_a",
+    "b": "/root/invocation_probe_b"
+  },
+  "controlled_abort": {
+    "status": "not_dispatched_controlled_abort",
+    "actual_agent_launched": false,
+    "folder_retained": true
+  },
+  "product_activity_id": "c256b9cc-fd85-4b17-91e6-4cd0d54a4314",
+  "stage": "passed",
+  "closure_guard_while_running": {
+    "observed_at": "2026-11-06T10:10:45Z",
+    "status_source": "actual collaboration.list_agents result",
+    "observed_host_statuses": {
+      "a": "running",
+      "b": "running"
+    },
+    "decision": "blocked",
+    "close_dispatched": false,
+    "reason": "Both relevant host invocations are still running; wait for explicit completed/no-background-write evidence.",
+    "state_remained_active": true
+  },
+  "initial_real_agent_checks": {
+    "a": {
+      "folder": ".hai_env/activities/00000000_000000_active/files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+      "report_at_ready": {
+        "workspace_root": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification",
+        "folder": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification/.hai_env/activities/00000000_000000_active/files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+        "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+        "invocation_id": "45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+        "agent": "quality-assurance",
+        "path_and_identity_validated": true,
+        "entry_chat_read": "ok; 0 messages",
+        "sha256": {
+          "invocation.json": "ad6d8ecbb53e6e6199695df69f9bc737a130492004fcc881de0a605c62d1a4e9",
+          "sentinel.txt": "9a29b012b3c758b7ea6e6cc84f3994c3bdb8c2c0952a3fb2078715361c146e82",
+          "only-a.txt": "6794af8371f2ba4c09d5fdb157bde8cfa7666c27897128d8ce23a9bddbfb6811"
+        },
+        "background_processes_started": false,
+        "writing_finished": false
+      },
+      "sentinel_sha256": "9a29b012b3c758b7ea6e6cc84f3994c3bdb8c2c0952a3fb2078715361c146e82",
+      "metadata_sha256": "ad6d8ecbb53e6e6199695df69f9bc737a130492004fcc881de0a605c62d1a4e9",
+      "other_invocation_only_file_absent": true
+    },
+    "b": {
+      "folder": ".hai_env/activities/00000000_000000_active/files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc",
+      "report_at_ready": {
+        "initial_checks": {
+          "workspace": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification",
+          "folder": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification/.hai_env/activities/00000000_000000_active/files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc",
+          "folder_exists_directory": true,
+          "folder_not_symlink": true,
+          "contained_in_workspace": true,
+          "manifest_regular_nonlinked_single_link": true,
+          "manifest_activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+          "manifest_invocation_id": "4ddf52c7-9097-4800-b217-129b234853dc",
+          "manifest_agent": "quality-assurance",
+          "chat_read": "ok; zero messages"
+        },
+        "sha256": {
+          "invocation.json": "ef84095524a177c67050594cd2858dd5fd42b7453611b740aa08fd5cdc9216e3",
+          "sentinel.txt": "0b12298609cd9f4c9951da80bee08ca71ec17ee6720e7850851cdaae454bde7d",
+          "only-b.txt": "3e2c743bc9431b093422c1056976079b4eff185192b90106a4d75def15ab90e7"
+        },
+        "background_workers": "none launched by this invocation",
+        "writing_finished": false
+      },
+      "sentinel_sha256": "0b12298609cd9f4c9951da80bee08ca71ec17ee6720e7850851cdaae454bde7d",
+      "metadata_sha256": "ef84095524a177c67050594cd2858dd5fd42b7453611b740aa08fd5cdc9216e3",
+      "other_invocation_only_file_absent": true
+    }
+  },
+  "same_live_followup": {
+    "host_handle": "/root/invocation_probe_a",
+    "same_invocation_id": "45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+    "same_folder": true,
+    "new_allocation_created": false,
+    "sentinel_and_manifest_unchanged": true
+  },
+  "final_real_agent_reports": {
+    "a": {
+      "workspace_root": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification",
+      "folder": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification/.hai_env/activities/00000000_000000_active/files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+      "activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+      "invocation_id": "45a2c487-d31e-44b1-9a4d-f2813e6d65d2",
+      "agent": "quality-assurance",
+      "path_and_identity_validated": true,
+      "entry_chat_read": "ok; 0 messages",
+      "sha256": {
+        "invocation.json": "ad6d8ecbb53e6e6199695df69f9bc737a130492004fcc881de0a605c62d1a4e9",
+        "sentinel.txt": "9a29b012b3c758b7ea6e6cc84f3994c3bdb8c2c0952a3fb2078715361c146e82",
+        "only-a.txt": "6794af8371f2ba4c09d5fdb157bde8cfa7666c27897128d8ce23a9bddbfb6811",
+        "followup.txt": "f96dfa8ef6e9f6d1373771e21a2067fc322866f0f01df03ce60ce9c8ee432988"
+      },
+      "background_processes_started": false,
+      "writing_finished": true,
+      "final_verification": {
+        "original_files_unchanged": true,
+        "followup_unchanged": true,
+        "final_chat_read": "ok; 0 messages"
+      }
+    },
+    "b": {
+      "initial_checks": {
+        "workspace": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification",
+        "folder": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification/.hai_env/activities/00000000_000000_active/files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc",
+        "folder_exists_directory": true,
+        "folder_not_symlink": true,
+        "contained_in_workspace": true,
+        "manifest_regular_nonlinked_single_link": true,
+        "manifest_activity_id": "d1c8e305-1cf6-48d5-8355-d129194d808e",
+        "manifest_invocation_id": "4ddf52c7-9097-4800-b217-129b234853dc",
+        "manifest_agent": "quality-assurance",
+        "chat_read": "ok; zero messages"
+      },
+      "sha256": {
+        "invocation.json": "ef84095524a177c67050594cd2858dd5fd42b7453611b740aa08fd5cdc9216e3",
+        "sentinel.txt": "0b12298609cd9f4c9951da80bee08ca71ec17ee6720e7850851cdaae454bde7d",
+        "only-b.txt": "3e2c743bc9431b093422c1056976079b4eff185192b90106a4d75def15ab90e7"
+      },
+      "background_workers": "none launched by this invocation",
+      "writing_finished": true,
+      "final_checks": {
+        "chat_read": "ok; zero messages",
+        "sha256": {
+          "invocation.json": "ef84095524a177c67050594cd2858dd5fd42b7453611b740aa08fd5cdc9216e3",
+          "sentinel.txt": "0b12298609cd9f4c9951da80bee08ca71ec17ee6720e7850851cdaae454bde7d",
+          "only-b.txt": "3e2c743bc9431b093422c1056976079b4eff185192b90106a4d75def15ab90e7"
+        },
+        "unchanged": {
+          "invocation.json": true,
+          "sentinel.txt": true,
+          "only-b.txt": true
+        },
+        "background_workers": "none launched by this invocation"
+      }
+    }
+  },
+  "closure_guard_after_completion": {
+    "observed_at": "2026-11-06T10:13:12Z",
+    "status_source": "actual collaboration.list_agents completed results plus final handoffs and report readback",
+    "observed_host_statuses": {
+      "a": "completed",
+      "b": "completed"
+    },
+    "writers_finished": true,
+    "background_workers": false,
+    "decision": "allow controlled test closure"
+  },
+  "archival": {
+    "path": ".hai_env/activities/20261106_101312_invocation-host-test",
+    "all_invocation_bytes_preserved": true,
+    "files_checked": 10,
+    "relative_file_sha256": {
+      "files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc/sentinel.txt": "0b12298609cd9f4c9951da80bee08ca71ec17ee6720e7850851cdaae454bde7d",
+      "files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc/invocation.json": "ef84095524a177c67050594cd2858dd5fd42b7453611b740aa08fd5cdc9216e3",
+      "files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc/only-b.txt": "3e2c743bc9431b093422c1056976079b4eff185192b90106a4d75def15ab90e7",
+      "files/agent-invocations/4ddf52c7-9097-4800-b217-129b234853dc/report.json": "13011bd16e6ce37569be0cb82fe9e111a8f50cb762d9e249168519fa9b9dc85f",
+      "files/agent-invocations/4ab09129-824f-4a3b-aec8-b289e935f59a/invocation.json": "37f70cd8dae7f80c6cbdeaed07a336848b64b55939bf092523c603c0a601c838",
+      "files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2/sentinel.txt": "9a29b012b3c758b7ea6e6cc84f3994c3bdb8c2c0952a3fb2078715361c146e82",
+      "files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2/invocation.json": "ad6d8ecbb53e6e6199695df69f9bc737a130492004fcc881de0a605c62d1a4e9",
+      "files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2/only-a.txt": "6794af8371f2ba4c09d5fdb157bde8cfa7666c27897128d8ce23a9bddbfb6811",
+      "files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2/report.json": "302596ee2a61dcb5411bee3f70e0977c79308b71600be0179e6b420f642b93ae",
+      "files/agent-invocations/45a2c487-d31e-44b1-9a4d-f2813e6d65d2/followup.txt": "f96dfa8ef6e9f6d1373771e21a2067fc322866f0f01df03ce60ce9c8ee432988"
+    }
+  },
+  "second_activity": {
+    "activity_id": "b66693db-7525-436a-9352-266258b2ead1",
+    "path": ".hai_env/activities/00000000_000000_active",
+    "allocation": {
+      "allocated": true,
+      "activity_id": "b66693db-7525-436a-9352-266258b2ead1",
+      "invocation_id": "af3d1992-3a8f-400e-8a46-8cd9f3b88818",
+      "agent": "quality-assurance",
+      "path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/af3d1992-3a8f-400e-8a46-8cd9f3b88818",
+      "activity_relative_path": "files/agent-invocations/af3d1992-3a8f-400e-8a46-8cd9f3b88818",
+      "metadata_path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/af3d1992-3a8f-400e-8a46-8cd9f3b88818/invocation.json",
+      "metadata": {
+        "invocation_format_version": 1,
+        "activity_id": "b66693db-7525-436a-9352-266258b2ead1",
+        "invocation_id": "af3d1992-3a8f-400e-8a46-8cd9f3b88818",
+        "agent": "quality-assurance",
+        "created_at": "2026-11-06T10:13:12Z",
+        "provenance": {
+          "source": "BL-0010 real-host verification after completed probes",
+          "reason": "Verify archival and a different Activity without closing product work"
+        }
+      }
+    },
+    "stale_previous_id_rejected": true,
+    "host_handle": "/root/invocation_probe_c",
+    "report": {
+      "folder_exists": true,
+      "folder_resolved": "/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/bl0010-host-verification/.hai_env/activities/00000000_000000_active/files/agent-invocations/af3d1992-3a8f-400e-8a46-8cd9f3b88818",
+      "manifest_matches": true,
+      "activity_id": "b66693db-7525-436a-9352-266258b2ead1",
+      "activity_active": true,
+      "invocation_folder_names": [
+        "af3d1992-3a8f-400e-8a46-8cd9f3b88818"
+      ],
+      "previous_a_b_absent": true,
+      "sha256": {
+        "invocation.json": "4a4529f5cfc9ceba4f6f230ba4ae1c02cd2e5b42509a4ecccfbcdaef6685c41f",
+        "chat-read.json": "e6bd1e0b34cee362093ce69d61f6c49f051a1a81f83e77381a3c3aba9ca15def",
+        "sentinel.txt": "1f1de85e885268d00b106a8fb7fcfa2e29afb76426c5405584b03a34f14aec97",
+        "only-c.txt": "42045faa0530693bcf8eaa9a02b7c10fad27eb5978e4c926aebae7273309c5d2"
+      },
+      "chat_entry_and_final_read": "ok; 0 messages",
+      "no_background_workers": true,
+      "writing_finished": true
+    },
+    "host_status_source": "actual collaboration.list_agents completed result and no-background-write final handoff",
+    "writing_finished": true,
+    "archive_path": ".hai_env/activities/20261106_101525_invocation-new-activity",
+    "bytes_preserved_on_archive": true
+  },
+  "all_real_invocations_completed": true,
+  "completed_at": "2026-11-06T10:15:25Z",
+  "acceptance_coverage": {
+    "AC1": "Actual A/B/C initial assignments contained existing folder and identity; agents verified manifests and wrote files.",
+    "AC2": "A and B are overlapping quality-assurance invocations with distinct allocated UUID paths.",
+    "AC3": "Independent sentinel/probe/report files were written only into assigned folders.",
+    "AC4": "A/B bytes retained through continuation, later allocation, archival and subsequent Activity reuse.",
+    "AC5": "Actual C handoff used second Activity identity and new folder; old ID allocation was rejected."
+  },
+  "limits": [
+    "Linux/Python 3.12.3; Windows/macOS execution unverified.",
+    "Controlled not-dispatched abort tested retention; no real indeterminate host launch was induced. Allocation failures/collisions exercised in fixtures.",
+    "Writer closure checks are host coordination with actual status/readback evidence; direct close calls do not enforce external process lifetime or OS isolation."
+  ]
+}

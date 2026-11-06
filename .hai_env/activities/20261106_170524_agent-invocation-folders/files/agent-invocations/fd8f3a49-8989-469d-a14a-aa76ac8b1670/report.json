@@ -1,0 +1,22 @@
+{
+  "activity_id": "c256b9cc-fd85-4b17-91e6-4cd0d54a4314",
+  "invocation_id": "fd8f3a49-8989-469d-a14a-aa76ac8b1670",
+  "agent": "quality-assurance",
+  "folder": ".hai_env/activities/00000000_000000_active/files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670",
+  "supplied_path_verification": "Existing directory resolved inside assigned Activity; no symlink components; manifest regular with one link, matches activity, invocation and agent; active state matches.",
+  "high_medium_findings": [],
+  "checks": [
+    "Source and evidence review",
+    "Activity chat read on entry and before handoff; findings posted at sequence 6",
+    "Independent SHA-256 verification of ten archived files: 10 matched",
+    "Prior suite results reviewed, not rerun"
+  ],
+  "limits": [
+    "Real-host probe claims drawn from recorded evidence, not independently relaunched",
+    "Fault injection and controlled abort are not actual uncertain launch failures",
+    "Host coordinates writer quiescence; no OS isolation or automatic runtime worker guard",
+    "Windows and macOS unverified"
+  ],
+  "no_background_workers": true,
+  "writing_finished": true
+}

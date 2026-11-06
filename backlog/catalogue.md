@@ -4,7 +4,8 @@ Pending items are in `new/`; completed, cancelled and rejected items belong in
 `closed/`. Each item file contains its requirements, provenance and change history.
 The catalogue lists live items only; revision snapshots are not work items.
 
-All nine drafts have been converted into individual items. Acceptance decisions
+The initial nine drafts were converted into individual items; new stories are added
+as separate records. Acceptance decisions
 and status changes are recorded in each item. Missing requirements are explicitly
 unspecified; each item contains its complete supplied requirements and attribution.
 
@@ -19,3 +20,4 @@ unspecified; each item contains its complete supplied requirements and attributi
 | BL-0007 | Rename the workspace advisor | pending | [BL-0007](new/BL-0007.md) |
 | BL-0008 | Clarify backlog items with a business analyst | pending | [BL-0008](new/BL-0008.md) |
 | BL-0009 | Workspace agent setup parameters | pending | [BL-0009](new/BL-0009.md) |
+| BL-0010 | Separate working folder for each sub-agent invocation | completed | [BL-0010](closed/BL-0010.md) |

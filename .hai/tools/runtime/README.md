@@ -19,6 +19,7 @@ Workflow modules provide Activity, package, recording and host operations. A hos
 Requests are JSON objects. All applied Activity and package mutations require valid current core state and readable mandatory instructions. For example, `python -B .hai/tools/hai.py activity discover --workspace .` reads the current Activity; add `--request request.json` where fields are listed below. Every mutation requires the provenance object described above.
 
 - `activity discover` takes `{}`. `activity show` takes `activity_id`.
+- `activity invocation-allocate` takes `activity_id`, `agent` and provenance. Preview creates nothing (`allocated: false`); `--apply` exclusively creates `files/agent-invocations/<uuid>/invocation.json` below the current Activity and returns its existing folder (`allocated: true`), stable IDs, Activity-relative suffix and metadata. Closed/stale IDs, collisions and unsafe paths are rejected. Partial results retain and name changed paths. See [allocation and actual host handoff](../../conventions/agent-invocation_conv.md); the runtime does not spawn agents.
 - `activity chat-read` takes `activity_id`, optional nonnegative integer `after_sequence` (default `0`) and optional integer `limit` (`1..1000`, default `100`). Returns a page with `messages`, `total_messages`, `next_after_sequence` and `has_more`; reads closed Activities too. Omit `--apply` for reads. `activity chat-post` takes `activity_id`, `author`, `text` and provenance. It previews by default; `--apply` appends to the current Activity's `chat.jsonl` under the runtime lock. No edit/delete action exists. See [chat format and participation](../../conventions/activity-chat_conv.md), including attribution and filesystem-access limits.
 - `activity create` takes `initial_input` and provenance. `activity record` takes `activity_id`, optional `steps` mapping step names to statuses, optional `implementation_start` Boolean, optional `artifacts` array of `{name, text, reason}`, optional `input_append`, `log`, and provenance. `activity close` takes `activity_id`, `outcome`, `archive_label`, `outcome_text`, `recording` with `status` and `details`, and provenance. It also accepts `recording_requirement` with Boolean `enabled` and `mandatory`, and a `recording_proof` gate request. Verified closure additionally supplies `recording_paths` with `sources` mapping source IDs to workspace-relative files and `artifacts` mapping artifact IDs to files inside the Activity; their hashes must match the gate evidence. `activity supplement` takes `activity_id`, `text`, and provenance. Closure requires valid proof when recording is mandatory; pending or unavailable optional recording is reported. These operations preserve partial results on failure.
 - `packages validate` takes `definition`; `packages resolve` takes `definition` and `runtime`, a capability snapshot shaped as `{"models":{"model-id":["high"]}}`. `packages audit` takes `{}`. `packages install` takes workspace-relative `source`, `name`, provenance, and optional Boolean `replace` and `register`. Replacement additionally requires the exact `reviewed_differences` list returned by a preview; the previous package is retained as a backup. Registration may require a separate reconciliation after replacement. `packages register` takes `name` and provenance. Remote acquisition is unsupported. Safe no-overwrite package and Activity moves require an available native atomic rename primitive. Implementations cover Linux, Windows and macOS; only Linux has been tested here.
@@ -43,6 +44,35 @@ append by adding `--apply`. To read, use a separate request containing only
 `{"activity_id":"<same UUID>"}` with `activity chat-read`. For later pages, include
 the returned `next_after_sequence` as `after_sequence`. These examples do not assign
 an agent, authenticate an author or imply the described implementation is complete.
+
+## Invocation allocation example
+
+Save a workspace-contained JSON request, for example `invocation-request.json`:
+
+```json
+{
+  "activity_id": "<current stable Activity UUID>",
+  "agent": "software-developer",
+  "provenance": {"source": "authorized host assignment", "reason": "allocate before a new spawn"}
+}
+```
+
+Preview with `python -B .hai/tools/hai.py activity invocation-allocate --workspace . --request invocation-request.json`.
+Add `--apply` to allocate. Dispatch only after successful applied readback, passing
+the returned `path`, `activity_relative_path`, `activity_id` and `invocation_id` in
+the first assignment. Record the actual returned host handle and observed launch
+status through `activity record`; the manifest is not launch evidence.
+
+Same-live-instance follow-ups keep the allocation; every new spawn attempt uses a
+new one. Failed or uncertain launches retain material. Host closure waits for
+verified ended writers; allocation locks do not stop later filesystem writes.
+There is no new global registry, cleanup command or security sandbox.
+
+Run `python -B -m unittest discover -s .hai/tools/runtime/tests -p 'test_invocations.py'`
+for allocation, CLI, concurrency, unsafe-path, partial-failure and archive fixtures.
+Separately observe real host launches receiving usable distinct folders and writing
+independent files; fixture success alone does not prove host handoff. Controlled
+verification Activities may be used so product work is not closed for a test.
 
 ## Chat verification
 

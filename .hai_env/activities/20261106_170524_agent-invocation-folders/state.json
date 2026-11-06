@@ -1,0 +1,15 @@
+{
+  "activity_id": "c256b9cc-fd85-4b17-91e6-4cd0d54a4314",
+  "lifecycle": "closed",
+  "created_at": "2026-11-06T06:30:10Z",
+  "closed_at": "2026-11-06T17:05:24Z",
+  "outcome": "completed",
+  "implementation_started_at": "2026-11-06T09:56:33Z",
+  "steps": {
+    "analysis": "completed",
+    "clarification": "completed",
+    "implementation": "completed",
+    "planning": "completed",
+    "verification": "completed"
+  }
+}

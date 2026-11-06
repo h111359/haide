@@ -1,0 +1,7 @@
+# Outcome
+
+Captured, reviewed, planned, implemented and user-accepted BL-0010. Added safe activity invocation-allocate plus shared host/agent folder and writer-quiescence contract. Unique per-spawn folders, same-live continuation retention, archival and fresh-Activity isolation verified. Four actual QA invocations received preallocated folders; three controlled probes exercised concurrency, continuation and new-Activity handoff, and final independent QA found no high/medium issues. Core suites: 205 run, 203 passed, two Windows-only skips, Linux/Python 3.12.3. All 14 allocation fixtures passed. Original requirements preserved; backlog item completed and catalogue updated. Host verified ended writers before closure. No OS isolation, real uncertain-launch test, automatic cleanup or runtime spawn engine claimed. User authorized completion, commit, closure and fresh Activity; commit follows this archival to include final records. No push/publication requested.
+
+Recording: verified — Exact saved root exchanges verified through closure-request occurrence 1233, with matching retained-source prefix and no gaps/later eligible source. Chat and main invocation work snapshots verified; writers ended. Future acknowledgement excluded.
+
+Provenance: source: User: complet4e, commit, close activity and open a new one; reason: Archive accepted BL-0010 with recording and writer preservation evidence before commit

@@ -25,6 +25,13 @@ source segments. Product code/durable specification retain canonical locations a
 attributable links. A discussion summary is attributed analysis or decisions,
 not a mandatory duplicate `discussion.md` or substitute for exact chronicles.
 
+Each new sub-agent spawn receives a separate runtime-allocated folder at
+`files/agent-invocations/<invocation-uuid>/`. Its manifest attributes the allocation;
+supporting work stays with that invocation and archives with the Activity. The
+[invocation convention](agent-invocation_conv.md) defines host handoff, same-instance
+follow-ups, failed-launch retention and writer checks before closure. Product and
+canonical Activity record ownership remain unchanged.
+
 Assigned agents share this Activity's chat through `activity chat-read` and
 `activity chat-post`, using the stable Activity ID. Chat messages are communication,
 not edits to canonical artifacts, accepted decisions or transcripts; their existing

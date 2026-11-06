@@ -8,6 +8,11 @@ Assigned agents read and append coordination messages through runtime commands;
 each Activity retains its own history. This addition is not in the previously
 prepared 0.3.0 ZIP.
 
+Unreleased development also adds [per-invocation agent working folders](.hai/conventions/agent-invocation_conv.md).
+The host allocates a distinct Activity-local folder before every new spawn and
+passes it to the agent. Same-instance follow-ups retain that folder; new spawns
+receive new ones. Material remains with its Activity on archival.
+
 This source tree prepares the **0.3.0 release candidate**,
 using current environment state format **3**, with format **2** retained as read-only
 specification-migration context. All substantive HAI work belongs to an Activity, including

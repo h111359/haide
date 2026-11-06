@@ -1,0 +1,232 @@
+# BL-0010 — Implementation plan
+
+Objective: give every new sub-agent spawn a distinct, usable working folder inside its assigned Activity, supply its location before work starts, and preserve earlier invocation files.
+
+| Phase | Goal | Depends on | Expected result |
+| --- | --- | --- | --- |
+| 1. Define allocation and handoff | Specify the smallest shared contract | None | Reviewable folder, identity and host responsibilities |
+| 2. Add Activity allocation | Create folders through existing runtime safeguards | 1.1 and 1.3: allocation and failure contract; independent of 1.2 | An applied allocation returns an existing unique folder |
+| 3. Connect actual host dispatch | Supply each new spawn with its allocation | 2: successful allocation evidence; only continuation work also waits for 1.2 | A launched agent receives and uses its folder |
+| 4. Verify separation and lifecycle | Demonstrate all five acceptance criteria | 2–3: allocator and actual host handoff | Recorded fixture results and real host evidence |
+
+## Authority and evidence
+
+**Agreed requirements:** [BL-0010](/home/hromar/Desktop/repos/haide/backlog/new/BL-0010.md) requires per-invocation Activity-local folders, including repeated spawns of the same agent, independent supporting files and no reuse of earlier folders. The original story remains authoritative.
+
+**Proposed acceptance refinement:** the Business-analyst suggested explicit simultaneous same-agent starts, an existing folder supplied at start, and independent sentinel files. This is useful planned verification; it has not been approved as revised story wording.
+
+**Inspection findings:** [Activity operations](/home/hromar/Desktop/repos/haide/.hai/tools/runtime/activities.py) already validate the stable current ID, serialize mutations and archive the entire Activity. [Host operations](/home/hromar/Desktop/repos/haide/.hai/tools/runtime/host.py) only check supplied capability evidence; invocation is unsupported.
+
+[Discovery](/home/hromar/Desktop/repos/haide/.hai/tools/activities/discovery.py) already tolerates supporting material below `files/`. This design needs no core state version change, global invocation index, eager scanning of work files or host-spawn implementation inside the runtime.
+
+The Developer and Quality-assurance reviews agree that actual host handoff is the principal integration risk. Runtime allocation tests alone cannot establish that an invoked agent received or used its folder.
+
+## Design and applied decision boundaries
+
+No unresolved business decision blocks the five current acceptance criteria. The user authorized implementation after reviewing this plan. Its recommended continuation and retention defaults were applied; source requirements remain unchanged.
+
+- Add `activity invocation-allocate`, taking the stable `activity_id`, caller-supplied agent name and provenance. Derive the folder from validated current Activity context; accept no caller-selected destination.
+- Create `files/agent-invocations/<invocation-uuid>/` exclusively. Write a small `invocation.json` containing its independent format version, Activity ID, invocation ID, agent, actual creation time and provenance; describe this as allocation evidence, not proof of launch.
+- Return both the usable workspace-relative folder and its Activity-relative suffix, plus both stable IDs. The host supplies them in the initial assignment and associates the actual returned host agent handle with that allocation.
+- Allocate only after task authority, agent configuration and actual host capability checks. Successful applied allocation precedes spawn; previews reserve nothing and cannot authorize dispatch.
+- Give every new spawn attempt a fresh allocation, including repeated spawns of the same role. Retain allocations after failed or uncertain launches; investigate uncertainty before launching a duplicate worker.
+- **Applied follow-up boundary:** a continuation to the same live invocation retains its folder; a new spawn receives a new folder. The user’s implementation instruction accepted this recommended continuation boundary.
+- **Applied lifecycle default:** retain material with its Activity and introduce no cleanup operation. Archival moves it unchanged; future cleanup policy is outside this item and needs separate scope.
+- The runtime lock covers allocation and archival, not subsequent agent file writes. In the supported workflow, the host verifies relevant writers have ended before closure; unresolved or uncertain writer status blocks host closure.
+- This host coordination prevents stale-path writes during supported Activity transitions. It is not an OS-level guarantee against direct writes by another process with the same user access.
+- These are separate working folders under existing workspace access. They do not provide security isolation; product code and canonical Activity records retain their existing locations and owners.
+
+## Phase 1 — Define allocation and handoff
+
+### Purpose
+
+- Specify what the runtime creates and what the host passes to an agent.
+
+### Why now
+
+- Runtime and host changes need the same meaning for an invocation, an allocation and a successful launch.
+
+### Visible result
+
+- Readers can follow one new spawn from validated Activity ID to its assigned folder.
+
+### Scope
+
+- Cover new spawns and repeated same-agent spawns; keep proposed follow-up semantics explicit.
+
+### Actions
+
+| Step | Action | Purpose or expected result |
+| --- | --- | --- |
+| 1.1 | Specify request, response, folder layout and attribution metadata | Establish one contract without adding central state |
+| 1.2 | Resolve the proposed same-live-invocation follow-up boundary | Applied default: same live invocation retains its folder; new spawn gets a new one |
+| 1.3 | Specify host allocation, assignment, failure and closure responsibilities | Cover launch uncertainty and writers outside the runtime lock |
+| 1.4 | Map existing acceptance criteria to observable evidence | Keep the BA refinement visibly proposed |
+
+### Affected files
+
+| Path | Change | Purpose |
+| --- | --- | --- |
+| Existing: [.hai/conventions/agent-invocation_conv.md](/home/hromar/Desktop/repos/haide/.hai/conventions/agent-invocation_conv.md) | Add | Own allocation, handoff and lifecycle contract |
+| Existing: [.hai/conventions/agent_conv.md](/home/hromar/Desktop/repos/haide/.hai/conventions/agent_conv.md) | Edit | Reference invocation context alongside shared agent handoff |
+| Existing: [.hai/conventions/activity_conv.md](/home/hromar/Desktop/repos/haide/.hai/conventions/activity_conv.md) | Edit | Describe supporting folders and archival references |
+
+### Complete when
+
+- The contract gives every new spawn one fresh folder and identifies allocation separately from actual launch.
+- Follow-up semantics and retained-material behavior are explicit design choices; no cleanup or security requirement is invented.
+
+## Phase 2 — Add Activity allocation
+
+### Purpose
+
+- Create an existing, attributable folder safely before host dispatch.
+
+### Why now
+
+- Steps 1.1 and 1.3 supply the allocation and failure contract; Phase 2 can begin once those steps finish, independently of 1.2. Only continuation-dependent actions wait for the follow-up decision.
+
+### Visible result
+
+- Before: no supported allocation operation. After: an applied request returns a real folder with stable attribution.
+
+### Scope
+
+- Implement allocation only; reuse the existing lock, Activity selection, bounded storage and result envelope.
+
+### Actions
+
+| Step | Action | Purpose or expected result |
+| --- | --- | --- |
+| 2.1 | Add allocation dispatch and strict request validation to Activity operations | Require provenance and the sole current stable Activity ID |
+| 2.2 | Create the invocation directory exclusively under the runtime lock | Prevent collisions, reuse and interleaving with closure |
+| 2.3 | Write allocation metadata through existing bounded storage helpers | Preserve Activity, invocation and agent attribution |
+| 2.4 | Recheck identity and read back the created folder and metadata | Return a usable path only on verified success |
+| 2.5 | Report every created path on partial failure | Preserve partial material; prohibit silent repair, rollback or retry |
+| 2.6 | Document preview and applied operation results | Prevent a planned path from being used as an allocated folder |
+
+### Affected files
+
+| Path | Change | Purpose |
+| --- | --- | --- |
+| Existing: [.hai/tools/runtime/activities.py](/home/hromar/Desktop/repos/haide/.hai/tools/runtime/activities.py) | Edit | Register the mutation and reuse current-Activity safeguards |
+| Existing: [.hai/tools/runtime/invocations.py](/home/hromar/Desktop/repos/haide/.hai/tools/runtime/invocations.py) | Add | Own folder and allocation metadata handling |
+| Existing: [.hai/tools/runtime/README.md](/home/hromar/Desktop/repos/haide/.hai/tools/runtime/README.md) | Edit | Document exact allocation request and result |
+
+Generated paths follow the proposed Activity-relative pattern `files/agent-invocations/<invocation-uuid>/invocation.json`; these are runtime data, not framework templates.
+
+### Complete when
+
+- Applied allocations for the same agent return different existing directories; preview creates nothing.
+- Wrong, stale or closed IDs, collisions and unsafe parents cannot overwrite material or produce a dispatchable success.
+- Partial results retain their created paths and identify the failure without claiming successful allocation.
+
+## Phase 3 — Connect actual host dispatch
+
+### Purpose
+
+- Ensure actual invoked agents receive and use the allocated folder.
+
+### Why now
+
+- Phase 2 returns verified allocation evidence that the host can put into the initial assignment.
+
+### Visible result
+
+- A real agent reports its supplied Activity ID, invocation ID and folder, then writes invocation-specific supporting material there.
+
+### Scope
+
+- Extend the existing host instruction entry point and shared contract; do not add an unsupported runtime spawn wrapper.
+
+### Actions
+
+| Step | Action | Purpose or expected result |
+| --- | --- | --- |
+| 3.1 | Add allocation before each new spawn to host instructions | Stop dispatch when allocation did not succeed |
+| 3.2 | Supply allocation IDs and the existing folder in the initial assignment | Make the working space available when the agent starts |
+| 3.3 | Bind the actual host handle to its allocation | Preserve observed launch identity; continuation handling alone waits for 1.2 |
+| 3.4 | Preserve failed or uncertain launch allocations and report actual launch status | Avoid reuse and duplicate dispatch after uncertain outcomes |
+| 3.5 | Require verified end of relevant writes before host closure | Block closure while any relevant writer is unresolved or uncertain |
+
+### Affected files
+
+| Path | Change | Purpose |
+| --- | --- | --- |
+| Existing: [.hai/start.md](/home/hromar/Desktop/repos/haide/.hai/start.md) | Edit | Connect host selection and dispatch to allocation |
+| Existing: [.hai/conventions/agent_conv.md](/home/hromar/Desktop/repos/haide/.hai/conventions/agent_conv.md) | Edit | Require receipt and use of invocation context |
+| Existing: [.hai/conventions/agent-invocation_conv.md](/home/hromar/Desktop/repos/haide/.hai/conventions/agent-invocation_conv.md) | Edit after creation | Explain handle association, continuation and closure coordination |
+
+### Complete when
+
+- A supported actual host launch receives the applied allocation in its first assignment and writes a sentinel into that exact folder (AC1, AC3).
+- New same-agent launches receive new allocations; any unavailable host integration remains an explicit verification gap.
+- Durable references use Activity ID plus the Activity-relative suffix, resolving the Activity's final path after archival.
+
+## Phase 4 — Verify separation and lifecycle
+
+### Purpose
+
+- Demonstrate folder independence, correct Activity placement and preservation through failures and archival.
+
+### Why now
+
+- Phases 2–3 provide both the allocator and the actual host behavior required for complete acceptance evidence.
+
+### Visible result
+
+- Recorded checks show which behavior passed, failed, was skipped or remains unavailable, with attributable host evidence.
+
+### Scope
+
+- Use isolated runtime fixtures plus controlled real host launches; independent fixture preparation can start after Phase 1.
+
+### Actions
+
+| Step | Action | Purpose or expected result |
+| --- | --- | --- |
+| 4.1 | Add isolated allocator and CLI behavior fixtures | Cover preview/apply, repeated names, metadata, configured stores and unchanged core state |
+| 4.2 | Exercise exclusive creation, unsafe paths and injected failures | Cover forced UUID collisions, links, failures before/after creation and accurate partial reports |
+| 4.3 | Exercise competing allocation and allocation-versus-closure operations | Confirm lock contention changes nothing; later independent allocations remain distinct |
+| 4.4 | Demonstrate repeated and simultaneous same-agent host launches | Verify supplied paths, independent sentinels and preservation of earlier files (AC1–4) |
+| 4.5 | Demonstrate failed or uncertain launch handling | Retain allocation material and distinguish a fresh deliberate spawn from continuation |
+| 4.6 | Archive a writer-free Activity and launch under a new Activity | Preserve old bytes and route new work under the new stable ID (AC5) |
+| 4.7 | Run focused checks and relevant existing workflow checks | Record actual platform, failures, skips and residual gaps |
+
+### Affected files
+
+| Path | Change | Purpose |
+| --- | --- | --- |
+| Existing: [.hai/tools/runtime/tests/test_invocations.py](/home/hromar/Desktop/repos/haide/.hai/tools/runtime/tests/test_invocations.py) | Add | Verify allocator, CLI, concurrency and failure behavior |
+| Existing: [.hai/tools/runtime/README.md](/home/hromar/Desktop/repos/haide/.hai/tools/runtime/README.md) | Edit | Document focused checks and actual-host verification procedure |
+
+Host evidence belongs in the authorized verification Activity's own invocation folders, linked through its records. Exact evidence filenames are chosen during verification rather than presented as existing artifacts here.
+
+### Complete when
+
+- Each of AC1–5 has recorded evidence, including real host handoff and independent sentinel files from repeated and simultaneous same-agent launches.
+- Recorded real-host evidence shows unresolved or uncertain writers block closure and relevant writers have ended before archival; documenting this guard alone is insufficient.
+- In that supported workflow after verified quiescence, closure preserves all invocation material and active-path reuse does not route old invocation writes into the new Activity. Direct same-user writes remain outside this workflow guarantee.
+- Lock conflicts, forced collisions and partial failures preserve earlier material and produce truthful results.
+- Runtime-only tests are not presented as proof of host integration; unavailable integrations and platform skips remain explicit.
+
+## Review provenance and limits
+
+Prepared by installed Solution-architect for Activity `c256b9cc-fd85-4b17-91e6-4cd0d54a4314`, incorporating the Business-analyst review and Developer/Quality-assurance recommendations relayed by the host and read in Activity chat.
+
+Actual work: read-only requirements, convention and runtime inspection; implementation-plan format review; runtime chat read and findings post. This document is proposed work only: no BL-0010 code, definition, backlog, configuration or lifecycle changes were made, and no product tests were executed.
+
+
+Revision provenance: source: User request; actual architect/developer/QA outputs and chat readback; reason: Deliver reviewable action plan without implying implementation approval; reason: Solution-architect final plan incorporating developer and QA recommendations; recorded 2026-11-06T08:54:23Z.
+
+
+## Execution outcome
+
+Implemented and verified after the user instructed implementation. New lifecycle fixtures live in test_invocations.py; the existing workflow tests ran unchanged. All 14 allocation fixtures passed; full core checks: 203 passed, two Windows-only skipped.
+
+Actual host probes covered overlapping same-role assignments, same-live continuation, host closure withheld while writers were active, preserved archives and a later Activity. Independent final QA found no high/medium issues. Detailed evidence is in analysis.md and its linked Activity files.
+
+This product Activity remains active. No commit was requested, and backlog acceptance remains a separate decision.
+
+
+Revision provenance: source: User: implement; actual runtime tests, host probes and final QA result; reason: Complete authorized implementation and record reviewable evidence; reason: Record applied decisions and execution outcome, preserving planning predecessor; recorded 2026-11-06T10:20:30Z.

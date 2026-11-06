@@ -1,0 +1,39 @@
+{
+  "operation_id": "3c910436-7db1-418b-b943-99d7abb6d6e1",
+  "planned_operation": "Commit accepted BL-0010 invocation folders, backlog completion and archived Activity records",
+  "activity_id": "c256b9cc-fd85-4b17-91e6-4cd0d54a4314",
+  "archive_path": ".hai_env/activities/20261106_170524_agent-invocation-folders",
+  "status": "verified",
+  "verified_at": "2026-11-06T17:05:46Z",
+  "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+  "durable_source_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+  "representation": "event_msg",
+  "assigned_start": 764,
+  "cutoff": 1233,
+  "eligible_occurrences": [
+    764,
+    773,
+    791,
+    800,
+    842,
+    851,
+    982,
+    991,
+    1224,
+    1233
+  ],
+  "artifact_sha256": {
+    ".hai_env/activities/20261106_170524_agent-invocation-folders/chronicles/20261105_2211_segment-01.md": "2b2ea45cb4332a6d5ee09a072f6d8c039f48dba4958e68ce6ca465b8208363b0",
+    ".hai_env/activities/20261106_170524_agent-invocation-folders/chronicles/checkpoint.json": "28172931c5fa9cdb4cb532b23f220e463aece1bf6feedd732c79dd181d5649c1",
+    ".hai_env/activities/20261106_170524_agent-invocation-folders/chat.jsonl": "436e5c4ae419a0fc186a142fe1c0058c821ddcfe9fb4cd8e6aa070c4c1bc396c",
+    ".hai_env/activities/20261106_170524_agent-invocation-folders/files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/invocation.json": "39696b19a865188c26d84af99eeaffdd904c0506f7371076a01e64a7433da163",
+    ".hai_env/activities/20261106_170524_agent-invocation-folders/files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/chat-read-entry.json": "8a923ae04694060c68657e88e4ff84dfaa97c3cc62d4fd22b206c3424d77062a",
+    ".hai_env/activities/20261106_170524_agent-invocation-folders/files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/chat-post-final-qa.json": "a8d45dce503b68bbc551e4378978cd0c9134cff8ed859067e15c88bfb964bd6b",
+    ".hai_env/activities/20261106_170524_agent-invocation-folders/files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/review.md": "0a98a5005965c7c9af018b83ff912e5ec13d05d4fa29b9bce7461605c58a3949",
+    ".hai_env/activities/20261106_170524_agent-invocation-folders/files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/report.json": "f2c2b66d95a2b012c6d9447998b699e832d31478622c87f3b867bedb93653dda"
+  },
+  "gaps": [],
+  "conflicts": [],
+  "active_writes": false,
+  "future_outcome_excluded": true
+}

@@ -1,0 +1,13 @@
+# BL-0010 independent QA review
+
+No high- or medium-severity issues found in the reviewed scope.
+
+The supplied folder exists at the workspace-relative path shown by its location. Its resolved path is within the assigned active Activity, no path component is a symbolic link, and its regular, single-link manifest identifies Activity c256b9cc-fd85-4b17-91e6-4cd0d54a4314, invocation fd8f3a49-8989-469d-a14a-aa76ac8b1670, and quality-assurance. The active state has the same ID and an implementation start marker. Host supplied valid core/configuration/model evidence; this review did not rerun those validations.
+
+Reviewed the story and criteria, allocator and Activity integration, runtime storage, invocation fixtures, agent and startup instructions, invocation convention, and recorded test and host evidence. Actual entry and final Activity chat reads succeeded; sequence 6 records this review's handoff.
+
+Recorded host evidence describes actual overlapping same-role A/B launches and use of distinct folders, same-live-instance A follow-up, preservation through archive, and actual C launch in a new Activity. Those results address AC1–AC5 for the exercised workflow. Independently compared all ten recorded archive SHA-256 values to the archived files: 10/10 matched. My own invocation also received and used its allocated folder. This independent review did not itself launch the controlled probes or rerun the suites. Recorded suites report runtime 35, startup 66 (2 skipped), activities 16, agents 75, configuration 13, all successful; these are prior recorded results.
+
+Allocation success is not host launch; real handoff evidence is separate. The controlled not-dispatched abort was not a real failed or indeterminate launch; partial failures and collision cases in the test source are injected/simulated. Runtime locks serialize cooperating operations but do not provide OS isolation or enforce external writers stopping. Closure evidence describes a host decision while A/B were running and later quiescence, not an automatic runtime guard. Windows and macOS execution remain unverified. No broad tests were rerun and no product or canonical Activity records were modified by this review; chat was appended via runtime as required.
+
+Checks: inspected supplied folder/manifest/state using Python pathlib and JSON; read Activity chat through runtime on entry and before handoff; independently checked archive hashes via Python hashlib against BL-0010-host-verification.json; reviewed sources and recorded evidence. No background workers were started; writing finished on completion of this report and report.json.

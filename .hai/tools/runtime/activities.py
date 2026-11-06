@@ -13,7 +13,7 @@ from discovery import discover, _validate_state, STEPS, STEP_VALUES
 
 CURRENT = '00000000_000000_active'
 ARTIFACTS = {'definition.md', 'analysis.md', 'decisions.md', 'plan.md', 'requirements.md'}
-MUTATIONS = ('create', 'record', 'close', 'supplement', 'chat-post')
+MUTATIONS = ('create', 'record', 'close', 'supplement', 'chat-post', 'invocation-allocate')
 
 def now():
     return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -103,6 +103,7 @@ def handle(operation, workspace, request, apply):
         fields = {'discover':set(), 'show':{'activity_id'}, 'create':{'initial_input','provenance'}, 'record':{'activity_id','steps','implementation_start','artifacts','input_append','log','provenance'}, 'close':{'activity_id','outcome','archive_label','outcome_text','recording','recording_requirement','recording_proof','recording_paths','provenance'}, 'supplement':{'activity_id','text','provenance'}}
         fields['chat-read'] = {'activity_id', 'after_sequence', 'limit'}
         fields['chat-post'] = {'activity_id', 'author', 'text', 'provenance'}
+        fields['invocation-allocate'] = {'activity_id', 'agent', 'provenance'}
         if not isinstance(request,dict) or (op in fields and set(request) - fields[op]): raise ValueError('Unknown or invalid request fields')
         location = store_path(root)
         def run():
@@ -163,6 +164,13 @@ def handle(operation, workspace, request, apply):
             if d['status'] != 'current' or d['activity_id'] != ident: raise SafetyError('Selected ID is not the sole current Activity')
             base = d['path']; state_path = base + '/state.json'; state_target = checked_path(root, state_path, allow_missing=False)
             state_fp = fingerprint(state_target); state = read_json(state_target); _validate_state(state)
+            if op == 'invocation-allocate':
+                from . import invocations
+                result = invocations.prepare(root, base, ident, request, stamp)
+                if not apply:
+                    return envelope(operation, 'planned', result)
+                result, created = invocations.allocate(root, base, result, state_fp)
+                return envelope(operation, result=result, changed=created)
             if op == 'chat-post':
                 from . import chat
                 relative, message, raw, expected = chat.prepare(root, base, ident, request, stamp)

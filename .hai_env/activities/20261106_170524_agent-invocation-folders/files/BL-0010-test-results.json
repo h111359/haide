@@ -1,0 +1,82 @@
+[
+  {
+    "suite": "runtime/tests",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      ".hai/tools/runtime/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "output": "...................................\n----------------------------------------------------------------------\nRan 35 tests in 2.791s\n\nOK\n"
+  },
+  {
+    "suite": "startup",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      ".hai/tools/startup",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "output": "...................................................ss.............\n----------------------------------------------------------------------\nRan 66 tests in 2.220s\n\nOK (skipped=2)\n"
+  },
+  {
+    "suite": "activities",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      ".hai/tools/activities",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "output": "................\n----------------------------------------------------------------------\nRan 16 tests in 0.381s\n\nOK\n"
+  },
+  {
+    "suite": "agents",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      ".hai/tools/agents",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "output": "...........................................................................\n----------------------------------------------------------------------\nRan 75 tests in 2.702s\n\nOK\n"
+  },
+  {
+    "suite": "configuration",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      ".hai/tools/configuration",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "output": ".............\n----------------------------------------------------------------------\nRan 13 tests in 0.140s\n\nOK\n"
+  }
+]

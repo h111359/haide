@@ -1,0 +1,107 @@
+{
+  "proof": {
+    "recording_requirement": {
+      "enabled": true,
+      "mandatory": false
+    },
+    "operation": {
+      "activity_id": "c256b9cc-fd85-4b17-91e6-4cd0d54a4314",
+      "operation_id": "291ba6b9-06cd-43e4-b541-516cc5d46976",
+      "cutoff": [
+        {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 1233
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 764
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 1233
+          },
+          "provenance": "Chronicles enabled throughout this assigned post-BL-0001 acknowledgement and BL-0010 capture/reviews/implementation. Prior Activity cutoff was 724."
+        }
+      ]
+    },
+    "evidence": {
+      "activity_id": "c256b9cc-fd85-4b17-91e6-4cd0d54a4314",
+      "operation_id": "291ba6b9-06cd-43e4-b541-516cc5d46976",
+      "cutoff": [
+        {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 1233
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 764
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 1233
+          },
+          "provenance": "Chronicles enabled throughout this assigned post-BL-0001 acknowledgement and BL-0010 capture/reviews/implementation. Prior Activity cutoff was 724."
+        }
+      ],
+      "recording_requirement": {
+        "enabled": true,
+        "mandatory": false
+      },
+      "verification_id": "fded1018-a0ca-4f6f-a014-8c5b5d3d70f2",
+      "verified_at": "2026-11-06T17:05:24Z",
+      "status": "verified",
+      "retained_source_complete": true,
+      "gaps": [],
+      "conflicts": [],
+      "active_writes": false,
+      "source_snapshots": {
+        "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": "f602ed6327816beec91ac6014c74a2ac92e049e59f61f698e7882dc646d6c74c"
+      },
+      "artifact_snapshots": {
+        "chronicles/20261105_2211_segment-01.md": "2b2ea45cb4332a6d5ee09a072f6d8c039f48dba4958e68ce6ca465b8208363b0",
+        "chronicles/checkpoint.json": "28172931c5fa9cdb4cb532b23f220e463aece1bf6feedd732c79dd181d5649c1",
+        "chat.jsonl": "436e5c4ae419a0fc186a142fe1c0058c821ddcfe9fb4cd8e6aa070c4c1bc396c",
+        "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/invocation.json": "39696b19a865188c26d84af99eeaffdd904c0506f7371076a01e64a7433da163",
+        "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/chat-read-entry.json": "8a923ae04694060c68657e88e4ff84dfaa97c3cc62d4fd22b206c3424d77062a",
+        "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/chat-post-final-qa.json": "a8d45dce503b68bbc551e4378978cd0c9134cff8ed859067e15c88bfb964bd6b",
+        "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/review.md": "0a98a5005965c7c9af018b83ff912e5ec13d05d4fa29b9bce7461605c58a3949",
+        "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/report.json": "f2c2b66d95a2b012c6d9447998b699e832d31478622c87f3b867bedb93653dda"
+      }
+    },
+    "current_sources": {
+      "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": "f602ed6327816beec91ac6014c74a2ac92e049e59f61f698e7882dc646d6c74c"
+    },
+    "current_artifacts": {
+      "chronicles/20261105_2211_segment-01.md": "2b2ea45cb4332a6d5ee09a072f6d8c039f48dba4958e68ce6ca465b8208363b0",
+      "chronicles/checkpoint.json": "28172931c5fa9cdb4cb532b23f220e463aece1bf6feedd732c79dd181d5649c1",
+      "chat.jsonl": "436e5c4ae419a0fc186a142fe1c0058c821ddcfe9fb4cd8e6aa070c4c1bc396c",
+      "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/invocation.json": "39696b19a865188c26d84af99eeaffdd904c0506f7371076a01e64a7433da163",
+      "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/chat-read-entry.json": "8a923ae04694060c68657e88e4ff84dfaa97c3cc62d4fd22b206c3424d77062a",
+      "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/chat-post-final-qa.json": "a8d45dce503b68bbc551e4378978cd0c9134cff8ed859067e15c88bfb964bd6b",
+      "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/review.md": "0a98a5005965c7c9af018b83ff912e5ec13d05d4fa29b9bce7461605c58a3949",
+      "files/agent-invocations/fd8f3a49-8989-469d-a14a-aa76ac8b1670/report.json": "f2c2b66d95a2b012c6d9447998b699e832d31478622c87f3b867bedb93653dda"
+    },
+    "writers_stopped": true
+  },
+  "source_prefix_provenance": {
+    "original_source_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+    "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+    "original_started_at": "2026-11-05T20:11:08.856Z",
+    "representation": "event_msg",
+    "inclusive_cutoff": 1233,
+    "byte_length": 3737287,
+    "sha256": "f602ed6327816beec91ac6014c74a2ac92e049e59f61f698e7882dc646d6c74c",
+    "snapshot_activity_relative_path": "files/test-work/closure-source-prefix.jsonl",
+    "created_at": "2026-11-06T17:05:24Z",
+    "authority": "User-requested closure; exact-byte prefix in ignored disposable audit path, not for commit.",
+    "original_prefix_matches": true,
+    "no_later_eligible_saved_messages": true
+  },
+  "writer_evidence": "All invoked advisers/probes returned completed handoffs; current final QA host handle completed, report writing_finished=true and no background workers. Controlled host probe record stage passed/all invocations completed."
+}

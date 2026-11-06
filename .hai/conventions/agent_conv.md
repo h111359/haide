@@ -10,6 +10,21 @@ Apply the safe fixed `.hai_env/agent_instructions.md` and higher-priority instru
 
 ## Activity communication
 
+Before every new sub-agent spawn, the host coordinator MUST obtain a successful
+applied [invocation allocation](agent-invocation_conv.md) and pass its existing
+folder, Activity ID and invocation ID in the initial assignment. The host MUST
+record the actual returned host handle and launch status against that allocation.
+A continuation to the same live invocation retains its folder; every new spawn
+attempt receives a fresh allocation, including repeated spawns of the same agent.
+
+Assigned agents MUST validate their supplied folder and manifest before using it
+for temporary files, logs and concise supporting notes. Agents MUST NOT change
+the allocation manifest or substitute another invocation's folder. Product files,
+canonical Activity records and shared chat retain their existing locations/owners.
+Before dispatching Activity closure, the host MUST verify relevant invocations
+have stopped writing; uncertain or active writers block host closure. This is host
+coordination under the shared account, not OS-enforced file isolation.
+
 The host coordinator MUST supply each assigned agent with the validated workspace
 root, stable Activity ID, its author name and the available runtime chat commands.
 Assigned agents MUST read the Activity chat on entry, before acting on a handoff
