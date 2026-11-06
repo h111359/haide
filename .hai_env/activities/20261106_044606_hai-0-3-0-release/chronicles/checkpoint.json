@@ -16,6 +16,16 @@
             "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
             "source_position": 167
           }
+        },
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 305
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 335
+          }
         }
       ],
       "enabled_intervals": [
@@ -24,7 +34,10 @@
             "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
             "source_position": 45
           },
-          "end": null,
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 335
+          },
           "provenance": "Validated chronicles enabled at startup before assigned release work; no enablement changes in this session."
         }
       ],
@@ -45,28 +58,42 @@
       },
       "segment_path": "chronicles/20261105_2211_segment-01.md",
       "verified_at": "2026-11-06T04:19:50Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 305
+        },
+        "end": {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 335
+        }
+      },
+      "segment_path": "chronicles/20261105_2211_segment-02.md",
+      "verified_at": "2026-11-06T04:46:06Z"
     }
   ],
   "pending_ranges": [],
   "cadence_cursors": {
     "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": {
       "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
-      "source_position": 167
+      "source_position": 335
     }
   },
   "last_attempt": {
-    "attempt_id": "4733411f-b35b-4a87-861f-ca0d02c60f41",
+    "attempt_id": "c322756c-a5e8-4c5b-a418-1aa01c4ffcae",
     "dispatch_cursors": {
       "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": {
         "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
-        "source_position": 167
+        "source_position": 335
       }
     },
-    "started_at": "2026-11-06T04:19:50Z",
-    "finished_at": "2026-11-06T04:19:50Z",
+    "started_at": "2026-11-06T04:46:06Z",
+    "finished_at": "2026-11-06T04:46:06Z",
     "status": "verified",
     "error": null
   },
-  "last_successful_at": "2026-11-06T04:19:50Z",
+  "last_successful_at": "2026-11-06T04:46:06Z",
   "in_flight": null
 }

@@ -1,0 +1,9 @@
+{
+  "requested_change": "Remove draft-file dependencies from the backlog; preserve original only in the current Activity for audit.",
+  "audit_artifact": "backlog-original-drafts.md",
+  "sha256": "2c776cb319616e4f14b7bb113713cc99fc870bbf6f670b63b4d90d6851041b6f",
+  "original_bytes_preserved": true,
+  "items_updated": 9,
+  "requirements_unchanged": true,
+  "completed_at": "2026-11-06T05:22:07Z"
+}

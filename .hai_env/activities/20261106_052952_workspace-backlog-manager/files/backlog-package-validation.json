@@ -1,0 +1,57 @@
+{
+  "checks": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/tmp/hai-backlog-final-kyr923z2/.hai/tools/agents/agent_tools.py",
+        "--workspace",
+        "/tmp/hai-backlog-final-kyr923z2",
+        "validate",
+        "--definition",
+        ".hai_env/agents/backlog-manager/SKILL.md"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"definition\": \".hai_env/agents/backlog-manager/SKILL.md\",\n  \"agent\": \"backlog-manager\",\n  \"issues\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/tmp/hai-backlog-final-kyr923z2/.hai_env/agents/backlog-manager/scripts",
+        "-p",
+        "test_*.py"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.406s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/tmp/hai-backlog-final-kyr923z2/.hai_env/agents/backlog-manager/scripts/audit_backlog.py",
+        "--workspace",
+        "/home/hromar/Desktop/repos/haide",
+        "--location",
+        "backlog"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"scope\": \"read_only_backlog_structure_and_catalogue\",\n  \"issues\": [],\n  \"items\": [\n    {\n      \"id\": \"BL-0001\",\n      \"title\": \"Agents chat\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0001.md\",\n      \"unknown_fields\": []\n    },\n    {\n      \"id\": \"BL-0002\",\n      \"title\": \"Usage records\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0002.md\",\n      \"unknown_fields\": []\n    },\n    {\n      \"id\": \"BL-0003\",\n      \"title\": \"Initial Menu and Help\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0003.md\",\n      \"unknown_fields\": []\n    },\n    {\n      \"id\": \"BL-0004\",\n      \"title\": \"Better Instructions\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0004.md\",\n      \"unknown_fields\": []\n    },\n    {\n      \"id\": \"BL-0005\",\n      \"title\": \"Agents Collection\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0005.md\",\n      \"unknown_fields\": []\n    },\n    {\n      \"id\": \"BL-0006\",\n      \"title\": \"Project Manager and Backlog\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0006.md\",\n      \"unknown_fields\": []\n    },\n    {\n      \"id\": \"BL-0007\",\n      \"title\": \"Rename the workspace advisor\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0007.md\",\n      \"unknown_fields\": []\n    },\n    {\n      \"id\": \"BL-0008\",\n      \"title\": \"Clarify backlog items with a business analyst\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0008.md\",\n      \"unknown_fields\": []\n    },\n    {\n      \"id\": \"BL-0009\",\n      \"title\": \"Workspace agent setup parameters\",\n      \"status\": \"pending\",\n      \"file\": \"new/BL-0009.md\",\n      \"unknown_fields\": []\n    }\n  ],\n  \"configuration_status\": \"defaulted\",\n  \"location\": \"backlog\",\n  \"counts\": {\n    \"cancelled\": 0,\n    \"completed\": 0,\n    \"pending\": 9,\n    \"rejected\": 0\n  }\n}\n",
+      "stderr": ""
+    }
+  ],
+  "local_package_links": 25,
+  "missing_links": [],
+  "source_package_only": true,
+  "draft_count": 9,
+  "pending_count": 9,
+  "closed_count": 0,
+  "preserved_source_sha256": "2c776cb319616e4f14b7bb113713cc99fc870bbf6f670b63b4d90d6851041b6f",
+  "platform": "Linux; Python 3.12.3; no OS-dependent checks skipped"
+}

@@ -1,0 +1,5 @@
+# Backlog manager and self-contained items
+
+Create source-only backlog-manager with configurable workspace location, item/catalogue contracts, maintenance/import/Activity-handoff procedures and read-only auditor. Convert the nine supplied drafts into pending individual items and maintain new/ and closed/ folders. Preserve original source bytes only in assigned Activity audit files; backlog items/catalogue use descriptive attribution without original-file or audit-copy paths. No imports folder is part of the backlog layout. Validate source in a disposable installed layout and verify an independent copy of the backlog without original source or Activity audit artifacts. Preserve installed packages/settings and unrelated work. Do not install/register, commit or close the Activity without a separate instruction.
+
+Revision provenance: source: User request to remove imports dependency and actual verification; reason: Record source preservation, self-contained backlog and revised agent policy; reason: User removed original-draft dependency and backlog imports folder; recorded 2026-11-06T05:22:46Z.

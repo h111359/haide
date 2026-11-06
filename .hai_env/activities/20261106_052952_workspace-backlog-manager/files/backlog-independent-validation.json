@@ -1,0 +1,201 @@
+{
+  "checks": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/tmp/hai-backlog-independent-5bw6696f/.hai/tools/agents/agent_tools.py",
+        "--workspace",
+        "/tmp/hai-backlog-independent-5bw6696f",
+        "validate",
+        "--definition",
+        ".hai_env/agents/backlog-manager/SKILL.md"
+      ],
+      "returncode": 0,
+      "result": {
+        "ok": true,
+        "definition": ".hai_env/agents/backlog-manager/SKILL.md",
+        "agent": "backlog-manager",
+        "issues": []
+      }
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/tmp/hai-backlog-independent-5bw6696f/.hai_env/agents/backlog-manager/scripts/audit_backlog.py",
+        "--workspace",
+        "/home/hromar/Desktop/repos/haide"
+      ],
+      "returncode": 0,
+      "result": {
+        "ok": true,
+        "scope": "read_only_backlog_structure_and_catalogue",
+        "issues": [],
+        "items": [
+          {
+            "id": "BL-0001",
+            "title": "Agents chat",
+            "status": "pending",
+            "file": "new/BL-0001.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0002",
+            "title": "Usage records",
+            "status": "pending",
+            "file": "new/BL-0002.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0003",
+            "title": "Initial Menu and Help",
+            "status": "pending",
+            "file": "new/BL-0003.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0004",
+            "title": "Better Instructions",
+            "status": "pending",
+            "file": "new/BL-0004.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0005",
+            "title": "Agents Collection",
+            "status": "pending",
+            "file": "new/BL-0005.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0006",
+            "title": "Project Manager and Backlog",
+            "status": "pending",
+            "file": "new/BL-0006.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0007",
+            "title": "Rename the workspace advisor",
+            "status": "pending",
+            "file": "new/BL-0007.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0008",
+            "title": "Clarify backlog items with a business analyst",
+            "status": "pending",
+            "file": "new/BL-0008.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0009",
+            "title": "Workspace agent setup parameters",
+            "status": "pending",
+            "file": "new/BL-0009.md",
+            "unknown_fields": []
+          }
+        ],
+        "configuration_status": "defaulted",
+        "location": "backlog",
+        "counts": {
+          "cancelled": 0,
+          "completed": 0,
+          "pending": 9,
+          "rejected": 0
+        }
+      }
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/tmp/hai-backlog-independent-5bw6696f/.hai_env/agents/backlog-manager/scripts/audit_backlog.py",
+        "--workspace",
+        "/tmp/hai-backlog-independent-5bw6696f"
+      ],
+      "returncode": 0,
+      "result": {
+        "ok": true,
+        "scope": "read_only_backlog_structure_and_catalogue",
+        "issues": [],
+        "items": [
+          {
+            "id": "BL-0001",
+            "title": "Agents chat",
+            "status": "pending",
+            "file": "new/BL-0001.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0002",
+            "title": "Usage records",
+            "status": "pending",
+            "file": "new/BL-0002.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0003",
+            "title": "Initial Menu and Help",
+            "status": "pending",
+            "file": "new/BL-0003.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0004",
+            "title": "Better Instructions",
+            "status": "pending",
+            "file": "new/BL-0004.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0005",
+            "title": "Agents Collection",
+            "status": "pending",
+            "file": "new/BL-0005.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0006",
+            "title": "Project Manager and Backlog",
+            "status": "pending",
+            "file": "new/BL-0006.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0007",
+            "title": "Rename the workspace advisor",
+            "status": "pending",
+            "file": "new/BL-0007.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0008",
+            "title": "Clarify backlog items with a business analyst",
+            "status": "pending",
+            "file": "new/BL-0008.md",
+            "unknown_fields": []
+          },
+          {
+            "id": "BL-0009",
+            "title": "Workspace agent setup parameters",
+            "status": "pending",
+            "file": "new/BL-0009.md",
+            "unknown_fields": []
+          }
+        ],
+        "configuration_status": "defaulted",
+        "location": "backlog",
+        "counts": {
+          "cancelled": 0,
+          "completed": 0,
+          "pending": 9,
+          "rejected": 0
+        }
+      }
+    }
+  ],
+  "no_original_file_references_in_backlog": true,
+  "copied_backlog_audits_without_original_or_Activity": true
+}

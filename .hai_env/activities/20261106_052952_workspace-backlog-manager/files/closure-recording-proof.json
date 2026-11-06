@@ -1,0 +1,95 @@
+{
+  "proof": {
+    "recording_requirement": {
+      "enabled": true,
+      "mandatory": false
+    },
+    "operation": {
+      "activity_id": "2c48fac3-ee8e-4579-be48-fedefb117da4",
+      "operation_id": "bb40033c-dafc-4f51-b38d-21c2a74d5e20",
+      "cutoff": [
+        {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 566
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 358
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 566
+          },
+          "provenance": "Chronicles enabled throughout this assigned Activity; previous Activity ends at occurrence 335. User explicitly requested closure and a new boundary."
+        }
+      ]
+    },
+    "evidence": {
+      "activity_id": "2c48fac3-ee8e-4579-be48-fedefb117da4",
+      "operation_id": "bb40033c-dafc-4f51-b38d-21c2a74d5e20",
+      "cutoff": [
+        {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 566
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 358
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 566
+          },
+          "provenance": "Chronicles enabled throughout this assigned Activity; previous Activity ends at occurrence 335. User explicitly requested closure and a new boundary."
+        }
+      ],
+      "recording_requirement": {
+        "enabled": true,
+        "mandatory": false
+      },
+      "verification_id": "2939f303-5ffe-4eb4-bc17-037e6555ccd9",
+      "verified_at": "2026-11-06T05:29:52Z",
+      "status": "verified",
+      "retained_source_complete": true,
+      "gaps": [],
+      "conflicts": [],
+      "active_writes": false,
+      "source_snapshots": {
+        "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": "5efbae3d6b1da65b759bba9c3d95830d6debf348f007c49502cb9c0782a55d1e"
+      },
+      "artifact_snapshots": {
+        "chronicles/20261105_2211_segment-01.md": "06330fece55d1498c59c94eaf170a45dab88e9e4d40704d0c0aaea1db094c69f",
+        "chronicles/checkpoint.json": "9cc4dbb8e4bfce83b8f7aa33f18c00befa1d32262ffc53be42a57e646e9aad24"
+      }
+    },
+    "current_sources": {
+      "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": "5efbae3d6b1da65b759bba9c3d95830d6debf348f007c49502cb9c0782a55d1e"
+    },
+    "current_artifacts": {
+      "chronicles/20261105_2211_segment-01.md": "06330fece55d1498c59c94eaf170a45dab88e9e4d40704d0c0aaea1db094c69f",
+      "chronicles/checkpoint.json": "9cc4dbb8e4bfce83b8f7aa33f18c00befa1d32262ffc53be42a57e646e9aad24"
+    },
+    "writers_stopped": true
+  },
+  "source_prefix_provenance": {
+    "original_source_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+    "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+    "original_started_at": "2026-11-05T20:11:08.856Z",
+    "representation": "event_msg",
+    "inclusive_cutoff": 566,
+    "byte_length": 1861728,
+    "sha256": "5efbae3d6b1da65b759bba9c3d95830d6debf348f007c49502cb9c0782a55d1e",
+    "snapshot_activity_relative_path": "files/test-work/closure-source-prefix.jsonl",
+    "created_at": "2026-11-06T05:29:52Z",
+    "authority": "Exact-byte prefix for user-authorized closure; ignored disposable source, not for commit.",
+    "original_prefix_matches": true,
+    "no_later_eligible_saved_messages": true
+  },
+  "verification_diagnosis": "Earlier verifier paused after writing new segment/checkpoint because it assumed prior segments start with Prompt. A prior segment starts with Outcome. Fresh readback verified all segment bodies exactly without rewriting or discarding them; closure continued from these inspected files."
+}

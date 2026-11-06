@@ -1,0 +1,91 @@
+{
+  "operation_id": "36efabb3-64b4-497d-8b73-e8d78894fc5c",
+  "planned_operation": "Commit source Backlog-manager, individual backlog records, BL-0006 completion and both Activity archive moves",
+  "status": "verified",
+  "verified_at": "2026-11-06T05:30:24Z",
+  "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+  "durable_source_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+  "representation": "event_msg",
+  "cutoff": 566,
+  "eligible_occurrences": [
+    45,
+    93,
+    123,
+    148,
+    163,
+    167,
+    305,
+    315,
+    326,
+    335,
+    358,
+    367,
+    457,
+    466,
+    468,
+    477,
+    479,
+    488,
+    517,
+    526,
+    535,
+    544,
+    557,
+    566
+  ],
+  "assignments": [
+    {
+      "activity_id": "614edac4-67e4-4ca2-b3c5-4bd1b947b9b5",
+      "archive_path": ".hai_env/activities/20261106_044606_hai-0-3-0-release",
+      "ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 45
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 167
+          }
+        },
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 305
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 335
+          }
+        }
+      ]
+    },
+    {
+      "activity_id": "2c48fac3-ee8e-4579-be48-fedefb117da4",
+      "archive_path": ".hai_env/activities/20261106_052952_workspace-backlog-manager",
+      "ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 358
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 566
+          }
+        }
+      ]
+    }
+  ],
+  "artifact_sha256": {
+    ".hai_env/activities/20261106_044606_hai-0-3-0-release/chronicles/20261105_2211_segment-01.md": "f7fb94d8c743d6470adf69a7fc3bf42fe93014f8277b050d132df77db80ae8e3",
+    ".hai_env/activities/20261106_044606_hai-0-3-0-release/chronicles/20261105_2211_segment-02.md": "1eed6f7ca6c516176a2613837801b688a9bf33bc03106118f1b047fcd6f3e569",
+    ".hai_env/activities/20261106_044606_hai-0-3-0-release/chronicles/checkpoint.json": "bdbf5837e1e02fc148d1961902d41cb2f725138f1731467d4425d55319f81035",
+    ".hai_env/activities/20261106_052952_workspace-backlog-manager/chronicles/20261105_2211_segment-01.md": "06330fece55d1498c59c94eaf170a45dab88e9e4d40704d0c0aaea1db094c69f",
+    ".hai_env/activities/20261106_052952_workspace-backlog-manager/chronicles/checkpoint.json": "9cc4dbb8e4bfce83b8f7aa33f18c00befa1d32262ffc53be42a57e646e9aad24"
+  },
+  "gaps": [],
+  "conflicts": [],
+  "active_writes": false,
+  "limits": "Initial startup occurrences 16/36 preceded any Activity; not assigned. Future outcome is not yet delivered."
+}

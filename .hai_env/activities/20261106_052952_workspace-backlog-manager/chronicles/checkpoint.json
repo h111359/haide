@@ -1,0 +1,75 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "2c48fac3-ee8e-4579-be48-fedefb117da4",
+  "sources": [
+    {
+      "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+      "original_started_at": "2026-11-05T20:11:08.856Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 358
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 566
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 358
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 566
+          },
+          "provenance": "Chronicles enabled throughout this assigned Activity; previous Activity ends at occurrence 335. User explicitly requested closure and a new boundary."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 358
+        },
+        "end": {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 566
+        }
+      },
+      "segment_path": "chronicles/20261105_2211_segment-01.md",
+      "verified_at": "2026-11-06T05:28:59Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": {
+      "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+      "source_position": 566
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "531f28f6-a5cb-4f80-8e44-558e4c1021cc",
+    "dispatch_cursors": {
+      "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": {
+        "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+        "source_position": 566
+      }
+    },
+    "started_at": "2026-11-06T05:28:59Z",
+    "finished_at": "2026-11-06T05:28:59Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-06T05:28:59Z",
+  "in_flight": null
+}
