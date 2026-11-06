@@ -1,6 +1,6 @@
 # Installing and upgrading HAI
 
-The current source is unreleased development beyond the recorded 0.2.0 candidate. Historical [0.1.0](release-notes/0.1.0.md) and [0.2.0](release-notes/0.2.0.md) notes and manifests describe those bundles, not a publication of this source.
+The current source prepares the [0.3.0 release candidate](release-notes/0.3.0.md); exact source and package evidence are recorded separately, and publication remains pending. Historical [0.1.0](release-notes/0.1.0.md) and [0.2.0](release-notes/0.2.0.md) notes and manifests retain their own compatibility targets.
 
 HAI requires Python 3.11 or later and a host that can read workspace instructions and run commands. Optional agent invocation, models and integrations depend on the host; installing HAI does not establish those capabilities. Copy the complete reusable `.hai/` tree into the workspace, retaining the license and avoiding unrelated project files, and direct the host to [.hai/start.md](.hai/start.md). The runtime entry point and operation contracts are documented in [runtime commands](.hai/tools/runtime/README.md). It is not a background service or an automatically installed Python package.
 

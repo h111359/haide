@@ -1,0 +1,19 @@
+{
+  "manifest": "valid",
+  "historical_manifest_exact_bytes_preserved": true,
+  "state_contract": {
+    "current_state_format_version": 3,
+    "supported_state_format_versions": [
+      2,
+      3
+    ]
+  },
+  "local_documentation_links_checked": 124,
+  "missing_links": [],
+  "fresh_core_without_optional_agents": "passed",
+  "external_configuration_bytes_preserved": "passed (synthetic fixture)",
+  "os": "Linux",
+  "python": "3.12.3",
+  "package_status": "pending exact source commit/export",
+  "source_review_base": "c2a1e9246f21bc1f0ac30abc105fbc17757a6cb6"
+}

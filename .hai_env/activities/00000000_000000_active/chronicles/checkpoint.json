@@ -1,0 +1,72 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "614edac4-67e4-4ca2-b3c5-4bd1b947b9b5",
+  "sources": [
+    {
+      "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+      "original_started_at": "2026-11-05T20:11:08.856Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 45
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 167
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 45
+          },
+          "end": null,
+          "provenance": "Validated chronicles enabled at startup before assigned release work; no enablement changes in this session."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 45
+        },
+        "end": {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 167
+        }
+      },
+      "segment_path": "chronicles/20261105_2211_segment-01.md",
+      "verified_at": "2026-11-06T04:19:50Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": {
+      "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+      "source_position": 167
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "4733411f-b35b-4a87-861f-ca0d02c60f41",
+    "dispatch_cursors": {
+      "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": {
+        "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+        "source_position": 167
+      }
+    },
+    "started_at": "2026-11-06T04:19:50Z",
+    "finished_at": "2026-11-06T04:19:50Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-06T04:19:50Z",
+  "in_flight": null
+}

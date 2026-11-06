@@ -1,0 +1,33 @@
+{
+  "status": "verified",
+  "planned_operation": "Commit prepared HAI 0.3.0 release source and associated Activity evidence; no push",
+  "activity_id": "614edac4-67e4-4ca2-b3c5-4bd1b947b9b5",
+  "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+  "source_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+  "representation": "event_msg",
+  "assigned_range": {
+    "start": {
+      "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+      "source_position": 45
+    },
+    "end": {
+      "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+      "source_position": 167
+    }
+  },
+  "eligible_occurrences": [
+    45,
+    93,
+    123,
+    148,
+    163,
+    167
+  ],
+  "segment_path": ".hai_env/activities/00000000_000000_active/chronicles/20261105_2211_segment-01.md",
+  "segment_sha256": "f7fb94d8c743d6470adf69a7fc3bf42fe93014f8277b050d132df77db80ae8e3",
+  "verified_at": "2026-11-06T04:19:50Z",
+  "gaps": [],
+  "conflicts": [],
+  "active_writes": false,
+  "source_discovery": "Targeted filename match for current host-provided CODEX_SESSION_ID; no unrelated session content read."
+}

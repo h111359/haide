@@ -3,17 +3,19 @@
 HAI is a framework for AI-assisted development. Start with [the startup
 instructions](.hai/start.md).
 
-This source tree contains **unreleased development beyond the recorded 0.2.0 candidate**,
+This source tree prepares the **0.3.0 release candidate**,
 using current environment state format **3**, with format **2** retained as read-only
 specification-migration context. All substantive HAI work belongs to an Activity, including
 brainstorming and analysis. Startup resumes current work; a new chat alone does
 not create or close an Activity. The host coordinates work and uses the Python runtime for supported environment and Activity operations. Optional extensions provide domain instructions and source-backed recording.
 
 The first immutable packaged prototype is **0.1.0**, which uses state format **1**.
-Its [release notes](release-notes/0.1.0.md) and [preserved manifest](release-notes/0.1.0-manifest.json)
-describe that historical bundle. The [0.2.0 candidate notes](release-notes/0.2.0.md)
-and [preserved candidate manifest](.hai/release-0.2.0.json) identify that recorded
-candidate; they do not claim that this later development has been packaged or published. See [installation and upgrade instructions](INSTALL.md) and
+Its [release notes](release-notes/0.1.0.md) and [preserved manifest](https://github.com/h111359/haide/blob/c2a1e9246f21bc1f0ac30abc105fbc17757a6cb6/release-notes/0.1.0-manifest.json)
+describe that historical bundle. The [0.2.0 notes](release-notes/0.2.0.md) and
+[preserved manifest](https://github.com/h111359/haide/blob/c2a1e9246f21bc1f0ac30abc105fbc17757a6cb6/.hai/release-0.2.0.json) retain that release’s historical
+compatibility targets. The [0.3.0 candidate notes](release-notes/0.3.0.md) and
+[current manifest](.hai/release-0.3.0.json) describe the selected candidate. Exact source and package verification are recorded
+separately from these notes. This source has not been published as 0.3.0. See [installation and upgrade instructions](INSTALL.md) and
 [Activity migration notes](release-notes/activity-migration.md).
 
 - `.hai/` contains the Python runtime, shared concepts, conventions and tools.

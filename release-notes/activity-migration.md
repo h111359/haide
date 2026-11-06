@@ -1,16 +1,15 @@
 # Activity migration — 0.2.0 candidate
 
-These are historical candidate instructions and evidence. In current unreleased
-source, Environment-manager owns Activity records/lifecycle and optional installed
-Codex Chronicle-manager owns exact transcripts; substantive execution uses four
-optional workspace specialists. Follow [current installation guidance](../INSTALL.md#current-source-activity-ownership-split)
-for that ownership migration. The old role names and verification counts below
+These are historical candidate instructions and evidence. In the current source,
+the Python runtime owns Activity records and lifecycle; optional installed
+Codex Chronicle-manager owns exact transcripts. Follow
+[current installation guidance](../INSTALL.md) for runtime and extension boundaries. The old role names and verification counts below
 describe the recorded candidate, not current runtime routing.
 
 This document describes the [0.2.0 candidate](0.2.0.md) compatibility boundaries.
 The human selected this version for release preparation; these notes do not
 identify a published release or certify every consumer migration. The published
-[0.1.0 notes](0.1.0.md) and [historical manifest](0.1.0-manifest.json) retain their
+[0.1.0 notes](0.1.0.md) and [historical manifest](https://github.com/h111359/haide/blob/c2a1e9246f21bc1f0ac30abc105fbc17757a6cb6/release-notes/0.1.0-manifest.json) retain their
 original state-format and specification targets.
 
 ## Breaking changes
@@ -39,8 +38,9 @@ original state-format and specification targets.
 | Supported environment state formats | `[1]` | `[2]` |
 | Specification compatibility | `1` | `1` |
 
-The state declaration is owned by
-[environment-manager](../.hai/agents/environment-manager/contract.json); the
+The historical state declaration was owned by Environment-manager and is
+preserved in the [0.2.0 manifest](https://github.com/h111359/haide/blob/c2a1e9246f21bc1f0ac30abc105fbc17757a6cb6/.hai/release-0.2.0.json); the current runtime
+declaration is [state.json](../.hai/contracts/state.json). The historical
 specification declaration is owned by
 the optional installed Specification-manager package (`.hai_env/agents/specification-manager/contract.json` when installed).
 These versions are independent of bundle SemVer. Replacing temporary source
@@ -106,7 +106,7 @@ The skipped tests do not establish cross-platform verification. These source and
 workspace checks are separate from exact-release-source and package validation;
 the published 0.1.0 test counts describe that historical release only.
 
-The [current 0.2.0 manifest](../.hai/release-0.2.0.json) records the selected
+The [preserved 0.2.0 manifest](https://github.com/h111359/haide/blob/c2a1e9246f21bc1f0ac30abc105fbc17757a6cb6/.hai/release-0.2.0.json) records the selected
 candidate's targets. The historical 0.1.0 manifest remains outside `.hai/` without
 changing its bytes. Exact committed-source and package verification remain
 separate release-preparation steps, with results recorded outside these source
