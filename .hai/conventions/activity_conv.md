@@ -10,6 +10,7 @@ artifacts live directly in one Activity folder:
 | `state.json` | Mandatory identity, lifecycle and independent step metadata below. |
 | `input.md` | Mandatory single initial input, preserved as supplied; may be empty until supplied. Never synthesize human input. Appended scope changes retain their source and date rather than replacing initial input. |
 | `log.md` | Mandatory append-only UTC-dated meaningful actions, decisions, revisions, transitions, results, checks and failures. Related operations may share one entry; logging does not require recursive entries. |
+| `chat.jsonl` | Optional append-only coordination messages for assigned agents; owned by runtime chat operations under the [chat convention](activity-chat_conv.md). |
 | `decisions.md` | When useful: actual questions and answers, decisions, unresolved issues, author/source and date. Silence is not approval. |
 | `definition.md` | When useful: agreed objective, scope, constraints and available acceptance criteria. |
 | `analysis.md` | When useful: evidence, affected paths, comparisons, impact, risks, unknowns and conclusions. |
@@ -23,6 +24,13 @@ question IDs; `results/` holds Activity-specific outputs; `chronicles/` holds ex
 source segments. Product code/durable specification retain canonical locations and
 attributable links. A discussion summary is attributed analysis or decisions,
 not a mandatory duplicate `discussion.md` or substitute for exact chronicles.
+
+Assigned agents share this Activity's chat through `activity chat-read` and
+`activity chat-post`, using the stable Activity ID. Chat messages are communication,
+not edits to canonical artifacts, accepted decisions or transcripts; their existing
+owners still manage those records. The runtime provides read and append operations
+only. Agents never edit or delete posted messages or the chat file directly; they
+append corrections as new messages. Chat remains with the Activity on archival.
 
 ## State schema
 

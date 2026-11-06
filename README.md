@@ -3,6 +3,11 @@
 HAI is a framework for AI-assisted development. Start with [the startup
 instructions](.hai/start.md).
 
+Unreleased development adds an [Activity-local agent chat](.hai/conventions/activity-chat_conv.md).
+Assigned agents read and append coordination messages through runtime commands;
+each Activity retains its own history. This addition is not in the previously
+prepared 0.3.0 ZIP.
+
 This source tree prepares the **0.3.0 release candidate**,
 using current environment state format **3**, with format **2** retained as read-only
 specification-migration context. All substantive HAI work belongs to an Activity, including

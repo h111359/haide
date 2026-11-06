@@ -13,6 +13,7 @@ from discovery import discover, _validate_state, STEPS, STEP_VALUES
 
 CURRENT = '00000000_000000_active'
 ARTIFACTS = {'definition.md', 'analysis.md', 'decisions.md', 'plan.md', 'requirements.md'}
+MUTATIONS = ('create', 'record', 'close', 'supplement', 'chat-post')
 
 def now():
     return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -100,16 +101,20 @@ def handle(operation, workspace, request, apply):
     changed = []
     try:
         fields = {'discover':set(), 'show':{'activity_id'}, 'create':{'initial_input','provenance'}, 'record':{'activity_id','steps','implementation_start','artifacts','input_append','log','provenance'}, 'close':{'activity_id','outcome','archive_label','outcome_text','recording','recording_requirement','recording_proof','recording_paths','provenance'}, 'supplement':{'activity_id','text','provenance'}}
+        fields['chat-read'] = {'activity_id', 'after_sequence', 'limit'}
+        fields['chat-post'] = {'activity_id', 'author', 'text', 'provenance'}
         if not isinstance(request,dict) or (op in fields and set(request) - fields[op]): raise ValueError('Unknown or invalid request fields')
         location = store_path(root)
         def run():
-            if apply and op in ('create','record','close','supplement'):
+            if apply and op in MUTATIONS:
                 from .startup import require_mutation_context
                 require_mutation_context(root)
             d = discover(root, location)
             if d['status'] == 'invalid': raise SafetyError('Activity store invalid: ' + str(d['issues']))
             if op == 'discover': return envelope(operation, result=d)
-            if op == 'show':
+            if op in ('show', 'chat-read'):
+                if op == 'chat-read' and apply:
+                    raise ValueError('chat-read is read-only; omit --apply')
                 ident = required_text(request.get('activity_id'), 'activity_id')
                 matches = []
                 for child in checked_path(root, location).iterdir():
@@ -117,6 +122,9 @@ def handle(operation, workspace, request, apply):
                     if state.get('activity_id') == ident: matches.append((child, state))
                 if len(matches) != 1: raise SafetyError('Activity ID not uniquely found')
                 child, state = matches[0]
+                if op == 'chat-read':
+                    from . import chat
+                    return envelope(operation, result=chat.read(root, str(child.relative_to(root)), ident, request))
                 return envelope(operation, result={'path': str(child.relative_to(root)), 'state': state})
             prov = provenance(request)
             stamp = now()
@@ -155,6 +163,13 @@ def handle(operation, workspace, request, apply):
             if d['status'] != 'current' or d['activity_id'] != ident: raise SafetyError('Selected ID is not the sole current Activity')
             base = d['path']; state_path = base + '/state.json'; state_target = checked_path(root, state_path, allow_missing=False)
             state_fp = fingerprint(state_target); state = read_json(state_target); _validate_state(state)
+            if op == 'chat-post':
+                from . import chat
+                relative, message, raw, expected = chat.prepare(root, base, ident, request, stamp)
+                if not apply:
+                    return envelope(operation, 'planned', {'path': relative, 'message': message})
+                chat.append(root, relative, ident, message, raw, expected)
+                return envelope(operation, result={'path': relative, 'message': message}, changed=[relative])
             if op == 'record':
                 steps = request.get('steps', {})
                 if not isinstance(steps, dict) or any(k not in STEPS or v not in STEP_VALUES for k,v in steps.items()): raise ValueError('invalid steps')
@@ -231,7 +246,7 @@ def handle(operation, workspace, request, apply):
                 if read_json(checked_path(root,dest + '/state.json',allow_missing=False)) != state or discover(root,location)['status'] != 'absent': raise SafetyError('Closure readback mismatch')
                 return envelope(operation,result={'archive_path':dest,'state':state,'recording':rec},changed=changed)
             raise ValueError('unsupported Activity operation')
-        if apply and op in ('create','record','close','supplement'):
+        if apply and op in MUTATIONS:
             with lock(root): return run()
         return run()
     except (ValueError, TypeError, KeyError) as exc:

@@ -1,0 +1,75 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "ed1bbd75-7f0c-47e6-af4f-ba1dd913f8ea",
+  "sources": [
+    {
+      "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+      "original_started_at": "2026-11-05T20:11:08.856Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 616
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 724
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 616
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 724
+          },
+          "provenance": "Chronicles enabled throughout assigned post-backlog-Activity acknowledgement and BL-0001 work. Prior Activity ends at occurrence 566."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 616
+        },
+        "end": {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 724
+        }
+      },
+      "segment_path": "chronicles/20261105_2211_segment-01.md",
+      "verified_at": "2026-11-06T06:29:07Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": {
+      "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+      "source_position": 724
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "a3dbe479-7770-40c9-b5ba-ddba5b6d8f93",
+    "dispatch_cursors": {
+      "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": {
+        "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+        "source_position": 724
+      }
+    },
+    "started_at": "2026-11-06T06:29:07Z",
+    "finished_at": "2026-11-06T06:29:07Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-06T06:29:07Z",
+  "in_flight": null
+}

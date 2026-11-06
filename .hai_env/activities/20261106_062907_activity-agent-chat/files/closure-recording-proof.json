@@ -1,0 +1,96 @@
+{
+  "proof": {
+    "recording_requirement": {
+      "enabled": true,
+      "mandatory": false
+    },
+    "operation": {
+      "activity_id": "ed1bbd75-7f0c-47e6-af4f-ba1dd913f8ea",
+      "operation_id": "a02a6572-9a59-45dd-83c3-4cf2a89f1c54",
+      "cutoff": [
+        {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 724
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 616
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 724
+          },
+          "provenance": "Chronicles enabled throughout assigned post-backlog-Activity acknowledgement and BL-0001 work. Prior Activity ends at occurrence 566."
+        }
+      ]
+    },
+    "evidence": {
+      "activity_id": "ed1bbd75-7f0c-47e6-af4f-ba1dd913f8ea",
+      "operation_id": "a02a6572-9a59-45dd-83c3-4cf2a89f1c54",
+      "cutoff": [
+        {
+          "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+          "source_position": 724
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 616
+          },
+          "end": {
+            "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+            "source_position": 724
+          },
+          "provenance": "Chronicles enabled throughout assigned post-backlog-Activity acknowledgement and BL-0001 work. Prior Activity ends at occurrence 566."
+        }
+      ],
+      "recording_requirement": {
+        "enabled": true,
+        "mandatory": false
+      },
+      "verification_id": "15740e7a-3c28-48ce-8b56-b8b3b4eaafed",
+      "verified_at": "2026-11-06T06:29:07Z",
+      "status": "verified",
+      "retained_source_complete": true,
+      "gaps": [],
+      "conflicts": [],
+      "active_writes": false,
+      "source_snapshots": {
+        "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": "f5eea36a6bdabb034686d9b9ba9cee4eacfcc62c38b1ec5b42fa673f01d2fa07"
+      },
+      "artifact_snapshots": {
+        "chronicles/20261105_2211_segment-01.md": "3b0cb780cd0fb2e59d8f88cba59f45b5eff557a8785e006153df1faa2c318b61",
+        "chronicles/checkpoint.json": "5ab3eec90162ab9cf6ec6e62f099d03f16fa6b36f4fae59477d587cdfa284667",
+        "chat.jsonl": "bb6112cec826596d63ec5edbe745a69874250799f429e4cc85db25a1924d2b71"
+      }
+    },
+    "current_sources": {
+      "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9": "f5eea36a6bdabb034686d9b9ba9cee4eacfcc62c38b1ec5b42fa673f01d2fa07"
+    },
+    "current_artifacts": {
+      "chronicles/20261105_2211_segment-01.md": "3b0cb780cd0fb2e59d8f88cba59f45b5eff557a8785e006153df1faa2c318b61",
+      "chronicles/checkpoint.json": "5ab3eec90162ab9cf6ec6e62f099d03f16fa6b36f4fae59477d587cdfa284667",
+      "chat.jsonl": "bb6112cec826596d63ec5edbe745a69874250799f429e4cc85db25a1924d2b71"
+    },
+    "writers_stopped": true
+  },
+  "source_prefix_provenance": {
+    "original_source_path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+    "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+    "original_started_at": "2026-11-05T20:11:08.856Z",
+    "representation": "event_msg",
+    "inclusive_cutoff": 724,
+    "byte_length": 2453853,
+    "sha256": "f5eea36a6bdabb034686d9b9ba9cee4eacfcc62c38b1ec5b42fa673f01d2fa07",
+    "snapshot_activity_relative_path": "files/test-work/closure-source-prefix.jsonl",
+    "created_at": "2026-11-06T06:29:07Z",
+    "authority": "Exact-byte prefix for user-requested closure, ignored disposable audit material; not for commit.",
+    "original_prefix_matches": true,
+    "no_later_eligible_saved_messages": true
+  }
+}

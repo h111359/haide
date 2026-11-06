@@ -122,7 +122,7 @@ def discover(workspace, location):
             required = ('input.md', 'log.md') + (('outcome.md',) if state['lifecycle'] == 'closed' else ())
             for name in required:
                 _regular(child / name)
-            for name in ('decisions.md', 'definition.md', 'analysis.md', 'plan.md', 'outcome.md'):
+            for name in ('decisions.md', 'definition.md', 'analysis.md', 'plan.md', 'outcome.md', 'chat.jsonl'):
                 path = child / name
                 if name not in required and (path.exists() or path.is_symlink()):
                     _regular(path)
