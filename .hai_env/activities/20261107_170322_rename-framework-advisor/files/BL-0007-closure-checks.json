@@ -1,0 +1,135 @@
+{
+  "backlog": {
+    "ok": true,
+    "scope": "read_only_backlog_structure_and_catalogue",
+    "issues": [],
+    "items": [
+      {
+        "id": "BL-0001",
+        "title": "Agents chat",
+        "status": "completed",
+        "file": "closed/BL-0001.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0002",
+        "title": "Usage records",
+        "status": "completed",
+        "file": "closed/BL-0002.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0003",
+        "title": "Initial Menu and Help",
+        "status": "pending",
+        "file": "new/BL-0003.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0004",
+        "title": "Better Instructions",
+        "status": "cancelled",
+        "file": "closed/BL-0004.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0005",
+        "title": "Agents Collection",
+        "status": "completed",
+        "file": "closed/BL-0005.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0006",
+        "title": "Project Manager and Backlog",
+        "status": "completed",
+        "file": "closed/BL-0006.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0007",
+        "title": "Rename the workspace advisor",
+        "status": "completed",
+        "file": "closed/BL-0007.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0008",
+        "title": "Clarify backlog items with a business analyst",
+        "status": "completed",
+        "file": "closed/BL-0008.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0009",
+        "title": "Workspace agent setup parameters",
+        "status": "pending",
+        "file": "new/BL-0009.md",
+        "unknown_fields": []
+      },
+      {
+        "id": "BL-0010",
+        "title": "Separate working folder for each sub-agent invocation",
+        "status": "completed",
+        "file": "closed/BL-0010.md",
+        "unknown_fields": []
+      }
+    ],
+    "configuration_status": "defaulted",
+    "location": "backlog",
+    "counts": {
+      "cancelled": 1,
+      "completed": 7,
+      "pending": 2,
+      "rejected": 0
+    }
+  },
+  "agents": {
+    "ok": true,
+    "agents": [
+      {
+        "name": "hai-framework-advisor",
+        "definition": ".hai_env/agents/hai-framework-advisor/SKILL.md"
+      },
+      {
+        "name": "release-manager",
+        "definition": ".hai_env/agents/release-manager/SKILL.md"
+      },
+      {
+        "name": "git-manager",
+        "definition": ".hai_env/agents/git-manager/SKILL.md"
+      },
+      {
+        "name": "specification-manager",
+        "definition": ".hai_env/agents/specification-manager/SKILL.md"
+      },
+      {
+        "name": "agent-definition-manager",
+        "definition": ".hai_env/agents/agent-definition-manager/SKILL.md"
+      },
+      {
+        "name": "business-analyst",
+        "definition": ".hai_env/agents/business-analyst/SKILL.md"
+      },
+      {
+        "name": "solution-architect",
+        "definition": ".hai_env/agents/solution-architect/SKILL.md"
+      },
+      {
+        "name": "software-developer",
+        "definition": ".hai_env/agents/software-developer/SKILL.md"
+      },
+      {
+        "name": "quality-assurance",
+        "definition": ".hai_env/agents/quality-assurance/SKILL.md"
+      },
+      {
+        "name": "codex-chronicle-manager",
+        "definition": ".hai_env/agents/codex-chronicle-manager/SKILL.md"
+      }
+    ],
+    "profiles": "valid",
+    "issues": []
+  },
+  "runtime_code_changed": false
+}

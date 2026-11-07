@@ -1,0 +1,75 @@
+{
+  "old_name": "advisor",
+  "new_name": "hai-framework-advisor",
+  "old_override": "absent",
+  "new_override": "absent",
+  "package_files": [
+    "SKILL.md",
+    "configuration/contract.json"
+  ],
+  "old_definition_sha256": "eefd47c40c03bb8320ca07073f0090fac27293c648a01904a8ff0f3a1c5e6155",
+  "new_definition_sha256": "a57947c301dc5c3de0cf221490f70933a366afa264df872714f2ddd66a4d373b",
+  "behavior_preserved": true,
+  "description_preserved": true,
+  "agent_audit": {
+    "ok": true,
+    "agents": [
+      {
+        "name": "hai-framework-advisor",
+        "definition": ".hai_env/agents/hai-framework-advisor/SKILL.md"
+      },
+      {
+        "name": "release-manager",
+        "definition": ".hai_env/agents/release-manager/SKILL.md"
+      },
+      {
+        "name": "git-manager",
+        "definition": ".hai_env/agents/git-manager/SKILL.md"
+      },
+      {
+        "name": "specification-manager",
+        "definition": ".hai_env/agents/specification-manager/SKILL.md"
+      },
+      {
+        "name": "agent-definition-manager",
+        "definition": ".hai_env/agents/agent-definition-manager/SKILL.md"
+      },
+      {
+        "name": "business-analyst",
+        "definition": ".hai_env/agents/business-analyst/SKILL.md"
+      },
+      {
+        "name": "solution-architect",
+        "definition": ".hai_env/agents/solution-architect/SKILL.md"
+      },
+      {
+        "name": "software-developer",
+        "definition": ".hai_env/agents/software-developer/SKILL.md"
+      },
+      {
+        "name": "quality-assurance",
+        "definition": ".hai_env/agents/quality-assurance/SKILL.md"
+      },
+      {
+        "name": "codex-chronicle-manager",
+        "definition": ".hai_env/agents/codex-chronicle-manager/SKILL.md"
+      }
+    ],
+    "profiles": "valid",
+    "issues": []
+  },
+  "changed_files": [
+    ".hai_env/agents/hai-framework-advisor",
+    ".hai_env/agents/hai-framework-advisor/SKILL.md",
+    ".hai_env/agents/hai-framework-advisor/configuration/contract.json",
+    ".hai_env/agents/catalogue.md"
+  ],
+  "registration": "ok",
+  "startup_new_only": true,
+  "configuration_defaults_valid": true,
+  "backlog_audit_passed": true,
+  "normalized_behavior_readback_equal": true,
+  "normalized_contract_equal": true,
+  "catalogue_exact_single_row_change": true,
+  "links_valid": true
+}
