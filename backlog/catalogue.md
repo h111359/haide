@@ -12,7 +12,7 @@ unspecified; each item contains its complete supplied requirements and attributi
 | ID | Title | Status | File |
 | --- | --- | --- | --- |
 | BL-0001 | Agents chat | completed | [BL-0001](closed/BL-0001.md) |
-| BL-0002 | Usage records | pending | [BL-0002](new/BL-0002.md) |
+| BL-0002 | Usage records | completed | [BL-0002](closed/BL-0002.md) |
 | BL-0003 | Initial Menu and Help | pending | [BL-0003](new/BL-0003.md) |
 | BL-0004 | Better Instructions | pending | [BL-0004](new/BL-0004.md) |
 | BL-0005 | Agents Collection | pending | [BL-0005](new/BL-0005.md) |

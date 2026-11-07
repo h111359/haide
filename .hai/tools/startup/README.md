@@ -138,7 +138,9 @@ Discovery checks every direct child for a safe nonlinked folder, duplicate-free
 supported Activity state, required readable nonlinked records, safe optional canonical artifacts, unique IDs,
 archive naming and closure timestamps, and sole-current consistency. An existing
 optional `chat.jsonl` is checked for regular nonlinked file type and access, without
-loading or validating its messages; explicit chat operations perform content checks. Historical
+loading or validating its messages; explicit chat operations perform content checks.
+Optional `usage.md`/`usage.json` receive the same file-type/access checks without
+loading counters, sources or pricing; explicit usage operations validate them. Historical
 records are opened only to check access; their content is not loaded except state. It does not initialize, mutate, choose work, validate runtime
 model availability, audit all definitions, or establish recording coverage. Results
 are observations, not locks; writers independently recheck before mutation.

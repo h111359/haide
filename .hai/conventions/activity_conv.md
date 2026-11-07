@@ -11,6 +11,7 @@ artifacts live directly in one Activity folder:
 | `input.md` | Mandatory single initial input, preserved as supplied; may be empty until supplied. Never synthesize human input. Appended scope changes retain their source and date rather than replacing initial input. |
 | `log.md` | Mandatory append-only UTC-dated meaningful actions, decisions, revisions, transitions, results, checks and failures. Related operations may share one entry; logging does not require recursive entries. |
 | `chat.jsonl` | Optional append-only coordination messages for assigned agents; owned by runtime chat operations under the [chat convention](activity-chat_conv.md). |
+| `usage.md`, `usage.json` | Runtime-managed usage report and source checkpoint; updated on request and before closure under the [usage convention](activity-usage_conv.md). |
 | `decisions.md` | When useful: actual questions and answers, decisions, unresolved issues, author/source and date. Silence is not approval. |
 | `definition.md` | When useful: agreed objective, scope, constraints and available acceptance criteria. |
 | `analysis.md` | When useful: evidence, affected paths, comparisons, impact, risks, unknowns and conclusions. |

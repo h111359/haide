@@ -1,0 +1,37 @@
+{
+  "activity_id": "506dfee4-cc05-4955-9922-2af808f64372",
+  "source_start_position": 1287,
+  "source_assignment_scope": "Current BL-0002 task from its explicit user prompt; earlier session/Activity work is excluded.",
+  "usage_path": ".hai_env/activities/00000000_000000_active/usage.md",
+  "snapshot": {
+    "coverage": "observed",
+    "tokens": {
+      "input_tokens": 7812323,
+      "cached_input_tokens": 7786624,
+      "output_tokens": 44830,
+      "reasoning_output_tokens": 27107,
+      "total_tokens": 7857153
+    },
+    "by_model": {
+      "gpt-6.1-sol": {
+        "input_tokens": 7812323,
+        "cached_input_tokens": 7786624,
+        "output_tokens": 44830,
+        "reasoning_output_tokens": 27107,
+        "total_tokens": 7857153
+      }
+    },
+    "estimated_credits": "31.95901",
+    "estimated_money": null,
+    "reported_credits": null,
+    "reported_money": null,
+    "reported_spend_current": false,
+    "missing_rate_models": []
+  },
+  "repeated_refresh_without_new_meter_data_did_not_double_count": true,
+  "readback_matches": true,
+  "pricing_source": "https://learn.chatgpt.com/docs/pricing",
+  "pricing_basis": "Standard credit equivalent, not a debit or subscription charge",
+  "money_conversion": "Not provided; explicitly unavailable",
+  "checked_at": "2026-11-06T17:42:28Z"
+}

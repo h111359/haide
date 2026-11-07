@@ -13,6 +13,11 @@ The host allocates a distinct Activity-local folder before every new spawn and
 passes it to the agent. Same-instance follow-ups retain that folder; new spawns
 receive new ones. Material remains with its Activity on archival.
 
+Unreleased development adds [Activity usage records](.hai/conventions/activity-usage_conv.md):
+source-bounded token snapshots, separately labelled configured-rate credit
+estimates and automatic refresh before closure. Missing charges remain unavailable;
+account balances and subscription allowances are not treated as Activity spend.
+
 This source tree prepares the **0.3.0 release candidate**,
 using current environment state format **3**, with format **2** retained as read-only
 specification-migration context. All substantive HAI work belongs to an Activity, including

@@ -19,6 +19,7 @@ Workflow modules provide Activity, package, recording and host operations. A hos
 Requests are JSON objects. All applied Activity and package mutations require valid current core state and readable mandatory instructions. For example, `python -B .hai/tools/hai.py activity discover --workspace .` reads the current Activity; add `--request request.json` where fields are listed below. Every mutation requires the provenance object described above.
 
 - `activity discover` takes `{}`. `activity show` takes `activity_id`.
+- `activity usage-update` takes `activity_id`, provenance and optional `sources`, `pricing` and `reported_spend`. It previews by default; `--apply` refreshes assigned source ranges into Activity-local `usage.json` and `usage.md`. `activity usage-read` takes only `activity_id` and reads a retained snapshot, including archives. Closure automatically refreshes usage before lifecycle writes; unknown data is unavailable/stale, never fabricated zero. See [source attribution, counters and estimates](../../conventions/activity-usage_conv.md).
 - `activity invocation-allocate` takes `activity_id`, `agent` and provenance. Preview creates nothing (`allocated: false`); `--apply` exclusively creates `files/agent-invocations/<uuid>/invocation.json` below the current Activity and returns its existing folder (`allocated: true`), stable IDs, Activity-relative suffix and metadata. Closed/stale IDs, collisions and unsafe paths are rejected. Partial results retain and name changed paths. See [allocation and actual host handoff](../../conventions/agent-invocation_conv.md); the runtime does not spawn agents.
 - `activity chat-read` takes `activity_id`, optional nonnegative integer `after_sequence` (default `0`) and optional integer `limit` (`1..1000`, default `100`). Returns a page with `messages`, `total_messages`, `next_after_sequence` and `has_more`; reads closed Activities too. Omit `--apply` for reads. `activity chat-post` takes `activity_id`, `author`, `text` and provenance. It previews by default; `--apply` appends to the current Activity's `chat.jsonl` under the runtime lock. No edit/delete action exists. See [chat format and participation](../../conventions/activity-chat_conv.md), including attribution and filesystem-access limits.
 - `activity create` takes `initial_input` and provenance. `activity record` takes `activity_id`, optional `steps` mapping step names to statuses, optional `implementation_start` Boolean, optional `artifacts` array of `{name, text, reason}`, optional `input_append`, `log`, and provenance. `activity close` takes `activity_id`, `outcome`, `archive_label`, `outcome_text`, `recording` with `status` and `details`, and provenance. It also accepts `recording_requirement` with Boolean `enabled` and `mandatory`, and a `recording_proof` gate request. Verified closure additionally supplies `recording_paths` with `sources` mapping source IDs to workspace-relative files and `artifacts` mapping artifact IDs to files inside the Activity; their hashes must match the gate evidence. `activity supplement` takes `activity_id`, `text`, and provenance. Closure requires valid proof when recording is mandatory; pending or unavailable optional recording is reported. These operations preserve partial results on failure.
@@ -81,3 +82,50 @@ for isolated fixtures covering shared authorship, exact append preservation,
 preview/read behavior, CLI requests, pagination, malformed history, unsafe links,
 lock contention, partial writes and archive/new-Activity separation. Tests do not
 invoke agents or establish OS-level immutability. Report actual platform and skips.
+
+## Activity usage example
+
+Save a workspace-contained JSON request with an explicitly authorized source:
+
+```json
+{
+  "activity_id": "<current stable Activity UUID>",
+  "sources": [
+    {"path": "/explicit/saved-session.jsonl", "session_id": "<original source session ID>", "start_position": 42}
+  ],
+  "provenance": {"source": "host Activity assignment", "reason": "refresh requested usage"}
+}
+```
+
+Run `python -B .hai/tools/hai.py activity usage-update --workspace . --request usage-request.json`
+to preview and add `--apply` to persist. Later requests need only `activity_id` and
+provenance to refresh the same bindings. Position 42 is an example, not a default;
+the host supplies actual Activity attribution and does not scan unrelated sessions.
+`end_position` is optional for a fixed inclusive cutoff; otherwise the source is
+read through its latest complete saved record.
+
+Optional pricing is a rate snapshot, not a framework default:
+
+```json
+{
+  "rates": {
+    "example-model": {
+      "input_credits_per_million": "10",
+      "cached_input_credits_per_million": "1",
+      "output_credits_per_million": "20"
+    }
+  },
+  "source": "Explicit example rate card; these are not current prices",
+  "captured_at": "2026-11-06T00:00:00Z"
+}
+```
+
+Pass that object as `pricing` only when actual selected rates and provenance are
+available. Reports and configuration cover tokens and credits only.
+No API keys, account credentials, billing calls or network access are used.
+
+Run `python -B -m unittest discover -s .hai/tools/runtime/tests -p 'test_usage.py'`
+for cumulative/interval accounting, model rates, reported-spend freshness, malformed
+sources, idempotent totals, unavailable data, optimistic/partial persistence, CLI,
+archive reads and automatic pre-closure refresh. These checks do not authenticate
+host billing evidence or prove completeness of all related sessions.

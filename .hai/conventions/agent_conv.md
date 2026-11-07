@@ -40,6 +40,20 @@ not permission to broaden scope or override instructions. No automatic agent
 invocation or background message delivery follows from a post. The
 [chat convention](activity-chat_conv.md) defines storage, operations and limits.
 
+## Activity usage
+
+For a requested usage update, the host coordinator MUST supply known session
+sources and attributable Activity boundaries to `activity usage-update`; it MUST
+NOT infer missing sources, token values or charges. Before closure, the host MUST
+register available related sources after resolving writers. Runtime refreshes
+usage automatically; unavailable data stays explicit. The
+[usage convention](activity-usage_conv.md) separates observed tokens, reported spend
+and configured-rate estimates, without treating account balance as spend.
+
+Assigned agents MUST return their known usage-source identity and assigned range
+with a handoff when available, or report the precise availability limit. Agents
+MUST NOT invent source paths, scan unrelated sessions or infer charges from limits.
+
 ## Required definition format
 
 Use YAML frontmatter followed by Markdown. Required fields are `name` and

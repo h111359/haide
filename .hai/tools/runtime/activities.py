@@ -13,7 +13,7 @@ from discovery import discover, _validate_state, STEPS, STEP_VALUES
 
 CURRENT = '00000000_000000_active'
 ARTIFACTS = {'definition.md', 'analysis.md', 'decisions.md', 'plan.md', 'requirements.md'}
-MUTATIONS = ('create', 'record', 'close', 'supplement', 'chat-post', 'invocation-allocate')
+MUTATIONS = ('create', 'record', 'close', 'supplement', 'chat-post', 'invocation-allocate', 'usage-update')
 
 def now():
     return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -104,6 +104,8 @@ def handle(operation, workspace, request, apply):
         fields['chat-read'] = {'activity_id', 'after_sequence', 'limit'}
         fields['chat-post'] = {'activity_id', 'author', 'text', 'provenance'}
         fields['invocation-allocate'] = {'activity_id', 'agent', 'provenance'}
+        fields['usage-read'] = {'activity_id'}
+        fields['usage-update'] = {'activity_id', 'sources', 'pricing', 'reported_spend', 'provenance'}
         if not isinstance(request,dict) or (op in fields and set(request) - fields[op]): raise ValueError('Unknown or invalid request fields')
         location = store_path(root)
         def run():
@@ -113,9 +115,9 @@ def handle(operation, workspace, request, apply):
             d = discover(root, location)
             if d['status'] == 'invalid': raise SafetyError('Activity store invalid: ' + str(d['issues']))
             if op == 'discover': return envelope(operation, result=d)
-            if op in ('show', 'chat-read'):
-                if op == 'chat-read' and apply:
-                    raise ValueError('chat-read is read-only; omit --apply')
+            if op in ('show', 'chat-read', 'usage-read'):
+                if op in ('chat-read', 'usage-read') and apply:
+                    raise ValueError(op + ' is read-only; omit --apply')
                 ident = required_text(request.get('activity_id'), 'activity_id')
                 matches = []
                 for child in checked_path(root, location).iterdir():
@@ -123,6 +125,9 @@ def handle(operation, workspace, request, apply):
                     if state.get('activity_id') == ident: matches.append((child, state))
                 if len(matches) != 1: raise SafetyError('Activity ID not uniquely found')
                 child, state = matches[0]
+                if op == 'usage-read':
+                    from . import usage
+                    return envelope(operation, result=usage.read(root, str(child.relative_to(root)), ident))
                 if op == 'chat-read':
                     from . import chat
                     return envelope(operation, result=chat.read(root, str(child.relative_to(root)), ident, request))
@@ -164,6 +169,10 @@ def handle(operation, workspace, request, apply):
             if d['status'] != 'current' or d['activity_id'] != ident: raise SafetyError('Selected ID is not the sole current Activity')
             base = d['path']; state_path = base + '/state.json'; state_target = checked_path(root, state_path, allow_missing=False)
             state_fp = fingerprint(state_target); state = read_json(state_target); _validate_state(state)
+            if op == 'usage-update':
+                from . import usage
+                result, created = usage.update(root, base, ident, request, stamp, apply, state_fp)
+                return envelope(operation, 'ok' if apply else 'planned', result, created)
             if op == 'invocation-allocate':
                 from . import invocations
                 result = invocations.prepare(root, base, ident, request, stamp)
@@ -239,6 +248,12 @@ def handle(operation, workspace, request, apply):
                 state.update(lifecycle='closed',closed_at=stamp,outcome=outcome); _validate_state(state)
                 if not apply: return envelope(operation,'planned',{'archive_path':dest,'state':state,'recording':rec})
                 rename_preflight()
+                # Refresh registered usage before any lifecycle writes. Missing data
+                # is recorded as unavailable; invalid state/partial writes stop closure.
+                from . import usage
+                usage_result, usage_changed = usage.update(root, base, ident, {'provenance': request['provenance']}, stamp, True, state_fp)
+                changed.extend(usage_changed)
+                if rec['status'] == 'verified': check_recording_files(root, base, proof, request.get('recording_paths'))
                 logpath = base + '/log.md'; logtarget = checked_path(root,logpath,allow_missing=False); logfp = fingerprint(logtarget)
                 write_bytes(root,logpath,append_bytes(logtarget.read_bytes(), f'\n- {stamp} — Closed as {outcome}; Activity path moved from {base} to {dest} ({prov}).'),logfp); changed.append(logpath)
                 write_bytes(root,outcome_path,(f'# Outcome\n\n{text}\n\nRecording: {rec["status"]} — {rec["details"]}\n\nProvenance: {prov}\n').encode()); changed.append(outcome_path)
@@ -252,7 +267,8 @@ def handle(operation, workspace, request, apply):
                 if any(fingerprint(checked_path(root,p,allow_missing=False)) != fp for p,fp in final_fingerprints.items()): raise SafetyError('Closure files changed before archival')
                 rename_exclusive(checked_path(root,base,allow_missing=False), checked_path(root,dest)); changed.append(dest)
                 if read_json(checked_path(root,dest + '/state.json',allow_missing=False)) != state or discover(root,location)['status'] != 'absent': raise SafetyError('Closure readback mismatch')
-                return envelope(operation,result={'archive_path':dest,'state':state,'recording':rec},changed=changed)
+                usage_result.update(path=dest + '/usage.md', checkpoint_path=dest + '/usage.json')
+                return envelope(operation,result={'archive_path':dest,'state':state,'recording':rec,'usage':usage_result},changed=changed)
             raise ValueError('unsupported Activity operation')
         if apply and op in MUTATIONS:
             with lock(root): return run()

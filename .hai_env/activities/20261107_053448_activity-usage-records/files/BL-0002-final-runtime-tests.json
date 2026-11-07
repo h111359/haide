@@ -1,0 +1,6 @@
+{
+  "command": "/usr/bin/python3 -B -m unittest discover -s .hai/tools/runtime/tests -p 'test_*.py'",
+  "returncode": 0,
+  "completion_output": ".............................................\n----------------------------------------------------------------------\nRan 53 tests in 3.928s\n\nOK\n",
+  "note": "Final runtime regression after adding the changed-Activity readback guard; initial progress output was returned in the preceding call."
+}

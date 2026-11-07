@@ -1,0 +1,10 @@
+{
+  "verified_at": "2026-11-07T05:13:06Z",
+  "runtime_tests": 54,
+  "passed": 54,
+  "usage_tests": 19,
+  "live_format": 2,
+  "monetary_fields_absent": true,
+  "prior_unaffected_suites_passed": 168,
+  "prior_windows_skips": 2
+}

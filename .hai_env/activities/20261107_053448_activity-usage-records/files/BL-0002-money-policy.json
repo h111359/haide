@@ -1,0 +1,9 @@
+{
+  "currency": "EUR",
+  "valuation_basis": "official applicable list price",
+  "checked_at": "2026-11-06T21:47:50Z",
+  "source": "https://learn.chatgpt.com/docs/pricing",
+  "money_per_credit": null,
+  "status": "unavailable",
+  "reason": "Official documentation checked publishes model token-to-credit rates and states credit purchase prices depend on plan or agreement; an applicable EUR per-credit list price was not established. No USD/EUR parity or API price substitution assumed."
+}

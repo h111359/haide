@@ -55,6 +55,10 @@ The host follows this sequence for every new spawn:
 5. Verify the agent received and used its folder; retain returned work and
    completion/writer-status evidence.
 
+The handoff also returns available usage-source identity and attribution bounds
+for the host's [usage update](activity-usage_conv.md), or an explicit unavailable
+result. A host handle, model profile or folder alone is not token/billing evidence.
+
 Failed, not-dispatched and uncertain launches retain their allocated folders.
 The host resolves uncertain launch status before risking a duplicate worker.
 A deliberately new spawn attempt always receives a new allocation. A follow-up
