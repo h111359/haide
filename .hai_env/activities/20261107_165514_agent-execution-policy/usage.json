@@ -1,0 +1,81 @@
+{
+  "usage_format_version": 2,
+  "activity_id": "ef45d9ae-52ff-47e1-8a48-00f8b55b421f",
+  "updated_at": "2026-11-07T16:55:14Z",
+  "provenance": {
+    "source": "User: complete the current activity, commit and open a fresh one",
+    "reason": "Archive completed delegation policy and authorized backlog resolutions before scoped commit"
+  },
+  "sources": [
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+        "session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+        "start_position": 1831,
+        "end_position": null
+      },
+      "observation": {
+        "tokens": {
+          "input_tokens": 3269871,
+          "cached_input_tokens": 3238912,
+          "output_tokens": 13080,
+          "reasoning_output_tokens": 2056,
+          "total_tokens": 3282951
+        },
+        "by_model": {
+          "gpt-6.1-sol": {
+            "input_tokens": 3269871,
+            "cached_input_tokens": 3238912,
+            "output_tokens": 13080,
+            "reasoning_output_tokens": 2056,
+            "total_tokens": 3282951
+          }
+        },
+        "through_position": 1978,
+        "through_timestamp": "2026-11-07T16:54:55.530Z",
+        "observed_end_position": 1981,
+        "baseline_position": 1817,
+        "prefix_bytes": 6435578,
+        "prefix_sha256": "54d45363cc18ed7dd7023f7728d2de7806d951b399f76f1cf45b484e5a20d3e8"
+      },
+      "status": "current",
+      "error": null
+    }
+  ],
+  "pricing": {
+    "rates": {
+      "gpt-6.1-sol": {
+        "cached_input_credits_per_million": "2.5",
+        "input_credits_per_million": "50",
+        "output_credits_per_million": "250"
+      }
+    },
+    "source": "https://learn.chatgpt.com/docs/pricing \u2014 Standard credit-rate equivalent, not actual subscription spend; checked 2026-11-06",
+    "captured_at": "2026-11-06T17:42:28Z"
+  },
+  "reported_spend": null,
+  "summary": {
+    "coverage": "observed",
+    "tokens": {
+      "input_tokens": 3269871,
+      "cached_input_tokens": 3238912,
+      "output_tokens": 13080,
+      "reasoning_output_tokens": 2056,
+      "total_tokens": 3282951
+    },
+    "by_model": {
+      "gpt-6.1-sol": {
+        "input_tokens": 3269871,
+        "cached_input_tokens": 3238912,
+        "output_tokens": 13080,
+        "reasoning_output_tokens": 2056,
+        "total_tokens": 3282951
+      }
+    },
+    "estimated_credits": "12.91523",
+    "reported_credits": null,
+    "reported_spend_current": false,
+    "missing_rate_models": []
+  },
+  "markdown_sha256": "92d77a6cd9bbd4fb7cb05bdef6725a2ee2cf063eac6e3b3c0c1239a0901722c1"
+}

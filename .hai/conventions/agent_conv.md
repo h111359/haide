@@ -8,6 +8,31 @@ Source packages under `hai_agents_library/agents/` are data, not an execution or
 
 Apply the safe fixed `.hai_env/agent_instructions.md` and higher-priority instructions before dependent work. Substantive work uses the current Activity; startup, necessary setup and read-only diagnosis can establish context first. Pass relevant task scope, authority, Activity identity and evidence to any selected extension.
 
+## Role execution and delegation
+
+The host coordinator chooses between following an installed role directly in its
+own execution and spawning a separate sub-agent. The following shared selection
+contract applies before optional role work in either mode; it does not select or
+run an extension by itself.
+
+- **Applicable role instructions.** The executor MUST read and follow the selected agent definition and relevant procedures in either mode. Following a role directly does not create a separate agent.
+- **Execution prerequisites.** The host coordinator MUST preserve the existing registration, configuration, permission and model/capability requirements in either mode; choosing direct execution MUST NOT bypass an unavailable prerequisite.
+- **Direct execution default.** The host coordinator MUST use direct execution by default for small or routine work, work tightly connected to the current conversation or immediate coordinator decisions, or work where context transfer costs more than it adds. This default applies when separate execution is not required; the host MAY delegate when the separate-execution conditions below provide useful independence, focus or parallel progress.
+- **Required separate execution.** The host coordinator MUST spawn a separate sub-agent when the user explicitly requests one or applicable instructions require separate execution or an independent review, subject to the execution prerequisites and unavailable-delegation rule below.
+- **Useful delegation.** The host coordinator MAY spawn a sub-agent for substantial specialist work with clear inputs, boundaries and deliverables when separation provides useful focus, independence or parallel progress. The host MAY run independent tasks concurrently when their dependencies and file ownership permit it.
+- **Independent verification.** For substantial implementation affecting shared runtime behavior, persistence, concurrency, compatibility or multiple components, the host coordinator MUST assign a separate reviewer to assess requirements, behavior and evidence independently. The implementation author MUST perform developer checks. A separate reviewer is optional for small, low-impact changes.
+- **Proportionate delegation.** The host coordinator MUST NOT spawn an agent solely because a role exists or its name occurs in the task. The host MUST avoid splitting trivial steps into separate invocations and prefer one coherent assignment over repeated small invocations.
+- **Execution reporting.** The host coordinator MUST distinguish direct role work from an actual spawn in progress and result reports, for example, “I am following the Git-manager instructions directly” versus “I spawned a Git-manager sub-agent.” The host MUST report a spawn only after an actual launch and MUST NOT describe its own review as an independent sub-agent review. Actual launch records follow the Activity communication contract below.
+- **Unavailable delegation.** When optional delegation is unavailable but direct execution satisfies all prerequisites, the host coordinator MAY continue directly and MUST disclose the change in mode. When separate execution is required, the host MUST report the limitation and MUST NOT claim that direct execution satisfies it; independent permitted work MAY continue. Existing model/effort requirements still prohibit silent substitution.
+- **Standing delegation authorization.** Where higher-priority instructions permit it, the host coordinator MAY spawn sub-agents under this policy within the user's authorized task without requesting permission for each invocation. This authorization MUST NOT expand task scope or grant additional publication, destructive-action or external-communication permissions.
+
+Specialist scope and delegation exclusions apply in both modes. The host MUST
+keep orchestration outside specialist work; a role that forbids delegation returns
+dependencies to the coordinator. This policy grants no nested delegation to such
+a role. Existing allocation, handoff and retention requirements remain in
+[Activity communication](#activity-communication) and the
+[invocation convention](agent-invocation_conv.md).
+
 ## Activity communication
 
 Before every new sub-agent spawn, the host coordinator MUST obtain a successful
@@ -176,7 +201,7 @@ from core/Activity context. Format 2 is migration context, never an owner-settin
 
 ## Model resolution and coordination
 
-For an optional extension, use its declared model and effort only if supported by the actual host; report unavailable combinations without silently substituting. Profiles are optional and do not establish host support. Core runtime commands do not require profiles or agent invocation. The host decides whether to invoke an optional extension, supplies relevant context and authority, and reports actual results and unresolved dependencies.
+For an optional extension, use its declared model and effort only if supported by the actual host; report unavailable combinations without silently substituting. Profiles are optional and do not establish host support. Core runtime commands do not require profiles or agent invocation. The host applies [Role execution and delegation](#role-execution-and-delegation) to select the execution mode, supplies relevant context and authority, and reports actual results and unresolved dependencies.
 
 ## Supporting resources
 

@@ -1,0 +1,19 @@
+{
+  "agent_audit": {
+    "ok": true,
+    "agents": 10,
+    "issues": []
+  },
+  "backlog_audit": {
+    "ok": true,
+    "counts": {
+      "cancelled": 1,
+      "completed": 6,
+      "pending": 3,
+      "rejected": 0
+    },
+    "issues": []
+  },
+  "links_and_anchors": "passed",
+  "scoped_diff_check": "passed"
+}
