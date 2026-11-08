@@ -21,4 +21,4 @@ unspecified; each item contains its complete supplied requirements and attributi
 | BL-0008 | Clarify backlog items with a business analyst | completed | [BL-0008](closed/BL-0008.md) |
 | BL-0009 | Workspace agent setup parameters | pending | [BL-0009](new/BL-0009.md) |
 | BL-0010 | Separate working folder for each sub-agent invocation | completed | [BL-0010](closed/BL-0010.md) |
-| BL-0011 | Business analyst clarification and requirements readiness | pending | [BL-0011](new/BL-0011.md) |
+| BL-0011 | Business analyst clarification and requirements readiness | completed | [BL-0011](closed/BL-0011.md) |

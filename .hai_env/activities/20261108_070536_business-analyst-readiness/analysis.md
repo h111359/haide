@@ -1,0 +1,51 @@
+# BL-0011 requirements and implementation analysis
+
+Authority (human, current chat, verbatim): "Implement backlog item BL-0011".
+The human separately approved preserving the incomplete Activity folder and creating this Activity. The previous directory is preserved at `.sandbox/BL-0011-incomplete-activity-d39ee381-b676-4748-a70b-6c995c7bb1b9`.
+
+The story at `backlog/new/BL-0011.md` is sufficient for implementation. It defines the affected role, all eight readiness dimensions (28 checks), context registry behavior, durable dialogue, owner boundaries, proposal and protection requirements. No new consequential human decision is necessary. Implementation selection by the user is the reason to address it now; no deadline or release priority is invented.
+
+Readiness evidence for this implementation request: R1.1–R1.4: What/Why; R2.1–R2.3: submitting human, coordinator, delivery and specification/backlog owners; R3.1–R3.3: Why and current skeletal package; R4.1–R4.4: named package deliverables, bounded iteration, compatible AC1–AC10 and outputs; R5.1–R5.2: explicit Out of Scope; R6.1–R6.4: separate Constraints and Assumptions and HAI conventions; R7.1–R7.5: individually observable AC1–AC10, fixtures plus semantic review; R8.1–R8.3: existing agent, runtime and configuration contracts compared with this story. All 28 satisfied for the present scope; no exemption claimed. Reassess on consequential scope/acceptance changes.
+
+Design: the canonical clarification ledger is Activity `decisions.md`. Existing `activity record` persists its full prior bytes plus new events and retains revisions. The host is sole serialized writer, checks the predecessor immediately before dispatch, and verifies exact event/readback and prefix before display/application. No core extension is required. Agent-owned pure helpers prepare/validate data; they never write Activity resources. Missing persistence remains a dependency. Existing empty agent-owned settings remain compatible: ledger identity and paths derive from validated runtime Activity identity, not a configurable second store.
+
+Golden source only: `hai_agents_library/agents/business-analyst/`. Installed snapshot and catalogue membership remain unchanged. Permanent package diagnostic tools stay with the package; temporary fixtures are in Activity files or temporary directories. Core chronicles are enabled; the current host exposes no explicit durable source/session/range assignment. Coverage is unavailable and no session discovery/backfill will be attempted. The Activity will remain open; this request does not authorize closure.
+
+
+Revision provenance: source: Current human implementation request and observed startup/runtime results; reason: Implement BL-0011; reason: Requirements readiness and existing-operation ownership decision; recorded 2026-11-08T03:13:22Z.
+
+
+## Implementation and verification results
+
+Implemented the golden `hai_agents_library/agents/business-analyst/` package:
+- Three ordered procedures for context, persistent clarification and readiness/proposal handoff; full shared rules and four owned conventions.
+- All eight readiness categories and 28 initial checks retain exact annotations and stable identifiers; compatible extension instructions are explicit.
+- Read-only registry diagnostics and pure dialogue/readiness/proposal/protection validators; existing core `activity record` remains the only canonical ledger writer. Existing empty settings contract is unchanged.
+- Individual mapping for all 69 acceptance checkboxes (including the 28 readiness checks) at `hai_agents_library/agents/business-analyst/verification/coverage.md`.
+
+Developer result: `/usr/bin/python3 -B -m unittest discover -s hai_agents_library/agents/business-analyst/scripts -p 'test_*.py' -v` passed 24 tests on Linux/Python 3.12.3, no skips. Actual isolated core runtime fixtures cover first creation/readback, reuse, exact Unicode/multipart answers, revisions/restarts, unavailable/read/write/readback/partial failures, later work and authorized fixture archival. Registry fixtures exercise ordered full simulated-host reads, flags, exclusions/links, independent missing resources and inert prompt/update metadata without writes/network/execution. Readiness fixtures check each of all 28 failures, pass, assumptions/deferrals, both narrow exemptions, extensions and proposal/protection behavior. Whole-source disposable installed-layout package validation and empty/default configuration read pass.
+
+Independent QA: actual handle `/root/bl0011_review`, invocation `7884fdbd-541a-4c98-b6b3-588bba730615`, originally found incomplete multipart ambiguity resolution despite 22 passing tests. Fixed with consistent human-confirmed mapped_question_ids and waiting for all saved target responses, plus permanent regression. Also preserved exact CRLF predecessor bytes and strict integer numbering. Independent retest ran all 24 tests and its adapted regression; no remaining concrete defect established. Reviewer reports all invocation writers ended. Review findings/retest remain in the allocated folder and runtime chat.
+
+Final path review: tracked initial status was clean. Touched product paths are confined to the authorized golden BA package; other nonignored changes are new current-Activity records and allocated review material. Supporting Markdown links resolve; `git diff --check` passes. Real installed BA, catalogue and saved configs are byte-unchanged against HEAD. An initial overbroad cache assertion failed because a framework cache exists; inspection established its directory/file timestamps are 2026-11-01, before this Activity. It was preserved, and no newly generated protected cache was found. No unauthorized protected-path change was established. A multi-file patch validation once failed before any file change; inspection confirmed unchanged targets before a corrected patch.
+
+Recording status: enabled, cadence 5, coverage unverified. Fresh recording verify blocked with "No core chronicle checkpoint to verify"; recording synchronize --apply blocked with "Enabled chronicles require explicit source assignments before closure/synchronization" and changed no files. Host has no actual durable source/session/range assignment; neither it nor reviewer invents one or discovers unrelated sessions. Usage attribution unavailable for the same reason.
+
+Limits: source package only; no installation, registration, real end-user UI exercise, real product Activity archival, Windows/macOS execution, billing or chronicle coverage claim. Fixture success is not evidence of those. Backlog acceptance/terminal transition and Activity closure were not requested; the Activity remains active with implementation and verification steps completed. User-facing readiness is for source review, not acceptance of an arbitrary future request.
+
+
+Revision provenance: source: Observed developer tools, independent QA final handoff and current human implementation authority; reason: Record completed BL-0011 source implementation and verification; reason: Retain actual implementation results, individual acceptance coverage, developer checks, independent QA correction/retest and limits; recorded 2026-11-08T03:28:36Z.
+
+
+## Human-authorized installed package update
+
+Subsequent human request, verbatim: "implement the new business analysis manager in .hai_env/". This explicitly extends the earlier source-only scope to installation of the existing `business-analyst` identity. The previous source-only/installed-unchanged statements above describe the earlier handoff and are now superseded for installation status.
+
+Reviewed source-vs-installed differences; old installed tracked files had no local modifications and the owned empty contract was byte-identical. Previewed then applied core `packages install` with replace=true, register=true and the exact reviewed_differences. Runtime completed successfully, retaining the old 3-file package at `.hai_env/agents/.hai-backup-8b3a7eca285f440b8d64b3bf5ed496e2` and an empty runtime staging container `.hai_env/agents/.hai-stage-2fb6f8eff6b644e192f793ec66dc38f1`. No partial operation or cleanup was performed.
+
+The actual installed `.hai_env/agents/business-analyst/` matches all 15 source file hashes exactly. The retained backup matches every pre-install file hash. Installed package validation passes; selected configuration read is valid/defaulted with settings {}, configured_fields [], issues []. All 24 tests pass from the installed package, no skips, on Linux/Python 3.12.3 using /usr/bin/python3 -B. Final startup is valid without issues. Existing registration was reconciled by runtime and its description bytes did not need changing; catalogue and saved configuration hashes remain unchanged. Source hashes remain unchanged. Current-run protected changes are confined to the explicitly authorized installed package and runtime backup/staging paths. Evidence and requests are under `files/business-analyst-install/`.
+
+No new implementation behavior was authored in this installation follow-up; installed bytes are the source already independently reviewed and retested. No additional specialist invocation was needed. Recording synchronization on the current prompt cadence remains blocked with "Enabled chronicles require explicit source assignments before closure/synchronization"; it changed no files. Source assignment/usage attribution remains unavailable, without discovery/backfill or coverage claims. No Activity/backlog closure was requested or performed.
+
+
+Revision provenance: source: Human current chat: implement the new business analysis manager in .hai_env/; actual runtime/check results; reason: Complete authorized Business-analyst installation and verification; reason: Append actual human-authorized installed replacement, backup, equality and validation evidence; supersede prior source-only status; recorded 2026-11-08T06:15:23Z.

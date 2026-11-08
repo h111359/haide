@@ -1,0 +1,27 @@
+{
+  "source": "hai_agents_library/agents/business-analyst",
+  "name": "business-analyst",
+  "replace": true,
+  "register": true,
+  "reviewed_differences": [
+    "SKILL.md",
+    "conventions/clarification-dialogue.md",
+    "conventions/context-registry.md",
+    "conventions/framework-protection.md",
+    "conventions/requirements-readiness.md",
+    "procedures/acquire-context.md",
+    "procedures/assess-and-propose.md",
+    "procedures/clarify-intent.md",
+    "procedures/perform-assigned-work.md",
+    "scripts/README.md",
+    "scripts/clarification.py",
+    "scripts/context_registry.py",
+    "scripts/test_clarification.py",
+    "scripts/test_context_registry.py",
+    "verification/coverage.md"
+  ],
+  "provenance": {
+    "source": "Human current chat, verbatim: implement the new business analysis manager in .hai_env/",
+    "reason": "Install the reviewed BL-0011 Business-analyst package and reconcile its existing registration"
+  }
+}

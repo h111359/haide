@@ -3,7 +3,8 @@
   "features": {
     "chronicles": {
       "enabled": true,
-      "record_every_prompts": 5
+      "record_every_prompts": 5,
+      "enablement_revision": 2
     }
   },
   "integrations": {},

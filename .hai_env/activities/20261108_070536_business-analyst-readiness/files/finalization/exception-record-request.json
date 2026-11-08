@@ -1,0 +1,9 @@
+{
+  "activity_id": "63c11143-eec4-487a-a7f1-57220a2d09e5",
+  "input_append": "\n\nHuman recording exception, current chat, verbatim:\nAllow this one-time exception and restore recording afterward\n",
+  "log": "Human explicitly approved one-time recording exception for this closure and local commit, with recording restored afterward. Required source path/range unavailable; no transcript coverage fabricated. Current collaboration inventory confirms QA completed and its final handoff reports all writers ended. Applying temporary disable via core, then core archival with recording unavailable, restoration, local commit and fresh Activity.",
+  "provenance": {
+    "source": "Human current chat reply, verbatim: Allow this one-time exception and restore recording afterward",
+    "reason": "Approved operation-specific recording exception for completed BL-0011 Activity closure and local commit; restore recording afterward"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "activity_id": "63c11143-eec4-487a-a7f1-57220a2d09e5",
+  "input_append": "\n\nHuman follow-up, current chat, verbatim:\nimplement the new business analysis manager in .hai_env/\n",
+  "steps": {
+    "implementation": "in_progress",
+    "verification": "in_progress"
+  },
+  "log": "Human explicitly authorized installing the new Business-analyst package under .hai_env/. Continuing compatible BL-0011 Activity. Inspected exact package differences; installed tracked files have no local changes, contract bytes unchanged. Will use core package replacement with retained backup and reconcile existing business-analyst registration; no new role identity or settings migration.",
+  "provenance": {
+    "source": "Human current chat, verbatim: implement the new business analysis manager in .hai_env/",
+    "reason": "Install the reviewed BL-0011 Business-analyst package and reconcile its existing registration"
+  }
+}

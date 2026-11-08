@@ -1,0 +1,29 @@
+{
+  "source": {
+    "SKILL.md": "20d644d4d642e72ff259a3bdf1868f006194c719adc0635e9069bc3f86dc21c4",
+    "scripts/test_clarification.py": "576be7b268603b385bf2c04e4552ec361e4b3c6ec8343be8d7d39c71783bf815",
+    "scripts/context_registry.py": "47c5becbeb477a85622375ca8a6432b1ddaaf50afe4e0af6b09943eb782c0040",
+    "scripts/README.md": "5b082424455fbcd20cf3daf63db9f3f353b2e8f78adf2ddf0be8bca709351987",
+    "scripts/clarification.py": "d3adb07f6e51cd0f6a0e374887144f6e7ae27b5e178e14139e9e6f08ce2fb4e4",
+    "scripts/test_context_registry.py": "f48d9e587cb6efadf939d601390a5ff2f7ddf07d7ba4f3ca44fca48670c46712",
+    "verification/coverage.md": "06e12305a96d16afc0508ec5ac25ca3048ee11cf0a9bf69fab8461eab33ca382",
+    "conventions/context-registry.md": "c9ecff332fc8c55eea26b18a759a19f09151c05e5c913693bf4d2cc777992cbe",
+    "conventions/requirements-readiness.md": "e22886df51eb090267c715f5f65db25e7ad612982f938cad81d5c5b19b8cb00d",
+    "conventions/framework-protection.md": "d5077424821d9c780794832625139418f26251da737b1e597b791a63e476902c",
+    "conventions/clarification-dialogue.md": "0e1cb55e37f507ed87437fe50f9b8e30c1406cb7c52c7f5fb40a1ea0d6242e70",
+    "configuration/contract.json": "4b1f8b807a8c00bba522a8104c533901932d590d9c97354e716f4df9f3869dd9",
+    "procedures/acquire-context.md": "1a18eeacce7137ef2e18000e471f14f48e943c7f3c228129bd65ce68102f4bf3",
+    "procedures/clarify-intent.md": "5277aff01693916240cc7701fd78e35c7d15014fbcd51366ab1f29f0eead2718",
+    "procedures/assess-and-propose.md": "ea4ea3fa2bda1cd76c95ffc4dabeed1c9ee7ff3bd86e3d44aba28a283e317bf0"
+  },
+  "installed": {
+    "SKILL.md": "9637957f665462fdc1b39e0711cba794dbbacc3d905dd02fcce3f89c3773825f",
+    "configuration/contract.json": "4b1f8b807a8c00bba522a8104c533901932d590d9c97354e716f4df9f3869dd9",
+    "procedures/perform-assigned-work.md": "a0b44e2fa4f5db2b90820aa1ade909e26e2ead2dc95201c62b2ccc4e998d9ad6"
+  },
+  "catalogue_sha256": "3e0e082868f61a13c9d3e2375398dc8da6fa6bcf18cfe37929caf06f134cdd99",
+  "saved_configuration": {
+    ".hai_env/config/agents/specification-manager.json": "7b57b32686682e78d8782b0201abd4cc98ce2cc80d885b2689be01e74cb2896a",
+    ".hai_env/config/agents/git-manager.json": "5d81de67e226039daf92429c6972f69f6e5a0bd4c365b4d3de6f636e799e9d03"
+  }
+}

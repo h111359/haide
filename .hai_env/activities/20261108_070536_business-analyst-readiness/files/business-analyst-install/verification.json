@@ -1,0 +1,15 @@
+{
+  "startup_valid": true,
+  "startup_issues": [],
+  "installed_file_count": 15,
+  "source_unchanged": true,
+  "catalogue_byte_unchanged_after_reconciliation": true,
+  "saved_configuration_unchanged": true,
+  "backup": ".hai_env/agents/.hai-backup-8b3a7eca285f440b8d64b3bf5ed496e2",
+  "package_validation": "passed",
+  "configuration_read": "defaulted, empty settings, no issues",
+  "installed_tests": {
+    "passed": 24,
+    "skipped": 0
+  }
+}

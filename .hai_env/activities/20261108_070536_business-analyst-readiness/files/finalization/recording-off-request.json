@@ -1,0 +1,9 @@
+{
+  "changes": {
+    "features.chronicles.enabled": false
+  },
+  "provenance": {
+    "source": "Human current chat reply, verbatim: Allow this one-time exception and restore recording afterward",
+    "reason": "Approved operation-specific recording exception for completed BL-0011 Activity closure and local commit; restore recording afterward"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "usage_format_version": 2,
+  "activity_id": "63c11143-eec4-487a-a7f1-57220a2d09e5",
+  "updated_at": "2026-11-08T07:05:36Z",
+  "provenance": {
+    "source": "Human current chat reply, verbatim: Allow this one-time exception and restore recording afterward",
+    "reason": "Approved operation-specific recording exception for completed BL-0011 Activity closure and local commit; restore recording afterward"
+  },
+  "sources": [],
+  "pricing": null,
+  "reported_spend": null,
+  "summary": {
+    "coverage": "unavailable",
+    "tokens": null,
+    "by_model": {},
+    "estimated_credits": null,
+    "reported_credits": null,
+    "reported_spend_current": false,
+    "missing_rate_models": []
+  },
+  "markdown_sha256": "4c594244443bead801046a8491d283702f37ab7754d920e42279753673d95b78"
+}
