@@ -1,7 +1,7 @@
 """Read-only recording evidence and scheduling; no background hooks are assumed."""
 from pathlib import Path
 import sys
-from .storage import checked_path, read_json, SafetyError
+from .storage import checked_path, read_json, SafetyError, lock, fingerprint
 from .activities import envelope
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'activities'))
 from recording_gate import assess_closure
@@ -9,9 +9,37 @@ from recording_gate import assess_closure
 def handle(operation, workspace, request, apply):
     op = operation.split('.')[-1].split('/')[-1]
     try:
-        fields = {'status':set(), 'schedule':{'occurrence_ids','covered_ids','threshold','last_dispatched_count'}}
+        fields = {'status':set(), 'schedule':{'occurrence_ids','covered_ids','threshold','last_dispatched_count'},
+                  'synchronize': {'activity_id', 'sources', 'provenance', 'mandatory'}, 'verify': {'activity_id'}}
         if not isinstance(request,dict) or (op in fields and set(request) - fields[op]): raise ValueError('Unknown or invalid request fields')
-        if apply: return envelope(operation, 'input_error', issues=['Recording operations are read-only'])
+        if apply and op != 'synchronize': return envelope(operation, 'input_error', issues=['Only recording synchronize supports --apply'])
+        if op in ('synchronize', 'verify'):
+            from .startup import require_mutation_context
+            from .activities import store_path, discover, now, required_text, handle as activity_handle
+            from . import chronicles
+            root = Path(workspace).resolve(strict=True)
+            def execute():
+                require_mutation_context(root)
+                context = discover(root, store_path(root))
+                ident = required_text(request.get('activity_id'), 'activity_id')
+                if op == 'verify':
+                    selected = activity_handle('show', root, {'activity_id': ident}, False)
+                    if not selected['ok']:
+                        raise SafetyError('Activity not safely/uniquely found')
+                    return envelope(operation, result=chronicles.verify(root, selected['result']['path'], ident))
+                if context['status'] != 'current' or context['activity_id'] != ident:
+                    raise SafetyError('Chronicle recording requires the sole current Activity')
+                base = context['path']
+                enabled = read_json(checked_path(root, '.hai_env/state.json', allow_missing=False))['features']['chronicles']['enabled']
+                mandatory = request.get('mandatory', False)
+                if type(mandatory) is not bool:
+                    raise ValueError('mandatory must be Boolean and attributable to workspace instructions')
+                result, changed = chronicles.synchronize(root, base, ident, request, now(), apply,
+                    fingerprint(checked_path(root, base + '/state.json', allow_missing=False)), required=enabled or mandatory)
+                return envelope(operation, 'ok' if apply else 'planned', result, changed)
+            if apply:
+                with lock(root): return execute()
+            return execute()
         if op == 'assess-closure':
             result = assess_closure(request)
             return envelope(operation, 'ok' if result['ok'] else 'blocked', result, issues=result['issues'])
@@ -19,7 +47,7 @@ def handle(operation, workspace, request, apply):
             state = read_json(checked_path(workspace, '.hai_env/state.json', allow_missing=False))
             config = state.get('features', {}).get('chronicles', {})
             if type(config.get('enabled')) is not bool: raise ValueError('recording enablement is unverified')
-            return envelope(operation, result={'enabled': config['enabled'], 'record_every_prompts': config.get('record_every_prompts', 5), 'source': 'unavailable', 'coverage': 'unverified', 'synchronization': 'unsupported'})
+            return envelope(operation, result={'enabled': config['enabled'], 'record_every_prompts': config.get('record_every_prompts', 5), 'source': 'host_assigned', 'coverage': 'unverified', 'synchronization': 'core recording synchronize'})
         if op == 'schedule':
             occurrences = request.get('occurrence_ids'); covered = request.get('covered_ids', []); threshold = request.get('threshold', 5)
             if (not isinstance(occurrences,list) or not isinstance(covered,list) or type(threshold) is not int or threshold < 1
@@ -31,5 +59,6 @@ def handle(operation, workspace, request, apply):
             pending = [x for x in occurrences if x not in set(covered)]
             return envelope(operation, result={'observed_ids': occurrences, 'covered_ids': covered, 'gaps': pending, 'dispatch_due': len(occurrences) - cursor >= threshold, 'last_dispatched_count': cursor, 'new_since_dispatch': len(occurrences) - cursor, 'threshold': threshold, 'checkpoint_persisted': False})
         return envelope(operation, 'unsupported', issues=['Recording operation or host integration is unsupported'])
-    except (SafetyError, OSError, ValueError, TypeError) as exc:
-        return envelope(operation, 'input_error' if isinstance(exc,(ValueError, TypeError)) else 'blocked', issues=[str(exc)])
+    except (SafetyError, OSError, ValueError, TypeError, KeyError) as exc:
+        changed = getattr(exc, 'changed_files', [])
+        return envelope(operation, 'partial' if changed else 'input_error' if isinstance(exc,(ValueError, TypeError)) else 'blocked', changed=changed, issues=[str(exc)])

@@ -4,4 +4,4 @@
 
 Optional workspace agent packages live at `.hai_env/agents/<name>/` and their explicit registration catalogue at `.hai_env/agents/catalogue.md`. Their reusable source packages under `hai_agents_library/agents/` are data, not a runtime execution origin. A package's settings are stored separately in `.hai_env/config/agents/`; source changes do not automatically replace installed packages. See [agent convention](agent_conv.md) and [agent configuration](agent-configuration_conv.md).
 
-Activity records use the configured store and the shared [Activity convention](activity_conv.md). Recording contracts are shared in [recording evidence](recording-evidence_conv.md); optional source-backed recording integrations remain independent of core startup.
+Activity records use the configured store and the shared [Activity convention](activity_conv.md). Core source-backed recording lives in `tools/chronicles/` and runtime; see [chronicles](chronicles_conv.md) and [recording evidence](recording-evidence_conv.md). Explicit source assignment remains the host’s responsibility.

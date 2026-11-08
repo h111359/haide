@@ -76,6 +76,13 @@ def handle(operation, workspace, request, apply):
             parts = name.split('.'); obj = candidate
             for part in parts[:-1]: obj = obj[part]
             obj[parts[-1]] = value
+        old_chronicles = state['features']['chronicles']
+        new_chronicles = candidate['features']['chronicles']
+        if old_chronicles['enabled'] != new_chronicles['enabled']:
+            revision = old_chronicles.get('enablement_revision', 0)
+            if type(revision) is not int or revision < 0:
+                raise SafetyError('Invalid chronicle enablement revision')
+            new_chronicles['enablement_revision'] = revision + 1
         startup.state_context(workspace, candidate, template, contract)
         owner = startup.check(workspace)['agent_configurations']['specification-manager']
         if owner.get('status') in ('configured', 'defaulted'):

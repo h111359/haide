@@ -1,6 +1,6 @@
 # Optional HAI agent source library
 
-This is the golden source for complete reusable HAI-compatible optional packages.
+This is the golden source for complete reusable HAI-compatible optional packages. Chronicles are owned by core; any retained Chronicle-manager package is historical and is not required for recording.
 It is not a runtime origin, registry or automatic discovery/install mechanism.
 Only copied packages under `.hai_env/agents/<name>/` with explicit canonical
 workspace registration execute. Ordinary runtime knowledge/helpers/contracts must
@@ -14,7 +14,6 @@ read selected source files as data without adopting their roles.
 | Solution-architect | Technical analysis, architecture, tradeoffs and implementation/verification planning. | `agents/solution-architect/` |
 | Software-developer | Authorized implementation and developer checks; requires pre-implementation Activity marker. | `agents/software-developer/` |
 | Quality-assurance | Product verification and defect/coverage reporting, separate from Activity/source verification. | `agents/quality-assurance/` |
-| Codex Chronicle-manager | Explicit saved Codex source extraction, exact transcripts/checkpoints and operation-bound coverage evidence; core startup never requires this optional package. | `agents/codex-chronicle-manager/` |
 | Specification-manager | Durable product specification; independently portable package. HAI work requires its own validated enabled/location file plus separate core/Activity context; standalone roots remain explicit. | `agents/specification-manager/` |
 | Backlog-manager | Configurable workspace backlog root (default `backlog`), individual pending/terminal items, catalogue, draft import and Activity input handoff; source package includes a read-only consistency auditor. | `agents/backlog-manager/` |
 | Agent-definition-manager | HAI definition/source authoring and convention validation; returns metadata for core Environment-manager, which owns installation and runtime catalogues. | `agents/agent-definition-manager/` |

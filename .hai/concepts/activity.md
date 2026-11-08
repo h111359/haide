@@ -60,4 +60,4 @@ closed to new substantive work.
 - [Activity convention](../conventions/activity_conv.md): canonical artifacts, state schema, revisions, storage and closure.
 - [runtime](../tools/runtime/README.md): discovery, record and lifecycle procedures.
 - [Environment](environment.md): mandatory configuration and optional features.
-- The installed Codex Chronicle-manager owns exact-source recording evidence and pending gaps; missing optional recording support does not invalidate records.
+- [Chronicles convention](../conventions/chronicles_conv.md): core recording, exact-source evidence and pending gaps.

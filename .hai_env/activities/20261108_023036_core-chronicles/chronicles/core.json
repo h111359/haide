@@ -1,0 +1,59 @@
+{
+  "core_format_version": 1,
+  "activity_id": "a666e07b-a570-4182-abc0-c40445046294",
+  "updated_at": "2026-11-08T02:30:36Z",
+  "sources": [
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+        "session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+        "start_position": 2134,
+        "end_position": 2521,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+              "source_position": 2134
+            },
+            "end": {
+              "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+              "source_position": 2521
+            },
+            "provenance": "Chronicles enabled in validated workspace state before current Activity; assigned from first user diagnosis prompt"
+          }
+        ]
+      },
+      "prefix_bytes": 7683678,
+      "prefix_sha256": "970692b9a4cd6073e5d2574e7fdae7074d39951efbd5c1f1b08a4efd611b5047",
+      "segment_path": "chronicles/20261105_221108_segment-01.md",
+      "original_started_at": "2026-11-05T20:11:08.856Z",
+      "closure_binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/05/rollout-2026-11-05T22-11-08-01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9.jsonl",
+        "session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+        "start_position": 2134,
+        "end_position": null,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1ad56-2eaf-7821-92a7-3bdc5f4f6bb9",
+              "source_position": 2134
+            },
+            "end": null,
+            "provenance": "Chronicles enabled in validated workspace state before current Activity; assigned from first user diagnosis prompt"
+          }
+        ]
+      }
+    }
+  ],
+  "artifact_hashes": {
+    "chronicles/20261105_221108_segment-01.md": "b3383c2363c719c2fb43805e7087952f5f7163b0dabe172a9c3deffafa3b66ff",
+    "chronicles/checkpoint.json": "0a01d8634d21461a3b0dfee6f01a613985b26b7f5c1da5acc60b95c460b5d27a"
+  },
+  "provenance": {
+    "source": "User: complete the activity, commit, create fresh activity",
+    "reason": "Archive accepted core chronicle integration with verified recording before scoped commit"
+  },
+  "enablement_revision": 0
+}

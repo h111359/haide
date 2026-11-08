@@ -1,0 +1,43 @@
+{
+  "source": "User requested absorption into HAI core",
+  "packages": {
+    "installed": {
+      "original_path": ".hai_env/agents/codex-chronicle-manager",
+      "sha256": {
+        "SKILL.md": "c429bcf8f1ea3bfb80d2cc0b7146b2d98c4173d7efb3a90d517dd5b646acb341",
+        "scripts/test_read_codex_source.py": "9aea5fd249e332a0ba9727c42bff4a88723f82e91dd656b0937f94e1866876da",
+        "scripts/read_codex_source.py": "69fd7fd26aec2ef04e8f8fd5cda4dd4b2da57a217fe71108dd133832c0958622",
+        "scripts/README.md": "ab7968a3851d6527ffd88d2832cb7237d3accbbb9aff580fe226ad49022f8fab",
+        "conventions/codex-source_conv.md": "4db077448b571eeae8c74f3362119561d01f2129b5bb36189c2c7a74afaf0480",
+        "conventions/transcript-segment_conv.md": "f988ee81002e803dcb02c4436e0b904adf86b1a6ec5c40f789db5f1e8af2b921",
+        "configuration/contract.json": "28d792d167fff45b78da8fc587538c2266f1311b5166820ccfa89e2cb63ea4b8",
+        "concepts/transcript-segment.md": "88265e2d96347046ceb5d86aba21b9747f3c0cf7190a325dc20d922fc82f2574",
+        "concepts/durable-session-source.md": "2e77add2b4aa40184266818bf27bb6e91da341f257a5840a93be8042719098fd",
+        "concepts/source-coverage.md": "4b1de0de69a1b290e8dffc221b83b56e5effd75bb80cf716eab916c7b69a98c0",
+        "procedures/synchronize-segments.md": "3d567f7f88a6584332d5bc73b7e9a111425d252dd55324544219138c576f13c9",
+        "procedures/mandatory-pre-delivery.md": "a67591d1c5b9faa18c462160bec3f6e59750688cc009854869765201afe7baf4",
+        "procedures/verify-recording.md": "8173d96fca3838ea7fc74f596d1cbc2e120fde8b95c79969d8cc0ca17c0cf2d0"
+      }
+    },
+    "library": {
+      "original_path": "hai_agents_library/agents/codex-chronicle-manager",
+      "sha256": {
+        "SKILL.md": "c429bcf8f1ea3bfb80d2cc0b7146b2d98c4173d7efb3a90d517dd5b646acb341",
+        "scripts/test_read_codex_source.py": "9aea5fd249e332a0ba9727c42bff4a88723f82e91dd656b0937f94e1866876da",
+        "scripts/read_codex_source.py": "69fd7fd26aec2ef04e8f8fd5cda4dd4b2da57a217fe71108dd133832c0958622",
+        "scripts/README.md": "ab7968a3851d6527ffd88d2832cb7237d3accbbb9aff580fe226ad49022f8fab",
+        "conventions/codex-source_conv.md": "4db077448b571eeae8c74f3362119561d01f2129b5bb36189c2c7a74afaf0480",
+        "conventions/transcript-segment_conv.md": "f988ee81002e803dcb02c4436e0b904adf86b1a6ec5c40f789db5f1e8af2b921",
+        "configuration/contract.json": "28d792d167fff45b78da8fc587538c2266f1311b5166820ccfa89e2cb63ea4b8",
+        "concepts/transcript-segment.md": "88265e2d96347046ceb5d86aba21b9747f3c0cf7190a325dc20d922fc82f2574",
+        "concepts/durable-session-source.md": "2e77add2b4aa40184266818bf27bb6e91da341f257a5840a93be8042719098fd",
+        "concepts/source-coverage.md": "4b1de0de69a1b290e8dffc221b83b56e5effd75bb80cf716eab916c7b69a98c0",
+        "procedures/synchronize-segments.md": "3d567f7f88a6584332d5bc73b7e9a111425d252dd55324544219138c576f13c9",
+        "procedures/mandatory-pre-delivery.md": "a67591d1c5b9faa18c462160bec3f6e59750688cc009854869765201afe7baf4",
+        "procedures/verify-recording.md": "8173d96fca3838ea7fc74f596d1cbc2e120fde8b95c79969d8cc0ca17c0cf2d0"
+      }
+    }
+  },
+  "same_original_bytes": true,
+  "external_settings_preserved": true
+}

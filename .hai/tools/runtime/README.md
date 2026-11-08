@@ -22,9 +22,9 @@ Requests are JSON objects. All applied Activity and package mutations require va
 - `activity usage-update` takes `activity_id`, provenance and optional `sources`, `pricing` and `reported_spend`. It previews by default; `--apply` refreshes assigned source ranges into Activity-local `usage.json` and `usage.md`. `activity usage-read` takes only `activity_id` and reads a retained snapshot, including archives. Closure automatically refreshes usage before lifecycle writes; unknown data is unavailable/stale, never fabricated zero. See [source attribution, counters and estimates](../../conventions/activity-usage_conv.md).
 - `activity invocation-allocate` takes `activity_id`, `agent` and provenance. Preview creates nothing (`allocated: false`); `--apply` exclusively creates `files/agent-invocations/<uuid>/invocation.json` below the current Activity and returns its existing folder (`allocated: true`), stable IDs, Activity-relative suffix and metadata. Closed/stale IDs, collisions and unsafe paths are rejected. Partial results retain and name changed paths. See [allocation and actual host handoff](../../conventions/agent-invocation_conv.md); the runtime does not spawn agents.
 - `activity chat-read` takes `activity_id`, optional nonnegative integer `after_sequence` (default `0`) and optional integer `limit` (`1..1000`, default `100`). Returns a page with `messages`, `total_messages`, `next_after_sequence` and `has_more`; reads closed Activities too. Omit `--apply` for reads. `activity chat-post` takes `activity_id`, `author`, `text` and provenance. It previews by default; `--apply` appends to the current Activity's `chat.jsonl` under the runtime lock. No edit/delete action exists. See [chat format and participation](../../conventions/activity-chat_conv.md), including attribution and filesystem-access limits.
-- `activity create` takes `initial_input` and provenance. `activity record` takes `activity_id`, optional `steps` mapping step names to statuses, optional `implementation_start` Boolean, optional `artifacts` array of `{name, text, reason}`, optional `input_append`, `log`, and provenance. `activity close` takes `activity_id`, `outcome`, `archive_label`, `outcome_text`, `recording` with `status` and `details`, and provenance. It also accepts `recording_requirement` with Boolean `enabled` and `mandatory`, and a `recording_proof` gate request. Verified closure additionally supplies `recording_paths` with `sources` mapping source IDs to workspace-relative files and `artifacts` mapping artifact IDs to files inside the Activity; their hashes must match the gate evidence. `activity supplement` takes `activity_id`, `text`, and provenance. Closure requires valid proof when recording is mandatory; pending or unavailable optional recording is reported. These operations preserve partial results on failure.
+- `activity create` takes `initial_input` and provenance. `activity record` takes `activity_id`, optional `steps` mapping step names to statuses, optional `implementation_start` Boolean, optional `artifacts` array of `{name, text, reason}`, optional `input_append`, `log`, and provenance. `activity close` takes `activity_id`, `outcome`, `archive_label`, `outcome_text`, `recording` with `status` and `details`, and provenance. It also accepts `recording_requirement` with Boolean `enabled` and `mandatory`, and a `recording_proof` gate request. Verified closure additionally supplies `recording_paths` with `sources` mapping source IDs to workspace-relative files and `artifacts` mapping artifact IDs to files inside the Activity; their hashes must match the gate evidence. `activity supplement` takes `activity_id`, `text`, and provenance. When chronicles are enabled or independently mandatory, closure synchronizes assigned sources through completed saved exchanges and verifies the core transcript before archival; missing/failed recording blocks closure. Explicit compatible proof remains supported. Disabled/no-obligation closure requires no transcript. These operations preserve partial results on failure.
 - `packages validate` takes `definition`; `packages resolve` takes `definition` and `runtime`, a capability snapshot shaped as `{"models":{"model-id":["high"]}}`. `packages audit` takes `{}`. `packages install` takes workspace-relative `source`, `name`, provenance, and optional Boolean `replace` and `register`. Replacement additionally requires the exact `reviewed_differences` list returned by a preview; the previous package is retained as a backup. Registration may require a separate reconciliation after replacement. `packages register` takes `name` and provenance. Remote acquisition is unsupported. Safe no-overwrite package and Activity moves require an available native atomic rename primitive. Implementations cover Linux, Windows and macOS; only Linux has been tested here.
-- `recording status` takes `{}` and reports the configured flag, threshold, and available evidence. `recording schedule` takes `occurrence_ids`, optional `covered_ids`, optional positive integer `threshold`, and optional `last_dispatched_count` for the previously dispatched observed count. It reports gaps and whether dispatch is due; it does not persist a checkpoint or start a background task. `recording assess-closure` accepts the structured request defined by the recording gate helper. Runtime does not infer saved transcript coverage.
+- `recording status` takes `{}` and reports the configured flag, threshold, and available evidence. `recording schedule` takes `occurrence_ids`, optional `covered_ids`, optional positive integer `threshold`, and optional `last_dispatched_count` for the previously dispatched observed count. It reports gaps and whether dispatch is due; it does not persist a checkpoint or start a background task. `recording assess-closure` accepts the structured request defined by the recording gate helper. Runtime never discovers session sources; the host supplies explicit assignments to core synchronization.
 - `host check` takes `model`, `effort`, and caller-supplied `models` mapping each model ID to an array of supported efforts. It reports whether that evidence contains the pair. The runtime does not discover host capabilities or invoke a host agent.
 
 ## Activity chat example
@@ -129,3 +129,59 @@ for cumulative/interval accounting, model rates, reported-spend freshness, malfo
 sources, idempotent totals, unavailable data, optimistic/partial persistence, CLI,
 archive reads and automatic pre-closure refresh. These checks do not authenticate
 host billing evidence or prove completeness of all related sessions.
+
+## Core chronicles
+
+Chronicles are core framework functionality, independent of optional agents or model
+profiles. Supply explicit Activity-attributed sources in a workspace JSON request:
+
+```json
+{
+  "activity_id": "<current Activity UUID>",
+  "sources": [{
+    "path": "/explicit/saved/session.jsonl",
+    "session_id": "<original session UUID>",
+    "start_position": 42,
+    "representation": "event_msg",
+    "enabled_intervals": [{
+      "start": {"source_session_id": "<original session UUID>", "source_position": 42},
+      "end": null,
+      "provenance": "Recording was enabled before this assigned Activity range"
+    }]
+  }],
+  "provenance": {"source": "host assignment", "reason": "record current Activity exchanges"}
+}
+```
+
+`recording synchronize` previews; `--apply` writes exact eligible saved exchanges
+to Activity-local `chronicles/` with a format-1 checkpoint and a core binding/hash
+ledger. Position 42 is illustrative. Later requests need only Activity ID and
+provenance; source assignments remain fixed. `recording verify` takes only
+Activity ID and is read-only, including archived Activities. It freshly checks current eligible source and
+recorded artifacts. Preview/verify never creates files. Synchronization with
+recording disabled and no independent obligation writes nothing.
+
+Closure synchronizes regardless of prompt cadence and finalizes live assignment
+ends at the completed eligible cutoff. The final undelivered acknowledgement is
+excluded. New eligible input during closure invalidates freshness. Missing,
+rewritten or ambiguous source, edited artifacts and persistence failures preserve
+actual partial results and block enabled closure. Exact prior checkpoint/segments
+without a core binding ledger remain preserved but require explicit adoption;
+there is no implicit legacy migration. Never delete a ledger to retry partial work.
+
+See the [core chronicle contract](../../conventions/chronicles_conv.md),
+[transcript format](../../conventions/transcript-segment_conv.md) and
+[source adapter](../chronicles/README.md). The source reader extracts text; only
+core synchronization writes transcript/checkpoint/ledger files. Host assignment
+and cadence remain necessary; no background daemon or after-turn continuation
+is assumed.
+
+Independent mandatory recording while the setting is disabled supplies Boolean
+`mandatory: true` to synchronize, with the applicable instruction identified in
+provenance. The setting itself is preserved. Enablement toggles increment an
+internal revision; subsequent synchronization needs explicit reconciled enabled
+intervals for every registered source, retaining all previously recorded exchanges.
+Cadence-only changes do not reset recording or require interval reconciliation.
+Ordinary synchronization does not implement legacy adoption, closed-record
+catch-up or prepared-text mutations; those remain explicit maintenance dependencies.
+Pending checkpoint work blocks normal refresh rather than being overwritten.

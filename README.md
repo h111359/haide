@@ -22,7 +22,7 @@ This source tree prepares the **0.3.0 release candidate**,
 using current environment state format **3**, with format **2** retained as read-only
 specification-migration context. All substantive HAI work belongs to an Activity, including
 brainstorming and analysis. Startup resumes current work; a new chat alone does
-not create or close an Activity. The host coordinates work and uses the Python runtime for supported environment and Activity operations. Optional extensions provide domain instructions and source-backed recording.
+not create or close an Activity. The host coordinates work and uses the Python runtime for supported environment and Activity operations. Core provides source-backed recording; optional extensions provide domain instructions.
 
 The first immutable packaged prototype is **0.1.0**, which uses state format **1**.
 Its [release notes](release-notes/0.1.0.md) and [preserved manifest](https://github.com/h111359/haide/blob/c2a1e9246f21bc1f0ac30abc105fbc17757a6cb6/release-notes/0.1.0-manifest.json)
@@ -46,14 +46,11 @@ separately from these notes. This source has not been published as 0.3.0. See [i
 - Optional chronicles record exact durable-source exchanges in Activity segments.
   Recording starts with subsequent exchanges when enabled, without implicit backfill
   of off periods. Closed records allow attributable supplements and delayed old-source
-  synchronization; new substantive work uses a new linked Activity. The host schedules
-  ordinary prompt batches and optional Codex Chronicle-manager records them separately from ordinary
-  record edits. Mandatory recording requires fresh verified proof before closure;
-  optional pending or unavailable recording is reported without claiming coverage.
+  synchronization; new substantive work uses a new linked Activity. The host assigns explicit sources and schedules prompt batches. Core synchronizes and verifies enabled or independently mandatory recording before closure; missing or pending required source blocks closure.
 - Workspace agent registrations use `.hai_env/agents/catalogue.md`; a missing workspace catalogue means none are registered.
   Specialist definitions declare generic model class and effort; optional local
   profiles resolve supported models. Core operations require no agent profile.
-- The optional `business-analyst`, `solution-architect`, `software-developer`, `quality-assurance` and `codex-chronicle-manager` definitions are golden packages in `hai_agents_library/agents/`, installed and registered in `.hai_env/agents/`. Missing optional owners are isolated task dependencies; core startup and Activity record discovery remain available.
+- The optional `business-analyst`, `solution-architect`, `software-developer`, `quality-assurance` definitions are golden packages in `hai_agents_library/agents/`, installed and registered in `.hai_env/agents/`. Missing optional owners are isolated task dependencies; core startup and Activity record discovery remain available.
 - Product code and durable specifications remain in their canonical product locations.
   Activity records link to them rather than becoming product storage.
 

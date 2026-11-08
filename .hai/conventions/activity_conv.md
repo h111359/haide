@@ -138,13 +138,10 @@ and the closed lifecycle remain intact. New substantive work has a separate link
 Activity identity. Delayed synchronization of completed source exchanges can still
 belong to their original closed Activity.
 
-Chronicles have Activity-local segment identity and exact source assignments.
-Their layout, source/naming contract and compatibility are owned by
-the installed Codex Chronicle-manager transcript convention at `.hai_env/agents/codex-chronicle-manager/conventions/transcript-segment_conv.md`.
-runtime owns discovery policy and record mutation; the shared startup context helper may perform read-only discovery for host coordinator. Codex Chronicle-manager owns transcript/checkpoint writes. host coordinator serializes both for the stable Activity.
+Chronicles have Activity-local segment identity and exact source assignments. Core owns synchronization, transcript and checkpoint writes under the [chronicles convention](chronicles_conv.md) and [transcript convention](transcript-segment_conv.md). The host assigns explicit sources and serializes writers. Enabled or independently mandatory recording requires synchronization and fresh verification before closure; missing or pending required source blocks closure.
 
 ## References
 
 - [Activity concept](../concepts/activity.md): work unit and lifecycle boundaries.
 - [runtime](../tools/runtime/README.md): discovery, work, revisions and closure procedures.
-- Installed Codex Chronicle-manager transcript convention — conditional for recording; never load a library source as a runtime fallback.
+- [Transcript convention](transcript-segment_conv.md): source, naming and checkpoint compatibility.

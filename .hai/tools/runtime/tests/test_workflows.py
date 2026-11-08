@@ -37,7 +37,10 @@ class WorkflowTests(unittest.TestCase):
         self.assertTrue(r['ok'], r); self.assertEqual(r['result']['state']['implementation_started_at'], marker)
         self.assertEqual(next((base/'files/revisions/plan').iterdir()).read_bytes(), old)
         self.assertEqual((base/'input.md').read_text(), 'exact\ninput\nnext exact')
-        closed = self.call('close', activity_id=ident, outcome='completed', archive_label='test', outcome_text='done', recording={'status':'unavailable','details':'source unavailable'}, provenance=self.prov)
+        state = json.loads((self.root / '.hai_env/state.json').read_text())
+        state['features']['chronicles']['enabled'] = False
+        (self.root / '.hai_env/state.json').write_text(json.dumps(state))
+        closed = self.call('close', activity_id=ident, outcome='completed', archive_label='test', outcome_text='done', recording={'status':'disabled','details':'fixture recording disabled'}, provenance=self.prov)
         self.assertTrue(closed['ok'], closed)
         supplement = self.call('supplement', activity_id=ident, text='additional evidence', provenance=self.prov)
         self.assertTrue(supplement['ok'], supplement)

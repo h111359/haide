@@ -1,0 +1,60 @@
+{
+  "suites": [
+    {
+      "name": "runtime",
+      "chunk_id": "b9cf59",
+      "wall_time_seconds": 10.001035414,
+      "session_id": 57828,
+      "original_token_count": 17,
+      "output": "...................................................................."
+    },
+    {
+      "name": "startup",
+      "chunk_id": "48574f",
+      "wall_time_seconds": 5.374154697,
+      "exit_code": 0,
+      "original_token_count": 45,
+      "output": "...................................................ss.............\n----------------------------------------------------------------------\nRan 66 tests in 4.732s\n\nOK (skipped=2)\n"
+    },
+    {
+      "name": "activities",
+      "chunk_id": "b04b3f",
+      "wall_time_seconds": 1.7547258270000001,
+      "exit_code": 0,
+      "original_token_count": 29,
+      "output": "................\n----------------------------------------------------------------------\nRan 16 tests in 1.341s\n\nOK\n"
+    },
+    {
+      "name": "agents",
+      "chunk_id": "18b946",
+      "wall_time_seconds": 6.094865224,
+      "exit_code": 0,
+      "original_token_count": 44,
+      "output": "...........................................................................\n----------------------------------------------------------------------\nRan 75 tests in 5.365s\n\nOK\n"
+    },
+    {
+      "name": "configuration",
+      "chunk_id": "8cb317",
+      "wall_time_seconds": 1.331929568,
+      "exit_code": 0,
+      "original_token_count": 28,
+      "output": ".............\n----------------------------------------------------------------------\nRan 13 tests in 0.688s\n\nOK\n"
+    },
+    {
+      "name": "chronicle_adapter",
+      "chunk_id": "a4f25d",
+      "wall_time_seconds": 0.934000623,
+      "exit_code": 0,
+      "original_token_count": 29,
+      "output": "..............\n----------------------------------------------------------------------\nRan 14 tests in 0.299s\n\nOK\n"
+    }
+  ],
+  "final_runtime": {
+    "chunk_id": "f3aa06",
+    "wall_time_seconds": 0.000039201,
+    "exit_code": 0,
+    "original_token_count": 44,
+    "output": "...........................................................................\n----------------------------------------------------------------------\nRan 76 tests in 9.207s\n\nOK\n"
+  },
+  "note": "Final runtime suite supersedes earlier runtime result after independent QA fixes; other suites passed at last run. Runtime CLI/core recording fixtures include missing-agent core-only environments. Two startup skips are Windows-specific."
+}

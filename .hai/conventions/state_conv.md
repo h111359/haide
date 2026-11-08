@@ -27,7 +27,7 @@ The root is an object with required properties:
 zero, negative/fractional/string/null values are invalid even while disabled.
 Transcripts remain Activity-local under `chronicles/`; no global location exists.
 Core state stores no current Activity pointer, prompt counter, transcript coverage
-or in-flight-worker marker. runtime owns record discovery policy and lifecycle; the shared startup context helper may perform read-only discovery for host coordinator. Optional installed Codex Chronicle-manager owns transcript/checkpoint formats and writes. Configuration changes never alter record lifecycle/content.
+or in-flight-worker marker. runtime owns record discovery policy and lifecycle; the shared startup context helper may perform read-only discovery for host coordinator. Core owns source-backed transcript and checkpoint formats and writes. Configuration changes never alter record lifecycle/content.
 
 The installed `.hai/contracts/state.json` is the single
 current/supported-version authority, independent of release SemVer or target copies.
@@ -82,12 +82,11 @@ change. Core read-only startup and unrelated work remain independent.
 runtime applies explicit chosen Activity-location/chronicles changes,
 preserving unmentioned values and all optional owner files. Initialization creates
 state and mandatory instructions only; no catalogue, profiles, Activity records,
-specification/config file or transcript contents are fabricated. runtime creates the Activity store under its authorized record workflow. Optional installed Codex Chronicle-manager owns exact-source transcripts/checkpoints after host coordinator assigns recording; missing owner or source is an isolated recording dependency.
+specification/config file or transcript contents are fabricated. runtime creates the Activity store under its authorized record workflow. Core owns exact-source transcripts and checkpoints after the host assigns explicit sources; a missing required source blocks synchronization and required-recording closure.
 
 Enabling/disabling chronicles preserves existing content and does not override
 mandatory instructions. Return attributable enablement-change boundaries separately;
-threshold changes do not reset coverage or dispatch progress. host coordinator owns counting,
-batch dispatch and continuation limits; Chronicle verifies source coverage and runtime consumes host coordinator-returned fresh operation-bound evidence before required-recording closure. Core startup and independent record operations need no Chronicle tree; disabled/no-obligation closure needs no transcript source.
+threshold changes do not reset coverage or dispatch progress. The host owns source assignment, counting, cadence and continuation limits; core synchronizes and verifies source coverage before enabled or independently mandatory closure. Disabled/no-obligation closure needs no transcript source or recording writes.
 
 ## Local model profiles
 

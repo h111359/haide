@@ -18,7 +18,7 @@ import startup_check
 
 
 NAMES = ('business-analyst', 'solution-architect', 'software-developer',
-         'quality-assurance', 'codex-chronicle-manager')
+         'quality-assurance')
 
 
 def copy_core(target):

@@ -1,0 +1,11 @@
+{
+  "invocation_format_version": 1,
+  "activity_id": "a666e07b-a570-4182-abc0-c40445046294",
+  "invocation_id": "bcec3fe1-0d77-402c-ad75-8f3cdcdf1a91",
+  "agent": "software-developer",
+  "created_at": "2026-11-07T20:31:20Z",
+  "provenance": {
+    "source": "User: merge Codex Chronicle-manager into HAI core",
+    "reason": "Make enabled Activity chronicles a core responsibility and closure prerequisite"
+  }
+}

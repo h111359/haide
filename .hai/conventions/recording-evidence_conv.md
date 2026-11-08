@@ -2,12 +2,7 @@
 
 ## Ownership and purpose
 
-runtime owns Activity lifecycle and this closure interface. The optional
-installed Codex Chronicle-manager owns exact-source coverage verification. host coordinator
-assigns and returns that verification; neither specialist invokes another.
-This contract does not depend on any optional package being installed to load,
-validate or initialize core state, discover records or close with verified
-disabled/no-independent-obligation recording.
+Core owns Activity lifecycle, source synchronization and exact-source coverage verification. The host assigns explicit sources, boundaries, provenance and serializes writers. Enabled or independently mandatory recording requires synchronization and verification before closure; disabled/no-independent-obligation closure needs no source or recording writes.
 
 ## Closure request
 
@@ -29,7 +24,7 @@ establishes recording enablement or complete coverage.
 
 ## Verification evidence
 
-For required recording, host coordinator returns the actual responsible owner's fresh proof:
+For required recording, core produces and validates fresh operation-bound proof:
 
 | Field | Required value or meaning |
 | --- | --- |
@@ -46,38 +41,13 @@ For required recording, host coordinator returns the actual responsible owner's 
 
 The existing generic transcript and checkpoint bytes, occurrence identities and
 historical names remain compatible. Proof does not replace exact-source inspection:
-Codex Chronicle-manager verifies all required ranges, including earlier gaps, then
-returns these operation-bound fingerprints. A checkpoint timestamp, dispatch cursor,
+Core verifies all required ranges, including earlier gaps, and produces operation-bound fingerprints. A checkpoint timestamp, dispatch cursor,
 latest batch success or QA result is not a substitute.
 
 ## Handoff and freshness
 
-host coordinator resolves earlier writers, gives Chronicle sole mutation ownership for fresh
-verification, receives its result and confirms its writes stopped. It then returns
-the proof and sole mutation assignment to runtime for this closure.
-runtime compares the proof with its current requirement, exact closure
-assignment and fresh source/artifact snapshots. Source reads are limited to the
-explicit authorized paths behind the assigned identities; hashes check freshness,
-not transcript interpretation. It never discovers unrelated session sources.
+The host resolves earlier writers and supplies explicit registered assignments. Core close synchronizes those sources and verifies the current requirement, exact closure assignment and fresh source/artifact snapshots. Reads are limited to authorized source paths; hashes check freshness, not transcript interpretation. It never discovers unrelated sessions.
 
-An explicitly authorized immutable exact-byte source-prefix snapshot may be used
-for a live append-only session under the installed source owner's convention.
-The proof retains original source identity/path, physical cutoff, snapshot path,
-byte length/hash and actual creation provenance. Before archival, independently
-compare that prefix with the same bytes of the original and obtain fresh
-host coordinator-returned Chronicle assurance that no later eligible source invalidates the
-cutoff. Changed original prefix, unavailable original, ambiguous tail or new
-eligible exchanges block closure; appended excluded tool/progress records alone
-do not. Hashing an unchanged snapshot without those original-source checks is
-insufficient evidence of freshness.
+An explicitly authorized immutable exact-byte source-prefix snapshot may be used only with the original-source provenance and freshness safeguards in the [source convention](codex-source_conv.md). Changed original prefix, unavailable original, ambiguous tail or new eligible exchanges block stale proof. New eligible completed source before archival requires a fresh cutoff and verification. Future undelivered acknowledgement is not required.
 
-When recording proof is mandatory, any missing optional owner, missing retained source, gaps, conflicts, altered artifacts, changed requirement/cutoff/intervals or uncertain writer status blocks closure. When proof is optional, pending or unavailable recording may be reported at closure without claiming verified coverage. Changed proof inputs return to host coordinator for a new verification;
-runtime neither invokes Chronicle nor repairs evidence itself.
-New eligible completed source before archival requires a new cutoff and fresh
-verification through host coordinator. Future undelivered acknowledgement is not required.
-
-The core read-only closure gate checks the supplied proof contract and exact
-snapshot equality. Caller path/type checks and actual fresh file hashes remain
-required; a successful schema comparison cannot prove truthful inputs or source
-coverage. Disabled/no-independent-obligation closure uses verified current flags,
-requires no source or optional owner, and creates no transcript/checkpoint.
+Missing or pending required source, gaps, conflicts, altered artifacts, changed requirement or assignment, or uncertain writer status blocks enabled or independently mandatory closure. Do not silently repair legacy state or partial operations. Disabled/no-independent-obligation closure requires no source and creates no transcript or checkpoint. A schema comparison or hash alone cannot prove truthful attribution or exact coverage.
