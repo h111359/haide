@@ -1,0 +1,6 @@
+# Explicit disposable fixture copies for this Activity; durable reports stay tracked.
+/implementation/verification/
+/artifact-placement/staging/
+/artifact-placement/tmp/
+/agent-invocations/*/stage/
+/agent-invocations/*/tmp/

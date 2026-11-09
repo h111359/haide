@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "packages install",
+  "result": {
+    "source": "hai_agents_library/agents/solution-architect",
+    "destination": ".hai_env/agents/solution-architect",
+    "differences": [
+      "SKILL.md",
+      "conventions/implementation-plan_conv.md",
+      "procedures/prepare-implementation-plan.md"
+    ],
+    "registration_requested": true,
+    "backup": ".hai_env/agents/.hai-backup-eeaf4c38313c482f80e36d8886fe99ff"
+  },
+  "changed_files": [
+    ".hai_env/agents/.hai-stage-046176df4ba8487d9f388d2de3bdc578",
+    ".hai_env/agents/.hai-stage-046176df4ba8487d9f388d2de3bdc578/solution-architect",
+    ".hai_env/agents/.hai-backup-eeaf4c38313c482f80e36d8886fe99ff",
+    ".hai_env/agents/solution-architect"
+  ],
+  "issues": []
+}

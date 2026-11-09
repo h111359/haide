@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "packages install",
+  "result": {
+    "source": "hai_agents_library/agents/software-developer",
+    "destination": ".hai_env/agents/software-developer",
+    "differences": [
+      "SKILL.md",
+      "conventions/execution-evidence.md",
+      "procedures/implement-assigned-work.md",
+      "procedures/perform-assigned-work.md",
+      "procedures/validate-execution-input.md",
+      "procedures/verify-and-handoff.md",
+      "scripts/README.md",
+      "scripts/execution_contract.py",
+      "scripts/test_execution_contract.py",
+      "verification/coverage.md"
+    ],
+    "registration_requested": true,
+    "backup": ".hai_env/agents/.hai-backup-cd2f706b7f2149e88591ea0981fdd7ef"
+  },
+  "changed_files": [
+    ".hai_env/agents/.hai-stage-bdbf48e33d254f609893bb20379b7198",
+    ".hai_env/agents/.hai-stage-bdbf48e33d254f609893bb20379b7198/software-developer",
+    ".hai_env/agents/.hai-backup-cd2f706b7f2149e88591ea0981fdd7ef",
+    ".hai_env/agents/software-developer"
+  ],
+  "issues": []
+}

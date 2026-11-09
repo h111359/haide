@@ -1,0 +1,23 @@
+{
+  "hai_agents_library/agents/solution-architect/SKILL.md": "9226d7d579908b7e85269eb428e140ff9dea96b1384afcdd7618093874dc5bfd",
+  "hai_agents_library/agents/solution-architect/scripts/test_plan_contract.py": "5778491569b4d30b0363b5588eff8b3cf2e966d2b4768de9e22df21c4eb9aee4",
+  "hai_agents_library/agents/solution-architect/scripts/README.md": "88c0139f41da0d4b4b4c6ee3bb22b7aaf1002b869f644bb03780d65ac801f53f",
+  "hai_agents_library/agents/solution-architect/scripts/plan_contract.py": "9408907141e184e778f14af9f17650265166ad57086b9bd0b1abb8e2ae7df447",
+  "hai_agents_library/agents/solution-architect/verification/coverage.md": "67af3dca23c6e9c65cff2facd64d0fc6df2c9c18f5d1602407ad9d1d40b09c3e",
+  "hai_agents_library/agents/solution-architect/conventions/technical-assessment.md": "dc2abc9f321ea4b60dbdf5a020e3397b1817c4a3990b0453a057951b944a69b5",
+  "hai_agents_library/agents/solution-architect/conventions/implementation-plan_conv.md": "bc0813170af7d5756b248923e3f87125a1f8ac9155f14a4fd0003daae1200d36",
+  "hai_agents_library/agents/solution-architect/configuration/contract.json": "c8f938ac03590bd4ee031f8ab12fe8b18266ad891ecfe6712cb5e204a420007a",
+  "hai_agents_library/agents/solution-architect/procedures/resolve-technical-decisions.md": "6a1bdad550021cee24557a3b05751c76f78232cc655b243b24e70956babcb965",
+  "hai_agents_library/agents/solution-architect/procedures/prepare-implementation-plan.md": "b1d487b07f5766909b9db5ff59d224db9e529b06c8fa38b3a9141ce83e8f565d",
+  "hai_agents_library/agents/solution-architect/procedures/assess-solution.md": "8911051ec82cfbda310b9a1a2eb40b7df45f01b50d974ca739f9794c964d7590",
+  "hai_agents_library/agents/software-developer/SKILL.md": "0de00002c457c4ade3377e46c18de6d48ce4f5cdd32ca967bc1e3868e65dc543",
+  "hai_agents_library/agents/software-developer/scripts/execution_contract.py": "be6f1c6e2a5d65bbf8ee235059d4e2c5a4d89e22ab14c274c58504e377518e45",
+  "hai_agents_library/agents/software-developer/scripts/test_execution_contract.py": "215b3cb476942206a59c42a5b356b0bbb47c626aff6d02c8ad63f495bc3152b7",
+  "hai_agents_library/agents/software-developer/scripts/README.md": "ded433de04255c7ba3b387d0417998d13d2a7261e1ef74fd7de1e12e5789af80",
+  "hai_agents_library/agents/software-developer/verification/coverage.md": "0722c8858ff4910edffee0d061918deed723bf1c9ddff513f0780975a3337429",
+  "hai_agents_library/agents/software-developer/conventions/execution-evidence.md": "e95d0798488728fac07908ea2f665e303b3a0b33abbd4bd59bbc788b3f68008a",
+  "hai_agents_library/agents/software-developer/configuration/contract.json": "9f01619979273e9cca8b824bd87d147f749d35b48d346dfa3eb14a8b563e88d1",
+  "hai_agents_library/agents/software-developer/procedures/validate-execution-input.md": "3022b188e45a334c90e0866a23d56ff193fbb63beb8378ef24e8cdf4a5b902ae",
+  "hai_agents_library/agents/software-developer/procedures/verify-and-handoff.md": "e90e6535beb7348f66008378e3d719bad897dc07211e00557add572a86259065",
+  "hai_agents_library/agents/software-developer/procedures/implement-assigned-work.md": "263462181e30daaafab882fb6f2c9e6ad037768f3f12647cc500eb7fd799d58e"
+}

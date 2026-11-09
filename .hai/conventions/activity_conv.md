@@ -26,6 +26,14 @@ source segments. Product code/durable specification retain canonical locations a
 attributable links. A discussion summary is attributed analysis or decisions,
 not a mandatory duplicate `discussion.md` or substitute for exact chronicles.
 
+Apply the [artifact placement contract](artifact-placement_conv.md) to supporting
+material for every task type. Implementation coverage records, review findings,
+test-run results, execution traces and scratch outputs belong to this Activity
+unless the request or governing contract makes them designated deliverables.
+Reusable tests/fixtures and maintained operational resources retain their own
+canonical locations. Do not create a parallel lifecycle or move unrelated existing
+material merely because a new placement rule applies prospectively.
+
 Each new sub-agent spawn receives a separate runtime-allocated folder at
 `files/agent-invocations/<invocation-uuid>/`. Its manifest attributes the allocation;
 supporting work stays with that invocation and archives with the Activity. The

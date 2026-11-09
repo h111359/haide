@@ -1,0 +1,26 @@
+[
+  {
+    "session_id": "01a1c18f-8012-7821-aac9-9c23bce1df7f",
+    "source_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T20-26-09-01a1c18f-8012-7821-aac9-9c23bce1df7f.jsonl",
+    "parent_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+    "parent_source_position": 420,
+    "native_assignment_position": 12,
+    "native_assignment_id": "amsg_01a1c18f-84b0-7a32-9acb-6913bd37898f",
+    "author": "/root",
+    "recipient": "/root/independent_review",
+    "representation": "response_item",
+    "assignment_body": "Encrypted native payload not decoded or reconstructed; verified dispatch/header/author/recipient identity only."
+  },
+  {
+    "session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+    "source_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T21-15-34-01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2.jsonl",
+    "parent_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+    "parent_source_position": 560,
+    "native_assignment_position": 12,
+    "native_assignment_id": "amsg_01a1c1bc-c207-7602-9d0a-4a9b9b075fc9",
+    "author": "/root",
+    "recipient": "/root/qa_final",
+    "representation": "response_item",
+    "assignment_body": "Encrypted native payload not decoded or reconstructed; verified dispatch/header/author/recipient identity only."
+  }
+]

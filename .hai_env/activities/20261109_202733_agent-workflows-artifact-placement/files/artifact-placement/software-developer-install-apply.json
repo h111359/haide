@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "packages install",
+  "result": {
+    "source": "hai_agents_library/agents/software-developer",
+    "destination": ".hai_env/agents/software-developer",
+    "differences": [
+      "SKILL.md",
+      "procedures/implement-assigned-work.md",
+      "procedures/verify-and-handoff.md"
+    ],
+    "registration_requested": true,
+    "backup": ".hai_env/agents/.hai-backup-6769432836574a66893f7d67a86cd91e"
+  },
+  "changed_files": [
+    ".hai_env/agents/.hai-stage-983d3bcdf33b44bcb2ffe8ac724cde5d",
+    ".hai_env/agents/.hai-stage-983d3bcdf33b44bcb2ffe8ac724cde5d/software-developer",
+    ".hai_env/agents/.hai-backup-6769432836574a66893f7d67a86cd91e",
+    ".hai_env/agents/software-developer"
+  ],
+  "issues": []
+}

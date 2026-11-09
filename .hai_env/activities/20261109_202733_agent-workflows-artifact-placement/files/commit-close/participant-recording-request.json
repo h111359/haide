@@ -1,0 +1,41 @@
+{
+  "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+  "sources": [
+    {
+      "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T20-26-09-01a1c18f-8012-7821-aac9-9c23bce1df7f.jsonl",
+      "session_id": "01a1c18f-8012-7821-aac9-9c23bce1df7f",
+      "start_position": 12,
+      "representation": "response_item",
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c18f-8012-7821-aac9-9c23bce1df7f",
+            "source_position": 12
+          },
+          "end": null,
+          "provenance": "Chronicles enabled before native assigned task; parent source sub_agent_activity at 420 maps current host handle to this session; child native record 12 identifies /root -> /root/independent_review. Native/encrypted task metadata is not transcript text."
+        }
+      ]
+    },
+    {
+      "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T21-15-34-01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2.jsonl",
+      "session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+      "start_position": 12,
+      "representation": "response_item",
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+            "source_position": 12
+          },
+          "end": null,
+          "provenance": "Chronicles enabled before native assigned task; parent source sub_agent_activity at 560 maps current host handle to this session; child native record 12 identifies /root -> /root/qa_final. Native/encrypted task metadata is not transcript text."
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "source": "Verified root sub_agent_activity IDs and child native assignment author/recipient records",
+    "reason": "Resolve previously unavailable reviewer attribution from saved native records without inventing transcript text."
+  }
+}

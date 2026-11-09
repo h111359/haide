@@ -1,0 +1,48 @@
+{
+  "solution-architect": {
+    "ok": true,
+    "status": "ok",
+    "operation": "packages install",
+    "result": {
+      "source": "hai_agents_library/agents/solution-architect",
+      "destination": ".hai_env/agents/solution-architect",
+      "differences": [
+        "SKILL.md",
+        "conventions/implementation-plan_conv.md",
+        "procedures/prepare-implementation-plan.md"
+      ],
+      "registration_requested": true,
+      "backup": ".hai_env/agents/.hai-backup-eeaf4c38313c482f80e36d8886fe99ff"
+    },
+    "changed_files": [
+      ".hai_env/agents/.hai-stage-046176df4ba8487d9f388d2de3bdc578",
+      ".hai_env/agents/.hai-stage-046176df4ba8487d9f388d2de3bdc578/solution-architect",
+      ".hai_env/agents/.hai-backup-eeaf4c38313c482f80e36d8886fe99ff",
+      ".hai_env/agents/solution-architect"
+    ],
+    "issues": []
+  },
+  "software-developer": {
+    "ok": true,
+    "status": "ok",
+    "operation": "packages install",
+    "result": {
+      "source": "hai_agents_library/agents/software-developer",
+      "destination": ".hai_env/agents/software-developer",
+      "differences": [
+        "SKILL.md",
+        "procedures/implement-assigned-work.md",
+        "procedures/verify-and-handoff.md"
+      ],
+      "registration_requested": true,
+      "backup": ".hai_env/agents/.hai-backup-6769432836574a66893f7d67a86cd91e"
+    },
+    "changed_files": [
+      ".hai_env/agents/.hai-stage-983d3bcdf33b44bcb2ffe8ac724cde5d",
+      ".hai_env/agents/.hai-stage-983d3bcdf33b44bcb2ffe8ac724cde5d/software-developer",
+      ".hai_env/agents/.hai-backup-6769432836574a66893f7d67a86cd91e",
+      ".hai_env/agents/software-developer"
+    ],
+    "issues": []
+  }
+}

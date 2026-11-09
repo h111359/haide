@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "definition": ".hai_env/agents/solution-architect/SKILL.md",
+  "agent": "solution-architect",
+  "issues": []
+}

@@ -10,6 +10,12 @@ Apply the safe fixed `.hai_env/config/agent_instructions.md` and higher-priority
 
 ## Role execution and delegation
 
+The host and every executor MUST apply the shared
+[artifact placement contract](artifact-placement_conv.md) to all task types,
+including direct execution, delegated work and tool-generated outputs. Assignment
+handoffs MUST preserve known artifact owners and destinations; missing destination
+or classification decisions MUST be resolved before dependent creation.
+
 The host coordinator and every executor MUST apply the
 [workspace write boundary](workspace-boundary_conv.md) in direct execution,
 delegation and tool use. The rule applies to all HAI workspaces, independently of
@@ -235,6 +241,15 @@ Role-owned domain knowledge remains in its package as a single authority, with
 shared readers linking to it. Scripts follow [tooling_conv.md](tooling_conv.md).
 
 ## Registration and verification
+
+Before authoring or delivering a reusable package, the responsible author and
+reviewer MUST assess every included new resource against the artifact placement
+contract. A continuing operational, maintenance, documentation or testing purpose
+is required; current-Activity requirement mappings, run results or reviewer history
+MUST NOT be included solely because they helped produce or verify the package.
+Reusable tests, fixtures and examples remain valid resources. The installer MUST
+receive a reviewed inclusion scope; format validation alone does not prove that
+all included content belongs in a package. No folder name is categorically banned.
 
 Explicit registration is separate from package installation, authoring and execution. Validate the installed definition and its configuration contract, identity, path containment and the exact catalogue description; preserve unrelated entries and stop on conflicts. Synchronizing an existing row does not add membership. The shared agent auditor checks format, not semantic equivalence, authorization or runtime availability. See [agent tools](../tools/agents/README.md) and [state convention](state_conv.md).
 

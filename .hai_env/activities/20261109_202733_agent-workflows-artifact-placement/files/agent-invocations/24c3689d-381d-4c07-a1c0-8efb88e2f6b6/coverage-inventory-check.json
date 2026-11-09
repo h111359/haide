@@ -1,0 +1,44 @@
+{
+  "solution-architect": {
+    "expected_count": 146,
+    "actual_count": 135,
+    "missing": [
+      "US-17.1",
+      "US-17.2",
+      "US-17.3",
+      "US-17.4",
+      "US-17.5",
+      "US-17.6",
+      "US-18.1",
+      "US-18.2",
+      "US-18.3",
+      "US-18.4",
+      "US-18.5"
+    ],
+    "unexpected": [],
+    "duplicates": []
+  },
+  "software-developer": {
+    "expected_count": 146,
+    "actual_count": 131,
+    "missing": [
+      "US-04.1",
+      "US-04.2",
+      "US-04.3",
+      "US-04.4",
+      "US-04.5",
+      "US-04.6",
+      "US-04.7",
+      "US-06.1",
+      "US-06.2",
+      "US-06.3",
+      "US-06.4",
+      "US-06.5",
+      "US-06.6",
+      "US-06.7",
+      "US-06.8"
+    ],
+    "unexpected": [],
+    "duplicates": []
+  }
+}

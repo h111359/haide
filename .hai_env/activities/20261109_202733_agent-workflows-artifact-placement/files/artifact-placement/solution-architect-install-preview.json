@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "status": "planned",
+  "operation": "packages install",
+  "result": {
+    "source": "hai_agents_library/agents/solution-architect",
+    "destination": ".hai_env/agents/solution-architect",
+    "differences": [
+      "SKILL.md",
+      "conventions/implementation-plan_conv.md",
+      "procedures/prepare-implementation-plan.md"
+    ],
+    "registration_requested": true
+  },
+  "changed_files": [],
+  "issues": []
+}

@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "status": "defaulted",
+  "result": {
+    "status": "defaulted",
+    "path": ".hai_env/config/agents/solution-architect.json",
+    "settings": {},
+    "configured_fields": [],
+    "issues": []
+  },
+  "changed_files": [],
+  "issues": [],
+  "operation": "configuration read"
+}

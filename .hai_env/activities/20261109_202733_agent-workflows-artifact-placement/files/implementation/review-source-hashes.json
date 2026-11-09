@@ -1,0 +1,27 @@
+{
+  "solution-architect": {
+    "SKILL.md": "3c579c47398a89edaf78ef3e93dcf08e1609aff93bbdc1f2e4a206f1b407c231",
+    "configuration/contract.json": "c8f938ac03590bd4ee031f8ab12fe8b18266ad891ecfe6712cb5e204a420007a",
+    "conventions/implementation-plan_conv.md": "3ecbae3c56643f47c7354394cb128f8ac732a2c61768e84f0f90dc38f3899420",
+    "conventions/technical-assessment.md": "dc2abc9f321ea4b60dbdf5a020e3397b1817c4a3990b0453a057951b944a69b5",
+    "procedures/assess-solution.md": "8911051ec82cfbda310b9a1a2eb40b7df45f01b50d974ca739f9794c964d7590",
+    "procedures/prepare-implementation-plan.md": "b1d487b07f5766909b9db5ff59d224db9e529b06c8fa38b3a9141ce83e8f565d",
+    "procedures/resolve-technical-decisions.md": "6a1bdad550021cee24557a3b05751c76f78232cc655b243b24e70956babcb965",
+    "scripts/README.md": "88c0139f41da0d4b4b4c6ee3bb22b7aaf1002b869f644bb03780d65ac801f53f",
+    "scripts/plan_contract.py": "22b14b6aad0684fd5ef3d36791ce763663437f2408402f9d5799d16283825435",
+    "scripts/test_plan_contract.py": "c9fc7f9c563e89c7b1a99283b809e43d0c4fa2142e41a56c689f900e2ac5e1e8",
+    "verification/coverage.md": "d15b4ba66bd5599e3190b2d4069d2b8af4c5d434236f190e8d72c302a3d07df6"
+  },
+  "software-developer": {
+    "SKILL.md": "68153031c0de9492cfbc09c5ca13efb041afceba21a79eb0aa2c584e25e8fd03",
+    "configuration/contract.json": "9f01619979273e9cca8b824bd87d147f749d35b48d346dfa3eb14a8b563e88d1",
+    "conventions/execution-evidence.md": "b4195333b7c0424404aa34ff301519b281d510b37faa5601ee3871e7bc104fb5",
+    "procedures/implement-assigned-work.md": "263462181e30daaafab882fb6f2c9e6ad037768f3f12647cc500eb7fd799d58e",
+    "procedures/validate-execution-input.md": "3022b188e45a334c90e0866a23d56ff193fbb63beb8378ef24e8cdf4a5b902ae",
+    "procedures/verify-and-handoff.md": "e90e6535beb7348f66008378e3d719bad897dc07211e00557add572a86259065",
+    "scripts/README.md": "ded433de04255c7ba3b387d0417998d13d2a7261e1ef74fd7de1e12e5789af80",
+    "scripts/execution_contract.py": "08a03aaba474f2a5e3056411f1a07df547be161d5b595b72b453f6b55d3196df",
+    "scripts/test_execution_contract.py": "6dadbe871976efa78bc1ca6bc4f57186d1f885c52015bee24c3b5ce0a882480e",
+    "verification/coverage.md": "03aee68e5f87154d262a1309e7b714a86ed3a95951769e101d2c473343e02019"
+  }
+}

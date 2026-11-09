@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "status": "planned",
+  "operation": "packages install",
+  "result": {
+    "source": "hai_agents_library/agents/software-developer",
+    "destination": ".hai_env/agents/software-developer",
+    "differences": [
+      "SKILL.md",
+      "procedures/implement-assigned-work.md",
+      "procedures/verify-and-handoff.md"
+    ],
+    "registration_requested": true
+  },
+  "changed_files": [],
+  "issues": []
+}

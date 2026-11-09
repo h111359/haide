@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "definition": ".hai_env/agents/software-developer/SKILL.md",
+  "agent": "software-developer",
+  "issues": []
+}

@@ -1,0 +1,102 @@
+{
+  "fenced_direct_sections": {
+    "ok": true,
+    "issues": [],
+    "semantic_verification": "not_performed"
+  },
+  "comment_only_direct": {
+    "ok": true,
+    "issues": [],
+    "semantic_verification": "not_performed"
+  },
+  "inventory_before_phases": {
+    "ok": true,
+    "issues": [],
+    "kind": "plan",
+    "semantic_verification": "not_performed",
+    "identity": {
+      "Format": "hai-plan-v1",
+      "Activity": "088c1e8e-caa9-4971-9328-cb742a4db998",
+      "Input revision": "input-1",
+      "Decision revision": "decision-1",
+      "Mode": "normal",
+      "Readiness": "ready",
+      "Authority": "Evidence or explicit constraint.",
+      "Business readiness": "passed",
+      "Readiness evidence": "Evidence or explicit constraint.",
+      "Business limits": "Evidence or explicit constraint.",
+      "Technical limits": "Evidence or explicit constraint.",
+      "Timing limits": "Evidence or explicit constraint.",
+      "Authorization limits": "Evidence or explicit constraint.",
+      "Assumptions": "Evidence or explicit constraint.",
+      "Knowledge updates": "Evidence or explicit constraint.",
+      "Required owners": "Evidence or explicit constraint."
+    },
+    "tasks": [
+      "1.1"
+    ],
+    "acceptance": [
+      "A1"
+    ]
+  },
+  "unknown_plan_section": {
+    "ok": true,
+    "issues": [],
+    "kind": "plan",
+    "semantic_verification": "not_performed",
+    "identity": {
+      "Format": "hai-plan-v1",
+      "Activity": "088c1e8e-caa9-4971-9328-cb742a4db998",
+      "Input revision": "input-1",
+      "Decision revision": "decision-1",
+      "Mode": "normal",
+      "Readiness": "ready",
+      "Authority": "Evidence or explicit constraint.",
+      "Business readiness": "passed",
+      "Readiness evidence": "Evidence or explicit constraint.",
+      "Business limits": "Evidence or explicit constraint.",
+      "Technical limits": "Evidence or explicit constraint.",
+      "Timing limits": "Evidence or explicit constraint.",
+      "Authorization limits": "Evidence or explicit constraint.",
+      "Assumptions": "Evidence or explicit constraint.",
+      "Knowledge updates": "Evidence or explicit constraint.",
+      "Required owners": "Evidence or explicit constraint."
+    },
+    "tasks": [
+      "1.1"
+    ],
+    "acceptance": [
+      "A1"
+    ]
+  },
+  "invalid_phase_dependency": {
+    "ok": true,
+    "issues": [],
+    "kind": "plan",
+    "semantic_verification": "not_performed",
+    "identity": {
+      "Format": "hai-plan-v1",
+      "Activity": "088c1e8e-caa9-4971-9328-cb742a4db998",
+      "Input revision": "input-1",
+      "Decision revision": "decision-1",
+      "Mode": "normal",
+      "Readiness": "ready",
+      "Authority": "Evidence or explicit constraint.",
+      "Business readiness": "passed",
+      "Readiness evidence": "Evidence or explicit constraint.",
+      "Business limits": "Evidence or explicit constraint.",
+      "Technical limits": "Evidence or explicit constraint.",
+      "Timing limits": "Evidence or explicit constraint.",
+      "Authorization limits": "Evidence or explicit constraint.",
+      "Assumptions": "Evidence or explicit constraint.",
+      "Knowledge updates": "Evidence or explicit constraint.",
+      "Required owners": "Evidence or explicit constraint."
+    },
+    "tasks": [
+      "1.1"
+    ],
+    "acceptance": [
+      "A1"
+    ]
+  }
+}

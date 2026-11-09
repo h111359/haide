@@ -1,0 +1,18 @@
+[
+  {
+    "physical_line_1_based": 163,
+    "timestamp": "2026-11-09T19:19:04.018Z",
+    "type": "response_item",
+    "payload_type": "custom_tool_call",
+    "payload_role": null,
+    "payload_keys": [
+      "type",
+      "id",
+      "status",
+      "call_id",
+      "name",
+      "input",
+      "internal_chat_message_metadata_passthrough"
+    ]
+  }
+]

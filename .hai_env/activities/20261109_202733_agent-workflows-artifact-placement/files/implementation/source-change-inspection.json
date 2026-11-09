@@ -1,0 +1,26 @@
+{
+  "changed_paths": [
+    "hai_agents_library/agents/software-developer/SKILL.md",
+    "hai_agents_library/agents/software-developer/conventions/execution-evidence.md",
+    "hai_agents_library/agents/software-developer/procedures/implement-assigned-work.md",
+    "hai_agents_library/agents/software-developer/procedures/perform-assigned-work.md",
+    "hai_agents_library/agents/software-developer/procedures/validate-execution-input.md",
+    "hai_agents_library/agents/software-developer/procedures/verify-and-handoff.md",
+    "hai_agents_library/agents/software-developer/scripts/README.md",
+    "hai_agents_library/agents/software-developer/scripts/execution_contract.py",
+    "hai_agents_library/agents/software-developer/scripts/test_execution_contract.py",
+    "hai_agents_library/agents/software-developer/verification/coverage.md",
+    "hai_agents_library/agents/solution-architect/SKILL.md",
+    "hai_agents_library/agents/solution-architect/conventions/implementation-plan_conv.md",
+    "hai_agents_library/agents/solution-architect/conventions/technical-assessment.md",
+    "hai_agents_library/agents/solution-architect/procedures/assess-solution.md",
+    "hai_agents_library/agents/solution-architect/procedures/perform-assigned-work.md",
+    "hai_agents_library/agents/solution-architect/procedures/prepare-implementation-plan.md",
+    "hai_agents_library/agents/solution-architect/procedures/resolve-technical-decisions.md",
+    "hai_agents_library/agents/solution-architect/scripts/README.md",
+    "hai_agents_library/agents/solution-architect/scripts/plan_contract.py",
+    "hai_agents_library/agents/solution-architect/scripts/test_plan_contract.py",
+    "hai_agents_library/agents/solution-architect/verification/coverage.md"
+  ],
+  "unauthorized_paths": []
+}

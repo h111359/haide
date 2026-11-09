@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "activity usage-update",
+  "result": {
+    "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+    "path": ".hai_env/activities/00000000_000000_active/usage.md",
+    "checkpoint_path": ".hai_env/activities/00000000_000000_active/usage.json",
+    "updated_at": "2026-11-09T20:24:28Z",
+    "summary": {
+      "coverage": "observed",
+      "tokens": {
+        "input_tokens": 27578842,
+        "cached_input_tokens": 27057152,
+        "output_tokens": 133110,
+        "reasoning_output_tokens": 33778,
+        "total_tokens": 27711952
+      },
+      "by_model": {
+        "gpt-6.1-sol": {
+          "input_tokens": 27057171,
+          "cached_input_tokens": 26580992,
+          "output_tokens": 129910,
+          "reasoning_output_tokens": 33353,
+          "total_tokens": 27187081
+        },
+        "gpt-6.1-terra": {
+          "input_tokens": 521671,
+          "cached_input_tokens": 476160,
+          "output_tokens": 3200,
+          "reasoning_output_tokens": 425,
+          "total_tokens": 524871
+        }
+      },
+      "estimated_credits": null,
+      "reported_credits": null,
+      "reported_spend_current": false,
+      "missing_rate_models": [
+        "gpt-6.1-sol",
+        "gpt-6.1-terra"
+      ]
+    }
+  },
+  "changed_files": [
+    ".hai_env/activities/00000000_000000_active/usage.json",
+    ".hai_env/activities/00000000_000000_active/usage.md"
+  ],
+  "issues": []
+}

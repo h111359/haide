@@ -1,0 +1,31 @@
+[
+  {
+    "agent": "solution-architect",
+    "kind": "definition",
+    "code": 0,
+    "log": "solution-architect-definition-final.log"
+  },
+  {
+    "agent": "solution-architect",
+    "kind": "focused",
+    "code": 0,
+    "log": "solution-architect-focused-final.log"
+  },
+  {
+    "agent": "software-developer",
+    "kind": "definition",
+    "code": 0,
+    "log": "software-developer-definition-final.log"
+  },
+  {
+    "agent": "software-developer",
+    "kind": "focused",
+    "code": 0,
+    "log": "software-developer-focused-final.log"
+  },
+  {
+    "kind": "independent-regressions",
+    "code": 0,
+    "log": "independent-regressions-final.log"
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+  "authority": "Current user request to move these verification folders into the Activity",
+  "moves": [
+    {
+      "source": "hai_agents_library/agents/solution-architect/verification",
+      "destination": ".hai_env/activities/00000000_000000_active/files/verification/relocated-agent-evidence/source/solution-architect/verification",
+      "files": {
+        "coverage.md": "364a9eff060ef9e0473093fba886fb9b8c0b9bb872fa9f635e6b6ac287769da7"
+      },
+      "status": "moved_and_hash_verified"
+    },
+    {
+      "source": "hai_agents_library/agents/software-developer/verification",
+      "destination": ".hai_env/activities/00000000_000000_active/files/verification/relocated-agent-evidence/source/software-developer/verification",
+      "files": {
+        "coverage.md": "2b6f6196d31f1178ecd4aa505dfccda5bbb8c775f9d600b084ee329e4f6c8c85"
+      },
+      "status": "moved_and_hash_verified"
+    },
+    {
+      "source": ".hai_env/agents/solution-architect/verification",
+      "destination": ".hai_env/activities/00000000_000000_active/files/verification/relocated-agent-evidence/installed/solution-architect/verification",
+      "files": {
+        "coverage.md": "364a9eff060ef9e0473093fba886fb9b8c0b9bb872fa9f635e6b6ac287769da7"
+      },
+      "status": "moved_and_hash_verified"
+    },
+    {
+      "source": ".hai_env/agents/software-developer/verification",
+      "destination": ".hai_env/activities/00000000_000000_active/files/verification/relocated-agent-evidence/installed/software-developer/verification",
+      "files": {
+        "coverage.md": "2b6f6196d31f1178ecd4aa505dfccda5bbb8c775f9d600b084ee329e4f6c8c85"
+      },
+      "status": "moved_and_hash_verified"
+    }
+  ]
+}

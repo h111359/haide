@@ -1,0 +1,15 @@
+{
+  "source": "hai_agents_library/agents/software-developer",
+  "name": "software-developer",
+  "replace": true,
+  "register": true,
+  "reviewed_differences": [
+    "SKILL.md",
+    "procedures/implement-assigned-work.md",
+    "procedures/verify-and-handoff.md"
+  ],
+  "provenance": {
+    "source": "Current user request to implement general placement rules and fix both agents",
+    "reason": "Apply reviewed role instruction updates after separately authorized and hash-verified verification-folder relocation."
+  }
+}

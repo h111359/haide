@@ -7,6 +7,12 @@ authorizes the outside location and purpose; writable temporary directories such
 as `/tmp` are not permission. Read and apply the full convention before invoking
 an operation with file side effects.
 
+Apply the shared [artifact ownership and placement](conventions/artifact-placement_conv.md)
+contract for every kind of HAI work. Classify purpose, owner, lifetime and
+destination before creation; keep task working material and execution evidence
+with its Activity/invocation unless the request or a governing contract designates
+another destination. Review actual artifact inclusion before completion or delivery.
+
 The current fixed files are `.hai_env/config/state.json`,
 `.hai_env/config/model_profiles.json` (optional), and
 `.hai_env/config/agent_instructions.md`. Legacy root-level files require an

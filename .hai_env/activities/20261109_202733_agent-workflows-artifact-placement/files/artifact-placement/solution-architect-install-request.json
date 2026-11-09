@@ -1,0 +1,15 @@
+{
+  "source": "hai_agents_library/agents/solution-architect",
+  "name": "solution-architect",
+  "replace": true,
+  "register": true,
+  "reviewed_differences": [
+    "SKILL.md",
+    "conventions/implementation-plan_conv.md",
+    "procedures/prepare-implementation-plan.md"
+  ],
+  "provenance": {
+    "source": "Current user request to implement general placement rules and fix both agents",
+    "reason": "Apply reviewed role instruction updates after separately authorized and hash-verified verification-folder relocation."
+  }
+}

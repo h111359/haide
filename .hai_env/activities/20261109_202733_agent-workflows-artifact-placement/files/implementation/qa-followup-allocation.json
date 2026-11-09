@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "activity invocation-allocate",
+  "result": {
+    "allocated": true,
+    "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+    "invocation_id": "24c3689d-381d-4c07-a1c0-8efb88e2f6b6",
+    "agent": "quality-assurance",
+    "path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/24c3689d-381d-4c07-a1c0-8efb88e2f6b6",
+    "activity_relative_path": "files/agent-invocations/24c3689d-381d-4c07-a1c0-8efb88e2f6b6",
+    "metadata_path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/24c3689d-381d-4c07-a1c0-8efb88e2f6b6/invocation.json",
+    "metadata": {
+      "invocation_format_version": 1,
+      "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+      "invocation_id": "24c3689d-381d-4c07-a1c0-8efb88e2f6b6",
+      "agent": "quality-assurance",
+      "created_at": "2026-11-09T19:15:15Z",
+      "provenance": {
+        "source": "User approved gpt-6.1-sol for this review",
+        "reason": "Allocate new independent review invocation before spawning."
+      }
+    }
+  },
+  "changed_files": [
+    ".hai_env/activities/00000000_000000_active/files/agent-invocations/24c3689d-381d-4c07-a1c0-8efb88e2f6b6",
+    ".hai_env/activities/00000000_000000_active/files/agent-invocations/24c3689d-381d-4c07-a1c0-8efb88e2f6b6/invocation.json"
+  ],
+  "issues": []
+}

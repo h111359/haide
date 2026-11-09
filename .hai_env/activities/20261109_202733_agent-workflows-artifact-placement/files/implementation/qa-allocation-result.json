@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "activity invocation-allocate",
+  "result": {
+    "allocated": true,
+    "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+    "invocation_id": "ef4b7579-f3f3-4018-84c5-10f043850ba5",
+    "agent": "quality-assurance",
+    "path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/ef4b7579-f3f3-4018-84c5-10f043850ba5",
+    "activity_relative_path": "files/agent-invocations/ef4b7579-f3f3-4018-84c5-10f043850ba5",
+    "metadata_path": ".hai_env/activities/00000000_000000_active/files/agent-invocations/ef4b7579-f3f3-4018-84c5-10f043850ba5/invocation.json",
+    "metadata": {
+      "invocation_format_version": 1,
+      "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+      "invocation_id": "ef4b7579-f3f3-4018-84c5-10f043850ba5",
+      "agent": "quality-assurance",
+      "created_at": "2026-11-09T18:25:52Z",
+      "provenance": {
+        "source": "Accepted implementation plan Phase 4; shared independent verification requirement",
+        "reason": "Allocate independent reviewer before spawn."
+      }
+    }
+  },
+  "changed_files": [
+    ".hai_env/activities/00000000_000000_active/files/agent-invocations",
+    ".hai_env/activities/00000000_000000_active/files/agent-invocations/ef4b7579-f3f3-4018-84c5-10f043850ba5",
+    ".hai_env/activities/00000000_000000_active/files/agent-invocations/ef4b7579-f3f3-4018-84c5-10f043850ba5/invocation.json"
+  ],
+  "issues": []
+}

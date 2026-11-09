@@ -1,0 +1,26 @@
+[
+  {
+    "agent": "solution-architect",
+    "kind": "definition",
+    "code": 0,
+    "log": "solution-architect-definition-followup.log"
+  },
+  {
+    "agent": "solution-architect",
+    "kind": "focused",
+    "code": 0,
+    "log": "solution-architect-focused-followup.log"
+  },
+  {
+    "agent": "software-developer",
+    "kind": "definition",
+    "code": 0,
+    "log": "software-developer-definition-followup.log"
+  },
+  {
+    "agent": "software-developer",
+    "kind": "focused",
+    "code": 0,
+    "log": "software-developer-focused-followup.log"
+  }
+]

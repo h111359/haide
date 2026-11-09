@@ -1,0 +1,23 @@
+{
+  "source": "hai_agents_library/agents/solution-architect",
+  "name": "solution-architect",
+  "replace": true,
+  "register": true,
+  "reviewed_differences": [
+    "SKILL.md",
+    "conventions/implementation-plan_conv.md",
+    "conventions/technical-assessment.md",
+    "procedures/assess-solution.md",
+    "procedures/perform-assigned-work.md",
+    "procedures/prepare-implementation-plan.md",
+    "procedures/resolve-technical-decisions.md",
+    "scripts/README.md",
+    "scripts/plan_contract.py",
+    "scripts/test_plan_contract.py",
+    "verification/coverage.md"
+  ],
+  "provenance": {
+    "source": "User: Implement the five-phase plan; final independent QA passed",
+    "reason": "Activate exact reviewed source while preserving existing registration and external settings."
+  }
+}

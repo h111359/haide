@@ -1,5 +1,11 @@
 # Framework layout
 
+The [artifact placement contract](artifact-placement_conv.md) governs all HAI work,
+not just framework packages. Product/project/operational outputs retain their
+established locations; task working material and run evidence stay with their
+owning Activity/invocation unless explicitly designated otherwise. A layout
+convention does not itself authorize relocating existing material.
+
 Environment configuration is grouped under `.hai_env/config/`: mandatory
 `state.json` and `agent_instructions.md`, optional `model_profiles.json`, and
 agent-owned files below `agents/`. Explicit layout migration retains recovery

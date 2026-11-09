@@ -1,0 +1,17 @@
+{
+  "- <!-- TODO -->": {
+    "ok": true,
+    "issues": [],
+    "semantic_verification": "not_performed"
+  },
+  "TODO <!-- template marker -->": {
+    "ok": true,
+    "issues": [],
+    "semantic_verification": "not_performed"
+  },
+  "<span></span>": {
+    "ok": true,
+    "issues": [],
+    "semantic_verification": "not_performed"
+  }
+}

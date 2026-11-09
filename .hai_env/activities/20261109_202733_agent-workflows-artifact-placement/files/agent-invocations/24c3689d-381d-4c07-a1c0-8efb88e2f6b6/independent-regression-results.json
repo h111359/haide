@@ -1,0 +1,92 @@
+{
+  "valid_direct": {
+    "actual": true,
+    "expected": true,
+    "passed": true
+  },
+  "placeholder": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "comment_only": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "list_comment": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "inline_comment": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "empty_span": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "fenced_direct": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "hardlink_unknown_containment": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "optional_only_preflight": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "optional_only_verified": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "omitted_protected": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "unplanned_delivery": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "valid_standalone_plan": {
+    "actual": true,
+    "expected": true,
+    "passed": true
+  },
+  "unknown_plan_section": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "nonexistent_phase_dependency": {
+    "actual": false,
+    "expected": false,
+    "passed": true
+  },
+  "crlf_unicode_cli": {
+    "actual": 0,
+    "expected": 0,
+    "passed": true
+  },
+  "read_only_cli": {
+    "actual": true,
+    "expected": true,
+    "passed": true
+  },
+  "shared_inode_unmodified": {
+    "actual": true,
+    "expected": true,
+    "passed": true
+  }
+}

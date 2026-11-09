@@ -1,0 +1,103 @@
+{
+  "core_format_version": 1,
+  "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+  "updated_at": "2026-11-09T20:27:33Z",
+  "sources": [
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T19-22-26-01a1c155-2b29-7832-aaf4-157e2559b478.jsonl",
+        "session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+        "start_position": 68,
+        "end_position": 885,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+              "source_position": 68
+            },
+            "end": {
+              "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+              "source_position": 885
+            },
+            "provenance": "Chronicles enabled before the first substantive Activity work prompt, observed at source position 68."
+          }
+        ]
+      },
+      "prefix_bytes": 3220451,
+      "prefix_sha256": "ed8adb71b77d8e04d8236119aab40117009af7af070e2585f71fa44e9df660e4",
+      "segment_path": "chronicles/20261109_192226_segment-01.md",
+      "original_started_at": "2026-11-09T17:22:26.741Z",
+      "closure_binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T19-22-26-01a1c155-2b29-7832-aaf4-157e2559b478.jsonl",
+        "session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+        "start_position": 68,
+        "end_position": null,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+              "source_position": 68
+            },
+            "end": null,
+            "provenance": "Chronicles enabled before the first substantive Activity work prompt, observed at source position 68."
+          }
+        ]
+      }
+    },
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T21-15-34-01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2.jsonl",
+        "session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+        "start_position": 12,
+        "end_position": 278,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+              "source_position": 12
+            },
+            "end": {
+              "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+              "source_position": 278
+            },
+            "provenance": "Chronicles enabled before native assigned task; parent source sub_agent_activity at 560 maps current host handle to this session; child native record 12 identifies /root -> /root/qa_final. Native/encrypted task metadata is not transcript text."
+          }
+        ]
+      },
+      "prefix_bytes": 1321067,
+      "prefix_sha256": "ef82844c3bcea6de8781346a987737f891b1d40137e3418d1cf1fcd6998685aa",
+      "segment_path": "chronicles/20261109_211534_segment-01.md",
+      "original_started_at": "2026-11-09T19:15:34.289Z",
+      "closure_binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T21-15-34-01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2.jsonl",
+        "session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+        "start_position": 12,
+        "end_position": null,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+              "source_position": 12
+            },
+            "end": null,
+            "provenance": "Chronicles enabled before native assigned task; parent source sub_agent_activity at 560 maps current host handle to this session; child native record 12 identifies /root -> /root/qa_final. Native/encrypted task metadata is not transcript text."
+          }
+        ]
+      }
+    }
+  ],
+  "artifact_hashes": {
+    "chronicles/20261109_192226_segment-01.md": "7fa80482009e6eaafaf32242be774b5ca1daf52c922a0970f5c352adb61bb7f2",
+    "chronicles/20261109_211534_segment-01.md": "4a2973b1f210979039b054602a8a92d8907a565b1c2f844550fa872db5e94b57",
+    "chronicles/checkpoint.json": "cf4a1733af891ea5ab0c525eab831397479e3a95b2aa4475c46031ac141bd669"
+  },
+  "provenance": {
+    "source": "User: now commit with appropriate message and close the activity",
+    "reason": "Archive completed verified implementation and retained evidence before the final reviewed commit."
+  },
+  "enablement_revision": 2
+}

@@ -1,0 +1,120 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+  "sources": [
+    {
+      "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T19-22-26-01a1c155-2b29-7832-aaf4-157e2559b478.jsonl",
+      "original_started_at": "2026-11-09T17:22:26.741Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+            "source_position": 68
+          },
+          "end": {
+            "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+            "source_position": 885
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+            "source_position": 68
+          },
+          "end": {
+            "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+            "source_position": 885
+          },
+          "provenance": "Chronicles enabled before the first substantive Activity work prompt, observed at source position 68."
+        }
+      ],
+      "retained_source_complete": true
+    },
+    {
+      "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T21-15-34-01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2.jsonl",
+      "original_started_at": "2026-11-09T19:15:34.289Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+            "source_position": 278
+          },
+          "end": {
+            "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+            "source_position": 278
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+            "source_position": 12
+          },
+          "end": {
+            "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+            "source_position": 278
+          },
+          "provenance": "Chronicles enabled before native assigned task; parent source sub_agent_activity at 560 maps current host handle to this session; child native record 12 identifies /root -> /root/qa_final. Native/encrypted task metadata is not transcript text."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+          "source_position": 68
+        },
+        "end": {
+          "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+          "source_position": 885
+        }
+      },
+      "segment_path": "chronicles/20261109_192226_segment-01.md",
+      "verified_at": "2026-11-09T20:27:33Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+          "source_position": 278
+        },
+        "end": {
+          "source_session_id": "01a1c1bc-bd04-7dc2-83e6-90474ff4f6f2",
+          "source_position": 278
+        }
+      },
+      "segment_path": "chronicles/20261109_211534_segment-01.md",
+      "verified_at": "2026-11-09T20:27:33Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1c155-2b29-7832-aaf4-157e2559b478": {
+      "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+      "source_position": 885
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "26caf968-4725-4c56-a80f-37e641450e52",
+    "dispatch_cursors": {
+      "01a1c155-2b29-7832-aaf4-157e2559b478": {
+        "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+        "source_position": 885
+      }
+    },
+    "started_at": "2026-11-09T20:27:33Z",
+    "finished_at": "2026-11-09T20:27:33Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-09T20:27:33Z",
+  "in_flight": null
+}

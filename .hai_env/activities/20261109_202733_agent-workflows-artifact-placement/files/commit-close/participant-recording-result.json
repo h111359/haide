@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "status": "blocked",
+  "operation": "recording synchronize",
+  "result": {},
+  "changed_files": [],
+  "issues": [
+    "No completed eligible source in assigned chronicle range"
+  ]
+}

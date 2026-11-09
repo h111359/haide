@@ -40,6 +40,11 @@ the product's runtime.
 
 ## Placement and usage
 
+- Apply the [artifact placement contract](artifact-placement_conv.md) when choosing
+  tool, output, cache, fixture and log locations. Keep reusable implementations,
+  test definitions and fixtures at their maintained destinations; keep scratch
+  helpers and per-run results with the Activity/invocation unless they are
+  explicitly designated outputs. Review generated artifacts before delivery.
 - The [workspace write boundary](workspace-boundary_conv.md) applies to every
   tool invocation, including indirect writes, temporary files, caches, fixtures
   and cleanup. Before execution, configure controlled write destinations inside

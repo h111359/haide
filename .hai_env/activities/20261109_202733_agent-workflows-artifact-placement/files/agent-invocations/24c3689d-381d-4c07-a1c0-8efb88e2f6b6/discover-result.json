@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "status": "blocked",
+  "operation": "recording discover",
+  "result": {},
+  "changed_files": [],
+  "issues": [
+    "No saved user occurrence in selected representation event_msg; supply an explicit supported representation or wait for a saved work prompt"
+  ]
+}
