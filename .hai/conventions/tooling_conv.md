@@ -3,7 +3,7 @@
 ## Scope
 
 Implementation details for the Python automation policy in
-[HAI](../concepts/hai.md#tools). Applies to framework automation,
+[HAI](../concepts/hai.md). Applies to framework automation,
 including framework and workspace agent-owned scripts; it does not choose
 the product's runtime.
 

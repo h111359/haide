@@ -1,0 +1,73 @@
+{
+  "usage_format_version": 2,
+  "activity_id": "fe2271e1-bb2d-469b-899a-972fb5b80606",
+  "updated_at": "2026-11-09T20:42:43Z",
+  "provenance": {
+    "source": "Observed release work prompt at position 995",
+    "reason": "Register attributable root usage for this release only."
+  },
+  "sources": [
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T19-22-26-01a1c155-2b29-7832-aaf4-157e2559b478.jsonl",
+        "session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+        "start_position": 995,
+        "end_position": null
+      },
+      "observation": {
+        "tokens": {
+          "input_tokens": 8279691,
+          "cached_input_tokens": 8236800,
+          "output_tokens": 22950,
+          "reasoning_output_tokens": 11453,
+          "total_tokens": 8302641
+        },
+        "by_model": {
+          "gpt-6.1-sol": {
+            "input_tokens": 8279691,
+            "cached_input_tokens": 8236800,
+            "output_tokens": 22950,
+            "reasoning_output_tokens": 11453,
+            "total_tokens": 8302641
+          }
+        },
+        "through_position": 1128,
+        "through_timestamp": "2026-11-09T20:41:52.567Z",
+        "observed_end_position": 1136,
+        "baseline_position": 989,
+        "prefix_bytes": 3865068,
+        "prefix_sha256": "b2ffea6d9d55d8e2b2b87db105a75209c656962b42a33d751bc9316185c8a52e"
+      },
+      "status": "current",
+      "error": null
+    }
+  ],
+  "pricing": null,
+  "reported_spend": null,
+  "summary": {
+    "coverage": "observed",
+    "tokens": {
+      "input_tokens": 8279691,
+      "cached_input_tokens": 8236800,
+      "output_tokens": 22950,
+      "reasoning_output_tokens": 11453,
+      "total_tokens": 8302641
+    },
+    "by_model": {
+      "gpt-6.1-sol": {
+        "input_tokens": 8279691,
+        "cached_input_tokens": 8236800,
+        "output_tokens": 22950,
+        "reasoning_output_tokens": 11453,
+        "total_tokens": 8302641
+      }
+    },
+    "estimated_credits": null,
+    "reported_credits": null,
+    "reported_spend_current": false,
+    "missing_rate_models": [
+      "gpt-6.1-sol"
+    ]
+  },
+  "markdown_sha256": "be0654082a31827bc98aa9f1b3ced57fa06fd9ed4f176cb8745bf1c0c7066d39"
+}

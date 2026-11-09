@@ -1,0 +1,12 @@
+{
+  "version": "0.4.0",
+  "manifest_matches_state_contract": true,
+  "prior_manifest_exact": true,
+  "one_current_manifest": true,
+  "relative_links_checked": 230,
+  "tests_discovered": 291,
+  "tests_passed": 289,
+  "skipped_windows_only": 2,
+  "published_baseline_commit": "f35b69b7f16d29b06bbfdc66c0022a306087ad90",
+  "source_commit": "pending user authorization"
+}

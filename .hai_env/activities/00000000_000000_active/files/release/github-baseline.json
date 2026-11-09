@@ -1,0 +1,52 @@
+{
+  "repository": {
+    "ok": true,
+    "data": {
+      "full_name": "h111359/haide",
+      "default_branch": "main",
+      "private": false,
+      "html_url": "https://github.com/h111359/haide"
+    }
+  },
+  "releases": {
+    "ok": true,
+    "data": [
+      {
+        "tag_name": "v0.3.0",
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-11-06T04:38:11Z",
+        "html_url": "https://github.com/h111359/haide/releases/tag/v0.3.0",
+        "target_commitish": "main"
+      },
+      {
+        "tag_name": "v0.2.0",
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-10-28T07:35:48Z",
+        "html_url": "https://github.com/h111359/haide/releases/tag/v0.2.0",
+        "target_commitish": "main"
+      },
+      {
+        "tag_name": "v0.1.0",
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-10-28T03:51:02Z",
+        "html_url": "https://github.com/h111359/haide/releases/tag/v0.1.0",
+        "target_commitish": "main"
+      }
+    ]
+  },
+  "baseline_tag": {
+    "ok": true,
+    "data": {
+      "tag": "v0.3.0",
+      "sha": "288e1959a8120314d9b283b6f969e1847a8a9c69",
+      "object": {
+        "sha": "f35b69b7f16d29b06bbfdc66c0022a306087ad90",
+        "type": "commit",
+        "url": "https://api.github.com/repos/h111359/haide/git/commits/f35b69b7f16d29b06bbfdc66c0022a306087ad90"
+      }
+    }
+  }
+}

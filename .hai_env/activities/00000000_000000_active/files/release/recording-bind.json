@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "recording bind",
+  "result": {
+    "activity_id": "fe2271e1-bb2d-469b-899a-972fb5b80606",
+    "status": "verified",
+    "segments": [
+      "chronicles/20261109_192226_segment-01.md"
+    ],
+    "checkpoint_path": ".hai_env/activities/00000000_000000_active/chronicles/checkpoint.json",
+    "cutoff": [
+      {
+        "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+        "source_position": 1016
+      }
+    ],
+    "source_count": 1,
+    "message_count": 2,
+    "source": {
+      "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T19-22-26-01a1c155-2b29-7832-aaf4-157e2559b478.jsonl",
+      "session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+      "representation": "event_msg",
+      "original_started_at": "2026-11-09T17:22:26.741Z",
+      "source_sha256": "348470518e3617e39dbf186cd86ab557b5e445061d5412cdbc1ee53f570263f9",
+      "latest_user_occurrence": {
+        "source_position": 995,
+        "timestamp": "2026-11-09T20:30:56.472Z"
+      },
+      "discovery_method": "current_session_filename"
+    },
+    "usage_source": {
+      "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T19-22-26-01a1c155-2b29-7832-aaf4-157e2559b478.jsonl",
+      "session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+      "start_position": 995
+    }
+  },
+  "changed_files": [
+    ".hai_env/activities/00000000_000000_active/chronicles",
+    ".hai_env/activities/00000000_000000_active/chronicles/20261109_192226_segment-01.md",
+    ".hai_env/activities/00000000_000000_active/chronicles/checkpoint.json",
+    ".hai_env/activities/00000000_000000_active/chronicles/core.json"
+  ],
+  "issues": []
+}

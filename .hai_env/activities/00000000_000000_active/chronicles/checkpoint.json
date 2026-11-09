@@ -1,0 +1,72 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "fe2271e1-bb2d-469b-899a-972fb5b80606",
+  "sources": [
+    {
+      "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T19-22-26-01a1c155-2b29-7832-aaf4-157e2559b478.jsonl",
+      "original_started_at": "2026-11-09T17:22:26.741Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+            "source_position": 995
+          },
+          "end": {
+            "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+            "source_position": 1130
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+            "source_position": 995
+          },
+          "end": null,
+          "provenance": "Recording enabled before this observed first release-preparation prompt."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+          "source_position": 995
+        },
+        "end": {
+          "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+          "source_position": 1130
+        }
+      },
+      "segment_path": "chronicles/20261109_192226_segment-01.md",
+      "verified_at": "2026-11-09T20:42:43Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1c155-2b29-7832-aaf4-157e2559b478": {
+      "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+      "source_position": 1130
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "8f125057-925b-4808-ba75-57fa66861dfd",
+    "dispatch_cursors": {
+      "01a1c155-2b29-7832-aaf4-157e2559b478": {
+        "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+        "source_position": 1130
+      }
+    },
+    "started_at": "2026-11-09T20:42:43Z",
+    "finished_at": "2026-11-09T20:42:43Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-09T20:42:43Z",
+  "in_flight": null
+}

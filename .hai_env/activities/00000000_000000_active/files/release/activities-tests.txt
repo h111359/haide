@@ -1,0 +1,20 @@
+..............E.
+======================================================================
+ERROR: test_domain_owners_return_record_evidence_and_preserve_specialist_ownership (test_role_migration.SourceStagingTests.test_domain_owners_return_record_evidence_and_preserve_specialist_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/hromar/Desktop/repos/haide/.hai/tools/activities/test_role_migration.py", line 136, in test_domain_owners_return_record_evidence_and_preserve_specialist_ownership
+    developer = (self.stage/'.hai_env/agents/software-developer/procedures/perform-assigned-work.md').read_text()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/hromar/Desktop/repos/haide/.hai_env/activities/00000000_000000_active/files/test-work/tmp/hai-role-migration-u_j4ocan/.hai_env/agents/software-developer/procedures/perform-assigned-work.md'
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.528s
+
+FAILED (errors=1)

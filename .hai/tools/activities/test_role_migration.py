@@ -133,8 +133,12 @@ class SourceStagingTests(unittest.TestCase):
             skill = (self.stage/f'.hai_env/agents/{name}/SKILL.md').read_text()
             self.assertIn('MUST NOT invoke or coordinate other agents', skill)
             self.assertIn('rather than mutate Activity records', skill)
-        developer = (self.stage/'.hai_env/agents/software-developer/procedures/perform-assigned-work.md').read_text()
-        self.assertIn('original implementation-start marker', developer)
+        package = self.stage/'.hai_env/agents/software-developer'
+        skill = (package/'SKILL.md').read_text()
+        procedure_paths = re.findall(r'\]\((procedures/[^)]+\.md)\)', skill)
+        self.assertTrue(procedure_paths, 'developer must index its execution procedures')
+        developer = '\n'.join((package/path).read_text() for path in procedure_paths)
+        self.assertRegex(developer, r'original (?:Activity |runtime )?implementation-start (?:marker|evidence)')
         self.assertTrue((self.stage/'.hai/tools/hai.py').is_file())
         self.assertFalse((self.stage/'.hai/agents').exists())
 

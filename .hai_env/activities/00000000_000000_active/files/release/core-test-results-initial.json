@@ -1,0 +1,74 @@
+[
+  {
+    "suite": "startup",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/home/hromar/Desktop/repos/haide/.hai/tools/startup",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "tests": 66,
+    "skipped": 2,
+    "output": ".hai_env/activities/00000000_000000_active/files/release/startup-tests.txt"
+  },
+  {
+    "suite": "agents",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/home/hromar/Desktop/repos/haide/.hai/tools/agents",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "tests": 75,
+    "skipped": 0,
+    "output": ".hai_env/activities/00000000_000000_active/files/release/agents-tests.txt"
+  },
+  {
+    "suite": "configuration",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/home/hromar/Desktop/repos/haide/.hai/tools/configuration",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "tests": 13,
+    "skipped": 0,
+    "output": ".hai_env/activities/00000000_000000_active/files/release/configuration-tests.txt"
+  },
+  {
+    "suite": "activities",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/home/hromar/Desktop/repos/haide/.hai/tools/activities",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 1,
+    "tests": 16,
+    "skipped": 0,
+    "output": ".hai_env/activities/00000000_000000_active/files/release/activities-tests.txt"
+  }
+]
