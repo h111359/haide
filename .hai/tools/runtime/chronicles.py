@@ -1,4 +1,5 @@
 """Core exact-source Activity chronicles. Never discovers session sources."""
+from environment_paths import STATE, PROFILES, INSTRUCTIONS
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -202,7 +203,7 @@ def synchronize(root, base, ident, request, time, apply, expected_state, require
     if not required:
         return {'activity_id': ident, 'status': 'disabled', 'details': 'Recording disabled; no independent obligation'}, []
     old, ledger_fp = load(root, base, ident)
-    environment_path = checked_path(root, '.hai_env/state.json', allow_missing=False)
+    environment_path = checked_path(root, STATE, allow_missing=False)
     environment_fp = fingerprint(environment_path)
     revision = read_json(environment_path)['features']['chronicles'].get('enablement_revision', 0)
     if type(revision) is not int or revision < 0:
@@ -320,7 +321,7 @@ def verify(root, base, ident, closing=False):
     data, _ = load(root, base, ident)
     if data is None:
         raise SafetyError('No core chronicle checkpoint to verify')
-    revision = read_json(checked_path(root, '.hai_env/state.json', allow_missing=False))['features']['chronicles'].get('enablement_revision', 0)
+    revision = read_json(checked_path(root, STATE, allow_missing=False))['features']['chronicles'].get('enablement_revision', 0)
     active = read_json(checked_path(root, base + '/state.json', allow_missing=False))['lifecycle'] == 'active'
     if active and revision != data['enablement_revision']:
         raise SafetyError('Recording enablement changed; synchronize explicit intervals first')

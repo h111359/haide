@@ -20,15 +20,15 @@ class SettingsTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix='hai-spec-config-')
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name).resolve()
-        self.state = self.root / '.hai_env/state.json'
-        self.state.parent.mkdir()
+        self.state = self.root / '.hai_env/config/state.json'
+        self.state.parent.mkdir(parents=True)
         self.core = {'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
                      'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}}
         self.state.write_text(json.dumps(self.core), encoding='utf-8')
         template = self.root / '.hai/templates/state.json'
         template.parent.mkdir(parents=True)
         template.write_bytes((settings._INSTALLED_ROOT / '.hai/templates/state.json').read_bytes())
-        (self.root / '.hai_env/agent_instructions.md').write_text('', encoding='utf-8')
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('', encoding='utf-8')
         self.path = self.root / settings.RELATIVE
 
     def save(self, data):
@@ -49,7 +49,7 @@ class SettingsTests(unittest.TestCase):
 
     def test_enabled_and_root_validation_even_while_disabled(self):
         for location in ('../outside', '.hai_env/config', '.hai_env/activities', '.hai', '.git',
-                         '.hai_env/model_profiles.json', '.hai_env/agent_instructions.md', '/tmp/spec', 'C:/spec'):
+                         '.hai_env/config/model_profiles.json', '.hai_env/config/agent_instructions.md', '/tmp/spec', 'C:/spec'):
             with self.subTest(location=location):
                 self.save({'config_format_version': 1, 'settings': {'enabled': False, 'location': location}})
                 self.assertFalse(settings.check(self.root)['ok'])

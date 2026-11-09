@@ -2,6 +2,7 @@
 import copy
 import sys
 from pathlib import Path
+from environment_paths import STATE, PROFILES, INSTRUCTIONS, legacy_entries
 from .storage import SafetyError, checked_path, read_json, fingerprint, write_bytes, write_json, lock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'startup'))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'agents'))
@@ -33,6 +34,12 @@ def handle(operation, workspace, request, apply):
     workspace = Path(workspace)
     group, _, action = operation.partition('/')
     changed = []
+    if group == 'environment' and action == 'migrate-layout':
+        provenance(request)
+        if set(request) != {'provenance'}:
+            raise ValueError('Layout migration accepts provenance only')
+        from .layout_migration import migrate
+        return migrate(workspace, request, apply)
     if apply and not (group == 'environment' and action in ('initialize', 'init')):
         context = startup.check(workspace)
         if (context['environment'] != 'valid' or context['instructions_status'] != 'loaded'
@@ -40,24 +47,27 @@ def handle(operation, workspace, request, apply):
             raise SafetyError('Valid core state and readable mandatory instructions are required for mutation; migrate older state first')
     if group == 'environment' and action in ('initialize', 'init'):
         provenance(request)
+        if legacy_entries(workspace) or checked_path(workspace, '.hai_env/config/layout-migration.json').exists():
+            raise SafetyError('Legacy layout exists; explicitly run environment migrate-layout instead of initialization')
         if set(request) != {'provenance'}: raise ValueError('Initialization accepts provenance only')
-        statepath = checked_path(workspace, '.hai_env/state.json')
-        instructions = checked_path(workspace, '.hai_env/agent_instructions.md')
+        statepath = checked_path(workspace, STATE)
+        instructions = checked_path(workspace, INSTRUCTIONS)
         if statepath.exists(): raise SafetyError('Core state already exists')
         if instructions.exists(): fingerprint(instructions)
         template = read_json(checked_path(workspace, '.hai/templates/state.json', allow_missing=False))
         document = {'state_format_version': startup.state_contract()['current_state_format_version'], **template}
         startup.state_context(workspace, document, template, startup.state_contract())
-        plan = ['.hai_env/state.json'] + ([] if instructions.exists() else ['.hai_env/agent_instructions.md'])
+        plan = [STATE] + ([] if instructions.exists() else [INSTRUCTIONS])
         if apply:
             try:
                 env = checked_path(workspace, '.hai_env')
                 if not env.exists(): env.mkdir(); changed.append('.hai_env/')
                 with lock(workspace):
-                    if statepath.exists(): raise SafetyError('State appeared since preview')
-                    write_json(workspace, '.hai_env/state.json', document); changed.append('.hai_env/state.json')
+                    if statepath.exists() or legacy_entries(workspace) or checked_path(workspace, '.hai_env/config/layout-migration.json').exists(): raise SafetyError('State or legacy layout appeared since preview')
+                    _parents(workspace, STATE, changed)
+                    write_json(workspace, STATE, document); changed.append(STATE)
                     if not instructions.exists():
-                        write_bytes(workspace, '.hai_env/agent_instructions.md', b''); changed.append('.hai_env/agent_instructions.md')
+                        write_bytes(workspace, INSTRUCTIONS, b''); changed.append(INSTRUCTIONS)
             except Exception as exc:
                 changed.extend(getattr(exc, 'changed_files', []))
                 return {'ok': False, 'status': 'partial' if changed else 'blocked', 'result': {'planned_files': plan}, 'changed_files': changed, 'issues': [{'code':'write', 'message':str(exc)}]}
@@ -68,7 +78,7 @@ def handle(operation, workspace, request, apply):
             raise ValueError('Provide explicit named changes')
         changes = request['changes']; allowed = {'activities.location', 'features.chronicles.enabled', 'features.chronicles.record_every_prompts'}
         if not set(changes) <= allowed: raise ValueError('Unknown environment change')
-        rel = '.hai_env/state.json'; path = checked_path(workspace, rel, allow_missing=False); before = fingerprint(path); state = read_json(path)
+        rel = STATE; path = checked_path(workspace, rel, allow_missing=False); before = fingerprint(path); state = read_json(path)
         template = read_json(checked_path(workspace, '.hai/templates/state.json', allow_missing=False)); contract = startup.state_contract()
         startup.state_context(workspace, state, template, contract)
         candidate = copy.deepcopy(state)
@@ -94,7 +104,7 @@ def handle(operation, workspace, request, apply):
             with lock(workspace): write_json(workspace, rel, candidate, before)
         return outcome({'changes': changes, 'planned_files': plan}, plan, apply)
     if group == 'profiles':
-        rel = '.hai_env/model_profiles.json'; path = checked_path(workspace, rel)
+        rel = PROFILES; path = checked_path(workspace, rel)
         if action in ('check', 'read'):
             if request or apply: raise ValueError('Profiles check takes no request or apply')
             if not path.exists(): return outcome({'status':'absent'}, [], False)
@@ -161,7 +171,7 @@ def handle(operation, workspace, request, apply):
             with lock(workspace): result = migration.migrate(workspace, True)
         else: result = migration.migrate(workspace, False)
         changed = [result[k]['path'] for k in ('backup','configuration') if result.get(k,{}).get('created')]
-        if result.get('state_updated'): changed.append('.hai_env/state.json')
+        if result.get('state_updated'): changed.append(STATE)
         changed += result.get('created_directories', [])
         return {'ok':result['ok'], 'status':result['status'], 'result':result, 'changed_files':changed, 'issues':result['issues']}
     raise ValueError('Unsupported operation')

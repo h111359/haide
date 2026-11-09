@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "packages audit",
+  "result": {
+    "ok": true,
+    "agents": [
+      {
+        "name": "hai-framework-advisor",
+        "definition": ".hai_env/agents/hai-framework-advisor/SKILL.md"
+      },
+      {
+        "name": "release-manager",
+        "definition": ".hai_env/agents/release-manager/SKILL.md"
+      },
+      {
+        "name": "git-manager",
+        "definition": ".hai_env/agents/git-manager/SKILL.md"
+      },
+      {
+        "name": "specification-manager",
+        "definition": ".hai_env/agents/specification-manager/SKILL.md"
+      },
+      {
+        "name": "agent-definition-manager",
+        "definition": ".hai_env/agents/agent-definition-manager/SKILL.md"
+      },
+      {
+        "name": "business-analyst",
+        "definition": ".hai_env/agents/business-analyst/SKILL.md"
+      },
+      {
+        "name": "solution-architect",
+        "definition": ".hai_env/agents/solution-architect/SKILL.md"
+      },
+      {
+        "name": "software-developer",
+        "definition": ".hai_env/agents/software-developer/SKILL.md"
+      },
+      {
+        "name": "quality-assurance",
+        "definition": ".hai_env/agents/quality-assurance/SKILL.md"
+      },
+      {
+        "name": "backlog-manager",
+        "definition": ".hai_env/agents/backlog-manager/SKILL.md"
+      }
+    ],
+    "profiles": "valid",
+    "issues": []
+  },
+  "changed_files": [],
+  "issues": []
+}

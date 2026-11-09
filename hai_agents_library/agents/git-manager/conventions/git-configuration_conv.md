@@ -57,7 +57,7 @@ readiness evidence are never configuration values. Malformed data requires
 explicit scoped repair before replacement.
 
 An explicitly authorized legacy migration is the sole extraction path from
-`.hai_env/state.json`: move complete `integrations.git` and `integrations.github`
+`.hai_env/config/state.json`: move complete `integrations.git` and `integrations.github`
 objects into the owner's settings, preserving unknown nested values; preserve
 every unrelated state value and sibling integration. Keep the state-format
 version unchanged. Reject malformed legacy entries rather than repair them.

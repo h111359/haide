@@ -1,0 +1,72 @@
+[
+  {
+    "suite": ".hai/tools/runtime/tests",
+    "exit_code": 0,
+    "tests": 107,
+    "log": "files/verification/hai_tools_runtime_tests.log",
+    "summary": "OK"
+  },
+  {
+    "suite": ".hai/tools/startup",
+    "exit_code": 0,
+    "tests": 66,
+    "log": "files/verification/hai_tools_startup.log",
+    "summary": "OK (skipped=2)"
+  },
+  {
+    "suite": ".hai/tools/configuration",
+    "exit_code": 0,
+    "tests": 13,
+    "log": "files/verification/hai_tools_configuration.log",
+    "summary": "OK"
+  },
+  {
+    "suite": ".hai/tools/agents",
+    "exit_code": 0,
+    "tests": 75,
+    "log": "files/verification/hai_tools_agents.log",
+    "summary": "OK"
+  },
+  {
+    "suite": ".hai/tools/activities",
+    "exit_code": 0,
+    "tests": 16,
+    "log": "files/verification/hai_tools_activities.log",
+    "summary": "OK"
+  },
+  {
+    "suite": ".hai/tools/chronicles",
+    "exit_code": 0,
+    "tests": 14,
+    "log": "files/verification/hai_tools_chronicles.log",
+    "summary": "OK"
+  },
+  {
+    "suite": ".hai_env/agents/git-manager/scripts",
+    "exit_code": 0,
+    "tests": 31,
+    "log": "files/verification/hai_env_agents_git-manager_scripts.log",
+    "summary": "OK"
+  },
+  {
+    "suite": ".hai_env/agents/specification-manager/scripts",
+    "exit_code": 0,
+    "tests": 52,
+    "log": "files/verification/hai_env_agents_specification-manager_scripts.log",
+    "summary": "OK (skipped=1)"
+  },
+  {
+    "suite": ".hai_env/agents/business-analyst/scripts",
+    "exit_code": 0,
+    "tests": 24,
+    "log": "files/verification/hai_env_agents_business-analyst_scripts.log",
+    "summary": "OK"
+  },
+  {
+    "suite": ".hai_env/agents/backlog-manager/scripts",
+    "exit_code": 0,
+    "tests": 12,
+    "log": "files/verification/hai_env_agents_backlog-manager_scripts.log",
+    "summary": "OK"
+  }
+]

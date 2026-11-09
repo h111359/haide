@@ -1,4 +1,5 @@
 """Read-only recording evidence and scheduling; no background hooks are assumed."""
+from environment_paths import STATE, PROFILES, INSTRUCTIONS
 from pathlib import Path
 import sys
 from .storage import checked_path, read_json, SafetyError, lock, fingerprint
@@ -55,7 +56,7 @@ def handle(operation, workspace, request, apply):
                     result['source'] = source
                     result['usage_source'] = {k: binding[k] for k in ('path', 'session_id', 'start_position')}
                     return envelope(operation, 'ok' if apply else 'planned', result, changed)
-                enabled = read_json(checked_path(root, '.hai_env/state.json', allow_missing=False))['features']['chronicles']['enabled']
+                enabled = read_json(checked_path(root, STATE, allow_missing=False))['features']['chronicles']['enabled']
                 mandatory = request.get('mandatory', False)
                 if type(mandatory) is not bool:
                     raise ValueError('mandatory must be Boolean and attributable to workspace instructions')
@@ -69,7 +70,7 @@ def handle(operation, workspace, request, apply):
             result = assess_closure(request)
             return envelope(operation, 'ok' if result['ok'] else 'blocked', result, issues=result['issues'])
         if op == 'status':
-            state = read_json(checked_path(workspace, '.hai_env/state.json', allow_missing=False))
+            state = read_json(checked_path(workspace, STATE, allow_missing=False))
             config = state.get('features', {}).get('chronicles', {})
             if type(config.get('enabled')) is not bool: raise ValueError('recording enablement is unverified')
             return envelope(operation, result={'enabled': config['enabled'], 'record_every_prompts': config.get('record_every_prompts', 5), 'source': 'host_assigned', 'coverage': 'unverified', 'synchronization': 'core recording synchronize'})

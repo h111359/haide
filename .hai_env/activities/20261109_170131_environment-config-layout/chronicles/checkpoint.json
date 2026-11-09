@@ -1,0 +1,165 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "d44d0ee7-4250-494a-ba54-40b4729b94d2",
+  "sources": [
+    {
+      "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-53-30-01a1c0cc-cec8-7622-8dc9-6bbdfa019152.jsonl",
+      "original_started_at": "2026-11-09T14:53:30.202Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+            "source_position": 40
+          },
+          "end": {
+            "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+            "source_position": 574
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+            "source_position": 40
+          },
+          "end": {
+            "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+            "source_position": 574
+          },
+          "provenance": "Chronicles enabled before the observed Create activity. user prompt."
+        }
+      ],
+      "retained_source_complete": true
+    },
+    {
+      "source_session_id": "01a1c0eb-a386-7f30-b4a4-a362db6db607",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T17-27-10-01a1c0eb-a386-7f30-b4a4-a362db6db607.jsonl",
+      "original_started_at": "2026-11-09T15:27:10.738Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c0eb-a386-7f30-b4a4-a362db6db607",
+            "source_position": 121
+          },
+          "end": {
+            "source_session_id": "01a1c0eb-a386-7f30-b4a4-a362db6db607",
+            "source_position": 121
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c0eb-a386-7f30-b4a4-a362db6db607",
+            "source_position": 12
+          },
+          "end": {
+            "source_session_id": "01a1c0eb-a386-7f30-b4a4-a362db6db607",
+            "source_position": 121
+          },
+          "provenance": "Enabled throughout actual assigned work; native NEW_TASK author /root recipient /root/business_analyst verified at 12; completed work final at 121."
+        }
+      ],
+      "retained_source_complete": true
+    },
+    {
+      "source_session_id": "01a1c136-5931-7772-8ff4-ab0dbc8f7fd8",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T18-48-46-01a1c136-5931-7772-8ff4-ab0dbc8f7fd8.jsonl",
+      "original_started_at": "2026-11-09T16:48:46.914Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c136-5931-7772-8ff4-ab0dbc8f7fd8",
+            "source_position": 163
+          },
+          "end": {
+            "source_session_id": "01a1c136-5931-7772-8ff4-ab0dbc8f7fd8",
+            "source_position": 233
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c136-5931-7772-8ff4-ab0dbc8f7fd8",
+            "source_position": 12
+          },
+          "end": {
+            "source_session_id": "01a1c136-5931-7772-8ff4-ab0dbc8f7fd8",
+            "source_position": 233
+          },
+          "provenance": "Enabled throughout actual assigned work; native NEW_TASK author /root recipient /root/qa_bl0012 verified at 12; completed work final at 233."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+          "source_position": 40
+        },
+        "end": {
+          "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+          "source_position": 574
+        }
+      },
+      "segment_path": "chronicles/20261109_165330_segment-01.md",
+      "verified_at": "2026-11-09T17:01:31Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c0eb-a386-7f30-b4a4-a362db6db607",
+          "source_position": 121
+        },
+        "end": {
+          "source_session_id": "01a1c0eb-a386-7f30-b4a4-a362db6db607",
+          "source_position": 121
+        }
+      },
+      "segment_path": "chronicles/20261109_172710_segment-01.md",
+      "verified_at": "2026-11-09T17:01:31Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c136-5931-7772-8ff4-ab0dbc8f7fd8",
+          "source_position": 163
+        },
+        "end": {
+          "source_session_id": "01a1c136-5931-7772-8ff4-ab0dbc8f7fd8",
+          "source_position": 233
+        }
+      },
+      "segment_path": "chronicles/20261109_184846_segment-01.md",
+      "verified_at": "2026-11-09T17:01:31Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1c0cc-cec8-7622-8dc9-6bbdfa019152": {
+      "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+      "source_position": 574
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "834dc395-d19b-4ccf-86e5-68e3a1ad2fdc",
+    "dispatch_cursors": {
+      "01a1c0cc-cec8-7622-8dc9-6bbdfa019152": {
+        "source_session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+        "source_position": 574
+      }
+    },
+    "started_at": "2026-11-09T17:01:31Z",
+    "finished_at": "2026-11-09T17:01:31Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-09T17:01:31Z",
+  "in_flight": null
+}

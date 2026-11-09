@@ -36,7 +36,7 @@ class StartupTests(unittest.TestCase):
         return path
 
     def save_state(self):
-        self.write(".hai_env/state.json", json.dumps(self.state))
+        self.write(".hai_env/config/state.json", json.dumps(self.state))
 
     def table(self, origin, entries, newline="\n"):
         rows = ["# Catalogue", "", "| Agent | Selection guide | Definition |", "| --- | --- | --- |"]
@@ -46,7 +46,7 @@ class StartupTests(unittest.TestCase):
         return self.write(f"{origin}/agents/catalogue.md", newline.join(rows) + newline)
 
     def profiles(self, text=None):
-        return self.write(".hai_env/model_profiles.json", text or json.dumps({
+        return self.write(".hai_env/config/model_profiles.json", text or json.dumps({
             "format_version": 1, "models": {"light": "one", "standard": "two", "advanced": "three"}}))
 
     def register_specification_manager(self, settings=None, contract=None):
@@ -200,7 +200,7 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(before, self.snapshot())
 
     def test_absent_state_is_not_initialized_and_preserves_container(self):
-        (self.root / ".hai_env/state.json").unlink()
+        (self.root / ".hai_env/config/state.json").unlink()
         self.write(".hai_env/independent.txt", "preserve")
         before = self.snapshot()
         result = startup.check(self.root)
@@ -209,8 +209,9 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(before, self.snapshot())
 
     def test_absent_container_is_not_created(self):
-        (self.root / ".hai_env/state.json").unlink()
+        (self.root / ".hai_env/config/state.json").unlink()
         (self.root / startup.INSTRUCTIONS).unlink()
+        (self.root / ".hai_env/config").rmdir()
         (self.root / ".hai_env").rmdir()
         result = startup.check(self.root)
         self.assertEqual(result["environment"], "absent")
@@ -220,7 +221,7 @@ class StartupTests(unittest.TestCase):
         for text in ('{"state_format_version":1,"state_format_version":1,"features":{}}',
                      json.dumps(self.state).replace('"enabled": false', '"enabled": false,"enabled": true', 1)):
             with self.subTest(text=text):
-                self.write(".hai_env/state.json", text)
+                self.write(".hai_env/config/state.json", text)
                 self.assertEqual(startup.check(self.root)["environment"], "invalid")
 
     def test_schema_version_legacy_and_types(self):
@@ -232,7 +233,7 @@ class StartupTests(unittest.TestCase):
                  {**self.state, "features": {**self.state["features"], "requests": {"enabled": False, "location": ".hai_env/requests"}}}]
         for value in cases:
             with self.subTest(value=value):
-                self.write(".hai_env/state.json", json.dumps(value))
+                self.write(".hai_env/config/state.json", json.dumps(value))
                 self.assertEqual(startup.check(self.root)["environment"], "invalid")
         self.state["features"]["specification"] = {"enabled": 1,
                                                        "location": ".hai_env/specifications"}
@@ -293,12 +294,12 @@ class StartupTests(unittest.TestCase):
     def test_strict_json_rejects_constants_in_unknown_properties(self):
         for constant in ("NaN", "Infinity", "-Infinity"):
             with self.subTest(constant=constant):
-                self.write(".hai_env/state.json", json.dumps(self.state)[:-1] + ',"extra":' + constant + '}')
+                self.write(".hai_env/config/state.json", json.dumps(self.state)[:-1] + ',"extra":' + constant + '}')
                 self.assertEqual(startup.check(self.root)["environment"], "invalid")
 
     def test_disabled_paths_still_reject_unsafe_reserved_and_collisions(self):
         for location in ("/tmp", "C:/data", "\\\\server\\share", "../escape", "data\\activities", ".",
-                         " ", ".git/data", ".hai/data", ".hai_env", ".hai_env/state.json",
+                         " ", ".git/data", ".hai/data", ".hai_env", ".hai_env/config/state.json",
                          ".hai_env/agents/x", "CON", "data. "):
             with self.subTest(location=location):
                 self.register_specification_manager(settings={"enabled": False, "location": location})
@@ -313,10 +314,10 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(result["environment"], "valid")
         self.assertEqual(result["agent_configurations"]["specification-manager"]["status"], "invalid")
         (self.root / ".hai_env/specifications").unlink()
-        (self.root / ".hai_env/state.json").unlink()
-        (self.root / ".hai_env/state.json").mkdir()
+        (self.root / ".hai_env/config/state.json").unlink()
+        (self.root / ".hai_env/config/state.json").mkdir()
         self.assertEqual(startup.check(self.root)["environment"], "invalid")
-        (self.root / ".hai_env/state.json").rmdir()
+        (self.root / ".hai_env/config/state.json").rmdir()
         (self.root / startup.INSTRUCTIONS).unlink()
         shutil.rmtree(self.root / ".hai_env")
         self.write(".hai_env", "wrong container type")
@@ -324,7 +325,7 @@ class StartupTests(unittest.TestCase):
 
     def test_mandatory_unicode_crlf_instructions_always_load(self):
         text = "# Инструкции\r\n\r\nPreserve café.\r\n"
-        self.write(".hai_env/agent_instructions.md", text)
+        self.write(".hai_env/config/agent_instructions.md", text)
         result = startup.check(self.root)
         self.assertTrue(result["ok"], result)
         self.assertEqual(result["agent_instructions"]["text"], text)
@@ -369,7 +370,7 @@ class StartupTests(unittest.TestCase):
         ]
         for value, expected in legacy_cases:
             with self.subTest(expected=expected):
-                self.write(".hai_env/state.json", json.dumps(value))
+                self.write(".hai_env/config/state.json", json.dumps(value))
                 result = startup.check(self.root)
                 self.assertEqual(result["state_status"], "invalid")
                 state_issue = next(issue for issue in result["issues"] if issue["code"] == "state")
@@ -429,7 +430,7 @@ class StartupTests(unittest.TestCase):
         result = startup.check(self.root)
         self.assertEqual(result["activities"], {"location": "workspace-activities", "available": True, "target_type": "directory"})
         self.assertEqual(self.state["activities"]["note"], "keep")
-        for location in ("../outside", ".hai", ".hai_env/state.json", ".hai_env/agent_instructions.md") :
+        for location in ("../outside", ".hai", ".hai_env/config/state.json", ".hai_env/config/agent_instructions.md") :
             with self.subTest(location=location):
                 self.state["activities"] = {"location": location}
                 self.save_state()
@@ -467,11 +468,11 @@ class StartupTests(unittest.TestCase):
 
     def test_instructions_load_with_absent_or_invalid_state(self):
         self.write(startup.INSTRUCTIONS, "Always apply this instruction.")
-        self.write(".hai_env/state.json", "bad JSON")
+        self.write(".hai_env/config/state.json", "bad JSON")
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "invalid")
         self.assertEqual(result["agent_instructions"]["text"], "Always apply this instruction.")
-        (self.root / ".hai_env/state.json").unlink()
+        (self.root / ".hai_env/config/state.json").unlink()
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "absent")
         self.assertEqual(result["instructions_status"], "loaded")
@@ -501,7 +502,7 @@ class StartupTests(unittest.TestCase):
         self.register_specification_manager(settings={"enabled": False, "location": ".hai_env/specifications"})
         config_root = self.root / ".hai_env/config"
         config_root.mkdir(parents=True, exist_ok=True)
-        profiles = self.root / ".hai_env/model_profiles.json"
+        profiles = self.root / ".hai_env/config/model_profiles.json"
         profiles.unlink(missing_ok=True)
         profiles.symlink_to(config_root)
         result = startup.check(self.root)
@@ -562,7 +563,7 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(startup.check(self.root)["catalogues"]["workspace"], "valid")
 
     def test_invalid_core_still_reports_workspace_catalogue_and_instructions(self):
-        self.write(".hai_env/state.json", "bad JSON")
+        self.write(".hai_env/config/state.json", "bad JSON")
         self.write(".hai_env/agents/catalogue.md", "malformed")
         result = startup.check(self.root)
         self.assertEqual(result["catalogues"]["workspace"], "invalid")
@@ -584,7 +585,7 @@ class StartupTests(unittest.TestCase):
                 self.assertEqual(result["profiles"]["status"], "invalid")
         self.profiles()
         (self.root / startup.INSTRUCTIONS).unlink()
-        os.link(self.root / ".hai_env/model_profiles.json", self.root / startup.INSTRUCTIONS)
+        os.link(self.root / ".hai_env/config/model_profiles.json", self.root / startup.INSTRUCTIONS)
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "valid")
         self.assertEqual(result["instructions_status"], "invalid")
@@ -593,7 +594,7 @@ class StartupTests(unittest.TestCase):
     def test_safe_instructions_not_suppressed_by_invalid_profile_path(self):
         actual = startup.safe_path
         def bad_profile(workspace, relative):
-            if relative == ".hai_env/model_profiles.json":
+            if relative == ".hai_env/config/model_profiles.json":
                 raise startup.Invalid("Fixture: unrelated dangling or escaping profile")
             return actual(workspace, relative)
         with patch.object(startup, "safe_path", side_effect=bad_profile):
@@ -612,8 +613,8 @@ class StartupTests(unittest.TestCase):
         return link
 
     def test_dangling_state_link_is_invalid_not_absent(self):
-        (self.root / ".hai_env/state.json").unlink()
-        self.make_link(".hai_env/state.json", self.root / "missing.json")
+        (self.root / ".hai_env/config/state.json").unlink()
+        self.make_link(".hai_env/config/state.json", self.root / "missing.json")
         result = startup.check(self.root)
         self.assertEqual(result["environment"], "invalid")
         self.assertEqual(result["instructions_status"], "loaded")
@@ -631,7 +632,7 @@ class StartupTests(unittest.TestCase):
 
     def test_instructions_alias_to_state_is_invalid(self):
         (self.root / startup.INSTRUCTIONS).unlink()
-        os.link(self.root / ".hai_env/state.json", self.root / startup.INSTRUCTIONS)
+        os.link(self.root / ".hai_env/config/state.json", self.root / startup.INSTRUCTIONS)
         result = startup.check(self.root)
         self.assertEqual(result["instructions_status"], "invalid")
         self.assertFalse(result["ok"])
@@ -688,7 +689,7 @@ class StartupTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="hai_profile_junction_") as outside:
             target = Path(outside) / "target"
             target.mkdir()
-            link = self.root / ".hai_env/model_profiles.json"
+            link = self.root / ".hai_env/config/model_profiles.json"
             proc = subprocess.run(["cmd", "/c", "mklink", "/J", str(link), str(target)], capture_output=True)
             if proc.returncode:
                 self.skipTest("Junction creation unavailable")
@@ -722,7 +723,7 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, proc.stderr + proc.stdout)
         self.assertTrue(json.loads(proc.stdout)["ok"])
         self.assertEqual(before, self.snapshot())
-        (self.root / ".hai_env/state.json").unlink()
+        (self.root / ".hai_env/config/state.json").unlink()
         proc = run(self.root)
         self.assertEqual(proc.returncode, 1, proc.stderr)
         self.assertEqual(json.loads(proc.stdout)["environment"], "absent")

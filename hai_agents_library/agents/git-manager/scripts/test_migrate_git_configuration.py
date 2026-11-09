@@ -19,8 +19,8 @@ class MigrationTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        (self.root / '.hai_env').mkdir()
-        self.source = self.root / '.hai_env/state.json'
+        (self.root / '.hai_env/config').mkdir(parents=True)
+        self.source = self.root / '.hai_env/config/state.json'
         self.destination = self.root / '.hai_env/config/agents/git-manager.json'
         self.state = {'state_format_version': 2, 'activities': {'location': '.hai_env/activities'},
                       'features': {'custom': ['keep'], 'specification': {'enabled': False, 'location': '.hai_env/specifications'}, 'chronicles': {'enabled': False}},

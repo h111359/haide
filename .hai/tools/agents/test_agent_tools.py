@@ -26,7 +26,7 @@ class AgentTests(unittest.TestCase):
                           f"| `worker` | {encoded} | [SKILL.md](worker/SKILL.md) |\n")
         self.write(".hai_env/agents/catalogue.md", self.catalogue)
         self.profiles = {"format_version": 1, "models": {"light": "small", "standard": "normal", "advanced": "large"}}
-        self.write(".hai_env/model_profiles.json", json.dumps(self.profiles))
+        self.write(".hai_env/config/model_profiles.json", json.dumps(self.profiles))
         self.runtime = {"models": {"small": ["low", "high"], "normal": ["high"], "large": ["high", "ultra"]}}
 
     def write(self, path, text):
@@ -109,8 +109,8 @@ None.
     def test_validate_registered_and_unregistered_without_other_context(self):
         self.assertTrue(validate(self.root, self.definition)["ok"])
         (self.root / ".hai_env/agents/catalogue.md").unlink()
-        self.write(".hai_env/state.json", "not JSON")
-        self.write(".hai_env/model_profiles.json", "not JSON")
+        self.write(".hai_env/config/state.json", "not JSON")
+        self.write(".hai_env/config/model_profiles.json", "not JSON")
         self.write(".hai_env/agents/catalogue.md", "not a catalogue")
         result = validate(self.root, self.definition)
         self.assertTrue(result["ok"], result)
@@ -466,10 +466,10 @@ None.
                 (target.parent / 'configuration/contract.json').write_bytes(
                     (self.root / '.hai_env/agents/worker/configuration/contract.json').read_bytes())
                 self.assertTrue(validate(isolated, relative)["ok"])
-                self.assertFalse((isolated / ".hai_env/state.json").exists())
+                self.assertFalse((isolated / ".hai_env/config/state.json").exists())
                 self.assertFalse((isolated / origin / "agents/catalogue.md").exists())
                 if origin == ".hai":
-                    self.assertFalse((isolated / ".hai_env/state.json").exists())
+                    self.assertFalse((isolated / ".hai_env/config/state.json").exists())
 
     def test_configuration_contract_required_and_package_contained(self):
         path = self.root / self.definition
@@ -525,7 +525,7 @@ None.
     def test_validate_leader_without_profiles_or_execution_metadata(self):
         self.definition = ".hai/agents/leader/SKILL.md"
         self.write_definition(name="leader", metadata="\n")
-        (self.root / ".hai_env/model_profiles.json").unlink()
+        (self.root / ".hai_env/config/model_profiles.json").unlink()
         self.assertTrue(validate(self.root, self.definition)["ok"])
         self.write_definition(name="leader")
         self.assertFalse(validate(self.root, self.definition)["ok"])
@@ -588,7 +588,7 @@ None.
             load_json(path)
 
     def test_profiles_preserve_extra_values_and_reject_missing_mappings(self):
-        path = self.root / '.hai_env/model_profiles.json'
+        path = self.root / '.hai_env/config/model_profiles.json'
         self.profiles['notes'] = {'source': 'human'}
         path.write_text(json.dumps(self.profiles), encoding='utf-8')
         before = path.read_bytes()
@@ -616,7 +616,7 @@ None.
         self.assertEqual(result.returncode, 0, result.stderr)
         output = json.loads(result.stdout)
         self.assertEqual(output, {'ok': True, 'agents': [], 'profiles': 'valid', 'issues': []})
-        (self.root / '.hai_env/model_profiles.json').unlink()
+        (self.root / '.hai_env/config/model_profiles.json').unlink()
         output = audit(self.root)
         self.assertTrue(output['ok'])
         self.assertEqual(output['profiles'], 'absent')
@@ -734,7 +734,7 @@ None.
         result = self.run_cli("validate", "--definition", self.definition, workspace=isolated)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)["agent"], "worker")
-        self.assertFalse((isolated / ".hai_env/state.json").exists())
+        self.assertFalse((isolated / ".hai_env/config/state.json").exists())
 
     def test_existing_audit_and_resolve_cli_dispatch(self):
         result = self.run_cli("audit")
@@ -746,7 +746,7 @@ None.
         self.assertEqual(json.loads(result.stdout)["request"]["model"], "small")
 
     def test_validate_success_and_failure_do_not_mutate_files(self):
-        self.write(".hai_env/state.json", '{"unrelated":"preserve"}\n')
+        self.write(".hai_env/config/state.json", '{"unrelated":"preserve"}\n')
         path = self.root / self.definition
         for invalid in (False, True):
             with self.subTest(invalid=invalid):
@@ -772,13 +772,13 @@ None.
         self.assertFalse(resolve(self.root, self.definition, self.runtime)["ok"])
 
     def test_missing_profiles_valid_audit_but_no_normal_resolution(self):
-        (self.root / ".hai_env/model_profiles.json").unlink()
+        (self.root / ".hai_env/config/model_profiles.json").unlink()
         self.assertTrue(audit(self.root)["ok"])
         self.assertFalse(resolve(self.root, self.definition, self.runtime)["ok"])
-        self.assertFalse((self.root / ".hai_env/model_profiles.json").exists())
+        self.assertFalse((self.root / ".hai_env/config/model_profiles.json").exists())
 
     def test_duplicate_json_and_boolean_version_rejected(self):
-        path = self.write(".hai_env/model_profiles.json", '{"format_version":1,"format_version":1}')
+        path = self.write(".hai_env/config/model_profiles.json", '{"format_version":1,"format_version":1}')
         with self.assertRaises(Invalid):
             read_profiles(path)
         self.profiles["format_version"] = True
@@ -983,7 +983,7 @@ plain: https://example.test/a#part # removed
 
     def test_dangling_profile_is_invalid_not_absent(self):
         self.write(".hai_env/agents/catalogue.md", '\n'.join(self.catalogue.splitlines()[:4]) + '\n')
-        path = self.root / ".hai_env/model_profiles.json"
+        path = self.root / ".hai_env/config/model_profiles.json"
         path.unlink()
         try:
             path.symlink_to(self.root / "missing-profile.json")
@@ -999,7 +999,7 @@ plain: https://example.test/a#part # removed
                 resolve(self.root, path, self.runtime)
 
     def test_no_mutations_to_state_or_catalogue(self):
-        state = self.write(".hai_env/state.json", '{"unrelated":"preserve"}\n')
+        state = self.write(".hai_env/config/state.json", '{"unrelated":"preserve"}\n')
         before = {str(p): p.read_bytes() for p in self.root.rglob("*") if p.is_file()}
         audit(self.root)
         resolve(self.root, self.definition, self.runtime)

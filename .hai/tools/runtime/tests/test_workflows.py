@@ -16,10 +16,11 @@ class WorkflowTests(unittest.TestCase):
     def setUp(self):
         self.root = Path.cwd() / ('fixture-' + uuid.uuid4().hex)
         (self.root / '.hai_env/activities').mkdir(parents=True)
+        (self.root / '.hai_env/config').mkdir()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(TOOLS.parent / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env/agent_instructions.md').write_text('')
-        (self.root / '.hai_env/state.json').write_text(json.dumps({'state_format_version': 3, 'activities': {'location': '.hai_env/activities'}, 'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}, 'integrations': {}}))
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps({'state_format_version': 3, 'activities': {'location': '.hai_env/activities'}, 'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}, 'integrations': {}}))
         self.prov = {'source': 'test', 'reason': 'exercise'}
     def tearDown(self):
         shutil.rmtree(self.root)
@@ -37,9 +38,9 @@ class WorkflowTests(unittest.TestCase):
         self.assertTrue(r['ok'], r); self.assertEqual(r['result']['state']['implementation_started_at'], marker)
         self.assertEqual(next((base/'files/revisions/plan').iterdir()).read_bytes(), old)
         self.assertEqual((base/'input.md').read_text(), 'exact\ninput\nnext exact')
-        state = json.loads((self.root / '.hai_env/state.json').read_text())
+        state = json.loads((self.root / '.hai_env/config/state.json').read_text())
         state['features']['chronicles']['enabled'] = False
-        (self.root / '.hai_env/state.json').write_text(json.dumps(state))
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps(state))
         closed = self.call('close', activity_id=ident, outcome='completed', archive_label='test', outcome_text='done', recording={'status':'disabled','details':'fixture recording disabled'}, provenance=self.prov)
         self.assertTrue(closed['ok'], closed)
         supplement = self.call('supplement', activity_id=ident, text='additional evidence', provenance=self.prov)
@@ -74,10 +75,10 @@ class WorkflowTests(unittest.TestCase):
         self.assertTrue(result['ok'],result)
 
     def test_guard_and_partial_write(self):
-        (self.root/'.hai_env/agent_instructions.md').unlink()
+        (self.root/'.hai_env/config/agent_instructions.md').unlink()
         r = self.call('create', initial_input='x', provenance=self.prov)
         self.assertFalse(r['ok']); self.assertFalse((self.root/'.hai_env/activities/00000000_000000_active').exists())
-        (self.root/'.hai_env/agent_instructions.md').write_text('')
+        (self.root/'.hai_env/config/agent_instructions.md').write_text('')
         c = self.call('create', initial_input='x', provenance=self.prov); ident = c['result']['state']['activity_id']
         original = activities.write_bytes
         def fail_log(root, path, data, expected=None):

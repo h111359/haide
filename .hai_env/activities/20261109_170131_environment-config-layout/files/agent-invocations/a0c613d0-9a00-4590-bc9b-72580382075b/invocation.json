@@ -1,0 +1,11 @@
+{
+  "invocation_format_version": 1,
+  "activity_id": "d44d0ee7-4250-494a-ba54-40b4729b94d2",
+  "invocation_id": "a0c613d0-9a00-4590-bc9b-72580382075b",
+  "agent": "business-analyst",
+  "created_at": "2026-11-09T15:26:57Z",
+  "provenance": {
+    "source": "User request: Ask business analyst if BL-012 needs more clarification",
+    "reason": "Assess BL-0012 requirements readiness without implementation."
+  }
+}

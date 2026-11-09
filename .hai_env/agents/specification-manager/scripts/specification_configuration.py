@@ -57,7 +57,7 @@ def _mutation_path(workspace):
 
 
 def _dependency_paths(workspace):
-    return (safe_path(workspace, '.hai_env/state.json'), instruction_path(workspace))
+    return (safe_path(workspace, '.hai_env/config/state.json'), instruction_path(workspace))
 
 
 def _recheck_dependencies(workspace, dependencies):

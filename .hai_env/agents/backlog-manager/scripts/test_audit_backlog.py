@@ -156,8 +156,8 @@ An observable result.
 
     def test_configured_activity_store_is_reserved(self):
         self.catalogue([self.item()])
-        state = self.workspace / '.hai_env/state.json'
-        state.parent.mkdir(exist_ok=True)
+        state = self.workspace / '.hai_env/config/state.json'
+        state.parent.mkdir(parents=True, exist_ok=True)
         state.write_text(json.dumps({'activities': {'location': 'planning'}}))
         self.assertFalse(self.run_audit()['ok'])
 

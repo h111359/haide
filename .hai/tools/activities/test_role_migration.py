@@ -56,8 +56,9 @@ class CoreIsolationTests(unittest.TestCase):
             state = json.loads((stage/'.hai/templates/state.json').read_text())
             state['state_format_version'] = 3
             state['features']['chronicles']['enabled'] = True
-            (env/'state.json').write_text(json.dumps(state))
-            (env/'agent_instructions.md').write_text('')
+            (env/'config').mkdir()
+            (env/'config/state.json').write_text(json.dumps(state))
+            (env/'config/agent_instructions.md').write_text('')
             # Existing corrupt record data must not be scanned by startup validation.
             record = env/'activities/00000000_000000_active'
             record.mkdir(parents=True)

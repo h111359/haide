@@ -49,11 +49,11 @@ def inspect(workspace, accept_identical=False):
     workspace = Path(workspace).resolve(strict=True)
     if not workspace.is_dir():
         raise ConfigurationError('Workspace must be an existing directory')
-    source = guarded_path(workspace, '.hai_env/state.json')
+    source = guarded_path(workspace, '.hai_env/config/state.json')
     if not source.is_file() or source.stat().st_nlink != 1:
         raise ConfigurationError('Source must be a regular file without hardlink aliases')
-    for reserved in ('.hai', '.git', '.hai_env/agents', '.hai_env/config',
-                     '.hai_env/agent_instructions.md', '.hai_env/model_profiles.json'):
+    for reserved in ('.hai', '.git', '.hai_env/agents', '.hai_env/config/agents',
+                     '.hai_env/config/agent_instructions.md', '.hai_env/config/model_profiles.json'):
         if overlaps(source, workspace / reserved):
             raise ConfigurationError('State aliases a reserved resource')
     before = source.read_bytes()
@@ -141,7 +141,7 @@ def migrate(workspace, *, apply=False, expected_source_sha256=None, accept_ident
             _exclusive_write(destination, encoded(envelope))
             report['completed'].append('destination_created')
         _checkpoint('after_destination_write')
-        if (guarded_path(workspace, '.hai_env/state.json') != source
+        if (guarded_path(workspace, '.hai_env/config/state.json') != source
                 or source.read_bytes() != before
                 or guarded_path(workspace, '.hai_env/config/agents/git-manager.json') != destination
                 or configuration_path(workspace, 'git-manager') != destination
@@ -159,7 +159,7 @@ def migrate(workspace, *, apply=False, expected_source_sha256=None, accept_ident
             os.fsync(stream.fileno())
         os.chmod(temporary, source.stat().st_mode & 0o777)
         _checkpoint('before_source_replace')
-        if (guarded_path(workspace, '.hai_env/state.json') != source
+        if (guarded_path(workspace, '.hai_env/config/state.json') != source
                 or source.stat().st_nlink != 1 or destination.stat().st_nlink != 1
                 or configuration_path(workspace, 'git-manager') != destination
                 or source.read_bytes() != before or load_json(destination) != envelope):

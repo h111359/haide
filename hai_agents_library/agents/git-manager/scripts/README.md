@@ -34,7 +34,7 @@ authority is implied.
 ## Explicit legacy migration
 
 Only run under explicit migration authority with separately verified supported core
-state, instructions and Activity context. Source is fixed `.hai_env/state.json`;
+state, instructions and Activity context. Source is fixed `.hai_env/config/state.json`;
 destination is fixed `.hai_env/config/agents/git-manager.json`. No implicit scan,
 startup migration, fallback or repair occurs.
 

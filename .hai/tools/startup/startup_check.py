@@ -8,6 +8,9 @@ from pathlib import Path
 import re
 import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from environment_paths import STATE, PROFILES, INSTRUCTIONS, LEGACY, legacy_entries
+
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "agents"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "configuration"))
@@ -18,7 +21,6 @@ from configuration_tools import (ConfigurationError, load_contract as load_agent
 FEATURES = {"chronicles": None}
 ACTIVITIES_LOCATION = ".hai_env/activities"
 CHRONICLES_RECORD_EVERY_PROMPTS = 5
-INSTRUCTIONS = ".hai_env/agent_instructions.md"
 TEMPLATE = ".hai/templates/state.json"
 CONTRACT = Path(__file__).resolve().parents[2] / "contracts/state.json"
 
@@ -96,9 +98,14 @@ def readable_file(path: Path) -> None:
 
 def instruction_path(workspace: Path) -> Path:
     target = safe_path(workspace, INSTRUCTIONS)
-    for relative in (".hai", ".git", ".hai_env/state.json", ".hai_env/agents",
-                     ".hai_env/config",
-                     ".hai_env/model_profiles.json"):
+    config = safe_path(workspace, '.hai_env/config')
+    if target.is_relative_to(config) and target != workspace / INSTRUCTIONS:
+        raise Invalid('Mandatory instructions alias another configuration resource')
+    if target.exists() and target.is_file() and target.stat().st_nlink != 1:
+        raise Invalid('Mandatory instructions must not have hardlink aliases')
+    for relative in (".hai", ".git", STATE, ".hai_env/agents",
+                     ".hai_env/config/agents",
+                     PROFILES):
         reserved_paths = [workspace / relative]
         try:
             reserved_paths.append(safe_path(workspace, relative))
@@ -152,14 +159,14 @@ def state_context(workspace: Path, state: dict, template: dict,
     if ("enabled" in activities or not isinstance(activities.get("location"), str)
             or not activities["location"].strip()):
         raise Invalid("Mandatory activities requires a nonblank workspace-relative location and no enabled switch")
-    reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agents",
-                ".hai_env/config", ".hai_env/model_profiles.json", INSTRUCTIONS]
+    reserved = [".hai", ".git", STATE, ".hai_env/agents",
+                ".hai_env/config", PROFILES, INSTRUCTIONS, *LEGACY.values()]
     reserved_paths = [workspace / name for name in reserved]
     for name in reserved:
         try:
             reserved_paths.append(safe_path(workspace, name))
         except Invalid:
-            if name != ".hai_env/model_profiles.json":
+            if name != PROFILES:
                 raise
     locations, features = {}, {}
     activity_relative = activities["location"]
@@ -343,7 +350,7 @@ def check(workspace: Path) -> dict:
         container = safe_path(workspace, ".hai_env")
         if container.exists() and not container.is_dir():
             raise Invalid(".hai_env must be a directory")
-        state_path = safe_path(workspace, ".hai_env/state.json")
+        state_path = safe_path(workspace, STATE)
         if not state_path.exists():
             result["environment"] = "absent"
         else:
@@ -361,10 +368,22 @@ def check(workspace: Path) -> dict:
                     "reason": "Specification settings remain in format-2 state; no agent-owned settings fallback is active"}
                 result["agent_configurations"]["specification-manager"] = {
                     "status": "migration_required", "settings": {}, "configured_fields": [], "issues": []}
-                issues.append({"code": "migration_required", "path": ".hai_env/state.json",
+                issues.append({"code": "migration_required", "path": STATE,
                                "message": "Explicitly migrate format-2 specification settings to Specification-manager configuration"})
     except (Invalid, OSError, UnicodeError) as exc:
-        issues.append({"code": "state", "path": ".hai_env/state.json", "message": str(exc)})
+        issues.append({"code": "state", "path": STATE, "message": str(exc)})
+    legacy = legacy_entries(workspace)
+    if legacy:
+        result["environment"] = "invalid"
+        issues.append({"code": "layout_migration_required", "paths": legacy,
+                       "message": "Legacy or mixed layout; explicitly run environment migrate-layout. Do not initialize or merge files."})
+    try:
+        marker = safe_path(workspace, '.hai_env/config/layout-migration.json')
+        if marker.exists() and load_json(marker).get('status') != 'completed':
+            raise Invalid('Incomplete layout migration; inspect retained manifest and recovery copies before explicit recovery')
+    except (Invalid, OSError, UnicodeError, AttributeError) as exc:
+        result['environment'] = 'invalid'
+        issues.append({'code': 'layout_migration', 'message': str(exc)})
     result["state_status"] = result["environment"]
 
     # The workspace catalogue is optional and independent of core validity.
@@ -380,19 +399,19 @@ def check(workspace: Path) -> dict:
         issues.extend(specification["issues"])
 
     try:
-        path = safe_path(workspace, ".hai_env/model_profiles.json")
-        config_root = safe_path(workspace, ".hai_env/config")
+        path = safe_path(workspace, PROFILES)
+        config_root = safe_path(workspace, ".hai_env/config/agents")
         if any(overlaps(candidate, root) for candidate in
-               (workspace / ".hai_env/model_profiles.json", path)
-               for root in (workspace / ".hai_env/config", config_root)):
+               (workspace / PROFILES, path)
+               for root in (workspace / ".hai_env/config/agents", config_root)):
             raise Invalid("Model profiles overlap agent configuration storage")
         if any(overlaps(candidate, feature_path)
-               for candidate in (workspace / ".hai_env/model_profiles.json", path)
+               for candidate in (workspace / PROFILES, path)
                for feature_pair in locations.values() for feature_path in feature_pair):
             raise Invalid("Model profiles overlap a configured feature location")
         instructions = safe_path(workspace, INSTRUCTIONS)
         if any(overlaps(candidate, target) for candidate in
-               (workspace / ".hai_env/model_profiles.json", path)
+               (workspace / PROFILES, path)
                for target in (workspace / INSTRUCTIONS, instructions)):
             raise Invalid("Model profiles overlap the mandatory instructions file")
         if path.exists():
@@ -403,7 +422,7 @@ def check(workspace: Path) -> dict:
             result["profiles"]["status"] = "absent"
     except (Invalid, OSError, UnicodeError) as exc:
         result["profiles"]["status"] = "invalid"
-        issues.append({"code": "profiles", "path": ".hai_env/model_profiles.json", "message": str(exc)})
+        issues.append({"code": "profiles", "path": PROFILES, "message": str(exc)})
 
     if result["environment"] == "valid" and result["instructions_status"] != "loaded":
         result["environment"] = "invalid"

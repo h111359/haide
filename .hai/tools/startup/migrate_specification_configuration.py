@@ -19,9 +19,9 @@ from configuration_tools import (ConfigurationError, configuration_path,
 
 SPEC_AGENT = "specification-manager"
 CONTRACT = f".hai_env/agents/{SPEC_AGENT}/configuration/contract.json"
-STATE = ".hai_env/state.json"
-BACKUP = ".hai_env/state.json.format2-backup"
-TEMP_STATE = ".hai_env/state.json.format3-candidate"
+STATE = ".hai_env/config/state.json"
+BACKUP = ".hai_env/config/state.json.format2-backup"
+TEMP_STATE = ".hai_env/config/state.json.format3-candidate"
 
 
 def _bytes_json(value: dict) -> bytes:

@@ -20,10 +20,11 @@ class UsageTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         (self.root / '.hai_env/activities').mkdir(parents=True)
+        (self.root / '.hai_env/config').mkdir()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(TOOLS.parent / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env/agent_instructions.md').write_text('')
-        (self.root / '.hai_env/state.json').write_text(json.dumps({'state_format_version': 3,
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps({'state_format_version': 3,
             'activities': {'location': '.hai_env/activities'}, 'features': {'chronicles': {'enabled': False}}}))
         self.prov = {'source': 'fixture host', 'reason': 'verify assigned usage'}
         c = activities.handle('create', self.root, {'initial_input': '', 'provenance': self.prov}, True)

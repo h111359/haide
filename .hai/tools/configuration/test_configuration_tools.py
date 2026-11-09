@@ -17,8 +17,8 @@ class ConfigurationTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="hai_configuration_")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name).resolve()
-        self.root.joinpath(".hai_env").mkdir()
-        self.root.joinpath(".hai_env/agent_instructions.md").write_text("", encoding="utf-8")
+        self.root.joinpath(".hai_env/config").mkdir(parents=True)
+        self.root.joinpath(".hai_env/config/agent_instructions.md").write_text("", encoding="utf-8")
         self.contract = {
             "contract_format_version": 1, "agent": "git-manager",
             "current_config_format_version": 1, "supported_config_format_versions": [1],
@@ -144,7 +144,7 @@ class ConfigurationTests(unittest.TestCase):
 
         activity = self.root / "workspace-activities"
         activity.mkdir()
-        (self.root / ".hai_env/state.json").write_text(json.dumps({
+        (self.root / ".hai_env/config/state.json").write_text(json.dumps({
             "activities": {"location": "workspace-activities"}, "features": {}}), encoding="utf-8")
         override.write_text(json.dumps({"config_format_version": 1, "settings": {
             "enabled": False, "location": "workspace-activities"}}), encoding="utf-8")
@@ -161,14 +161,14 @@ class ConfigurationTests(unittest.TestCase):
     def test_alias_with_reserved_and_configured_paths_is_rejected(self):
         path = self.config_path()
         path.parent.mkdir(parents=True)
-        (self.root / ".hai_env/model_profiles.json").write_text("{}", encoding="utf-8")
-        path.symlink_to(self.root / ".hai_env/model_profiles.json")
+        (self.root / ".hai_env/config/model_profiles.json").write_text("{}", encoding="utf-8")
+        path.symlink_to(self.root / ".hai_env/config/model_profiles.json")
         result = self.result()
         self.assertEqual(result["status"], "invalid")
         path.unlink()
         state = {"activities": {"location": "saved-configs"}, "features": {
             "specification": {"location": ".hai_env/specifications"}}}
-        (self.root / ".hai_env/state.json").write_text(json.dumps(state), encoding="utf-8")
+        (self.root / ".hai_env/config/state.json").write_text(json.dumps(state), encoding="utf-8")
         (self.root / "saved-configs").mkdir()
         path.symlink_to(self.root / "saved-configs")
         self.assertEqual(self.result()["status"], "invalid")
@@ -184,7 +184,7 @@ class ConfigurationTests(unittest.TestCase):
         self.assertEqual(result["settings"], {})
 
     def test_hardlink_to_reserved_file_is_rejected_when_supported(self):
-        profiles = self.root / ".hai_env/model_profiles.json"
+        profiles = self.root / ".hai_env/config/model_profiles.json"
         profiles.write_text('{"format_version":1}', encoding="utf-8")
         path = self.config_path()
         path.parent.mkdir(parents=True)
@@ -195,11 +195,11 @@ class ConfigurationTests(unittest.TestCase):
         self.assertEqual(self.result()["status"], "invalid")
 
     def test_missing_config_is_independent_of_invalid_core_state(self):
-        (self.root / ".hai_env/state.json").write_text("malformed", encoding="utf-8")
+        (self.root / ".hai_env/config/state.json").write_text("malformed", encoding="utf-8")
         result = self.result()
         self.assertEqual(result["status"], "defaulted")
         self.assertEqual(result["settings"]["git"]["enabled"], False)
-        state_path = self.root / ".hai_env/state.json"
+        state_path = self.root / ".hai_env/config/state.json"
         state_path.unlink()
         outside = Path(self.temp.name).parent / (Path(self.temp.name).name + "_outside_state")
         try:

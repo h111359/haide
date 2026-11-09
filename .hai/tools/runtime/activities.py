@@ -1,4 +1,5 @@
 """Activity lifecycle operations. All caller-supplied narrative remains attributed."""
+from environment_paths import STATE, PROFILES, INSTRUCTIONS, LEGACY
 from pathlib import Path
 from datetime import datetime, timezone
 import re
@@ -33,11 +34,11 @@ def provenance(request):
     return 'source: ' + required_text(p.get('source'), 'provenance.source') + '; reason: ' + required_text(p.get('reason'), 'provenance.reason')
 
 def store_path(root):
-    state = read_json(checked_path(root, '.hai_env/state.json', allow_missing=False))
+    state = read_json(checked_path(root, STATE, allow_missing=False))
     location = state.get('activities', {}).get('location')
     path = checked_path(root, location)
     if path.exists() and not path.is_dir(): raise SafetyError('Activity store is not a directory')
-    for reserved in ('.hai', '.git', '.hai_env/agents', '.hai_env/config', '.hai_env/state.json', '.hai_env/agent_instructions.md', '.hai_env/model_profiles.json'):
+    for reserved in ('.hai', '.git', '.hai_env/agents', '.hai_env/config', STATE, INSTRUCTIONS, PROFILES, *LEGACY.values()):
         if location == reserved or location.startswith(reserved + '/') or reserved.startswith(location + '/'):
             raise SafetyError('Activity store overlaps a protected path')
     return location
@@ -228,7 +229,7 @@ def handle(operation, workspace, request, apply):
                 outcome = request.get('outcome'); label = request.get('archive_label'); text = required_text(request.get('outcome_text'), 'outcome_text'); rec = request.get('recording')
                 if outcome not in ('completed','cancelled','stopped') or not isinstance(label,str) or not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+){0,4}',label): raise ValueError('invalid outcome or archive_label')
                 if not isinstance(rec,dict) or rec.get('status') not in ('disabled','verified','pending','unavailable') or not isinstance(rec.get('details'),str): raise ValueError('explicit recording status and details required')
-                enabled = read_json(checked_path(root, '.hai_env/state.json', allow_missing=False)).get('features', {}).get('chronicles', {}).get('enabled')
+                enabled = read_json(checked_path(root, STATE, allow_missing=False)).get('features', {}).get('chronicles', {}).get('enabled')
                 if type(enabled) is not bool: raise SafetyError('Recording enablement is unverified')
                 requirement = request.get('recording_requirement', {'enabled': enabled, 'mandatory': False})
                 if not isinstance(requirement,dict) or type(requirement.get('mandatory')) is not bool or type(requirement.get('enabled')) is not bool or requirement['enabled'] != enabled: raise ValueError('invalid or inconsistent recording_requirement')

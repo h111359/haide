@@ -93,14 +93,14 @@ class FileAndCliTests(unittest.TestCase):
                 check(self.root)
 
     def test_missing_defaults_and_invalid_core_are_independent(self):
-        (self.root / '.hai_env/state.json').write_text('{malformed')
+        (self.root / '.hai_env/config/state.json').write_text('{malformed')
         result = check(self.root)
         self.assertTrue(result['ok'])
         self.assertEqual(result['configuration_status'], 'defaulted')
         self.save({'github': {'enabled': True}})
         self.assertTrue(check(self.root)['integrations']['github']['enabled'])
         self.path.unlink()
-        (self.root / '.hai_env/state.json').write_text('{"integrations":{"git":{"enabled":true}}}')
+        (self.root / '.hai_env/config/state.json').write_text('{"integrations":{"git":{"enabled":true}}}')
         self.assertFalse(check(self.root)['integrations']['git']['enabled'])
         self.path.mkdir()
         with self.assertRaises((Invalid, OSError)):
@@ -110,7 +110,7 @@ class FileAndCliTests(unittest.TestCase):
         outside = self.root.parent / (self.root.name + '-outside.json')
         outside.write_text('{}')
         self.addCleanup(lambda: outside.unlink(missing_ok=True))
-        reserved = self.root / '.hai_env/agent_instructions.md'
+        reserved = self.root / '.hai_env/config/agent_instructions.md'
         reserved.write_text('{}')
         for target in (outside, self.root / 'absent.json', reserved):
             try:

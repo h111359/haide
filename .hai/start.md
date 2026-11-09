@@ -1,12 +1,20 @@
 # Startup
 
+The current fixed files are `.hai_env/config/state.json`,
+`.hai_env/config/model_profiles.json` (optional), and
+`.hai_env/config/agent_instructions.md`. Legacy root-level files require an
+explicit [layout migration](procedures/migrate-environment-layout.md); startup
+never relocates them or initializes competing defaults. For that migration only,
+safely read and apply the existing legacy `.hai_env/agent_instructions.md` before
+dependent migration work, then reload the canonical instructions after apply.
+
 Find and verify an absolute Python 3.11+ executable in the current execution context. From the workspace root run:
 
 ```text
 <absolute-python-executable> -B .hai/tools/hai.py startup --workspace .
 ```
 
-Inspect independent results and issues even if the command fails. Apply the exact fixed `.hai_env/agent_instructions.md` text before dependent work; a readable empty file is valid. Missing or unreadable instructions block dependent work, not independent diagnosis. Follow higher-priority workspace and session instructions. If Python or the command cannot run, report the limitation and independently load the safe fixed instructions; do not treat an unavailable check as passed or invalid state as absent.
+Inspect independent results and issues even if the command fails. Apply the exact fixed `.hai_env/config/agent_instructions.md` text before dependent work; a readable empty file is valid. Missing or unreadable instructions block dependent work, not independent diagnosis. Follow higher-priority workspace and session instructions. If Python or the command cannot run, report the limitation and independently load the safe fixed instructions; do not treat an unavailable check as passed or invalid state as absent.
 
 For a user-requested startup, the host MUST follow [Present startup guide](procedures/present-startup-guide.md) in its first response: show registered agents and current Activity state. With no accompanying concrete task, show the combined task/agent menu and wait for a choice, including when an Activity already exists. With a concrete task, show the summary and proceed without a menu-selection requirement. An internal startup/status check during ongoing work does not itself trigger the guide. For subsequent explicit Help/menu requests or menu selections, the host MUST use the same procedure, refreshing facts and checking the selected operation before acting.
 

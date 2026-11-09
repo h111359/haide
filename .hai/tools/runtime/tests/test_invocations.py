@@ -23,10 +23,11 @@ class InvocationTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         (self.root / '.hai_env/activities').mkdir(parents=True)
+        (self.root / '.hai_env/config').mkdir()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(TOOLS.parent / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env/agent_instructions.md').write_text('')
-        (self.root / '.hai_env/state.json').write_text(json.dumps({
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps({
             'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
             'features': {'chronicles': {'enabled': False, 'record_every_prompts': 5}}}))
         self.prov = {'source': 'fixture host', 'reason': 'allocate before dispatch'}
@@ -55,7 +56,7 @@ class InvocationTests(unittest.TestCase):
         self.assertFalse((self.base / 'files').exists())
 
     def test_repeated_same_agent_has_distinct_attributed_directories(self):
-        state = (self.root / '.hai_env/state.json').read_bytes()
+        state = (self.root / '.hai_env/config/state.json').read_bytes()
         first = self.allocate(); second = self.allocate()
         self.assertTrue(first['ok'] and second['ok'])
         a, b = first['result'], second['result']
@@ -72,7 +73,7 @@ class InvocationTests(unittest.TestCase):
             self.assertEqual(allocation['metadata']['provenance'], self.prov)
             (path / 'sentinel.txt').write_text(allocation['invocation_id'])
         self.assertEqual((self.root / a['path'] / 'sentinel.txt').read_text(), a['invocation_id'])
-        self.assertEqual((self.root / '.hai_env/state.json').read_bytes(), state)
+        self.assertEqual((self.root / '.hai_env/config/state.json').read_bytes(), state)
 
     def test_no_destination_or_caller_identity_override(self):
         for kw in [{'agent': '../agent'}, {'agent': ''}, {'agent': 'A' * 65},
@@ -202,13 +203,13 @@ class InvocationTests(unittest.TestCase):
         target = self.root / 'project/activities'
         target.parent.mkdir()
         (self.root / '.hai_env/activities').rename(target)
-        state_path = self.root / '.hai_env/state.json'
+        state_path = self.root / '.hai_env/config/state.json'
         state = json.loads(state_path.read_text()); state['activities']['location'] = 'project/activities'
         state_path.write_text(json.dumps(state))
         r = self.allocate()
         self.assertTrue(r['ok'], r)
         self.assertTrue(r['result']['path'].startswith('project/activities/'))
-        (self.root / '.hai_env/agent_instructions.md').unlink()
+        (self.root / '.hai_env/config/agent_instructions.md').unlink()
         self.assertFalse(self.allocate()['ok'])
 
     def test_cli_preview_and_applied_result(self):

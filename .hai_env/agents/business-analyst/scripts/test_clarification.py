@@ -22,9 +22,9 @@ class RuntimeDialogueTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(REPO / '.hai/templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env').mkdir()
-        (self.root / '.hai_env/agent_instructions.md').write_text('', encoding='utf-8')
-        (self.root / '.hai_env/state.json').write_text(json.dumps({
+        (self.root / '.hai_env/config').mkdir(parents=True)
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('', encoding='utf-8')
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps({
             'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
             'features': {'chronicles': {'enabled': False, 'record_every_prompts': 5}},
             'integrations': {}}), encoding='utf-8')

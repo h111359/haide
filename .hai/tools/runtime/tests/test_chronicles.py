@@ -15,9 +15,10 @@ class CoreChronicleTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
         (self.root / '.hai_env/activities').mkdir(parents=True)
+        (self.root / '.hai_env/config').mkdir()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(Path(__file__).resolve().parents[3] / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
         self.state = {'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
                       'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}}
         self.save_state()
@@ -36,7 +37,7 @@ class CoreChronicleTests(unittest.TestCase):
                            'representation': 'event_msg', 'enabled_intervals': [{'start': {'source_session_id': 'one', 'source_position': 2}, 'end': None, 'provenance': 'fixture recording enabled before assigned Activity'}]}
 
     def tearDown(self): self.temp.cleanup()
-    def save_state(self): (self.root / '.hai_env/state.json').write_text(json.dumps(self.state))
+    def save_state(self): (self.root / '.hai_env/config/state.json').write_text(json.dumps(self.state))
     def record(self, kind, payload): return {'timestamp': '2026-11-07T00:00:00Z', 'type': kind, 'payload': payload}
     def message(self, kind, text, **kw): return self.record('event_msg', {'type': kind, 'message': text, **kw})
     def save(self): self.source.write_text(''.join(json.dumps(r) + '\n' for r in self.lines))
@@ -174,7 +175,7 @@ class CoreChronicleTests(unittest.TestCase):
         r = self.sync(sources=[self.assignment], mandatory=True); self.assertTrue(r['ok'], r)
         self.assertTrue((self.base / 'chronicles/checkpoint.json').is_file())
         self.assertTrue(self.close(recording_requirement={'enabled': False, 'mandatory': True})['ok'])
-        self.assertFalse(json.loads((self.root / '.hai_env/state.json').read_text())['features']['chronicles']['enabled'])
+        self.assertFalse(json.loads((self.root / '.hai_env/config/state.json').read_text())['features']['chronicles']['enabled'])
 
     def test_enablement_reconciliation_excludes_off_period_and_preserves_recorded_text(self):
         self.assertTrue(self.sync(sources=[self.assignment])['ok'])

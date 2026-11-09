@@ -1,0 +1,149 @@
+{
+  "usage_format_version": 2,
+  "activity_id": "d44d0ee7-4250-494a-ba54-40b4729b94d2",
+  "updated_at": "2026-11-09T17:01:31Z",
+  "provenance": {
+    "source": "User: close the activity, commit",
+    "reason": "Archive completed BL-0012 with verified evidence before local commit."
+  },
+  "sources": [
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-53-30-01a1c0cc-cec8-7622-8dc9-6bbdfa019152.jsonl",
+        "session_id": "01a1c0cc-cec8-7622-8dc9-6bbdfa019152",
+        "start_position": 40,
+        "end_position": null
+      },
+      "observation": {
+        "tokens": {
+          "input_tokens": 11509881,
+          "cached_input_tokens": 11335552,
+          "output_tokens": 47595,
+          "reasoning_output_tokens": 10700,
+          "total_tokens": 11557476
+        },
+        "by_model": {
+          "gpt-6.1-sol": {
+            "input_tokens": 11509881,
+            "cached_input_tokens": 11335552,
+            "output_tokens": 47595,
+            "reasoning_output_tokens": 10700,
+            "total_tokens": 11557476
+          }
+        },
+        "through_position": 634,
+        "through_timestamp": "2026-11-09T17:01:12.561Z",
+        "observed_end_position": 637,
+        "baseline_position": 34,
+        "prefix_bytes": 1837199,
+        "prefix_sha256": "34882b54189a1e1e06896f5dd1d177ee99f152f93b2f7992965f4f0232ca47bd"
+      },
+      "status": "current",
+      "error": null
+    },
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T17-27-10-01a1c0eb-a386-7f30-b4a4-a362db6db607.jsonl",
+        "session_id": "01a1c0eb-a386-7f30-b4a4-a362db6db607",
+        "start_position": 12,
+        "end_position": 121
+      },
+      "observation": {
+        "tokens": {
+          "input_tokens": 477352,
+          "cached_input_tokens": 457600,
+          "output_tokens": 2371,
+          "reasoning_output_tokens": 182,
+          "total_tokens": 479723
+        },
+        "by_model": {
+          "gpt-6.1-terra": {
+            "input_tokens": 477352,
+            "cached_input_tokens": 457600,
+            "output_tokens": 2371,
+            "reasoning_output_tokens": 182,
+            "total_tokens": 479723
+          }
+        },
+        "through_position": 117,
+        "through_timestamp": "2026-11-09T15:29:04.938Z",
+        "observed_end_position": 121,
+        "baseline_position": null,
+        "prefix_bytes": 387080,
+        "prefix_sha256": "137f87e8d8233d3fd83aa883bd203d7d7ad13601154df02430403eb41cf164d7"
+      },
+      "status": "current",
+      "error": null
+    },
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T18-48-46-01a1c136-5931-7772-8ff4-ab0dbc8f7fd8.jsonl",
+        "session_id": "01a1c136-5931-7772-8ff4-ab0dbc8f7fd8",
+        "start_position": 12,
+        "end_position": 233
+      },
+      "observation": {
+        "tokens": {
+          "input_tokens": 1182821,
+          "cached_input_tokens": 1130368,
+          "output_tokens": 6005,
+          "reasoning_output_tokens": 825,
+          "total_tokens": 1188826
+        },
+        "by_model": {
+          "gpt-6.1-terra": {
+            "input_tokens": 1182821,
+            "cached_input_tokens": 1130368,
+            "output_tokens": 6005,
+            "reasoning_output_tokens": 825,
+            "total_tokens": 1188826
+          }
+        },
+        "through_position": 231,
+        "through_timestamp": "2026-11-09T16:53:55.830Z",
+        "observed_end_position": 233,
+        "baseline_position": null,
+        "prefix_bytes": 647567,
+        "prefix_sha256": "c56ea425d018fa95375dd4c07c8ed8ae5264683a9bf6c493cb4d8cd8223dc589"
+      },
+      "status": "current",
+      "error": null
+    }
+  ],
+  "pricing": null,
+  "reported_spend": null,
+  "summary": {
+    "coverage": "observed",
+    "tokens": {
+      "input_tokens": 13170054,
+      "cached_input_tokens": 12923520,
+      "output_tokens": 55971,
+      "reasoning_output_tokens": 11707,
+      "total_tokens": 13226025
+    },
+    "by_model": {
+      "gpt-6.1-sol": {
+        "input_tokens": 11509881,
+        "cached_input_tokens": 11335552,
+        "output_tokens": 47595,
+        "reasoning_output_tokens": 10700,
+        "total_tokens": 11557476
+      },
+      "gpt-6.1-terra": {
+        "input_tokens": 1660173,
+        "cached_input_tokens": 1587968,
+        "output_tokens": 8376,
+        "reasoning_output_tokens": 1007,
+        "total_tokens": 1668549
+      }
+    },
+    "estimated_credits": null,
+    "reported_credits": null,
+    "reported_spend_current": false,
+    "missing_rate_models": [
+      "gpt-6.1-sol",
+      "gpt-6.1-terra"
+    ]
+  },
+  "markdown_sha256": "f8d3643013bdbaba1e944054f2d0f6e8096268711f502071c2880ec7967531b1"
+}

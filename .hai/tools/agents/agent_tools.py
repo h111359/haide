@@ -9,6 +9,9 @@ from pathlib import Path
 import re
 import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from environment_paths import STATE, PROFILES, INSTRUCTIONS, legacy_entries
+
 sys.dont_write_bytecode = True
 
 NAMES = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*\Z")
@@ -641,7 +644,7 @@ def resolve(workspace, definition, runtime):
     request = {"agent": fields["name"], "model_class": metadata["hai-model-class"],
                "reasoning_effort": metadata["hai-reasoning-effort"]}
     try:
-        profiles = read_profiles(contained(workspace, ".hai_env/model_profiles.json"))
+        profiles = read_profiles(contained(workspace, PROFILES))
         request["model"] = profiles["models"][request["model_class"]]
         models = runtime.get("models") if isinstance(runtime, dict) else None
         if (not isinstance(models, dict) or not models
@@ -723,8 +726,8 @@ def audit(workspace):
             issues.append({"code": "catalogue", "path": relative, "message": str(exc)})
     profile_status = "absent"
     try:
-        profile = contained(workspace, ".hai_env/model_profiles.json")
-        if profile.exists() or (workspace / ".hai_env/model_profiles.json").is_symlink():
+        profile = contained(workspace, PROFILES)
+        if profile.exists() or (workspace / PROFILES).is_symlink():
             read_profiles(profile)
             profile_status = "valid"
     except Invalid as exc:

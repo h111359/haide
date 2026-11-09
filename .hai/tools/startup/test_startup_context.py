@@ -36,7 +36,7 @@ class ContextTests(unittest.TestCase):
 
     def test_absent_current_and_instructions_exact(self):
         for instructions in ('', 'α\r\n' * 5000):
-            self.write('.hai_env/agent_instructions.md', instructions)
+            self.write('.hai_env/config/agent_instructions.md', instructions)
             before = self.snapshot()
             result = context.context(self.root)
             self.assertTrue(result['ok'], result)
@@ -99,7 +99,7 @@ class ContextTests(unittest.TestCase):
         log = self.root / base / 'log.md'
         log.unlink()
         try:
-            log.symlink_to(self.root / '.hai_env/agent_instructions.md')
+            log.symlink_to(self.root / '.hai_env/config/agent_instructions.md')
         except (OSError, NotImplementedError):
             self.skipTest('symbolic links unavailable')
         result = context.context(self.root)
@@ -127,7 +127,7 @@ class ContextTests(unittest.TestCase):
         base = self.activity()
         optional = self.root / base / 'analysis.md'
         try:
-            optional.symlink_to(self.root / '.hai_env/agent_instructions.md')
+            optional.symlink_to(self.root / '.hai_env/config/agent_instructions.md')
         except (OSError, NotImplementedError):
             self.skipTest('symbolic links unavailable')
         self.assertEqual(context.context(self.root)['activity_context']['status'], 'invalid')
@@ -146,8 +146,8 @@ class ContextTests(unittest.TestCase):
 
     def test_independent_failures_and_missing_instructions(self):
         self.activity()
-        self.write('.hai_env/model_profiles.json', '{broken')
-        (self.root / '.hai_env/agent_instructions.md').unlink()
+        self.write('.hai_env/config/model_profiles.json', '{broken')
+        (self.root / '.hai_env/config/agent_instructions.md').unlink()
         result = context.context(self.root)
         self.assertFalse(result['ok'])
         self.assertEqual(result['instructions_status'], 'missing')
@@ -155,7 +155,7 @@ class ContextTests(unittest.TestCase):
         self.assertEqual(result['profiles']['status'], 'invalid')
         self.assertEqual(result['activity_context']['status'], 'current')
         self.assertGreaterEqual(len(result['issues']), 2)
-        self.write('.hai_env/state.json', '{broken')
+        self.write('.hai_env/config/state.json', '{broken')
         self.assertEqual(context.context(self.root)['activity_context']['status'], 'unverified')
 
     def test_production_cli_no_mutation(self):

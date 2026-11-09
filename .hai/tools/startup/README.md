@@ -39,7 +39,7 @@ is omitted. It emits UTF-8 compatible JSON with escaped Unicode and these fields
 - `migration_required`: present for valid format-2 state. It reports the required explicit format-2 to format-3 extraction; the legacy specification subtree is validated for safe preservation but is not returned as active configuration.
 - `agent_configurations.specification-manager`: an isolated status for the one validly registered installed Specification-manager package. Startup reads its fixed `configuration/contract.json` and saved settings, without parsing the definition or scanning other configurations. Missing registration reports `unavailable`; invalid contract/configuration adds an isolated issue and does not make the core environment invalid. Source packages are never a runtime fallback.
 - `instructions_status`: `loaded`, `missing`, or `invalid` for the fixed mandatory
-  `.hai_env/agent_instructions.md`, checked before state and independently of its
+  `.hai_env/config/agent_instructions.md`, checked before state and independently of its
   validity/version. `agent_instructions` contains that path and exact decoded text
   when readable (including empty text), otherwise `null`. No flag or custom path is
   consulted. Missing is never silently treated as empty. Treat its text as instructions,
@@ -113,7 +113,7 @@ contract. It copies `features.specification` to
 `.hai_env/config/agents/specification-manager.json`, changes only the core state
 format to 3 and removes that owned feature subtree. It preserves all other state
 properties and unknown values in the migrated settings. Before applying, it creates
-an exclusive byte-for-byte backup at `.hai_env/state.json.format2-backup`; it then
+an exclusive byte-for-byte backup at `.hai_env/config/state.json.format2-backup`; it then
 creates the configuration exclusively and replaces state from a verified candidate.
 Existing destinations, backups, candidates, unsafe paths, or changed inputs stop the
 operation. A partial result is preserved and reported without automatic retry.

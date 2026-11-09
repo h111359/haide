@@ -2,7 +2,14 @@
 
 ## File format and mandatory resources
 
-Strict UTF-8 JSON. `.hai_env/state.json` and `.hai_env/agent_instructions.md` are
+The canonical environment files now live in `.hai_env/config/`. Legacy root-level
+files are recognized only for diagnosis and explicit `environment migrate-layout`;
+normal readers never fall back to them. Layout relocation preserves state schema
+versions and file bytes; older supported schemas still need their own explicit
+conversion. Mixed layouts and incomplete migration manifests block normal startup.
+Initialization must refuse both legacy files and retained migration manifests.
+
+Strict UTF-8 JSON. `.hai_env/config/state.json` and `.hai_env/config/agent_instructions.md` are
 mandatory in every initialized environment and cannot be disabled or relocated.
 Load safe mandatory instructions before dependent work, independently of state
 validity. Existing readable empty content adds no instructions. Missing, unreadable,
@@ -90,7 +97,7 @@ threshold changes do not reset coverage or dispatch progress. The host owns sour
 
 ## Local model profiles
 
-Optional `.hai_env/model_profiles.json` is separate from state and catalogue.
+Optional `.hai_env/config/model_profiles.json` is separate from state and catalogue.
 Its absence is valid for core state; never add it to minimal initialization or
 infer profile choices from feature flags. runtime owns explicitly
 requested profile setup under [model-profiles_conv.md](model-profiles_conv.md).
@@ -140,7 +147,7 @@ and remains the host coordinator’s responsibility.
 
 The [state contract](../contracts/state.json) is the authoritative machine-readable source for current and supported state versions. The canonical [state template](../templates/state.json) supplies only initialization defaults. Validate both before initialization; do not ask the human to supply versions or infer them from a framework release.
 
-The runtime may perform authorized minimal initialization when `.hai_env/state.json` is
+The runtime may perform authorized minimal initialization when `.hai_env/config/state.json` is
 absent and its location can be created safely. `.hai_env/` may already be a directory
 containing independently managed resources; its existence alone does not establish
 initialized core state. Preserve those resources without reading their contents to

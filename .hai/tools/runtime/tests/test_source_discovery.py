@@ -30,8 +30,8 @@ class SourceDiscoveryTests(unittest.TestCase):
         self.save()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(Path(__file__).resolve().parents[3] / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env').mkdir()
-        (self.root / '.hai_env/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config').mkdir(parents=True)
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
         self.state = {'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
                       'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}}
         self.save_state()
@@ -50,7 +50,7 @@ class SourceDiscoveryTests(unittest.TestCase):
         self.source.write_text(''.join(json.dumps(r) + '\n' for r in self.records), encoding='utf-8')
 
     def save_state(self):
-        (self.root / '.hai_env/state.json').write_text(json.dumps(self.state))
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps(self.state))
 
     def call(self, op, request, apply=False):
         with mock.patch.dict(os.environ, self.env, clear=True):
@@ -145,7 +145,7 @@ class SourceDiscoveryTests(unittest.TestCase):
         self.assertEqual(before, self.snapshot())
         req = self.binding(); req['mandatory'] = True
         self.assertTrue(self.call('bind', req, True)['ok'])
-        self.assertFalse(json.loads((self.root / '.hai_env/state.json').read_text())['features']['chronicles']['enabled'])
+        self.assertFalse(json.loads((self.root / '.hai_env/config/state.json').read_text())['features']['chronicles']['enabled'])
 
     def test_observed_occurrence_preview_first_bind_resume_and_exact_duplicate_text(self):
         before = self.snapshot(); result = self.call('bind', self.binding(), False)

@@ -1,0 +1,25 @@
+{
+  "status": "completed",
+  "provenance": {
+    "source": "User: Implement. following explicit existing-environment migration decision",
+    "reason": "Apply reviewed three-file relocation; prior analyst writer ended and host is sole current writer."
+  },
+  "backup_path": ".hai_env/config/migration-backups/44dc4b83-bae0-4b3b-83c5-717e198b1317",
+  "moves": [
+    {
+      "source": ".hai_env/model_profiles.json",
+      "destination": ".hai_env/config/model_profiles.json",
+      "sha256": "2f1b765216b9dbc0553e8a854a9a916fef5df922f4391901e03edd043f32df3e"
+    },
+    {
+      "source": ".hai_env/agent_instructions.md",
+      "destination": ".hai_env/config/agent_instructions.md",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": ".hai_env/state.json",
+      "destination": ".hai_env/config/state.json",
+      "sha256": "327a6642c12c7c5ee3e4633e7dff03a51abfb9cdffda3945fc8cb6cf243e4e4f"
+    }
+  ]
+}

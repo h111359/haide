@@ -23,10 +23,11 @@ class ChatTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         (self.root / '.hai_env/activities').mkdir(parents=True)
+        (self.root / '.hai_env/config').mkdir()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(TOOLS.parent / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env/agent_instructions.md').write_text('')
-        (self.root / '.hai_env/state.json').write_text(json.dumps({
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps({
             'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
             'features': {'chronicles': {'enabled': False, 'record_every_prompts': 5}}}))
         self.prov = {'source': 'fixture agent assignment', 'reason': 'verify chat behavior'}
@@ -186,14 +187,14 @@ class ChatTests(unittest.TestCase):
         destination = self.root / 'project/activities'
         destination.parent.mkdir()
         (self.root / '.hai_env/activities').rename(destination)
-        state_path = self.root / '.hai_env/state.json'
+        state_path = self.root / '.hai_env/config/state.json'
         state = json.loads(state_path.read_text())
         state['activities']['location'] = 'project/activities'
         state_path.write_text(json.dumps(state))
         self.assertTrue(self.post()['ok'])
         result = self.read()
         self.assertTrue(result['result']['path'].startswith('project/activities/'))
-        (self.root / '.hai_env/agent_instructions.md').unlink()
+        (self.root / '.hai_env/config/agent_instructions.md').unlink()
         self.assertFalse(self.post()['ok'])
 
     def test_startup_checks_type_without_loading_chat_content(self):

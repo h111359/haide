@@ -2,7 +2,7 @@
 
 The environment is the persistent, workspace-specific configuration, fixed instructions, Activities and optional records in `.hai_env/`, separate from reusable `.hai/` framework resources. Product code and specifications remain in their canonical workspace locations.
 
-The fixed `.hai_env/agent_instructions.md` is loaded independently of state validity. A readable empty file is valid; missing or unreadable instructions block dependent work, while diagnosis remains possible. Compatible `.hai_env/state.json` defines the mandatory Activity location and optional chronicles settings. Safely absent state differs from invalid or incompatible state; startup is read-only, initialization creates minimal state, and existing-state repair or migration requires covering authority.
+The fixed `.hai_env/config/agent_instructions.md` is loaded independently of state validity. A readable empty file is valid; missing or unreadable instructions block dependent work, while diagnosis remains possible. Compatible `.hai_env/config/state.json` defines the mandatory Activity location and optional chronicles settings. Safely absent state differs from invalid or incompatible state; startup is read-only, initialization creates minimal state, and existing-state repair or migration requires covering authority.
 
 Activities retain stable identity and work continuity across chats; record operations preserve provenance, prior revisions and actual outcomes. The runtime administers supported state and Activity operations. The host coordinator supplies the user's scope, choices and evidence and reports actual results. See the [Activity concept](activity.md), [state convention](../conventions/state_conv.md), and [runtime commands](../tools/runtime/README.md).
 

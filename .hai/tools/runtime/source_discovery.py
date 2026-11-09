@@ -1,4 +1,5 @@
 """Read-only resolution of one host-identified Codex session, never reconstruction."""
+from environment_paths import STATE, PROFILES, INSTRUCTIONS
 import hashlib
 import json
 import os
@@ -106,7 +107,7 @@ def resolve(workspace, request, environ=None):
 
 
 def enabled(workspace, request):
-    flag = read_json(checked_path(workspace, '.hai_env/state.json', allow_missing=False))['features']['chronicles']['enabled']
+    flag = read_json(checked_path(workspace, STATE, allow_missing=False))['features']['chronicles']['enabled']
     mandatory = request.get('mandatory', False)
     if type(flag) is not bool or type(mandatory) is not bool:
         raise ValueError('Recording flags must be Boolean')

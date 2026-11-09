@@ -1,0 +1,14 @@
+{
+  "state_format_version": 3,
+  "features": {
+    "chronicles": {
+      "enabled": true,
+      "record_every_prompts": 5,
+      "enablement_revision": 2
+    }
+  },
+  "integrations": {},
+  "activities": {
+    "location": ".hai_env/activities"
+  }
+}

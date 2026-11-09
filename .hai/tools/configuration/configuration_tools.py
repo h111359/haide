@@ -7,6 +7,9 @@ from pathlib import Path
 import re
 import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from environment_paths import STATE, PROFILES, INSTRUCTIONS, LEGACY, legacy_entries
+
 
 class ConfigurationError(ValueError):
     """A contract or saved configuration does not satisfy its declared format."""
@@ -142,8 +145,8 @@ def workspace_directory_path(workspace, value, reserved_paths=(), *,
         raise ConfigurationError("Workspace must be an existing directory")
     target = _safe_path(workspace, value)
     target_lexical = workspace / value
-    reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agent_instructions.md",
-                ".hai_env/model_profiles.json", ".hai_env/agents", ".hai_env/config"]
+    reserved = [".hai", ".git", STATE, INSTRUCTIONS,
+                PROFILES, ".hai_env/agents", ".hai_env/config", *LEGACY.values()]
     reserved.extend(_configured_reserved_paths(
         workspace, include_specification=not ignore_legacy_specification))
     reserved.extend(reserved_paths)
@@ -212,10 +215,10 @@ def _effective_settings(contract, raw, workspace=None):
 
 def _configured_reserved_paths(workspace, include_specification=True):
     """Return fixed and configured core paths without following optional content."""
-    reserved = [".hai", ".git", ".hai_env/state.json", ".hai_env/agent_instructions.md",
-                ".hai_env/model_profiles.json", ".hai_env/agents"]
+    reserved = [".hai", ".git", STATE, INSTRUCTIONS,
+                PROFILES, ".hai_env/agents", *LEGACY.values()]
     try:
-        state_path = _safe_path(workspace, ".hai_env/state.json")
+        state_path = _safe_path(workspace, STATE)
     except ConfigurationError:
         # The fixed state path remains reserved even when its existing target is
         # unsafe; do not let unrelated state failure block isolated config reads.

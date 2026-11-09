@@ -6,7 +6,7 @@ Optional installed workspace definitions live at `.hai_env/agents/<name>/SKILL.m
 
 Source packages under `hai_agents_library/agents/` are data, not an execution origin. Source maintenance, installed replacement, registration and execution are separate scopes. Preserve external settings and records, review local differences or unknown baselines before replacing a package, and do not infer execution authority from installation.
 
-Apply the safe fixed `.hai_env/agent_instructions.md` and higher-priority instructions before dependent work. Substantive work uses the current Activity; startup, necessary setup and read-only diagnosis can establish context first. Pass relevant task scope, authority, Activity identity and evidence to any selected extension.
+Apply the safe fixed `.hai_env/config/agent_instructions.md` and higher-priority instructions before dependent work. Substantive work uses the current Activity; startup, necessary setup and read-only diagnosis can establish context first. Pass relevant task scope, authority, Activity identity and evidence to any selected extension.
 
 ## Role execution and delegation
 

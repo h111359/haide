@@ -1,0 +1,11 @@
+{
+  "invocation_format_version": 1,
+  "activity_id": "d44d0ee7-4250-494a-ba54-40b4729b94d2",
+  "invocation_id": "44a49212-e711-4870-b181-d137dcfe90c6",
+  "agent": "quality-assurance",
+  "created_at": "2026-11-09T16:48:33Z",
+  "provenance": {
+    "source": "Required separate review under .hai/conventions/agent_conv.md",
+    "reason": "Independent review of BL-0012 runtime, persistence and migration implementation."
+  }
+}
