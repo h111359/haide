@@ -1,0 +1,146 @@
+# Review and proposal: accountable architecture and development
+
+## Request and review boundary
+
+Activity: `088c1e8e-caa9-4971-9328-cb742a4db998`.
+
+Review all useful ideas in `.sandbox/us_software_develoer_concepts.md` for the Solution architect and Software developer agents. This document proposes changes; it is neither an implementation directive nor authorization to replace installed packages.
+
+The original request is retained in Activity `input.md`. No agent definitions, reusable packages, configuration, or product implementation were changed during this review.
+
+## Recommendation
+
+Adopt the source's accountability model through the existing HAI ownership boundaries. Solution architect should produce a researched assessment and a self-contained implementation plan; Software developer should execute that plan or an explicitly authorized substantive direct directive and return evidence.
+
+Use `analysis.md` for review reasoning and `plan.md` as the execution brief. Keep decisions in the existing decision ledger, with canonical Activity writes performed by the host through runtime. Do not introduce a second work-item lifecycle or duplicate planning document.
+
+## Observed baseline
+
+- Both installed roles have one generic `perform-assigned-work.md` procedure. Their shared rules already cover scope, valid Activity context, evidence accuracy, changed inputs, preservation of unrelated work, partial failures, owner handoffs, and no specialist delegation.
+- Solution architect already owns `conventions/implementation-plan_conv.md`: phases, dependencies, observable results, exact file inventory, and completion checks. It does not fully define readiness, authority provenance, plan freshness, or a developer execution contract.
+- Software developer already requires runtime evidence of the original implementation-start marker before implementation changes or tests. Its execution and verification instructions otherwise remain broad.
+- Business analyst already owns requirements readiness, saved clarification dialogue, supplemental context reading, and framework-protection conventions, plus pure diagnostic/validation helpers. Reuse these contracts rather than copying their contents.
+- Business analyst distinguishes decisions requiring human input from implementation choices safely delegated to delivery. Preserve that distinction.
+- Specification-manager owns durable product knowledge and its enablement/location. Startup reports specification disabled; this task must not enable it implicitly.
+- Source and installed copies of Solution architect, Software developer, and Business analyst are currently identical, based on recursive comparisons.
+- Targeted installed-definition validation passed for both target agents. This establishes structural validity, not behavioral completeness or execution readiness.
+
+## Coverage of every source story
+
+| Story | Existing support and proposed application | Responsible owner |
+| --- | --- | --- |
+| US-01 Starting point | Retain core prerequisites; add explicit directive mode, assessed input identity/revision, relevant convention inventory, and required/optional dependency results. Execution rejects missing, empty, stale, or contradictory directives. | Both roles; runtime supplies identity/state |
+| US-02 Complete request | Architect inventories supplied materials and reads relevant readable attachments fully, subject to authorized boundaries. Record unreadable/nontext limits. Separate exact input from interpretation; developer receives all execution-relevant conclusions in the plan. | Architect; host preserves input |
+| US-03 Research | Research relevant implementation, patterns and available context before asking discoverable questions. Record each material concern actually encountered, including out-of-scope concerns, without turning review into an exhaustive audit. | Both roles |
+| US-04 Assessment | Add a technical assessment convention covering objective, boundaries, evidence, options, edge conditions, knowledge effects, decisions and readiness. Preliminary recommendations remain explicitly provisional. | Architect |
+| US-05 Readiness | Consume the existing Business analyst readiness assessment for the current request, or return the missing dependency. Add technical/execution readiness checks without creating a competing business checklist. | Analyst owns business gate; architect checks technical readiness; developer checks directive readiness |
+| US-06 Accountable choices | Record material alternatives, effects, recommendation, actual decision, source and unresolved dependency. Ask for choices reserved to the user; permit ordinary technical decisions already delegated by the assignment. | Architect; host routes questions |
+| US-07 Clarifications | Reuse the existing dialogue identities, answer provenance and host persistence handshake. Recommendations and UI preselection never count as responses. | Both consume; host persists; analyst can clarify business intent |
+| US-08 Modes | Default architect work is planning only. Explicit accelerated planning may omit a separate assessment document only when mandatory readiness is satisfied or an existing narrow exemption applies. Explicitly delegated choices are disclosed. Developer supports a substantive direct directive with the same safeguards. | Caller selects scope/mode; both roles validate |
+| US-09 Authority separation | Plan/direct directive supplies task authority within session instructions. Assessment, project knowledge and history supply evidence, not additional work instructions. Developer must return missing semantics for plan revision rather than infer scope from analysis. | Both roles |
+| US-10 Standalone brief | Extend existing plan format with outcome/motivation, scope, constraints, authority evidence, accepted assumptions/decisions, acceptance mapping, exact tasks/targets/dependencies, checks and owner handoffs. Test/documentation work is explicit when needed, with a reason when not applicable. | Architect produces; developer validates |
+| US-11 Contracts | Add focused assessment and developer evidence conventions; extend the existing plan convention. Read applicable coding, language, framework, interface and documentation rules for the actual work. Validate structure mechanically and meaning by review. | Role/package authors; both roles |
+| US-12 Revisions | Retain predecessors using existing runtime revision history. Reassess dependent conclusions after new input. Reissue one coherent current plan; developer cannot rewrite its governing plan to justify a deviation. | Architect proposes; host persists |
+| US-13 Knowledge | Architect identifies agreed knowledge deltas and their intent. Developer returns actual implementation evidence and update requirements. Route specification changes to its owner; validate required ordinary documentation edits within authorized scope. | Both roles; specification owner for managed knowledge |
+| US-14 Context interfaces | Reuse existing registry for relevant reads. Its `Update` field is currently uninterpreted and grants no write authority. Use existing owner handoffs for writes; defer a generic writable adapter system until there is a concrete integration and explicit contract. | Both roles read; host routes owner writes |
+| US-15 Governing resources | Reuse framework-protection contract: exact covering human authority, baseline, own touched paths including indirect effects, final inspection, stable diagnostic, no automatic revert. Framework source maintenance and installed replacement stay separate. | Every writer; host coordinates |
+| US-16 Tools | Reuse runtime identity, logging, revisions and completion operations. Add only pure validators genuinely missing for the new documents; preserve Unicode and expose side effects/failures. No implicit installs, isolated environments or third-party dependencies. | Host/runtime; role-owned validators |
+| US-17 Bounded execution | Follow task dependencies, maintain concise per-task results and changed-path evidence, preserve unrelated edits, stop dependent work on failure. Ask for a revised directive for consequential deviations. | Developer |
+| US-18 Verification | Map acceptance criteria to appropriate automated checks or named human/external verification. Report passed, failed, skipped and unavailable separately. Required unresolved checks block a success handoff. | Developer performs checks; host assigns independent QA when required |
+| US-19 Durable history | Return attributable requirements/design decisions and implementation observations to existing Activity/specification owners. Avoid duplicate histories. Preserve exact source identity and actual timestamps; no invented evidence. | Both return evidence; owners persist |
+| US-20 Retention | Reuse core current/archived Activity boundaries and revision history. History is not hidden execution authority. Preserve permitted append-only supplements and late chronicle synchronization; do not claim archives are physically immutable. | Runtime/host |
+| US-21 Failure/outcome | Report assessment prepared, decisions pending, plan prepared, implementation blocked, or implementation verified distinctly. Required owner work remains pending until evidence returns. No role closes the Activity or fabricates final acceptance. | Both roles; host owns lifecycle |
+
+## Proposed role workflows
+
+### Solution architect
+
+1. Establish scope, authority, current Activity, configuration and current readiness evidence. Inventory supplied materials, applicable conventions and supplemental context; retrieve accessible facts before returning questions.
+2. Assess the existing system, relevant alternatives, edge conditions, failure behavior, compatibility, migration impact, risks and knowledge changes. Attribute findings and preserve individually reviewable concerns.
+3. Identify decisions reserved for the user and decisions already delegated. Return proposed questions and ledger updates through the host; continue independent analysis while dependencies remain unresolved.
+4. Produce a coherent plan using the existing phased format. Carry every implementation-relevant decision, assumption, constraint, acceptance condition and owner dependency directly into it.
+5. Validate plan structure, semantic completeness and correspondence to current input/decisions. Return the proposed artifact and evidence to the host for persistence; a plan's readiness does not grant implementation permission.
+
+Recommended procedures are `assess-solution.md`, `resolve-technical-decisions.md`, and `prepare-implementation-plan.md`, replacing the generic entry in the procedure index. Retain the existing generic file only if it has a distinct documented purpose; do not leave competing entry points.
+
+### Software developer
+
+1. Validate the current plan or explicit direct directive against current input, decisions, scope and authority. Check current artifact identity/content evidence, mandatory conventions, required owner dependencies and protected-resource permissions.
+2. Inspect implementation and capture initial/touched-path evidence. Require the existing runtime implementation-start evidence before implementation changes/tests.
+3. Execute ordered work and report results by task. Pause dependent work when facts contradict the directive, scope changes, inputs change, or a required tool fails. Return a correction request rather than editing the governing plan.
+4. Verify acceptance using proportionate checks, including documentation validation and required owner updates. Correct authorized defects and rerun affected checks; preserve partial persistence failures instead of automatically retrying them.
+5. Return changed artifacts, decision provenance, test evidence, remaining risks, protection inspection and unresolved owner work. Request independent review through the host where the shared delegation policy requires it.
+
+Recommended procedures are `validate-execution-input.md`, `implement-assigned-work.md`, and `verify-and-handoff.md`. Direct execution is an explicit input mode, not permission to bypass readiness, decide unassigned product outcomes, or install dependencies.
+
+## Document and handoff contracts
+
+The assessment should include preserved-input references, interpretation, included/excluded work, reviewed evidence, findings, edge cases, alternatives, knowledge effects, decision status and readiness results. References to exact source input can avoid duplicating the full user contribution into every record.
+
+Extend the implementation plan with an opening execution contract before its existing overview table:
+
+- Stable Activity identity, assessed input/decision revision evidence, mode and readiness result.
+- Outcome, motivation, explicit scope/exclusions and measurable acceptance criteria.
+- Applicable constraints and permissions, including verbatim covering authorization for protected maintenance when relevant.
+- Settled decisions and assumptions, clearly distinguishing human choices, governing rules and delegated technical choices.
+- Per-task target/operation, instructions, dependencies, expected result and acceptance/check mapping.
+- Knowledge/documentation changes, relevant conventions and required external-owner work.
+- Verification methods, relevant exact commands where known, expected results and unresolved prerequisites.
+
+An exact command is required for a specified executable operation; unknown commands or paths remain readiness dependencies rather than invented values. Avoid embedding unnecessary implementation code or prescribing low-level details that have no acceptance impact.
+
+Developer evidence should identify the input actually executed, per-task status, own changed paths versus initial state, checks and outcomes, deviations, outstanding work and protection results. Host persistence remains the existing runtime operation, not a new role-owned state file.
+
+## Interpretations that should not be copied literally
+
+1. **Every consequential design choice requires a question:** reserve user questions for choices not already authorized or safely delegated. Otherwise this would conflict with the current analyst contract and create unnecessary approval loops.
+2. **Every resource must receive an exhaustive quality review:** retain material concerns actually observed; do not require a full audit of every attachment or dependency.
+3. **Every change requires a separate test task and new tests:** require appropriate verification and acceptance mapping. A simple reversible document edit can use inspection; meaningful behavior changes require suitable behavioral tests.
+4. **The developer may never read an assessment:** allow it as clearly labeled evidence when needed, while forbidding it from expanding scope or supplying missing execution semantics.
+5. **Delete prior knowledge before inserting its replacement:** prefer validated staged replacement through the responsible owner. An independently destructive delete-then-insert sequence can lose knowledge on partial failure.
+6. **Retry every failed history operation once:** do not override HAI's no-automatic-retry rule for partial persistence failures. Preserve diagnostics and let the responsible owner resolve the dependency.
+7. **Completed records must be immutable to automation:** retain HAI's explicit supplement and chronicle exceptions. Operational instructions alone do not provide filesystem immutability.
+8. **Missing facts always require internet research:** use authorized local or connected evidence first; external research is appropriate for a real external factual gap, not private project decisions.
+
+## Proposed file changes
+
+Paths below are relative to `hai_agents_library/agents/`; all new paths are proposals.
+
+| Package/path | Proposed change |
+| --- | --- |
+| `solution-architect/SKILL.md` | Extend responsibilities, shared rules, procedure index and conditional references. Preserve no orchestration and no Activity writes. |
+| `solution-architect/procedures/perform-assigned-work.md` | Replace generic workflow with the three focused procedures named above; remove the old file if no caller/reference needs it. |
+| `solution-architect/conventions/implementation-plan_conv.md` | Extend existing readable phase format into the execution-brief contract; preserve current useful structure. |
+| `solution-architect/conventions/technical-assessment.md` (new) | Define research, alternatives, technical readiness, knowledge effects and decision attribution. |
+| `solution-architect/scripts/` and `verification/` (new, if needed) | Pure plan/assessment validators, documented limits, fixtures and behavioral scenarios. |
+| `software-developer/SKILL.md` | Add directive authority, convention selection, change attribution, protection and completion evidence requirements. |
+| `software-developer/procedures/perform-assigned-work.md` | Replace with input-validation, implementation and verification/handoff procedures. |
+| `software-developer/conventions/execution-evidence.md` (new) | Define directive readiness, task results, touched-path attribution, check results and unresolved dependencies. |
+| `software-developer/scripts/` and `verification/` (new, if needed) | Pure execution-input/evidence validators and scenarios. Reuse architect's plan contract rather than duplicating it. |
+
+Reference existing Business analyst conventions through explicit peer dependencies. No initial changes to core runtime, Business analyst contracts, model profiles, agent settings or catalogue descriptions are necessary. If packaging requires independently installable roles, shared-contract placement needs a separately scoped decision before implementation; do not assume peer files always exist.
+
+## Suggested implementation sequence and acceptance
+
+1. **Settle contracts and ownership.** Agree the adaptation choices above, exact peer dependencies, execution modes and whether scope covers reusable source maintenance only or later installed replacement. Complete applicable business readiness before downstream implementation planning. Review can finish with recommendations still unaccepted.
+2. **Update architect source package.** Implement rules, focused procedures and assessment/plan conventions. Demonstrate a plan that can be executed without the assessment or prior chat, including one decision revision and changed knowledge requirements.
+3. **Update developer source package.** Implement directive validation, bounded execution and evidence handoff. Demonstrate plan-based and explicitly authorized direct work, rejected empty input, stale/conflicting instructions, and unchanged unrelated edits.
+4. **Verify enforcement and exceptions.** Validate staged installed layouts beside compatible core and required peers. Test pure helpers where introduced; review behavioral scenarios separately because Markdown validation cannot prove agent compliance.
+5. **Review and replace installed snapshots as a separate operation.** Compare local differences again, preview exact replacement, retain runtime backups and preserve registrations/settings. Revalidate after installation. Obtain an independent reviewer for substantial shared helper/runtime changes under the existing policy.
+
+Required behavioral scenarios include ordinary work; revised/answered/unanswered decisions; missing mandatory and optional resources; failed mandatory tools; inconsistent Activity state; standalone handoff; authorized maintenance versus generated authorization; indirect protected writes; unrelated pre-existing changes; failed tests; invalid documentation/knowledge; failed required history/owner updates; and blocked closure/retention. Expected outcomes must specify which work pauses, which evidence survives, and why success is withheld.
+
+## Findings and remaining decisions
+
+- Existing role structures pass validation, but their generic procedures do not enforce the proposed handoff/readiness/completion semantics.
+- Existing Business analyst contracts provide useful infrastructure; duplicating them would create multiple authorities.
+- Registry `Update` currently has no executable permission semantics. A write-adapter framework is an additional feature, not an existing capability.
+- Specification is disabled. Required specification work cannot be silently treated as completed or enabled; ordinary relevant documentation remains usable under its own rules.
+- Source/installed equality is evidence for this review only; replacement must compare again at execution time.
+- No external research was necessary for this repository-specific review. No behavioral demonstrations or implementation tests were run because this turn changes no agent behavior.
+- Proposed modes, peer dependencies and the adapted strict requirements remain recommendations for review. They are not recorded as user decisions.
+
+The assessment is complete; agent implementation and installation remain unstarted. The Activity remains active.
+
+
+Revision provenance: source: Host review of current repository and supplied concepts; reason: Persist requested review and proposal without treating recommendations as user decisions.; reason: Record review of all 21 stories, current role gaps, adaptations, ownership, proposed files and validation scenarios.; recorded 2026-11-09T17:28:07Z.

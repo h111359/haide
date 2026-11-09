@@ -40,6 +40,12 @@ the product's runtime.
 
 ## Placement and usage
 
+- The [workspace write boundary](workspace-boundary_conv.md) applies to every
+  tool invocation, including indirect writes, temporary files, caches, fixtures
+  and cleanup. Before execution, configure controlled write destinations inside
+  the validated workspace; an outside default such as `/tmp` needs explicit user
+  permission for that location and purpose. If a tool cannot respect the boundary,
+  stop its invocation and report the dependency before requesting permission.
 - Shared framework tools live under `.hai/tools/`.
 - Agent-owned tools live under `.hai/agents/<name>/scripts/`.
 - Workspace agent-owned tools live under `.hai_env/agents/<name>/scripts/`
@@ -58,6 +64,10 @@ the product's runtime.
 - Run relevant tests when changing a tool. Include path containment,
   Unicode, line endings, symlinks/junctions, and case sensitivity where
   they affect its behavior. Use temporary fixtures with scoped cleanup.
+- Place temporary fixtures and generated test outputs inside the workspace;
+  configure temporary-directory and cache controls before launching tests.
+  A test's use of a system temporary-directory API does not authorize writes
+  outside the workspace.
 - Verify changes on each target OS when available. Report which systems
   and Python versions were actually tested, and any skipped checks;
   portability intent alone does not establish verification on all systems.

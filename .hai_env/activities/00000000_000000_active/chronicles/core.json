@@ -1,0 +1,40 @@
+{
+  "core_format_version": 1,
+  "activity_id": "088c1e8e-caa9-4971-9328-cb742a4db998",
+  "updated_at": "2026-11-09T18:02:20Z",
+  "sources": [
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T19-22-26-01a1c155-2b29-7832-aaf4-157e2559b478.jsonl",
+        "session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+        "start_position": 68,
+        "end_position": null,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
+              "source_position": 68
+            },
+            "end": null,
+            "provenance": "Chronicles enabled before the first substantive Activity work prompt, observed at source position 68."
+          }
+        ]
+      },
+      "prefix_bytes": 927293,
+      "prefix_sha256": "ae4979052e2c26339a0716625f8f567b692eedbc0b389086452903c7e9019d06",
+      "segment_path": "chronicles/20261109_192226_segment-01.md",
+      "original_started_at": "2026-11-09T17:22:26.741Z",
+      "closure_binding": null
+    }
+  ],
+  "artifact_hashes": {
+    "chronicles/20261109_192226_segment-01.md": "1aa9bbfe43ca9a63ad944170540f8b6a7430436a16517eedaf7a33a24df31eb0",
+    "chronicles/checkpoint.json": "1e830aef98b800c4b7406910e13a114b4f8b2a24d445b13edb5cfc74dd3678b7"
+  },
+  "provenance": {
+    "source": "User-requested commit; enabled chronicles",
+    "reason": "Synchronize saved exchanges immediately before the planned commit."
+  },
+  "enablement_revision": 2
+}

@@ -10,6 +10,12 @@ Apply the safe fixed `.hai_env/config/agent_instructions.md` and higher-priority
 
 ## Role execution and delegation
 
+The host coordinator and every executor MUST apply the
+[workspace write boundary](workspace-boundary_conv.md) in direct execution,
+delegation and tool use. The rule applies to all HAI workspaces, independently of
+workspace-local instructions or sandbox writable roots; assignment handoffs MUST
+include the validated workspace and any explicit permission for outside writes.
+
 The host coordinator chooses between following an installed role directly in its
 own execution and spawning a separate sub-agent. The following shared selection
 contract applies before optional role work in either mode; it does not select or

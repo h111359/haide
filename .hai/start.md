@@ -1,5 +1,12 @@
 # Startup
 
+Apply the [workspace write boundary](conventions/workspace-boundary_conv.md)
+throughout HAI work, including startup and administration. All host, agent and
+tool writes stay inside the validated current workspace unless the user explicitly
+authorizes the outside location and purpose; writable temporary directories such
+as `/tmp` are not permission. Read and apply the full convention before invoking
+an operation with file side effects.
+
 The current fixed files are `.hai_env/config/state.json`,
 `.hai_env/config/model_profiles.json` (optional), and
 `.hai_env/config/agent_instructions.md`. Legacy root-level files require an
