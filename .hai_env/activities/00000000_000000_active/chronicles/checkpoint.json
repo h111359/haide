@@ -44,7 +44,7 @@
         }
       },
       "segment_path": "chronicles/20261109_192226_segment-01.md",
-      "verified_at": "2026-11-09T20:42:43Z"
+      "verified_at": "2026-11-09T20:49:30Z"
     }
   ],
   "pending_ranges": [],
@@ -55,18 +55,18 @@
     }
   },
   "last_attempt": {
-    "attempt_id": "8f125057-925b-4808-ba75-57fa66861dfd",
+    "attempt_id": "b48b9f79-747f-4892-991c-9ed6ebb3bd93",
     "dispatch_cursors": {
       "01a1c155-2b29-7832-aaf4-157e2559b478": {
         "source_session_id": "01a1c155-2b29-7832-aaf4-157e2559b478",
         "source_position": 1130
       }
     },
-    "started_at": "2026-11-09T20:42:43Z",
-    "finished_at": "2026-11-09T20:42:43Z",
+    "started_at": "2026-11-09T20:49:30Z",
+    "finished_at": "2026-11-09T20:49:30Z",
     "status": "verified",
     "error": null
   },
-  "last_successful_at": "2026-11-09T20:42:43Z",
+  "last_successful_at": "2026-11-09T20:49:30Z",
   "in_flight": null
 }

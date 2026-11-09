@@ -89,13 +89,16 @@ class LayoutMigrationTests(unittest.TestCase):
         self.assertFalse(environment.startup.check(self.root)['ok'])
 
     def test_schema_two_layout_then_schema_conversion_end_to_end(self):
+        owner = TOOLS.parent.parent / '.hai_env/agents/specification-manager'
+        if not owner.exists() and not owner.is_symlink():
+            self.skipTest('optional Specification-manager integration unavailable in core-only distribution')
         state = copy.deepcopy(self.state)
         state['state_format_version'] = 2
         state['features']['specification'] = {'enabled': False, 'location': 'specifications', 'note': 'preserve'}
         self.write(LEGACY[STATE], json.dumps(state).encode())
         self.write('.hai_env/agents/specification-manager/SKILL.md', b'Installed fixture')
         self.write('.hai_env/agents/catalogue.md', b'| Agent | Selection guide | Definition |\n| --- | --- | --- |\n| `specification-manager` | Manage specifications. | [SKILL.md](specification-manager/SKILL.md) |\n')
-        source_contract = TOOLS.parent.parent / '.hai_env/agents/specification-manager/configuration/contract.json'
+        source_contract = owner / 'configuration/contract.json'
         self.write('.hai_env/agents/specification-manager/configuration/contract.json', source_contract.read_bytes())
         self.assertTrue(self.call(True)['ok'])
         result = environment.handle('environment/migrate-specification', self.root, self.request, True)

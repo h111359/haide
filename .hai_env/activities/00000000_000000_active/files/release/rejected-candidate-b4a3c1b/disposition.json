@@ -1,0 +1,22 @@
+{
+  "source_commit": "b4a3c1b78694f47c586072f56fec91ade5ae867a",
+  "status": "not ready; extracted bundle tests found two missing optional-package fixture assumptions",
+  "not_published": true,
+  "files": [
+    {
+      "from": "dist/hai-0.4.0.zip",
+      "to": ".hai_env/activities/00000000_000000_active/files/release/rejected-candidate-b4a3c1b/hai-0.4.0.zip",
+      "sha256": "f96393f7f0941263ab89efac8c18275b599365dd585f036077e048bd675ee563"
+    },
+    {
+      "from": "dist/hai-0.4.0.zip.sha256",
+      "to": ".hai_env/activities/00000000_000000_active/files/release/rejected-candidate-b4a3c1b/hai-0.4.0.zip.sha256",
+      "sha256": "5a2f4b99084181806f46ef51404062f093ff6ed55a4541fe9dfa9def771447df"
+    },
+    {
+      "from": "dist/hai-0.4.0-publish.md",
+      "to": ".hai_env/activities/00000000_000000_active/files/release/rejected-candidate-b4a3c1b/hai-0.4.0-publish.md",
+      "sha256": "cf0f2f302a3f74dc4a66d39254e8c22b3f0bccd46a2385564471642e558ed9a6"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "scope": "repository",
+    "returncode": 0,
+    "tests": 107,
+    "skipped": 0
+  },
+  {
+    "scope": "core-only-precommit",
+    "returncode": 0,
+    "tests": 107,
+    "skipped": 2
+  }
+]

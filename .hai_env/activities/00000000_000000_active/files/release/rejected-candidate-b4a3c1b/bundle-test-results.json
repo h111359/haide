@@ -1,0 +1,38 @@
+[
+  {
+    "suite": "startup",
+    "returncode": 0,
+    "tests": 66,
+    "skipped": 2
+  },
+  {
+    "suite": "agents",
+    "returncode": 0,
+    "tests": 75,
+    "skipped": 0
+  },
+  {
+    "suite": "configuration",
+    "returncode": 0,
+    "tests": 13,
+    "skipped": 0
+  },
+  {
+    "suite": "activities",
+    "returncode": 0,
+    "tests": 16,
+    "skipped": 3
+  },
+  {
+    "suite": "chronicles",
+    "returncode": 0,
+    "tests": 14,
+    "skipped": 0
+  },
+  {
+    "suite": "runtime/tests",
+    "returncode": 1,
+    "tests": 107,
+    "skipped": 0
+  }
+]

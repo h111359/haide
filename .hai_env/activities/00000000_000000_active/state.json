@@ -8,7 +8,7 @@
   "steps": {
     "analysis": "completed",
     "clarification": "completed",
-    "implementation": "completed",
+    "implementation": "in_progress",
     "planning": "not_started",
     "verification": "in_progress"
   }
