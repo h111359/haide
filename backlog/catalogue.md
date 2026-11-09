@@ -13,7 +13,7 @@ unspecified; each item contains its complete supplied requirements and attributi
 | --- | --- | --- | --- |
 | BL-0001 | Agents chat | completed | [BL-0001](closed/BL-0001.md) |
 | BL-0002 | Usage records | completed | [BL-0002](closed/BL-0002.md) |
-| BL-0003 | Initial Menu and Help | pending | [BL-0003](new/BL-0003.md) |
+| BL-0003 | Initial Menu and Help | completed | [BL-0003](closed/BL-0003.md) |
 | BL-0004 | Better Instructions | cancelled | [BL-0004](closed/BL-0004.md) |
 | BL-0005 | Agents Collection | completed | [BL-0005](closed/BL-0005.md) |
 | BL-0006 | Project Manager and Backlog | completed | [BL-0006](closed/BL-0006.md) |

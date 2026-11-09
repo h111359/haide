@@ -1,0 +1,25 @@
+{
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "sources": [
+    {
+      "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-28-10-01a1c0b5-9f35-7973-900a-6f07ab2c2143.jsonl",
+      "session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+      "start_position": 12,
+      "representation": "response_item",
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+            "source_position": 12
+          },
+          "end": null,
+          "provenance": "Chronicles enabled before actual native reviewer assignment"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "source": "Verified assigned QA source identity/workspace and native root-to-reviewer NEW_TASK metadata at position 12; recording enabled before assignment",
+    "reason": "Register actual response_item QA outcomes; event_msg has no completed text here; never decrypt or synthesize human messages"
+  }
+}

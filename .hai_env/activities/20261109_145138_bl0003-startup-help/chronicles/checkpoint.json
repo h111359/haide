@@ -1,0 +1,173 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "sources": [
+    {
+      "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+      "original_started_at": "2026-11-08T03:08:38.060Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+            "source_position": 1025
+          },
+          "end": {
+            "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+            "source_position": 1319
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+            "source_position": 1025
+          },
+          "end": {
+            "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+            "source_position": 1319
+          },
+          "provenance": "Chronicles enabled at fresh Activity creation and unchanged at first work prompt; verified exact native user occurrence for BL-0003 clarification, not earlier scaffold creation"
+        }
+      ],
+      "retained_source_complete": true
+    },
+    {
+      "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-28-10-01a1c0b5-9f35-7973-900a-6f07ab2c2143.jsonl",
+      "original_started_at": "2026-11-09T14:28:10.690Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+            "source_position": 80
+          },
+          "end": {
+            "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+            "source_position": 111
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+            "source_position": 12
+          },
+          "end": {
+            "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+            "source_position": 111
+          },
+          "provenance": "Chronicles enabled before actual native reviewer assignment"
+        }
+      ],
+      "retained_source_complete": true
+    },
+    {
+      "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-41-27-01a1c0c1-c6cd-7783-8d3b-18a1d264e87a.jsonl",
+      "original_started_at": "2026-11-09T14:41:27.263Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+            "source_position": 41
+          },
+          "end": {
+            "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+            "source_position": 113
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+            "source_position": 41
+          },
+          "end": {
+            "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+            "source_position": 113
+          },
+          "provenance": "Chronicles enabled before this observed Activity completion request; startup-only exchange excluded"
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+          "source_position": 1025
+        },
+        "end": {
+          "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+          "source_position": 1319
+        }
+      },
+      "segment_path": "chronicles/20261108_050838_segment-01.md",
+      "verified_at": "2026-11-09T14:51:38Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+          "source_position": 80
+        },
+        "end": {
+          "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+          "source_position": 111
+        }
+      },
+      "segment_path": "chronicles/20261109_162810_segment-01.md",
+      "verified_at": "2026-11-09T14:51:38Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+          "source_position": 41
+        },
+        "end": {
+          "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+          "source_position": 113
+        }
+      },
+      "segment_path": "chronicles/20261109_164127_segment-01.md",
+      "verified_at": "2026-11-09T14:51:38Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63": {
+      "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+      "source_position": 1203
+    },
+    "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a": {
+      "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+      "source_position": 113
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "314ca43c-3a98-4ba0-8a7a-cc99076ae775",
+    "dispatch_cursors": {
+      "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63": {
+        "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+        "source_position": 1203
+      },
+      "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a": {
+        "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+        "source_position": 113
+      }
+    },
+    "started_at": "2026-11-09T14:51:38Z",
+    "finished_at": "2026-11-09T14:51:38Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-09T14:51:38Z",
+  "in_flight": null
+}

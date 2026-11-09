@@ -1,0 +1,52 @@
+# BL-0003 clarification context
+
+Human request, current chat, verbatim: "Now let's work on BL-0003. Let's first clarify it". Scope is clarification and a proposed request for review; no implementation, framework changes, installation, backlog rewriting, Activity closure or commit is authorized by this request. Following the installed Business-analyst workflow directly; no separate agent spawned. Registered installed definition validation passes; owned configuration is defaulted/valid at .hai_env/config/agents/business-analyst.json, settings {}, configured_fields [], issues [].
+
+Read the complete backlog/new/BL-0003.md and catalogue, applicable startup/Activity/source and analyst rules/procedures, README and installed registration catalogue. The story asks for a short guide/menu in the response to start.md, lets the human select a next action, and explicitly requires registered agents and current Activity state. Motivation is making the available next actions visible. Existing startup already supplies registered names/descriptions, Activity lifecycle/steps/continuity and recording readiness; it does not define the requested user-facing selectable menu or Help interaction. This is a genuine presentation/workflow gap, unlike the redundant BL-0009 configuration story.
+
+Available local files are sufficient to identify the remaining human decisions. No supplied primary product-context References registry exists, no registry resources/prompts were discovered, and disabled specifications are not enabled. Preserve mandatory registered-agent and Activity information. Registration alone is not proof of runnable model/tools/settings/permissions; represent availability truthfully and check dependent prerequisites before action. Menu display/Help do not authorize lifecycle/configuration changes, agent installation, publication or repair. Absent/invalid data retains its actual status; no invented Activity or agent. A compact numbered text menu accepting numbers or natural language is a proposed portable default, not an approved interface restriction.
+
+Consequential blockers: Q001 startup waiting/explicit-task behavior; Q002 top-level action structure; Q003 Help scope. Required data fields and existing safety/owner constraints are not re-asked. The three questions form one logical batch with stable current-Activity IDs, unchecked options, explicit recommendations and Other alternatives. No refined request/readiness pass is claimed until actual answers are saved/verified; no downstream technical planning or implementation begins and no exemption is invoked.
+
+Activity b5498652-adcc-4803-8843-b1893575ab97 began as an empty scaffold. Bound its exact first saved work-prompt occurrence 1025, not the earlier creation request. Actual recording bind and fresh verify passed with chronicles enabled and unchanged; usage source is known. The first real questionnaire creates decisions.md before a proposal. The generated question batch is not claimed as an already saved delivered assistant outcome; that outcome is synchronized from the real source at the next active turn. All current modifications remain in Activity records/working files.
+
+
+Revision provenance: source: Current human clarification request and observed startup/backlog/catalogue evidence; reason: Clarify BL-0003 through durable attributable questions; reason: Record sufficient context, existing capability and consequential clarification gaps for BL-0003; recorded 2026-11-09T12:52:18Z.
+
+
+## Verified answers and proposed clarified request
+
+The actual saved human reply at source position1069 explicitly selects Q001=A, Q002=C, Q003=A. Three per-question response events retain the complete raw utterance and exact individual answer lines; core persistence and exact readback were verified before application. All questions are answered, no mappings unresolved, and no extra Other value was inferred from placeholders.
+
+The clarified draft preserves the original mandatory registered-agent/Activity information, startup-only menu waiting versus explicit-task continuation, combined task/individual-agent choices, and brief Help on request. It records portable text and proposed baseline labels as reviewable defaults rather than additional human decisions. Existing registration/availability/authority, lifecycle, configuration and recording boundaries remain intact. No further consequential business question remains for preparing this draft.
+
+A complete 28-item assessment passed for this specific proposed request revision, with per-item evidence, SHA-256, actual response IDs and P1 assumption consequence at files/BL-0003-clarification/readiness-assessment.json and readiness-review.md. This is requirements completeness, not product verification or accepted implementation authority. The copy-ready proposal is in requirements.md and the supporting proposed-activity-input.md; original Activity input and backlog remain preserved. Human review/application and any later covering framework-maintenance authority remain distinct. No technical design, implementation plan or source change was made.
+
+
+Revision provenance: source: Verified actual human A/C/A answers, original BL-0003 and existing HAI conventions; reason: Prepare detailed clarified request and requirements-readiness evidence for human review; reason: Retain verified decisions, readiness evidence and the proposed review handoff; recorded 2026-11-09T13:37:18Z.
+
+
+## BL-0003 technical assessment and planning
+
+The human requested “Make a plan for implementation” at saved root source position 1139. This authorizes technical planning against the A/C/A clarified requirements; it supplies no product-write or commit/closure instruction. No new business decisions were introduced.
+
+Inspected `.hai/start.md`, `runtime/startup.py`, `runtime/cli.py`, startup context/discovery, startup and runtime workflow tests, README and original BL-0003. The runtime already supplies the required independent observations. Recommended implementation: one shared core host procedure linked from startup and README, with stable text choices and revalidation before dispatch. CLI/schema/state and role packages need no changes. A Python menu model would add unnecessary state/API responsibilities for this instruction-driven interaction.
+
+The four-phase plan covers the guide contract, entry points, host acceptance evaluation plus existing regressions, and evidence/backlog reconciliation. All ten acceptance criteria map to explicit scenarios. Implementation remains not_started; planned checks are not claimed as passed. Current startup valid, Solution-architect configuration defaulted `{}` with no issues, and chronicles synchronized through the planning request. Followed installed Solution-architect directly; no separate invocation.
+
+
+Revision provenance: source: Human request at root source position 1139: Make a plan for implementation; reason: Prepare actionable scoped implementation and verification plan; reason: Record inspected architecture, alternatives, validation approach and scope of authority; recorded 2026-11-09T14:23:15Z.
+
+
+## BL-0003 implementation and verification outcome
+
+Implemented the human-authorized core host guide at `.hai/procedures/present-startup-guide.md`, linked startup and later Help/selection handling from `.hai/start.md`, and documented the interaction in README. Runtime API/schema/state and role packages were preserved. Protected baseline comparison names only the two authorized .hai changes; README is the third product change.
+
+Developer results: 65 tests passed, 2 Windows-only checks skipped; actual startup valid and 315 inspected files unchanged; local links, procedure structure and whitespace passed. Independent QA fixture review covered AC1–AC10, found an older README auto-resumption statement, and verified its correction. Results and coverage limits are in `files/BL-0003-verification/scenarios.md`; synthetic fixture outputs do not claim live host adherence or end-to-end acceptance.
+
+Reviewer stopped writing; exact participant identity/workspace and native root-to-reviewer assignment metadata position 12 were verified. Its response_item finals (positions 80 and 111) are eligible; environment-only user position 7 is excluded. A preliminary event_msg inspection yielded no messages; dependent requests referencing not-yet-created request files returned invalid without changes. Correct representation was explicitly selected and synchronization then verified both sources without decrypting or reconstructing text.
+
+Implementation and scoped verification are complete with stated limits. BL-0003 backlog terminal reconciliation remains pending the installed owning capability; no source package execution or implicit installation. Activity remains active; no commit or closure performed.
+
+
+Revision provenance: source: Human Implement at root source position 1203; actual developer and independent QA evidence; reason: Record completed scoped implementation and verification with explicit limitations; reason: Record actual implementation, checks, independent review fix and coverage limits; recorded 2026-11-09T14:31:35Z.

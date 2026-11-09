@@ -1,0 +1,92 @@
+{
+  "ok": true,
+  "scope": "read_only_backlog_structure_and_catalogue",
+  "issues": [],
+  "items": [
+    {
+      "id": "BL-0001",
+      "title": "Agents chat",
+      "status": "completed",
+      "file": "closed/BL-0001.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0002",
+      "title": "Usage records",
+      "status": "completed",
+      "file": "closed/BL-0002.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0003",
+      "title": "Initial Menu and Help",
+      "status": "completed",
+      "file": "closed/BL-0003.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0004",
+      "title": "Better Instructions",
+      "status": "cancelled",
+      "file": "closed/BL-0004.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0005",
+      "title": "Agents Collection",
+      "status": "completed",
+      "file": "closed/BL-0005.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0006",
+      "title": "Project Manager and Backlog",
+      "status": "completed",
+      "file": "closed/BL-0006.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0007",
+      "title": "Rename the workspace advisor",
+      "status": "completed",
+      "file": "closed/BL-0007.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0008",
+      "title": "Clarify backlog items with a business analyst",
+      "status": "completed",
+      "file": "closed/BL-0008.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0009",
+      "title": "Workspace agent setup parameters",
+      "status": "completed",
+      "file": "closed/BL-0009.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0010",
+      "title": "Separate working folder for each sub-agent invocation",
+      "status": "completed",
+      "file": "closed/BL-0010.md",
+      "unknown_fields": []
+    },
+    {
+      "id": "BL-0011",
+      "title": "Business analyst clarification and requirements readiness",
+      "status": "completed",
+      "file": "closed/BL-0011.md",
+      "unknown_fields": []
+    }
+  ],
+  "configuration_status": "defaulted",
+  "location": "backlog",
+  "counts": {
+    "cancelled": 1,
+    "completed": 10,
+    "pending": 0,
+    "rejected": 0
+  }
+}

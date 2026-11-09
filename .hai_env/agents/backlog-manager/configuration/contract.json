@@ -1,0 +1,12 @@
+{
+  "contract_format_version": 2,
+  "agent": "backlog-manager",
+  "current_config_format_version": 1,
+  "supported_config_format_versions": [1],
+  "settings": {
+    "location": {
+      "type": "workspace-relative-directory",
+      "default": "backlog"
+    }
+  }
+}

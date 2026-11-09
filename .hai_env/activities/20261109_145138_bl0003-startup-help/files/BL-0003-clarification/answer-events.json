@@ -1,0 +1,47 @@
+[
+  {
+    "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q001",
+    "kind": "response",
+    "author": "human",
+    "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q001",
+    "at": "2026-11-09T13:29:27Z",
+    "question_id": "Q001",
+    "response_number": 1,
+    "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+    "parts": {
+      "selected_choice": "A",
+      "original_answer_line": "Q001: A [x], B [ ], C [ ], Other: ___\n"
+    },
+    "supersedes": null
+  },
+  {
+    "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q002",
+    "kind": "response",
+    "author": "human",
+    "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q002",
+    "at": "2026-11-09T13:29:27Z",
+    "question_id": "Q002",
+    "response_number": 1,
+    "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+    "parts": {
+      "selected_choice": "C",
+      "original_answer_line": "Q002: A [ ], B [ ], C [x], Other: ___\n"
+    },
+    "supersedes": null
+  },
+  {
+    "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q003",
+    "kind": "response",
+    "author": "human",
+    "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q003",
+    "at": "2026-11-09T13:29:27Z",
+    "question_id": "Q003",
+    "response_number": 1,
+    "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+    "parts": {
+      "selected_choice": "A",
+      "original_answer_line": "Q003: A [x], B [ ], C [ ], Other: ___\n"
+    },
+    "supersedes": null
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "local_links": 29,
+  "procedure_structure": "pass",
+  "protected_changes": [
+    ".hai/procedures/present-startup-guide.md",
+    ".hai/start.md"
+  ],
+  "authorization": "Implement (actual saved root user turn position 1203)",
+  "unrelated_protected_changes": []
+}

@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "files_compared": 315,
+  "changed_files": [],
+  "current_activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "registered_agents": [
+    "hai-framework-advisor",
+    "release-manager",
+    "git-manager",
+    "specification-manager",
+    "agent-definition-manager",
+    "business-analyst",
+    "solution-architect",
+    "software-developer",
+    "quality-assurance"
+  ],
+  "recording_context": {
+    "status": "verified",
+    "details": "Registered sources only; no claim about unknown sessions",
+    "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+    "source_count": 1,
+    "checkpoint_path": ".hai_env/activities/00000000_000000_active/chronicles/checkpoint.json"
+  }
+}

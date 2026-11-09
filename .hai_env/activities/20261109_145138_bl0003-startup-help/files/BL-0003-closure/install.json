@@ -1,0 +1,9 @@
+{
+  "source": "hai_agents_library/agents/backlog-manager",
+  "name": "backlog-manager",
+  "register": true,
+  "provenance": {
+    "source": "Human selected: Install and register the existing backlog-manager package, then use it.",
+    "reason": "Provide installed owner for authorized BL-0003 closure"
+  }
+}

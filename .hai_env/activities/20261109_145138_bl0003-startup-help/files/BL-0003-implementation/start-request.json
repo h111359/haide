@@ -1,0 +1,13 @@
+{
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "implementation_start": true,
+  "steps": {
+    "implementation": "in_progress"
+  },
+  "input_append": "\n\nImplementation authority (current saved human turn):\nImplement\n",
+  "log": "Human instructed “Implement” after the implementation plan. Scope covers the shared core guide, startup entry point and README with appropriate validation. No installation, settings change, publication, commit or Activity closure is implied.",
+  "provenance": {
+    "source": "Human instruction verbatim: Implement; root session source position 1203",
+    "reason": "Implement the reviewed BL-0003 plan; core startup guide, entry point and README scope"
+  }
+}

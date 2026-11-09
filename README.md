@@ -3,6 +3,15 @@
 HAI is a framework for AI-assisted development. Start with [the startup
 instructions](.hai/start.md).
 
+Startup shows the registered agents and current Activity state. With no task it
+offers a combined menu of task actions and individual agents, then waits for your
+choice; with a concrete task it shows the summary and proceeds with that task.
+Ask “show the menu” or “Help with HAI” later for a refreshed brief overview. Select
+a displayed choice such as `continue` or `agent:business-analyst`, or describe your
+task in plain language. Registration does not guarantee that an agent's required
+model, tools or configuration are available; those are checked before selected work.
+See the [startup and Help interaction](.hai/procedures/present-startup-guide.md).
+
 Unreleased development adds an [Activity-local agent chat](.hai/conventions/activity-chat_conv.md).
 Assigned agents read and append coordination messages through runtime commands;
 each Activity retains its own history. This addition is not in the previously
@@ -21,8 +30,9 @@ account balances and subscription allowances are not treated as Activity spend.
 This source tree prepares the **0.3.0 release candidate**,
 using current environment state format **3**, with format **2** retained as read-only
 specification-migration context. All substantive HAI work belongs to an Activity, including
-brainstorming and analysis. Startup resumes current work; a new chat alone does
-not create or close an Activity. The host coordinates work and uses the Python runtime for supported environment and Activity operations. Core provides source-backed recording; optional extensions provide domain instructions.
+brainstorming and analysis. Startup reports current work and preserves its
+continuity; work resumes after a selection or accompanying concrete task. A new
+chat alone does not create or close an Activity. The host coordinates work and uses the Python runtime for supported environment and Activity operations. Core provides source-backed recording; optional extensions provide domain instructions.
 
 The first immutable packaged prototype is **0.1.0**, which uses state format **1**.
 Its [release notes](release-notes/0.1.0.md) and [preserved manifest](https://github.com/h111359/haide/blob/c2a1e9246f21bc1f0ac30abc105fbc17757a6cb6/release-notes/0.1.0-manifest.json)

@@ -1,0 +1,147 @@
+{
+  "core_format_version": 1,
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "updated_at": "2026-11-09T14:51:38Z",
+  "sources": [
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+        "session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+        "start_position": 1025,
+        "end_position": 1319,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+              "source_position": 1025
+            },
+            "end": {
+              "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+              "source_position": 1319
+            },
+            "provenance": "Chronicles enabled at fresh Activity creation and unchanged at first work prompt; verified exact native user occurrence for BL-0003 clarification, not earlier scaffold creation"
+          }
+        ]
+      },
+      "prefix_bytes": 5445364,
+      "prefix_sha256": "db7963b0dbb7fff29bbfa93cab1102fd23b1f4c145cd580939394d18d720f3c5",
+      "segment_path": "chronicles/20261108_050838_segment-01.md",
+      "original_started_at": "2026-11-08T03:08:38.060Z",
+      "closure_binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+        "session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+        "start_position": 1025,
+        "end_position": null,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+              "source_position": 1025
+            },
+            "end": null,
+            "provenance": "Chronicles enabled at fresh Activity creation and unchanged at first work prompt; verified exact native user occurrence for BL-0003 clarification, not earlier scaffold creation"
+          }
+        ]
+      }
+    },
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-28-10-01a1c0b5-9f35-7973-900a-6f07ab2c2143.jsonl",
+        "session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+        "start_position": 12,
+        "end_position": 111,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+              "source_position": 12
+            },
+            "end": {
+              "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+              "source_position": 111
+            },
+            "provenance": "Chronicles enabled before actual native reviewer assignment"
+          }
+        ]
+      },
+      "prefix_bytes": 449971,
+      "prefix_sha256": "6553f22e43b9bbb81600b8e65f5373f10ab8874f3ee9d557b23512deea889371",
+      "segment_path": "chronicles/20261109_162810_segment-01.md",
+      "original_started_at": "2026-11-09T14:28:10.690Z",
+      "closure_binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-28-10-01a1c0b5-9f35-7973-900a-6f07ab2c2143.jsonl",
+        "session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+        "start_position": 12,
+        "end_position": null,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c0b5-9f35-7973-900a-6f07ab2c2143",
+              "source_position": 12
+            },
+            "end": null,
+            "provenance": "Chronicles enabled before actual native reviewer assignment"
+          }
+        ]
+      }
+    },
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-41-27-01a1c0c1-c6cd-7783-8d3b-18a1d264e87a.jsonl",
+        "session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+        "start_position": 41,
+        "end_position": 113,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+              "source_position": 41
+            },
+            "end": {
+              "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+              "source_position": 113
+            },
+            "provenance": "Chronicles enabled before this observed Activity completion request; startup-only exchange excluded"
+          }
+        ]
+      },
+      "prefix_bytes": 546445,
+      "prefix_sha256": "28dbc79493e4adbda40ad2967967fc326e6ae4041a700fecfdca0ca475e49215",
+      "segment_path": "chronicles/20261109_164127_segment-01.md",
+      "original_started_at": "2026-11-09T14:41:27.263Z",
+      "closure_binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T16-41-27-01a1c0c1-c6cd-7783-8d3b-18a1d264e87a.jsonl",
+        "session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+        "start_position": 41,
+        "end_position": null,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+              "source_position": 41
+            },
+            "end": null,
+            "provenance": "Chronicles enabled before this observed Activity completion request; startup-only exchange excluded"
+          }
+        ]
+      }
+    }
+  ],
+  "artifact_hashes": {
+    "chronicles/20261108_050838_segment-01.md": "6da29eebedfbdfe205e836c596020a484bc7ee7a9db0fd637ddf305b1ebd7dd4",
+    "chronicles/20261109_162810_segment-01.md": "b06715ec406faa09fe74517ab4fd8ccf2992034c072aa36e3b53a7bc32346540",
+    "chronicles/20261109_164127_segment-01.md": "b49d23570c4a3ee2d8742428b246b52566d669fd3401914d50e3dc75af358611",
+    "chronicles/checkpoint.json": "85b5980639ab8a5bc5765b4da9b375eb77d46bd032327ee78985486bb0d91ed1"
+  },
+  "provenance": {
+    "source": "Human request at current session saved position 41: complete this activity, close backlog item, commit",
+    "reason": "Record authorized BL-0003 completion work"
+  },
+  "enablement_revision": 2
+}

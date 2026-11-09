@@ -1,0 +1,18 @@
+{
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "start_position": 1025,
+  "enabled_intervals": [
+    {
+      "start": {
+        "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+        "source_position": 1025
+      },
+      "end": null,
+      "provenance": "Chronicles enabled at fresh Activity creation and unchanged at first work prompt; verified exact native user occurrence for BL-0003 clarification, not earlier scaffold creation"
+    }
+  ],
+  "provenance": {
+    "source": "Current human request: Now let's work on BL-0003. Let's first clarify it",
+    "reason": "Bind current Activity to its exact first saved work prompt before business clarification"
+  }
+}

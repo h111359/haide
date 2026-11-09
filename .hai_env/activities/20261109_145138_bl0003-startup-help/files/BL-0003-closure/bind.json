@@ -1,0 +1,18 @@
+{
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "provenance": {
+    "source": "Human request at current session saved position 41: complete this activity, close backlog item, commit",
+    "reason": "Record authorized BL-0003 completion work"
+  },
+  "start_position": 41,
+  "enabled_intervals": [
+    {
+      "start": {
+        "source_session_id": "01a1c0c1-c6cd-7783-8d3b-18a1d264e87a",
+        "source_position": 41
+      },
+      "end": null,
+      "provenance": "Chronicles enabled before this observed Activity completion request; startup-only exchange excluded"
+    }
+  ]
+}

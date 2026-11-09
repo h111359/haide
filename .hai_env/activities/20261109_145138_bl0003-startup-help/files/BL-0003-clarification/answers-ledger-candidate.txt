@@ -1,0 +1,261 @@
+<!-- hai-clarification-event:v1 -->
+```json
+{
+  "event_id": "host-batch-d9c71218-c78b-4566-8981-41fdfca9a1c4",
+  "kind": "questions",
+  "author": "business-analyst",
+  "source": "Host-created question batch for actual human work request at saved session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63 position 1025; event identity is host-assigned, not a saved final-message position",
+  "at": "2026-11-09T12:52:17Z",
+  "batch_id": "B001",
+  "questions": [
+    {
+      "id": "Q001",
+      "question": "When startup also includes a concrete task, waiting for a menu choice could delay that task.\nWhen should HAI show the menu and wait for a selection?",
+      "impact": "Defines which startup paths require a user response.",
+      "options": [
+        {
+          "label": "A",
+          "text": "With no task, show the menu and wait; with a task, show the agents/Activity summary and proceed.",
+          "checked": false
+        },
+        {
+          "label": "B",
+          "text": "Always show the menu, while proceeding with any explicit task.",
+          "checked": false
+        },
+        {
+          "label": "C",
+          "text": "Always show the menu and wait for a choice before work.",
+          "checked": false
+        }
+      ],
+      "recommended": "A",
+      "other": "___",
+      "status": "unanswered"
+    },
+    {
+      "id": "Q002",
+      "question": "The draft does not define which choices the user can select.\nWhat should the top-level menu choices represent?",
+      "impact": "Defines the selectable actions and how users reach the appropriate capability.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Task actions, such as Continue Activity, Work on backlog, Start a task, Agent setup, and Help.",
+          "checked": false
+        },
+        {
+          "label": "B",
+          "text": "Registered agents directly, plus Activity actions and Help.",
+          "checked": false
+        },
+        {
+          "label": "C",
+          "text": "Task actions and individual registered agents together.",
+          "checked": false
+        }
+      ],
+      "recommended": "A",
+      "other": "___",
+      "status": "unanswered"
+    },
+    {
+      "id": "Q003",
+      "question": "Help appears in the title, but its behavior is unspecified.\nWhat Help should this iteration provide?",
+      "impact": "Bounds the Help content and its acceptance conditions.",
+      "options": [
+        {
+          "label": "A",
+          "text": "A short overview at startup, also available again on request.",
+          "checked": false
+        },
+        {
+          "label": "B",
+          "text": "The startup overview only.",
+          "checked": false
+        },
+        {
+          "label": "C",
+          "text": "A startup overview plus detailed help for each action or agent.",
+          "checked": false
+        }
+      ],
+      "recommended": "A",
+      "other": "___",
+      "status": "unanswered"
+    }
+  ],
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "sequence": 1
+}
+```
+
+### Batch B001
+
+### Q001 — Unanswered
+
+When startup also includes a concrete task, waiting for a menu choice could delay that task.
+When should HAI show the menu and wait for a selection?
+
+Implementation impact: Defines which startup paths require a user response.
+
+- [ ] A: With no task, show the menu and wait; with a task, show the agents/Activity summary and proceed. (Recommended)
+- [ ] B: Always show the menu, while proceeding with any explicit task.
+- [ ] C: Always show the menu and wait for a choice before work.
+- Other: ___
+
+Status: unanswered
+
+### Q002 — Unanswered
+
+The draft does not define which choices the user can select.
+What should the top-level menu choices represent?
+
+Implementation impact: Defines the selectable actions and how users reach the appropriate capability.
+
+- [ ] A: Task actions, such as Continue Activity, Work on backlog, Start a task, Agent setup, and Help. (Recommended)
+- [ ] B: Registered agents directly, plus Activity actions and Help.
+- [ ] C: Task actions and individual registered agents together.
+- Other: ___
+
+Status: unanswered
+
+### Q003 — Unanswered
+
+Help appears in the title, but its behavior is unspecified.
+What Help should this iteration provide?
+
+Implementation impact: Bounds the Help content and its acceptance conditions.
+
+- [ ] A: A short overview at startup, also available again on request. (Recommended)
+- [ ] B: The startup overview only.
+- [ ] C: A startup overview plus detailed help for each action or agent.
+- Other: ___
+
+Status: unanswered
+
+Answer form:
+
+Q001: A [ ], B [ ], C [ ], Other: ___
+Q002: A [ ], B [ ], C [ ], Other: ___
+Q003: A [ ], B [ ], C [ ], Other: ___
+<!-- /hai-clarification-event -->
+
+
+Revision provenance: source: Current human clarification request and observed startup/backlog/catalogue evidence; reason: Clarify BL-0003 through durable attributable questions; reason: Persist first logical batch B001 Q001–Q003 before display; exact readback required; recorded 2026-11-09T12:52:18Z.
+<!-- hai-clarification-event:v1 -->
+```json
+{
+  "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q001",
+  "kind": "response",
+  "author": "human",
+  "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q001",
+  "at": "2026-11-09T13:29:27Z",
+  "question_id": "Q001",
+  "response_number": 1,
+  "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+  "parts": {
+    "selected_choice": "A",
+    "original_answer_line": "Q001: A [x], B [ ], C [ ], Other: ___\n"
+  },
+  "supersedes": null,
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "sequence": 2
+}
+```
+
+### Response
+
+{
+  "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q001",
+  "kind": "response",
+  "author": "human",
+  "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q001",
+  "at": "2026-11-09T13:29:27Z",
+  "question_id": "Q001",
+  "response_number": 1,
+  "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+  "parts": {
+    "selected_choice": "A",
+    "original_answer_line": "Q001: A [x], B [ ], C [ ], Other: ___\n"
+  },
+  "supersedes": null
+}
+<!-- /hai-clarification-event -->
+<!-- hai-clarification-event:v1 -->
+```json
+{
+  "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q002",
+  "kind": "response",
+  "author": "human",
+  "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q002",
+  "at": "2026-11-09T13:29:27Z",
+  "question_id": "Q002",
+  "response_number": 1,
+  "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+  "parts": {
+    "selected_choice": "C",
+    "original_answer_line": "Q002: A [ ], B [ ], C [x], Other: ___\n"
+  },
+  "supersedes": null,
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "sequence": 3
+}
+```
+
+### Response
+
+{
+  "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q002",
+  "kind": "response",
+  "author": "human",
+  "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q002",
+  "at": "2026-11-09T13:29:27Z",
+  "question_id": "Q002",
+  "response_number": 1,
+  "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+  "parts": {
+    "selected_choice": "C",
+    "original_answer_line": "Q002: A [ ], B [ ], C [x], Other: ___\n"
+  },
+  "supersedes": null
+}
+<!-- /hai-clarification-event -->
+<!-- hai-clarification-event:v1 -->
+```json
+{
+  "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q003",
+  "kind": "response",
+  "author": "human",
+  "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q003",
+  "at": "2026-11-09T13:29:27Z",
+  "question_id": "Q003",
+  "response_number": 1,
+  "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+  "parts": {
+    "selected_choice": "A",
+    "original_answer_line": "Q003: A [x], B [ ], C [ ], Other: ___\n"
+  },
+  "supersedes": null,
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "sequence": 4
+}
+```
+
+### Response
+
+{
+  "event_id": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q003",
+  "kind": "response",
+  "author": "human",
+  "source": "Actual saved human answer: session 01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63, source position 1069; explicitly mapped Q003",
+  "at": "2026-11-09T13:29:27Z",
+  "question_id": "Q003",
+  "response_number": 1,
+  "raw": "Q001: A [x], B [ ], C [ ], Other: ___\nQ002: A [ ], B [ ], C [x], Other: ___\nQ003: A [x], B [ ], C [ ], Other: ___\n",
+  "parts": {
+    "selected_choice": "A",
+    "original_answer_line": "Q003: A [x], B [ ], C [ ], Other: ___\n"
+  },
+  "supersedes": null
+}
+<!-- /hai-clarification-event -->

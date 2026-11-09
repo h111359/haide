@@ -1,0 +1,44 @@
+# BL-0003 — Initial Menu and Help
+
+| Field | Value |
+| --- | --- |
+| ID | BL-0003 |
+| Status | completed |
+| Created | 20261029_0809 (original label; timezone unspecified) |
+| Updated | <actual closure UTC> |
+| Closed | <actual closure UTC> |
+| Activities | b5498652-adcc-4803-8843-b1893575ab97 |
+| Source | User-provided draft; original heading: 20261029_0809 Initial Menu and Help |
+
+## What
+
+When start.md is executed, HAI should provide short guide for the user what are the possibilities it has which are available currently. 
+
+## Why
+
+I want this first response to present a menu, via which the user can choose the next actions. So the menu is something which provides the possible options and the ability the user to select specific option.
+
+## Acceptance Criteria
+
+- when start.md is executed, HAI includes in the respond to the user
+ - what are the registered agents
+ - what is the state of the current activity
+
+## History
+
+- 2026-11-06T05:07:13Z — Converted the supplied draft headed `20261029_0809 Initial Menu and Help` into this self-contained item. Original creation precision retained; import is not completion or approval.
+- 2026-11-06T05:22:07Z — Removed original-file references at the user’s request; item content remains self-contained.
+
+- <actual closure UTC> — Completed at the human’s explicit request to complete this Activity, close the backlog item and commit. Preserved requirements and earlier history; reconciled terminal folder and catalogue.
+
+## Resolution
+
+Completed by the human’s explicit closure request on 2026-11-09.
+Activity: `b5498652-adcc-4803-8843-b1893575ab97`.
+
+1. Registered agents: the shared startup/Help procedure reads fresh runtime registrations and displays every valid agent as an individual menu choice.
+2. Current Activity: the procedure displays verified identity, lifecycle, relevant work steps and supplied goal, with explicit absent/invalid/partial cases.
+
+Implementation: `.hai/start.md`, `.hai/procedures/present-startup-guide.md`, and `README.md`. Startup-only requests wait for selection; concrete tasks proceed after the summary; explicit Help refreshes the overview.
+
+Evidence: recorded developer checks passed 65 tests with two Windows-only skips; independent QA reviewed all ten clarified acceptance scenarios using synthetic responses and verified the README correction. This session’s startup displayed all nine actual registered agents and the current Activity, then waited. No automated host interpreter or exhaustive live interaction acceptance run was performed.

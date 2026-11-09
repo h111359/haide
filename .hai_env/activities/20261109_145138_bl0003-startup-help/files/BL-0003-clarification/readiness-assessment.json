@@ -1,0 +1,144 @@
+{
+  "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+  "assessor": "host coordinator following installed Business-analyst workflow directly",
+  "assessed_at": "2026-11-09T13:37:18Z",
+  "target": "proposed current Activity input; not yet applied",
+  "proposal_sha256": "9646228b7c5c8e1b926990ba9e2cf93afe93f8b0b393573551a77aeac470be14",
+  "backlog_source": "backlog/new/BL-0003.md",
+  "backlog_sha256": "67b422137f1d8329a29599c274885050e72c1a5815d563237620dc0c68422c2f",
+  "response_event_ids": {
+    "Q001": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q001",
+    "Q002": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q002",
+    "Q003": "human-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63-1069-Q003"
+  },
+  "assessment": {
+    "status": "pass",
+    "failed": [],
+    "blockers": [],
+    "checks": {
+      "R1.1": {
+        "satisfied": true,
+        "evidence": "Intent gives a self-contained one-sentence objective for the startup user."
+      },
+      "R1.2": {
+        "satisfied": true,
+        "evidence": "One outcome: discover and choose next HAI work; summary/menu/Help serve that same outcome."
+      },
+      "R1.3": {
+        "satisfied": true,
+        "evidence": "Outcomes describe the user seeing current options and selecting work, not only an internal implementation."
+      },
+      "R1.4": {
+        "satisfied": true,
+        "evidence": "Original BL-0003 Why explicitly requests a selectable next-action menu."
+      },
+      "R2.1": {
+        "satisfied": true,
+        "evidence": "Startup user and host coordinator are explicitly identified."
+      },
+      "R2.2": {
+        "satisfied": true,
+        "evidence": "The user currently needs prior knowledge of roles/workflow to discover next actions."
+      },
+      "R2.3": {
+        "satisfied": true,
+        "evidence": "Registered-agent owners are explicitly affected by accurate discovery/routing; no new external service/stakeholder."
+      },
+      "R3.1": {
+        "satisfied": true,
+        "evidence": "Visible accurate choices reduce the knowledge burden for beginning useful work."
+      },
+      "R3.2": {
+        "satisfied": true,
+        "evidence": "The human selected BL-0003 as current work; no urgency/deadline/release priority is invented."
+      },
+      "R3.3": {
+        "satisfied": true,
+        "evidence": "Startup data exists; a consistent user-facing selection/Help contract remains missing."
+      },
+      "R4.1": {
+        "satisfied": true,
+        "evidence": "Scope D1–D5 bounds summary, combined menu, selection, brief Help and exceptional-state behavior."
+      },
+      "R4.2": {
+        "satisfied": true,
+        "evidence": "One startup/Help interaction iteration; graphical app, new agents/backends and detailed manuals excluded."
+      },
+      "R4.3": {
+        "satisfied": true,
+        "evidence": "Verified A/C/A decisions are compatible; explicit tasks proceed, startup-only waits, both choice types are visible."
+      },
+      "R4.4": {
+        "satisfied": true,
+        "evidence": "Scope and acceptance specify observable behavior; internal rendering/dispatch design remains with delivery roles."
+      },
+      "R5.1": {
+        "satisfied": true,
+        "evidence": "Exclusions expressly remove new graphical UI, full manuals and implicit mutations."
+      },
+      "R5.2": {
+        "satisfied": true,
+        "evidence": "Exclusions name concrete agent installation/config repair/lifecycle/publication effects and deliverable types."
+      },
+      "R6.1": {
+        "satisfied": true,
+        "evidence": "Portable text/current runtime data and inherited HAI/Python/tooling limits are explicitly listed."
+      },
+      "R6.2": {
+        "satisfied": true,
+        "evidence": "Role/core ownership, prerequisite gates, safe paths and exact-source recording remain binding."
+      },
+      "R6.3": {
+        "satisfied": true,
+        "evidence": "P1 records the text-first premise, evidence and scope consequence if a graphical-only surface is later required.",
+        "basis": "assumption",
+        "resolves_uncertainty": true,
+        "requires_human_decision": false,
+        "consequences_if_false": "If a graphical-only host interaction is later required, reassess scope and host integration before implementation; no explicit current GUI decision is displaced."
+      },
+      "R6.4": {
+        "satisfied": true,
+        "evidence": "Dedicated Constraints and assumptions section is separate from Scope/outcomes."
+      },
+      "R7.1": {
+        "satisfied": true,
+        "evidence": "Ten observable acceptance scenarios define completion."
+      },
+      "R7.2": {
+        "satisfied": true,
+        "evidence": "Named startup/task/registry/Activity/selection/help/availability/error fixtures give expected pass/fail results."
+      },
+      "R7.3": {
+        "satisfied": true,
+        "evidence": "Existing startup data and capabilities support the bounded behavior without unavailable UI or new agent/backend requirements."
+      },
+      "R7.4": {
+        "satisfied": true,
+        "evidence": "Startup triggers, waiting, registered names/state and two-sentence introduction replace vague success claims."
+      },
+      "R7.5": {
+        "satisfied": true,
+        "evidence": "D1–D5 map explicitly to the ten acceptance criteria; no deliverable lacks a condition."
+      },
+      "R8.1": {
+        "satisfied": true,
+        "evidence": "HAI startup/registered agent/Activity vocabulary and boundaries match the existing product."
+      },
+      "R8.2": {
+        "satisfied": true,
+        "evidence": "Actual A/C/A decisions and existing lifecycle/configuration/recording/authority constraints are retained."
+      },
+      "R8.3": {
+        "satisfied": true,
+        "evidence": "Startup-only waiting preserves Activity continuity; explicit tasks proceed; registration is not confused with runnable authority."
+      }
+    }
+  },
+  "proposal_validation": {
+    "status": "ready_for_human_review",
+    "activity_id": "b5498652-adcc-4803-8843-b1893575ab97",
+    "target": "proposed current Activity input",
+    "sha256": "9646228b7c5c8e1b926990ba9e2cf93afe93f8b0b393573551a77aeac470be14"
+  },
+  "acceptance_or_implementation_approval": false
+}
