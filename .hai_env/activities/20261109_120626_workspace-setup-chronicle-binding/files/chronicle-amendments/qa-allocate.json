@@ -1,0 +1,8 @@
+{
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "agent": "quality-assurance",
+  "provenance": {
+    "source": "Human approval of chronicle amendments and required independent review in installed QA skill referenced role policy",
+    "reason": "Allocate a new current-Activity reviewer invocation before launch"
+  }
+}

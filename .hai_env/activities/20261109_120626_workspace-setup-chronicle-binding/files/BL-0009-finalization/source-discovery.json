@@ -1,0 +1,17 @@
+{
+  "observed_at": "2026-11-09T08:17:30Z",
+  "authority": "Current human question explicitly asks whether the source for the current session can be discovered; human expressly prohibits reconstruction",
+  "source_path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+  "session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+  "original_started_at": "2026-11-08T03:08:38.060Z",
+  "session_metadata_matches": true,
+  "workspace_matches": true,
+  "canonical_regular_nonlinked_file": true,
+  "adapter_read_ok": true,
+  "adapter_issues": [],
+  "representation_checked": "event_msg",
+  "BL_0009_prompt_candidate_position": 490,
+  "source_registered": false,
+  "transcript_imported": false,
+  "raw_source_copied": false
+}

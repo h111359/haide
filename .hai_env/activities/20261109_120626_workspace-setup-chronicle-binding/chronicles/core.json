@@ -1,0 +1,103 @@
+{
+  "core_format_version": 1,
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "updated_at": "2026-11-09T12:06:26Z",
+  "sources": [
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+        "session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+        "start_position": 490,
+        "end_position": 722,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+              "source_position": 490
+            },
+            "end": {
+              "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+              "source_position": 722
+            },
+            "provenance": "Chronicles enabled at current Activity creation and unchanged throughout its saved BL-0009 work range; enabled revision 2 observed in startup; human explicitly authorized resolving current Activity from the located source"
+          }
+        ]
+      },
+      "prefix_bytes": 3773436,
+      "prefix_sha256": "094e70e33bc8ea8d81c52b8091c624ffbf8fba363b4aaed9dd98e5e00bb6b7c4",
+      "segment_path": "chronicles/20261108_050838_segment-01.md",
+      "original_started_at": "2026-11-08T03:08:38.060Z",
+      "closure_binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+        "session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+        "start_position": 490,
+        "end_position": null,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+              "source_position": 490
+            },
+            "end": null,
+            "provenance": "Chronicles enabled at current Activity creation and unchanged throughout its saved BL-0009 work range; enabled revision 2 observed in startup; human explicitly authorized resolving current Activity from the located source"
+          }
+        ]
+      }
+    },
+    {
+      "binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T13-53-22-01a1c027-e6a2-72e3-a2ea-1c634a088cac.jsonl",
+        "session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+        "start_position": 12,
+        "end_position": 239,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+              "source_position": 12
+            },
+            "end": {
+              "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+              "source_position": 239
+            },
+            "provenance": "Recording enabled before independent QA invocation 33e42c63-6de7-4ae9-85fd-aa2cbd5a958b. Verified first native NEW_TASK amsg_01a1c027-ebb5-77f0-914a-15301a4e29bd in this newly spawned thread, author /root, recipient/task name /root/chronicle_review and actual host allocation/launch. Later NEW_TASK records are same-instance follow-ups. Encrypted payload untouched; eligible saved finals read exactly; environment-only user position 7 excluded."
+          }
+        ]
+      },
+      "prefix_bytes": 649462,
+      "prefix_sha256": "7ad38d453b31dabbd706dca825e9bd03e8563809f5347c01dbd86844b6521340",
+      "segment_path": "chronicles/20261109_135322_segment-01.md",
+      "original_started_at": "2026-11-09T11:53:22.860Z",
+      "closure_binding": {
+        "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T13-53-22-01a1c027-e6a2-72e3-a2ea-1c634a088cac.jsonl",
+        "session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+        "start_position": 12,
+        "end_position": null,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+              "source_position": 12
+            },
+            "end": null,
+            "provenance": "Recording enabled before independent QA invocation 33e42c63-6de7-4ae9-85fd-aa2cbd5a958b. Verified first native NEW_TASK amsg_01a1c027-ebb5-77f0-914a-15301a4e29bd in this newly spawned thread, author /root, recipient/task name /root/chronicle_review and actual host allocation/launch. Later NEW_TASK records are same-instance follow-ups. Encrypted payload untouched; eligible saved finals read exactly; environment-only user position 7 excluded."
+          }
+        ]
+      }
+    }
+  ],
+  "artifact_hashes": {
+    "chronicles/20261108_050838_segment-01.md": "58188a93a24dceb0a642a7303a68a506b8be1ebfc1fd1f12b2c4259695c17d4d",
+    "chronicles/20261109_135322_segment-01.md": "a935833cb43d21518f309cd9c401354c068baf0c2d90d945e9a369d1e9027f13",
+    "chronicles/checkpoint.json": "45783ce9c4db85252800dc61f60f327a4494a043ebd970ea799c54813004c343"
+  },
+  "provenance": {
+    "source": "Human: Close activity, commit; subsequent approval: OK, apply this ammendments now and resolve for the current activity",
+    "reason": "Close completed Activity using actual source-backed chronicles with recording enabled, then commit scoped work"
+  },
+  "enablement_revision": 2
+}

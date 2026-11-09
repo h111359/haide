@@ -1,0 +1,14 @@
+{
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "sources": [
+    {
+      "path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+      "session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+      "start_position": 490
+    }
+  ],
+  "provenance": {
+    "source": "Human current chat, verbatim: OK, apply this ammendments now and resolve for the current activity",
+    "reason": "Implement approved bounded discovery/early binding workflow and resolve existing Activity with real source-backed recording"
+  }
+}

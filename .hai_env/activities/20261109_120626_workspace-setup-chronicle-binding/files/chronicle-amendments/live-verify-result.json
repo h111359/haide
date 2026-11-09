@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "recording verify",
+  "result": {
+    "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+    "status": "verified",
+    "source_count": 1,
+    "checkpoint_path": ".hai_env/activities/00000000_000000_active/chronicles/checkpoint.json"
+  },
+  "changed_files": [],
+  "issues": []
+}

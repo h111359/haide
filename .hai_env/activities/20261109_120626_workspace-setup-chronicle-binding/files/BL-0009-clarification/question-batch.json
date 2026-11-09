@@ -1,0 +1,44 @@
+{
+  "event_id": "host-batch-bf361aec-7ef9-40be-b6bb-23145d15438e",
+  "kind": "questions",
+  "author": "business-analyst",
+  "source": "Host-prepared logical clarification batch for the current human request: Let's clarify BL-0009; occurrence ID is host-assigned, not a saved-source position",
+  "at": "2026-11-08T07:14:19Z",
+  "batch_id": "B001",
+  "questions": [
+    {
+      "id": "Q001",
+      "question": "HAI already supports per-agent workspace settings, so the additional outcome is unclear.\nWhat should BL-0009 accomplish beyond the current mechanism?",
+      "impact": "Determines whether the deliverable is confirmation of existing coverage, a new setup workflow, or broader configuration support.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Confirm that the existing mechanism satisfies this story, with evidence and any remaining gaps documented.",
+          "checked": false
+        },
+        {
+          "label": "B",
+          "text": "Add a guided setup flow for configuring an agent in a workspace.",
+          "checked": false
+        },
+        {
+          "label": "C",
+          "text": "Expand the settings agents can declare beyond booleans and workspace-relative directories.",
+          "checked": false
+        }
+      ],
+      "recommended": "A",
+      "other": "___",
+      "status": "unanswered"
+    },
+    {
+      "id": "Q002",
+      "question": "The draft gives no motivating problem or example, so we cannot define meaningful acceptance criteria.\nWhat concrete setup scenario should define success: which agent, which parameter, which workspace-specific value or behavior, and what difficulty should this resolve? If the existing mechanism is sufficient, say so.",
+      "impact": "Establishes the user need and an observable acceptance scenario without inventing requirements.",
+      "options": [],
+      "recommended": null,
+      "other": "___",
+      "status": "unanswered"
+    }
+  ]
+}

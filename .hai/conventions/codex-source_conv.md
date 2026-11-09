@@ -9,6 +9,11 @@ Codex home, unrelated sessions, conversation history or the source library.
 Missing source or unsupported saved schemas remain explicit blockers; human or
 assistant text is never reconstructed from memory, tool output or proposed work.
 
+The host can obtain that explicit path through the separate bounded current-session
+resolver under the [chronicles policy](chronicles_conv.md#early-source-readiness).
+Discovery validates existing evidence; it does not reconstruct text, assign an
+Activity range, authorize unrelated history or modify this adapter's behavior.
+
 The read-only adapter accepts strict UTF-8 JSONL with a `session_meta` record
 whose payload has nonblank `id` and original `timestamp` (or the recorded outer
 timestamp if the payload field is absent). Duplicate keys and conflicting session

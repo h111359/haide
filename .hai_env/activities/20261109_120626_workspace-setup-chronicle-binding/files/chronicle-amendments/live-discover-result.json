@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "status": "ok",
+  "operation": "recording discover",
+  "result": {
+    "path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+    "session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+    "representation": "event_msg",
+    "original_started_at": "2026-11-08T03:08:38.060Z",
+    "source_sha256": "9e3a43af480f4dc54a0a4c433a14b2cb395396bf61bd0fef8f458fdf08124e0c",
+    "latest_user_occurrence": {
+      "source_position": 722,
+      "timestamp": "2026-11-09T11:44:08.167Z"
+    },
+    "discovery_method": "current_session_filename"
+  },
+  "changed_files": [],
+  "issues": []
+}

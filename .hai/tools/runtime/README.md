@@ -1,6 +1,6 @@
 # HAI runtime
 
-Run `python -B .hai/tools/hai.py startup --workspace .` for core environment and Activity context. Common options may precede or follow the group. Commands emit JSON with `ok`, `status`, `operation`, `result`, `changed_files`, and `issues`. Exit codes are 0 for success or a valid plan, 1 for blocked, partial or unsupported work, and 2 for invalid invocation. Optional registration and model profile issues are reported separately from core environment validity.
+Run `python -B .hai/tools/hai.py startup --workspace .` for core environment, Activity and separate read-only `recording_context` readiness. Required recording needs binding/synchronization before substantive recorded work, even when core `ok` is true. Common options may precede or follow the group. Commands emit JSON with `ok`, `status`, `operation`, `result`, `changed_files`, and `issues`. Exit codes are 0 for success or a valid plan, 1 for blocked, partial or unsupported work, and 2 for invalid invocation. Optional registration and model profile issues are reported separately from core environment validity.
 
 Use `--request PATH` for a UTF-8 JSON object within the workspace. Duplicate keys and nonstandard numeric constants are rejected. Mutations are previews by default; add `--apply` to perform them. Mutation requests include `"provenance": {"source": "...", "reason": "..."}` with nonblank values. A pre-existing `.hai_env/.runtime.lock` blocks writes and requires inspection; do not remove an unexplained lock automatically. Partial results identify paths that were changed and must be inspected before another attempt.
 
@@ -24,7 +24,7 @@ Requests are JSON objects. All applied Activity and package mutations require va
 - `activity chat-read` takes `activity_id`, optional nonnegative integer `after_sequence` (default `0`) and optional integer `limit` (`1..1000`, default `100`). Returns a page with `messages`, `total_messages`, `next_after_sequence` and `has_more`; reads closed Activities too. Omit `--apply` for reads. `activity chat-post` takes `activity_id`, `author`, `text` and provenance. It previews by default; `--apply` appends to the current Activity's `chat.jsonl` under the runtime lock. No edit/delete action exists. See [chat format and participation](../../conventions/activity-chat_conv.md), including attribution and filesystem-access limits.
 - `activity create` takes `initial_input` and provenance. `activity record` takes `activity_id`, optional `steps` mapping step names to statuses, optional `implementation_start` Boolean, optional `artifacts` array of `{name, text, reason}`, optional `input_append`, `log`, and provenance. `activity close` takes `activity_id`, `outcome`, `archive_label`, `outcome_text`, `recording` with `status` and `details`, and provenance. It also accepts `recording_requirement` with Boolean `enabled` and `mandatory`, and a `recording_proof` gate request. Verified closure additionally supplies `recording_paths` with `sources` mapping source IDs to workspace-relative files and `artifacts` mapping artifact IDs to files inside the Activity; their hashes must match the gate evidence. `activity supplement` takes `activity_id`, `text`, and provenance. When chronicles are enabled or independently mandatory, closure synchronizes assigned sources through completed saved exchanges and verifies the core transcript before archival; missing/failed recording blocks closure. Explicit compatible proof remains supported. Disabled/no-obligation closure requires no transcript. These operations preserve partial results on failure.
 - `packages validate` takes `definition`; `packages resolve` takes `definition` and `runtime`, a capability snapshot shaped as `{"models":{"model-id":["high"]}}`. `packages audit` takes `{}`. `packages install` takes workspace-relative `source`, `name`, provenance, and optional Boolean `replace` and `register`. Replacement additionally requires the exact `reviewed_differences` list returned by a preview; the previous package is retained as a backup. Registration may require a separate reconciliation after replacement. `packages register` takes `name` and provenance. Remote acquisition is unsupported. Safe no-overwrite package and Activity moves require an available native atomic rename primitive. Implementations cover Linux, Windows and macOS; only Linux has been tested here.
-- `recording status` takes `{}` and reports the configured flag, threshold, and available evidence. `recording schedule` takes `occurrence_ids`, optional `covered_ids`, optional positive integer `threshold`, and optional `last_dispatched_count` for the previously dispatched observed count. It reports gaps and whether dispatch is due; it does not persist a checkpoint or start a background task. `recording assess-closure` accepts the structured request defined by the recording gate helper. Runtime never discovers session sources; the host supplies explicit assignments to core synchronization.
+- `recording status` takes `{}` and reports the configured flag, threshold, and available evidence. `recording schedule` takes `occurrence_ids`, optional `covered_ids`, optional positive integer `threshold`, and optional `last_dispatched_count` for the previously dispatched observed count. It reports gaps and whether dispatch is due; it does not persist a checkpoint or start a background task. `recording assess-closure` accepts the structured request defined by the recording gate helper. The recorder consumes explicit assignments; bounded current-session discovery/binding is documented below.
 - `host check` takes `model`, `effort`, and caller-supplied `models` mapping each model ID to an array of supported efforts. It reports whether that evidence contains the pair. The runtime does not discover host capabilities or invoke a host agent.
 
 ## Activity chat example
@@ -129,6 +129,58 @@ for cumulative/interval accounting, model rates, reported-spend freshness, malfo
 sources, idempotent totals, unavailable data, optimistic/partial persistence, CLI,
 archive reads and automatic pre-closure refresh. These checks do not authenticate
 host billing evidence or prove completeness of all related sessions.
+
+## Current-session source discovery and early binding
+
+Enabled recording authorizes read-only lookup of the current host-identified
+session. `recording discover` accepts optional `session_id`, `source_path`,
+`codex_home`, `representation` (default `event_msg`), `mandatory` and `provenance`.
+Prefer host `CODEX_THREAD_ID`, then `CODEX_SESSION_ID`; a supplied ID must agree
+with that selected identity. An inherited parent session ID can differ from a
+participant's current thread. Prefer a canonical supplied path;
+otherwise inspect filenames under the Codex home's `sessions/` tree for exactly
+one `rollout-*-<session UUID>.jsonl`, then validate only that candidate's embedded
+identity, workspace, schema and canonical nonlinked/singly-linked file. No other
+conversation content is read. Zero/multiple candidates fail; there is no newest-file
+heuristic. Results contain metadata and `latest_user_occurrence`, never source text.
+No saved user occurrence in the chosen representation blocks discovery with an
+actionable diagnostic. Some participant surfaces require explicit `response_item`
+instead of default `event_msg`; representations are never guessed or merged.
+
+`recording bind` additionally requires `activity_id`, observed `start_position`,
+`enabled_intervals` and provenance. The start is a saved user occurrence in the
+selected representation; the host attributes it to the first actual Activity work
+prompt. Latest occurrence does not select an existing Activity's range. Intervals
+follow the existing synchronization schema. Preview is read-only; `--apply` persists
+through the synchronizer and returns `usage_source` for separate `activity usage-update`.
+Existing ranges cannot silently move. Disabled/no-independent-obligation commands
+perform no discovery/writes. Independent mandatory recording supplies `mandatory:
+true` plus applicable instruction provenance.
+
+The host verifies that a user occurrence is the actual work prompt, not an
+environment-only context record. Native delegated assignments can use the
+existing explicit `recording synchronize` path at their verified assignment
+position; do not feed an environment record to interactive `recording bind`.
+The adapter still excludes inter-agent/tool metadata from transcript text.
+
+Example workspace-contained request (values are placeholders):
+
+```json
+{"activity_id":"<current UUID>","start_position":42,"enabled_intervals":[{"start":{"source_session_id":"<host session UUID>","source_position":42},"end":null,"provenance":"recording enabled before this observed work prompt"}],"provenance":{"source":"authorized host assignment","reason":"register before recorded work"}}
+```
+
+Run `<absolute-python> -B .hai/tools/hai.py recording bind --workspace . --request <request.json>`;
+add `--apply` for persistence. Position 42 is illustrative, never a default. Startup
+never mutates a binding. `recording_context` reports disabled, needs_activity,
+needs_binding, verified, needs_synchronization, blocked or unverified independently
+of core validity. Missing current host identity remains unverified even with a
+previously registered source. Source failures become visible here immediately. See the owning
+[procedure](../../procedures/establish-recording-source.md).
+
+Run `<absolute-python> -B -m unittest discover -s .hai/tools/runtime/tests -p 'test_source_discovery.py'`
+for discovery/readiness/binding integration; existing `test_chronicles.py` checks
+range separation, off-periods, exact text, closure and persistence safeguards.
+Fixtures do not replace observed actual host/source integration.
 
 ## Core chronicles
 

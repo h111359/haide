@@ -1,0 +1,11 @@
+{
+  "invocation_format_version": 1,
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "invocation_id": "33e42c63-6de7-4ae9-85fd-aa2cbd5a958b",
+  "agent": "quality-assurance",
+  "created_at": "2026-11-09T11:53:02Z",
+  "provenance": {
+    "source": "Human approval of chronicle amendments and required independent review in installed QA skill referenced role policy",
+    "reason": "Allocate a new current-Activity reviewer invocation before launch"
+  }
+}

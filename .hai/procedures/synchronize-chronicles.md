@@ -6,7 +6,7 @@ Synchronize explicitly assigned, completed Codex source exchanges into Activity-
 
 ## Inputs
 
-A valid workspace and instructions, an existing stable Activity ID, actual authority, the recording requirement, and explicit source assignment and enablement provenance are required. For each initial source supply its canonical authorized path, session ID, inclusive start position, optional inclusive end position, `event_msg` representation and enabled intervals with source occurrences and attributable provenance. A null interval end means enablement continues. Resolve ambiguous or conflicting attribution before writes; never discover sessions or infer historical import authority.
+A valid workspace and instructions, an existing stable Activity ID, actual authority, the recording requirement, and explicit source assignment and enablement provenance are required. For each initial source supply its canonical authorized path, session ID, inclusive start position, optional inclusive end position, explicit `event_msg` or `response_item` representation and enabled intervals with source occurrences and attributable provenance. A null interval end means enablement continues. Establish new current-session identity through [bounded discovery and binding](establish-recording-source.md); the synchronizer itself does no discovery. Resolve ambiguous/conflicting attribution before writes; never infer historical import authority or reconstruct text.
 
 ## Steps
 

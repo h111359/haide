@@ -1,0 +1,14 @@
+{
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "outcome": "completed",
+  "archive_label": "workspace-agent-setup",
+  "outcome_text": "BL-0009 (Workspace agent setup parameters) was reviewed against the existing HAI implementation and completed as redundant/already implemented under the human's explicit conditional direction: \"If you think this functionality is already present - complete the backlog item as redundant and close it\".\n\nExisting coverage: every agent has an owned configuration contract (including valid empty contracts), workspace-specific overrides live at .hai_env/config/agents/<agent-name>.json, types/defaults/validation and core read/update operations already exist, and configuration is separate from replaceable packages. Git-manager flags and Specification-manager location/enablement provide concrete examples.\n\nActual verification: all nine registered installed packages passed audit, all 13 existing configuration tests passed on Linux/Python 3.12.3 without skips, and backlog audits before/after the transition passed. backlog/closed/BL-0009.md is completed, the catalogue agrees, and original request/source/history and unspecified Why/Acceptance Criteria remain preserved. No new acceptance criteria or implementation were invented.\n\nThe first question batch and exact human response were persisted through core and read back before application; ledger/revisions remain. Q002 received no concrete scenario and was made unnecessary by the human's terminal disposition; its original unanswered block is preserved without fabricating an answer. Relevant work is complete. Planning and implementation were deliberately skipped; no implementation-start marker was set. Protected framework/source/installed-package hashes are unchanged.\n\nLimits: no new product behavior, architecture or end-user setup flow was implemented or claimed. Explicit durable transcript source path/range and attributable usage sources are unavailable; no source discovery/reconstruction, transcript coverage or zero token/credit spend is claimed. Enabled recording currently blocks closure and commit pending a source assignment or a new explicit one-time exception. The earlier BL-0011 exception does not cover this Activity. Local commit is pending actual Git execution.\n",
+  "recording": {
+    "status": "unavailable",
+    "details": "No explicit saved transcript source path/range assigned; no coverage claim or applicable current exception"
+  },
+  "provenance": {
+    "source": "Human current chat, verbatim: Close activity, commit",
+    "reason": "Archive completed BL-0009 redundant-capability review and commit its scoped records"
+  }
+}

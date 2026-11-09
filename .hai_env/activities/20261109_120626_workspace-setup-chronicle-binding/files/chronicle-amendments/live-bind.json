@@ -1,0 +1,18 @@
+{
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "start_position": 490,
+  "enabled_intervals": [
+    {
+      "start": {
+        "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+        "source_position": 490
+      },
+      "end": null,
+      "provenance": "Chronicles enabled at current Activity creation and unchanged throughout its saved BL-0009 work range; enabled revision 2 observed in startup; human explicitly authorized resolving current Activity from the located source"
+    }
+  ],
+  "provenance": {
+    "source": "Human current chat, verbatim: OK, apply this ammendments now and resolve for the current activity",
+    "reason": "Implement approved bounded discovery/early binding workflow and resolve existing Activity with real source-backed recording"
+  }
+}

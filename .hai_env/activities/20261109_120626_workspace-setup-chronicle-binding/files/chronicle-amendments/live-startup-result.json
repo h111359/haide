@@ -1,0 +1,178 @@
+{
+  "ok": true,
+  "status": "valid",
+  "result": {
+    "ok": true,
+    "environment": "valid",
+    "activities": {
+      "location": ".hai_env/activities",
+      "available": true,
+      "target_type": "directory"
+    },
+    "features": {
+      "chronicles": {
+        "enabled": true,
+        "record_every_prompts": 5
+      }
+    },
+    "agent_instructions": {
+      "path": ".hai_env/agent_instructions.md",
+      "text": ""
+    },
+    "instructions_status": "loaded",
+    "agents": [
+      {
+        "name": "hai-framework-advisor",
+        "selection_guide": "Call to review this repository's HAI framework and recommend the top three logical next actions in chat without changing files.",
+        "definition": ".hai_env/agents/hai-framework-advisor/SKILL.md",
+        "origin": ".hai_env"
+      },
+      {
+        "name": "release-manager",
+        "selection_guide": "Call to prepare a HAI bundle release, recommend an evidence-based SemVer bump, and verify release readiness and publication evidence. Returns release assets, readiness findings, publication status, and unresolved dependencies.",
+        "definition": ".hai_env/agents/release-manager/SKILL.md",
+        "origin": ".hai_env"
+      },
+      {
+        "name": "git-manager",
+        "selection_guide": "Call to configure this workspace's optional Git/GitHub integrations or inspect and operate repositories, commits, branches, merges, pushes, pull requests, issues, tags, releases, and checks. Returns validated settings, verified changes, repository and remote status, and unresolved dependencies.",
+        "definition": ".hai_env/agents/git-manager/SKILL.md",
+        "origin": ".hai_env"
+      },
+      {
+        "name": "specification-manager",
+        "selection_guide": "Call to configure HAI specification enablement and location, or enter, update, organize, or validate durable product specification information. Returns validated settings, changes, verification evidence, and unresolved decisions.",
+        "definition": ".hai_env/agents/specification-manager/SKILL.md",
+        "origin": ".hai_env"
+      },
+      {
+        "name": "agent-definition-manager",
+        "selection_guide": "Call to create, maintain, validate or audit workspace agent definitions and reusable source packages against conventions. New agents default to workspace origin. Returns verified definition changes, findings and metadata for runtime; creation does not install or register a package.",
+        "definition": ".hai_env/agents/agent-definition-manager/SKILL.md",
+        "origin": ".hai_env"
+      },
+      {
+        "name": "business-analyst",
+        "selection_guide": "Call to clarify business intent, analyze requirements and define scope and acceptance criteria. Returns attributable requirements, decisions, ambiguities and evidence for host coordinator and the Activity record owner.",
+        "definition": ".hai_env/agents/business-analyst/SKILL.md",
+        "origin": ".hai_env"
+      },
+      {
+        "name": "solution-architect",
+        "selection_guide": "Call to analyze technical options, design a solution and plan implementation and verification against agreed requirements. Returns justified architecture, tradeoffs, dependencies, risks and an actionable plan.",
+        "definition": ".hai_env/agents/solution-architect/SKILL.md",
+        "origin": ".hai_env"
+      },
+      {
+        "name": "software-developer",
+        "selection_guide": "Call to implement authorized product changes and run appropriate developer checks against agreed requirements and technical decisions. Returns actual changes, verification evidence, failures and unresolved dependencies.",
+        "definition": ".hai_env/agents/software-developer/SKILL.md",
+        "origin": ".hai_env"
+      },
+      {
+        "name": "quality-assurance",
+        "selection_guide": "Call to verify product behavior against agreed requirements and acceptance criteria, assess regressions and report evidence-based defects and coverage limits. Returns actual test results and unresolved acceptance risks.",
+        "definition": ".hai_env/agents/quality-assurance/SKILL.md",
+        "origin": ".hai_env"
+      }
+    ],
+    "catalogues": {
+      "workspace": "valid"
+    },
+    "agent_configurations": {
+      "specification-manager": {
+        "status": "configured",
+        "path": ".hai_env/config/agents/specification-manager.json",
+        "settings": {
+          "enabled": false,
+          "location": ".hai_env/specifications"
+        },
+        "configured_fields": [
+          "enabled",
+          "location"
+        ],
+        "issues": []
+      }
+    },
+    "profiles": {
+      "status": "valid",
+      "runtime_availability": "not_checked",
+      "models": {
+        "light": "gpt-6-luna",
+        "standard": "gpt-6.1-terra",
+        "advanced": "gpt-6.1-sol"
+      },
+      "feature_conflicts_checked": true
+    },
+    "issues": [],
+    "current_state_format_version": 3,
+    "state_format_version": 3,
+    "state_status": "valid",
+    "activity_context": {
+      "status": "current",
+      "store": ".hai_env/activities",
+      "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+      "path": ".hai_env/activities/00000000_000000_active",
+      "state": {
+        "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+        "lifecycle": "active",
+        "created_at": "2026-11-08T07:06:45Z",
+        "closed_at": null,
+        "outcome": null,
+        "implementation_started_at": "2026-11-09T11:45:41Z",
+        "steps": {
+          "analysis": "completed",
+          "clarification": "completed",
+          "implementation": "in_progress",
+          "planning": "completed",
+          "verification": "in_progress"
+        }
+      },
+      "continuity": {
+        "input.md": {
+          "path": ".hai_env/activities/00000000_000000_active/input.md",
+          "status": "loaded",
+          "text": "Let's clarify BL-0009\n\nHuman clarification disposition, current chat, verbatim:\nIf you think this functionality is already present - complete the backlog item as redundant and close it\n\n\nHuman finalization request, current chat, verbatim:\nClose activity, commit\n\n\nHuman scope amendment, current chat, verbatim:\nOK, apply this ammendments now and resolve for the current activity\n",
+          "truncated": false,
+          "portion": "head",
+          "limit_bytes": 384
+        },
+        "plan.md": {
+          "path": ".hai_env/activities/00000000_000000_active/plan.md",
+          "status": "loaded",
+          "text": "ed roles, bounded deliverables, exclusions (reconstruction/unrelated history/automatic imports), technical/owner constraints and observable checks. Readiness R1.1\u2013R8.3 is satisfied for this bounded amendment using that proposal, actual adapter proof, current conventions and explicit approval; no exemption is used. Test each stated resolver/lifecycle boundary; retain gaps as blockers rather than exceptions.\n\nRevision provenance: source: Human current chat, verbatim: OK, apply this ammendments now and resolve for the current activity; reason: Implement approved bounded discovery/early binding workflow and resolve existing Activity with real source-backed recording; reason: Approved bounded implementation and verification plan; recorded 2026-11-09T11:45:41Z.\n",
+          "truncated": true,
+          "portion": "tail",
+          "limit_bytes": 768
+        },
+        "decisions.md": {
+          "path": ".hai_env/activities/00000000_000000_active/decisions.md",
+          "status": "loaded",
+          "text": " this backlog disposition. The Activity stays active;\nthe user requested closing the backlog item, not Activity archival or a commit.\n\n\nRevision provenance: source: Current human conditional completion instruction, verified response readback and actual capability/backlog checks; reason: Record completed redundant backlog disposition without new implementation; reason: Append actual terminal backlog disposition, preserve unanswered historical Q002 without inventing a scenario; recorded 2026-11-08T08:08:39Z.\n",
+          "truncated": true,
+          "portion": "tail",
+          "limit_bytes": 512
+        },
+        "log.md": {
+          "path": ".hai_env/activities/00000000_000000_active/log.md",
+          "status": "loaded",
+          "text": "ding closure/commit can now be reassessed against an actual located source. (source: Human current question about current-session discovery and actual metadata/adapter checks; reason: Explain implicit-discovery restriction with verified current-session evidence).\n\n- 2026-11-09T11:45:41Z \u2014 Human approved permanent current-session source discovery/early registration amendments and resolving current closure/commit. Existing BL-0009 redundant completion is retained. Verified actual source identity and first saved BL-0009 prompt at position 490; enabled revision 2 has not changed during this Activity. Register/synchronize actual source before implementation. No reconstruction or off-period import. New scope requires core implementation, regression checks and independent QA. (source: Human current chat, verbatim: OK, apply this ammendments now and resolve for the current activity; reason: Implement approved bounded discovery/early binding workflow and resolve existing Activity with real source-backed recording).\n",
+          "truncated": true,
+          "portion": "tail",
+          "limit_bytes": 1024
+        }
+      },
+      "issues": []
+    },
+    "recording_context": {
+      "status": "verified",
+      "details": "Registered sources only; no claim about unknown sessions",
+      "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+      "source_count": 1,
+      "checkpoint_path": ".hai_env/activities/00000000_000000_active/chronicles/checkpoint.json"
+    }
+  },
+  "issues": [],
+  "changed_files": [],
+  "operation": "startup"
+}

@@ -1,0 +1,23 @@
+{
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "input_append": "\n\nHuman scope amendment, current chat, verbatim:\nOK, apply this ammendments now and resolve for the current activity\n",
+  "steps": {
+    "analysis": "completed",
+    "planning": "completed",
+    "implementation": "in_progress",
+    "verification": "in_progress"
+  },
+  "implementation_start": true,
+  "log": "Human approved permanent current-session source discovery/early registration amendments and resolving current closure/commit. Existing BL-0009 redundant completion is retained. Verified actual source identity and first saved BL-0009 prompt at position 490; enabled revision 2 has not changed during this Activity. Register/synchronize actual source before implementation. No reconstruction or off-period import. New scope requires core implementation, regression checks and independent QA.",
+  "artifacts": [
+    {
+      "name": "plan.md",
+      "text": "# Chronicle amendments\n\nAuthority: human current chat, verbatim: \"OK, apply this ammendments now and resolve for the current activity\".\n\n1. Register the verified existing source at saved work-prompt position 490 using existing synchronization, with attributable enabled interval; verify and register usage without invented charges.\n2. Add dependency-free current-session resolver (host path preferred, exact-ID filename search in Codex session storage otherwise), metadata/workspace/alias/ambiguity validation, and read-only startup readiness. Add core recording discover/bind operations; binding requires explicit observed user occurrence and enablement provenance, and uses existing synchronizer.\n3. Amend standing host policy to authorize bounded current-session discovery when recording is enabled. Require early binding before required recorded work, resume validation, cadence/next-turn handling and synchronous commit/closure verification; retain no reconstruction, no unrelated history, no automatic off-period backfill.\n4. Exercise fixture and real-source integration, defaults/disabled/missing/ambiguous/wrong-identity/path/resume/range/partial-write cases. Obtain independent QA and correct concrete defects.\n5. Synchronize/verify latest source, close current Activity through core with recording enabled, and make one scoped local commit. No fresh Activity or push requested.\n\nThe already accepted proposal supplies intent, user need (repeated closure exceptions), affected roles, bounded deliverables, exclusions (reconstruction/unrelated history/automatic imports), technical/owner constraints and observable checks. Readiness R1.1\u2013R8.3 is satisfied for this bounded amendment using that proposal, actual adapter proof, current conventions and explicit approval; no exemption is used. Test each stated resolver/lifecycle boundary; retain gaps as blockers rather than exceptions.",
+      "reason": "Approved bounded implementation and verification plan"
+    }
+  ],
+  "provenance": {
+    "source": "Human current chat, verbatim: OK, apply this ammendments now and resolve for the current activity",
+    "reason": "Implement approved bounded discovery/early binding workflow and resolve existing Activity with real source-backed recording"
+  }
+}

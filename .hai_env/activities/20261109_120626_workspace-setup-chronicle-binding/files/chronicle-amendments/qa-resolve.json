@@ -1,0 +1,10 @@
+{
+  "definition": ".hai_env/agents/quality-assurance/SKILL.md",
+  "runtime": {
+    "models": {
+      "gpt-6.1-terra": [
+        "high"
+      ]
+    }
+  }
+}

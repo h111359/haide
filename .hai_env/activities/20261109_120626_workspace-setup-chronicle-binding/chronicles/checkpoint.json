@@ -1,0 +1,120 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "sources": [
+    {
+      "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/08/rollout-2026-11-08T05-08-38-01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63.jsonl",
+      "original_started_at": "2026-11-08T03:08:38.060Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+            "source_position": 490
+          },
+          "end": {
+            "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+            "source_position": 722
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+            "source_position": 490
+          },
+          "end": {
+            "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+            "source_position": 722
+          },
+          "provenance": "Chronicles enabled at current Activity creation and unchanged throughout its saved BL-0009 work range; enabled revision 2 observed in startup; human explicitly authorized resolving current Activity from the located source"
+        }
+      ],
+      "retained_source_complete": true
+    },
+    {
+      "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+      "durable_path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T13-53-22-01a1c027-e6a2-72e3-a2ea-1c634a088cac.jsonl",
+      "original_started_at": "2026-11-09T11:53:22.860Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+            "source_position": 135
+          },
+          "end": {
+            "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+            "source_position": 239
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+            "source_position": 12
+          },
+          "end": {
+            "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+            "source_position": 239
+          },
+          "provenance": "Recording enabled before independent QA invocation 33e42c63-6de7-4ae9-85fd-aa2cbd5a958b. Verified first native NEW_TASK amsg_01a1c027-ebb5-77f0-914a-15301a4e29bd in this newly spawned thread, author /root, recipient/task name /root/chronicle_review and actual host allocation/launch. Later NEW_TASK records are same-instance follow-ups. Encrypted payload untouched; eligible saved finals read exactly; environment-only user position 7 excluded."
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+          "source_position": 490
+        },
+        "end": {
+          "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+          "source_position": 722
+        }
+      },
+      "segment_path": "chronicles/20261108_050838_segment-01.md",
+      "verified_at": "2026-11-09T12:06:26Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+          "source_position": 135
+        },
+        "end": {
+          "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+          "source_position": 239
+        }
+      },
+      "segment_path": "chronicles/20261109_135322_segment-01.md",
+      "verified_at": "2026-11-09T12:06:26Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63": {
+      "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+      "source_position": 722
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "0872d2a1-afc6-4769-b73b-194d29f46e03",
+    "dispatch_cursors": {
+      "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63": {
+        "source_session_id": "01a1b921-1f1b-7ae3-88a6-9dc7fbc32c63",
+        "source_position": 722
+      }
+    },
+    "started_at": "2026-11-09T12:06:26Z",
+    "finished_at": "2026-11-09T12:06:26Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-09T12:06:26Z",
+  "in_flight": null
+}

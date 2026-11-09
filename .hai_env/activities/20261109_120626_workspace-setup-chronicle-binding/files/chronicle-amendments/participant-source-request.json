@@ -1,0 +1,25 @@
+{
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "sources": [
+    {
+      "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T13-53-22-01a1c027-e6a2-72e3-a2ea-1c634a088cac.jsonl",
+      "session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+      "representation": "response_item",
+      "start_position": 12,
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+            "source_position": 12
+          },
+          "end": null,
+          "provenance": "Recording enabled before independent QA invocation 33e42c63-6de7-4ae9-85fd-aa2cbd5a958b. Verified first native NEW_TASK amsg_01a1c027-ebb5-77f0-914a-15301a4e29bd in this newly spawned thread, author /root, recipient/task name /root/chronicle_review and actual host allocation/launch. Later NEW_TASK records are same-instance follow-ups. Encrypted payload untouched; eligible saved finals read exactly; environment-only user position 7 excluded."
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "source": "Actual native participant assignment metadata and human-approved chronicle amendments",
+    "reason": "Attribute ended reviewer at first verified assignment occurrence; never decrypt or reconstruct task payload"
+  }
+}

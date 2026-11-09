@@ -9,17 +9,26 @@ from recording_gate import assess_closure
 def handle(operation, workspace, request, apply):
     op = operation.split('.')[-1].split('/')[-1]
     try:
+        source_fields = {'session_id', 'source_path', 'codex_home', 'representation', 'mandatory', 'provenance'}
         fields = {'status':set(), 'schedule':{'occurrence_ids','covered_ids','threshold','last_dispatched_count'},
+                  'discover': source_fields, 'bind': source_fields | {'activity_id', 'start_position', 'enabled_intervals'},
                   'synchronize': {'activity_id', 'sources', 'provenance', 'mandatory'}, 'verify': {'activity_id'}}
         if not isinstance(request,dict) or (op in fields and set(request) - fields[op]): raise ValueError('Unknown or invalid request fields')
-        if apply and op != 'synchronize': return envelope(operation, 'input_error', issues=['Only recording synchronize supports --apply'])
-        if op in ('synchronize', 'verify'):
+        if apply and op not in ('synchronize', 'bind'): return envelope(operation, 'input_error', issues=['Only recording synchronize/bind support --apply'])
+        if op in ('synchronize', 'verify', 'discover', 'bind'):
             from .startup import require_mutation_context
             from .activities import store_path, discover, now, required_text, handle as activity_handle
             from . import chronicles
             root = Path(workspace).resolve(strict=True)
             def execute():
                 require_mutation_context(root)
+                if op in ('discover', 'bind'):
+                    from . import source_discovery
+                    if not source_discovery.enabled(root, request):
+                        return envelope(operation, result={'status': 'disabled', 'details': 'Recording disabled; no independent obligation'})
+                    source = source_discovery.resolve(root, request)
+                    if op == 'discover':
+                        return envelope(operation, result=source)
                 context = discover(root, store_path(root))
                 ident = required_text(request.get('activity_id'), 'activity_id')
                 if op == 'verify':
@@ -30,6 +39,22 @@ def handle(operation, workspace, request, apply):
                 if context['status'] != 'current' or context['activity_id'] != ident:
                     raise SafetyError('Chronicle recording requires the sole current Activity')
                 base = context['path']
+                if op == 'bind':
+                    from .activities import provenance
+                    provenance(request)
+                    start = request.get('start_position')
+                    _, extracted = source_discovery.inspect_source(root, source['path'], source['session_id'], source['representation'])
+                    if type(start) is not int or not any(m['source_position'] == start and m['role'] == 'user' for m in extracted['messages']):
+                        raise ValueError('start_position must identify an observed saved user occurrence, never an inferred timestamp')
+                    binding = {k: source[k] for k in ('path', 'session_id', 'representation')}
+                    binding.update(start_position=start, enabled_intervals=request.get('enabled_intervals'))
+                    chronicles.assignment(root, binding)
+                    request_for_sync = {'sources': [binding], 'provenance': request['provenance']}
+                    result, changed = chronicles.synchronize(root, base, ident, request_for_sync, now(), apply,
+                        fingerprint(checked_path(root, base + '/state.json', allow_missing=False)))
+                    result['source'] = source
+                    result['usage_source'] = {k: binding[k] for k in ('path', 'session_id', 'start_position')}
+                    return envelope(operation, 'ok' if apply else 'planned', result, changed)
                 enabled = read_json(checked_path(root, '.hai_env/state.json', allow_missing=False))['features']['chronicles']['enabled']
                 mandatory = request.get('mandatory', False)
                 if type(mandatory) is not bool:

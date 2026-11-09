@@ -1,0 +1,14 @@
+{
+  "activity_id": "28c261fc-859f-4dab-bc34-3a840d007bf4",
+  "sources": [
+    {
+      "path": "/home/hromar/.codex/sessions/2026/11/09/rollout-2026-11-09T13-53-22-01a1c027-e6a2-72e3-a2ea-1c634a088cac.jsonl",
+      "session_id": "01a1c027-e6a2-72e3-a2ea-1c634a088cac",
+      "start_position": 12
+    }
+  ],
+  "provenance": {
+    "source": "Actual native participant assignment metadata and human-approved chronicle amendments",
+    "reason": "Attribute ended reviewer at first verified assignment occurrence; never decrypt or reconstruct task payload"
+  }
+}
