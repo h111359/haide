@@ -1,0 +1,112 @@
+{
+  "platform": "win32",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "results": [
+    {
+      "test": "reject noncanonical",
+      "path": "../escape",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: '../escape'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "/absolute",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: '/absolute'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "C:/drive",
+      "status": "passed",
+      "error": "Expected a canonical workspace-relative path: 'C:/drive'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "folder\\native",
+      "status": "passed",
+      "error": "Expected a canonical workspace-relative path: 'folder\\\\native'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "a//b",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: 'a//b'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "./a",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: './a'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "NUL",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: 'NUL'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "con.txt",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: 'con.txt'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "COM1.log",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: 'COM1.log'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "trail.",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: 'trail.'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "trail ",
+      "status": "passed",
+      "error": "Path contains unsafe or noncanonical components: 'trail '"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "a:b",
+      "status": "passed",
+      "error": "Expected a canonical workspace-relative path: 'a:b'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "bad?name",
+      "status": "passed",
+      "error": "Expected a canonical workspace-relative path: 'bad?name'"
+    },
+    {
+      "test": "reject noncanonical",
+      "path": "bad*name",
+      "status": "passed",
+      "error": "Expected a canonical workspace-relative path: 'bad*name'"
+    },
+    {
+      "test": "native no-overwrite rename collision",
+      "status": "passed"
+    },
+    {
+      "test": "Windows junction rejection",
+      "path": "junction",
+      "status": "passed",
+      "error": "Symlink or reparse point prohibited: junction"
+    },
+    {
+      "test": "Windows junction rejection",
+      "path": "junction/new-file.txt",
+      "status": "passed",
+      "error": "Symlink or reparse point prohibited: junction/new-file.txt"
+    },
+    {
+      "test": "Windows junction rejection",
+      "path": "junction/sentinel.txt",
+      "status": "passed",
+      "error": "Symlink or reparse point prohibited: junction/sentinel.txt"
+    }
+  ]
+}

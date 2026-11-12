@@ -1,0 +1,233 @@
+{
+  "platform": "win32",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "checks": [
+    {
+      "case": "reject '/absolute'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject '/absolute'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject '/absolute'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject '../escape'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject '../escape'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject '../escape'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a\\\\b'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a\\\\b'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a\\\\b'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'C:relative'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'C:relative'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'C:relative'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a//b'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a//b'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a//b'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/CON.txt'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/CON.txt'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/CON.txt'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/com\u00b9.log'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/com\u00b9.log'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/com\u00b9.log'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/LPT\u00b2'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/LPT\u00b2'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/LPT\u00b2'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/stream:name'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/stream:name'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/stream:name'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/trailing.'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/trailing.'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/trailing.'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/space '",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/space '",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/space '",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/pipe|'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/pipe|'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/pipe|'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/<name>'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/<name>'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/<name>'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/\\x1fname'",
+      "validator": "runtime",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/\\x1fname'",
+      "validator": "startup",
+      "pass": true
+    },
+    {
+      "case": "reject 'a/\\x1fname'",
+      "validator": "configuration",
+      "pass": true
+    },
+    {
+      "case": "native junction ancestor rejection",
+      "pass": true
+    },
+    {
+      "case": "Windows protected .GIT case alias rejection",
+      "pass": true
+    },
+    {
+      "case": "foreign metadata preserved",
+      "pass": true
+    },
+    {
+      "case": "foreign source not opened",
+      "pass": true
+    }
+  ],
+  "failures": []
+}

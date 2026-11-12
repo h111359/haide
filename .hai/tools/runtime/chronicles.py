@@ -4,9 +4,9 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import re
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import uuid
-from zoneinfo import ZoneInfo
+from path_contract import native_source_path, is_link_or_reparse
 
 from .storage import SafetyError, checked_path, fingerprint, read_json, write_bytes, write_json
 from .usage import binding, provenance, stamp
@@ -50,7 +50,7 @@ def assignment(root, value):
     return b
 
 
-def load(root, base, ident):
+def load(root, base, ident, *, metadata_only=False):
     ledger = checked_path(root, base + '/chronicles/core.json')
     fp = fingerprint(ledger)
     directory = checked_path(root, base + '/chronicles')
@@ -85,9 +85,16 @@ def load(root, base, ident):
     for relative, expected in data['artifact_hashes'].items():
         if not isinstance(relative, str) or not relative.startswith('chronicles/') or relative == 'chronicles/core.json':
             raise SafetyError('Invalid chronicle artifact path')
+        if not isinstance(expected, str) or not re.fullmatch('[a-f0-9]{64}', expected):
+            raise SafetyError('Invalid chronicle artifact fingerprint')
+        if metadata_only:
+            checked_path(root, base + '/' + relative)
+            continue
         target = checked_path(root, base + '/' + relative, allow_missing=False)
         if fingerprint(target)[-1] != expected:
             raise SafetyError('Chronicle artifact changed: ' + relative)
+    if metadata_only:
+        return data, fp
     checkpoint = read_json(checked_path(root, base + '/chronicles/checkpoint.json', allow_missing=False))
     if not isinstance(checkpoint, dict) or type(checkpoint.get('checkpoint_format_version')) is not int or checkpoint['checkpoint_format_version'] != 1 or checkpoint.get('activity_id') != ident:
         raise SafetyError('Invalid chronicle checkpoint identity/format')
@@ -122,8 +129,8 @@ def load(root, base, ident):
 
 def read_assigned(b, previous=None):
     from chronicles.read_codex_source import read_source
-    path = Path(b['path'])
-    if path.resolve(strict=True) != path or any(p.is_symlink() for p in (path, *path.parents)) or path.stat().st_nlink != 1:
+    path = native_source_path(b['path'])
+    if path.resolve(strict=True) != path or any(is_link_or_reparse(p.lstat()) for p in (path, *path.parents)) or path.stat().st_nlink != 1:
         raise SafetyError('Chronicle source must be canonical, regular and nonlinked')
     before = fingerprint(path)
     raw = path.read_bytes()
@@ -149,15 +156,15 @@ def assert_fresh(b, raw, messages):
 
 def check_overlaps(root, base, entries):
     """Inspect only other Activities' binding metadata, never transcript text."""
-    store = checked_path(root, str(Path(base).parent), allow_missing=False)
+    store = checked_path(root, PurePosixPath(base).parent.as_posix(), allow_missing=False)
     for child in store.iterdir():
         if not child.is_dir() or child == root / base:
             continue
-        checked_path(root, str(child.relative_to(root)), allow_missing=False)
-        otherpath = checked_path(root, str(child.relative_to(root)) + '/chronicles/core.json')
+        checked_path(root, child.relative_to(root).as_posix(), allow_missing=False)
+        otherpath = checked_path(root, child.relative_to(root).as_posix() + '/chronicles/core.json')
         if not otherpath.exists():
             # Legacy checkpoint metadata may claim ranges we cannot infer safely.
-            legacy = checked_path(root, str(child.relative_to(root)) + '/chronicles/checkpoint.json')
+            legacy = checked_path(root, child.relative_to(root).as_posix() + '/chronicles/checkpoint.json')
             if legacy.exists():
                 old = read_json(legacy)
                 if not isinstance(old, dict) or not isinstance(old.get('sources'), list) or not old['sources']:
@@ -178,9 +185,13 @@ def check_overlaps(root, base, entries):
                             if max(bounds[0], new['start_position']) <= min(bounds[1], new['end_position'] if new['end_position'] is not None else float('inf')):
                                 raise SafetyError('Chronicle assignment overlaps retained legacy coverage')
             continue
-        childbase = str(child.relative_to(root))
+        childbase = child.relative_to(root).as_posix()
         state = read_json(checked_path(root, childbase + '/state.json', allow_missing=False))
-        other, _ = load(root, childbase, state['activity_id'])
+        other, _ = load(root, childbase, state['activity_id'], metadata_only=True)
+        # Unrelated historical content may be unavailable after a workspace move.
+        # Its validated assignment metadata is enough to rule out overlap.
+        if any(e['binding']['session_id'] == new['session_id'] for e in other['sources'] for new in entries):
+            other, _ = load(root, childbase, state['activity_id'])
         for existing in other['sources']:
             b = existing['binding']
             for new in entries:
@@ -260,7 +271,7 @@ def synchronize(root, base, ident, request, time, apply, expected_state, require
             b['enabled_intervals'] = [dict(i, end=occurrence(b['session_id'], min(i['end']['source_position'], b['end_position']) if i['end'] else b['end_position'])) for i in b['enabled_intervals'] if i['start']['source_position'] <= b['end_position']]
         segment = entry.get('segment_path')
         if segment is None:
-            start = datetime.fromisoformat(extracted['original_started_at'].replace('Z', '+00:00')).astimezone(ZoneInfo('Europe/Sofia')).strftime('%Y%m%d_%H%M%S')
+            start = datetime.fromisoformat(extracted['original_started_at'].replace('Z', '+00:00')).astimezone(timezone.utc).strftime('%Y%m%d_%H%M%S')
             n = 1
             while True:
                 segment = f'chronicles/{start}_segment-{n:02d}.md'

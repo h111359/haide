@@ -37,6 +37,11 @@ the product's runtime.
   path APIs, explicit text encodings, and documented platform-specific
   handling where filesystem behavior differs. Avoid shell-dependent
   command construction and hardcoded executable locations.
+- Serialize internally derived workspace-relative paths with `.as_posix()` and
+  manipulate their canonical string components with `PurePosixPath`. Keep native
+  absolute external source paths separate. Never normalize malformed caller or
+  saved workspace-relative strings into accepted paths. Use binary descriptors
+  for raw-byte writes on Windows; retain explicit UTF-8 for text.
 
 ## Placement and usage
 

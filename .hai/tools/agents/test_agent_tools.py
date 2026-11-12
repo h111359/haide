@@ -115,7 +115,7 @@ None.
         result = validate(self.root, self.definition)
         self.assertTrue(result["ok"], result)
         self.assertEqual(result["agent"], "worker")
-        self.assertEqual((self.root / ".hai_env/agents/catalogue.md").read_text(), 'not a catalogue')
+        self.assertEqual((self.root / ".hai_env/agents/catalogue.md").read_text(encoding='utf-8'), 'not a catalogue')
 
     def external_definition(self):
         path = self.write_definition()
@@ -444,7 +444,7 @@ None.
             '\n## References\nNone.', '\n## References\n- [term:Activity] → [Concept](../../../.hai/concepts/activity.md).')
         target = self.write('deep/relocated/worker/SKILL.md', text)
         self.write('deep/relocated/worker/configuration/contract.json',
-                   (self.root / '.hai_env/agents/worker/configuration/contract.json').read_text())
+                   (self.root / '.hai_env/agents/worker/configuration/contract.json').read_text(encoding='utf-8'))
         self.write('.hai/concepts/activity.md', '# Activity\n')
         path.unlink()
         try:
@@ -473,18 +473,18 @@ None.
 
     def test_configuration_contract_required_and_package_contained(self):
         path = self.root / self.definition
-        original = path.read_text()
-        path.write_text(original.replace('  hai-configuration-contract: "configuration/contract.json"\n', ''))
+        original = path.read_text(encoding='utf-8')
+        path.write_text(original.replace('  hai-configuration-contract: "configuration/contract.json"\n', ''), encoding='utf-8')
         self.assertFalse(validate(self.root, self.definition)['ok'])
-        path.write_text(original)
+        path.write_text(original, encoding='utf-8')
         contract = path.parent / 'configuration/contract.json'
-        data = json.loads(contract.read_text())
+        data = json.loads(contract.read_text(encoding='utf-8'))
         for change in ({'agent': 'other'}, {'settings': {'enabled': {'type': 'boolean', 'default': 1}}},
                        {'current_config_format_version': True}):
             with self.subTest(change=change):
-                contract.write_text(json.dumps(dict(data, **change)))
+                contract.write_text(json.dumps(dict(data, **change)), encoding='utf-8')
                 self.assertFalse(validate(self.root, self.definition)['ok'])
-        contract.write_text(json.dumps(data))
+        contract.write_text(json.dumps(data), encoding='utf-8')
         self.assertTrue(validate(self.root, self.definition)['ok'])
         contract.unlink()
         outside = self.write('elsewhere/contract.json', json.dumps(data))
@@ -782,7 +782,7 @@ None.
         with self.assertRaises(Invalid):
             read_profiles(path)
         self.profiles["format_version"] = True
-        path.write_text(json.dumps(self.profiles))
+        path.write_text(json.dumps(self.profiles), encoding='utf-8')
         with self.assertRaises(Invalid):
             read_profiles(path)
 
@@ -797,8 +797,8 @@ None.
 
     def test_folded_yaml_description_is_canonical_decoded_value(self):
         path = self.write_definition()
-        path.write_text(path.read_text().replace('description: ' + json.dumps(self.description),
-                                                'description: >-\n  Call to inspect\n  and report.'))
+        path.write_text(path.read_text(encoding='utf-8').replace('description: ' + json.dumps(self.description),
+                                                'description: >-\n  Call to inspect\n  and report.'), encoding='utf-8')
         self.assertEqual(read_definition(path)["description"], "Call to inspect and report.")
 
     def test_quoted_strings_comments_unicode_and_plain_punctuation(self):
@@ -921,10 +921,10 @@ plain: https://example.test/a#part # removed
 
     def test_wrong_name_sections_and_h1_rejected(self):
         path = self.write_definition()
-        original = path.read_text()
+        original = path.read_text(encoding='utf-8')
         for text in (original.replace('name: worker', 'name: other'),
                      original.replace('## Scope', '## Purpose'), original + '# Worker\n'):
-            path.write_text(text)
+            path.write_text(text, encoding='utf-8')
             with self.assertRaises(Invalid):
                 read_definition(path)
 
@@ -957,7 +957,7 @@ plain: https://example.test/a#part # removed
         self.assertFalse(result["ok"])
         self.assertEqual(len(result["agents"]), 1)
         self.assertEqual(result["issues"][0]["agent"], "old")
-        self.assertEqual(path.read_text(), text)
+        self.assertEqual(path.read_text(encoding='utf-8'), text)
 
     def test_old_new_conflict_rejected(self):
         self.write(".hai_env/agents/worker/knowledge.md", "# Old worker\n")
@@ -970,7 +970,7 @@ plain: https://example.test/a#part # removed
             path = self.root / self.definition
             path.unlink()
             outside = Path(external) / "SKILL.md"
-            outside.write_text("do not read")
+            outside.write_text("do not read", encoding='utf-8')
             try:
                 path.symlink_to(outside)
             except (OSError, NotImplementedError):
@@ -1005,7 +1005,7 @@ plain: https://example.test/a#part # removed
         resolve(self.root, self.definition, self.runtime)
         after = {str(p): p.read_bytes() for p in self.root.rglob("*") if p.is_file()}
         self.assertEqual(before, after)
-        self.assertEqual(state.read_text(), '{"unrelated":"preserve"}\n')
+        self.assertEqual(state.read_text(encoding='utf-8'), '{"unrelated":"preserve"}\n')
 
 
 if __name__ == "__main__":

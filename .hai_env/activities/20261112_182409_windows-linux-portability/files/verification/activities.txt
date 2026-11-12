@@ -1,0 +1,48 @@
+............EE..E
+======================================================================
+ERROR: test_live_core_and_consumers_have_no_retired_owner_routing (test_role_migration.CoreIsolationTests.test_live_core_and_consumers_have_no_retired_owner_routing) (path=WindowsPath('C:/Users/hmhri/Desktop/repos/haide/README.md'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\activities\test_role_migration.py", line 86, in test_live_core_and_consumers_have_no_retired_owner_routing
+    text = path.read_text()
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 788, in read_text
+    return f.read()
+           ~~~~~~^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x9d in position 381: character maps to <undefined>
+
+======================================================================
+ERROR: test_live_core_and_consumers_have_no_retired_owner_routing (test_role_migration.CoreIsolationTests.test_live_core_and_consumers_have_no_retired_owner_routing) (path=WindowsPath('C:/Users/hmhri/Desktop/repos/haide/.hai/conventions/agent_conv.md'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\activities\test_role_migration.py", line 86, in test_live_core_and_consumers_have_no_retired_owner_routing
+    text = path.read_text()
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 788, in read_text
+    return f.read()
+           ~~~~~~^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x9d in position 4868: character maps to <undefined>
+
+======================================================================
+ERROR: test_portable_supporting_links_resolve_after_complete_installation (test_role_migration.SourceStagingTests.test_portable_supporting_links_resolve_after_complete_installation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\activities\test_role_migration.py", line 122, in test_portable_supporting_links_resolve_after_complete_installation
+    text = re.sub(r'```.*?```', '', path.read_text(), flags=re.S)
+                                    ~~~~~~~~~~~~~~^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 788, in read_text
+    return f.read()
+           ~~~~~~^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x9d in position 4868: character maps to <undefined>
+
+----------------------------------------------------------------------
+Ran 16 tests in 1.391s
+
+FAILED (errors=3)

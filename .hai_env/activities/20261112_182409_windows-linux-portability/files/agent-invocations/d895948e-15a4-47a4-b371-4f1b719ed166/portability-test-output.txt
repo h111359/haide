@@ -1,0 +1,12 @@
+test_all_workspace_validators_reject_nonportable_strings (test_portability.PortabilityTests.test_all_workspace_validators_reject_nonportable_strings) ... ok
+test_cli_lifecycle_recording_both_representations (test_portability.PortabilityTests.test_cli_lifecycle_recording_both_representations) ... ok
+test_foreign_source_metadata_is_preserved_but_never_opened (test_portability.PortabilityTests.test_foreign_source_metadata_is_preserved_but_never_opened) ... ok
+test_native_path_serialization_has_portable_contract (test_portability.PortabilityTests.test_native_path_serialization_has_portable_contract) ... ok
+test_rename_collision_preserves_both_directories (test_portability.PortabilityTests.test_rename_collision_preserves_both_directories) ... ok
+test_reparse_attribute_detection_does_not_require_path_is_junction (test_portability.PortabilityTests.test_reparse_attribute_detection_does_not_require_path_is_junction) ... ok
+test_write_failure_reports_canonical_candidate (test_portability.PortabilityTests.test_write_failure_reports_canonical_candidate) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 16.679s
+
+OK

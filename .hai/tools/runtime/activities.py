@@ -1,8 +1,9 @@
 """Activity lifecycle operations. All caller-supplied narrative remains attributed."""
 from environment_paths import STATE, PROFILES, INSTRUCTIONS, LEGACY
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from datetime import datetime, timezone
 import re
+import os
 import sys
 import uuid
 from .storage import SafetyError, checked_path, fingerprint, read_json, write_bytes, write_json, lock
@@ -39,7 +40,8 @@ def store_path(root):
     path = checked_path(root, location)
     if path.exists() and not path.is_dir(): raise SafetyError('Activity store is not a directory')
     for reserved in ('.hai', '.git', '.hai_env/agents', '.hai_env/config', STATE, INSTRUCTIONS, PROFILES, *LEGACY.values()):
-        if location == reserved or location.startswith(reserved + '/') or reserved.startswith(location + '/'):
+        candidate, protected = (location.casefold(), reserved.casefold()) if os.name == 'nt' else (location, reserved)
+        if candidate == protected or candidate.startswith(protected + '/') or protected.startswith(candidate + '/'):
             raise SafetyError('Activity store overlaps a protected path')
     return location
 
@@ -128,11 +130,11 @@ def handle(operation, workspace, request, apply):
                 child, state = matches[0]
                 if op == 'usage-read':
                     from . import usage
-                    return envelope(operation, result=usage.read(root, str(child.relative_to(root)), ident))
+                    return envelope(operation, result=usage.read(root, child.relative_to(root).as_posix(), ident))
                 if op == 'chat-read':
                     from . import chat
-                    return envelope(operation, result=chat.read(root, str(child.relative_to(root)), ident, request))
-                return envelope(operation, result={'path': str(child.relative_to(root)), 'state': state})
+                    return envelope(operation, result=chat.read(root, child.relative_to(root).as_posix(), ident, request))
+                return envelope(operation, result={'path': child.relative_to(root).as_posix(), 'state': state})
             prov = provenance(request)
             stamp = now()
             if op == 'create':
@@ -163,7 +165,7 @@ def handle(operation, workspace, request, apply):
                     if s.get('activity_id') == ident and s.get('lifecycle') == 'closed': found.append(child)
                 if len(found) != 1: raise SafetyError('Closed Activity ID not uniquely found')
                 text = required_text(request.get('text'), 'text')
-                path = str((found[0] / 'log.md').relative_to(root)); target = checked_path(root, path, allow_missing=False); old = fingerprint(target)
+                path = (found[0] / 'log.md').relative_to(root).as_posix(); target = checked_path(root, path, allow_missing=False); old = fingerprint(target)
                 data = append_bytes(target.read_bytes(), f'\n- {stamp} — Supplement ({prov}): {text}')
                 if apply: write_bytes(root, path, data, old); changed.append(path)
                 return envelope(operation, 'ok' if apply else 'planned', {'path': path}, changed)
@@ -220,7 +222,7 @@ def handle(operation, workspace, request, apply):
                 if not apply: return envelope(operation, 'planned', {'state': state, 'paths': [x[0] for x in staged] + [state_path]})
                 for path,data,fp,revision in staged:
                     if revision:
-                        parent = checked_path(root, str(Path(path).parent)); parent.mkdir(parents=True, exist_ok=True)
+                        parent = checked_path(root, PurePosixPath(path).parent.as_posix()); parent.mkdir(parents=True, exist_ok=True)
                     write_bytes(root, path, data, fp); changed.append(path)
                 write_json(root, state_path, state, state_fp); changed.append(state_path)
                 if read_json(checked_path(root,state_path,allow_missing=False)) != state: raise SafetyError('State readback mismatch')

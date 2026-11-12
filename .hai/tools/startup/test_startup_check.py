@@ -504,7 +504,12 @@ class StartupTests(unittest.TestCase):
         config_root.mkdir(parents=True, exist_ok=True)
         profiles = self.root / ".hai_env/config/model_profiles.json"
         profiles.unlink(missing_ok=True)
-        profiles.symlink_to(config_root)
+        try:
+            profiles.symlink_to(config_root)
+        except OSError as exc:
+            if getattr(exc, 'winerror', None) == 1314:
+                self.skipTest('Windows symlink privilege unavailable')
+            raise
         result = startup.check(self.root)
         self.assertEqual(result["state_status"], "valid")
         self.assertEqual(result["profiles"]["status"], "invalid")
@@ -540,7 +545,7 @@ class StartupTests(unittest.TestCase):
     def test_malformed_whole_catalogue_and_isolated_row(self):
         self.write(".hai_env/agents/good/SKILL.md", "content")
         path = self.table(".hai_env", [("good", "Call.", "good/SKILL.md")])
-        path.write_text(path.read_text() + "| malformed |\n", encoding="utf-8")
+        path.write_text(path.read_text(encoding='utf-8') + "| malformed |\n", encoding="utf-8")
         result = startup.check(self.root)
         self.assertEqual(result["catalogues"]["workspace"], "partial")
         self.assertEqual([a["name"] for a in result["agents"]], ["good"])

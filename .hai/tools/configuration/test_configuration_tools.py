@@ -162,7 +162,12 @@ class ConfigurationTests(unittest.TestCase):
         path = self.config_path()
         path.parent.mkdir(parents=True)
         (self.root / ".hai_env/config/model_profiles.json").write_text("{}", encoding="utf-8")
-        path.symlink_to(self.root / ".hai_env/config/model_profiles.json")
+        try:
+            path.symlink_to(self.root / ".hai_env/config/model_profiles.json")
+        except OSError as exc:
+            if getattr(exc, 'winerror', None) == 1314:
+                self.skipTest('Windows symlink privilege unavailable')
+            raise
         result = self.result()
         self.assertEqual(result["status"], "invalid")
         path.unlink()
@@ -178,7 +183,12 @@ class ConfigurationTests(unittest.TestCase):
         path.parent.mkdir(parents=True)
         path.write_text('{"config_format_version":1,"settings":{}}', encoding="utf-8")
         alias = path.with_name("advisor.json")
-        alias.symlink_to(path)
+        try:
+            alias.symlink_to(path)
+        except OSError as exc:
+            if getattr(exc, 'winerror', None) == 1314:
+                self.skipTest('Windows symlink privilege unavailable')
+            raise
         result = self.result()
         self.assertEqual(result["status"], "invalid")
         self.assertEqual(result["settings"], {})

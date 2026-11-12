@@ -1,0 +1,9 @@
+{
+    "provenance":  {
+                       "reason":  "Share reproducible finding and verification limits",
+                       "source":  "Independent QA invocation 6d92e143-85a3-4be1-9d8f-4da38524f474"
+                   },
+    "author":  "quality-assurance",
+    "activity_id":  "838322f7-62ca-48cf-a12a-7006f90a7709",
+    "text":  "Independent additional QA found regression runner rejects invocation-owned work directories and actual Activity test areas under a valid nondefault activities.location. Windows Python 3.14.7: 13 targeted assertions and isolated alternate-store startup/create reproduction passed; runner exits 2 before suite execution. No other data-integrity defect established; Linux and Python 3.11 unrun. Report and repro scripts in files/agent-invocations/6d92e143-85a3-4be1-9d8f-4da38524f474/independent-qa.md."
+}

@@ -1,0 +1,147 @@
+{
+  "core_format_version": 1,
+  "activity_id": "838322f7-62ca-48cf-a12a-7006f90a7709",
+  "updated_at": "2026-11-12T18:24:09Z",
+  "sources": [
+    {
+      "binding": {
+        "path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T09-13-23-01a1ce9a-a2c5-7972-9b45-ca95b6c465ae.jsonl",
+        "session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+        "start_position": 145,
+        "end_position": 686,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+              "source_position": 145
+            },
+            "end": {
+              "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+              "source_position": 686
+            },
+            "provenance": "Recording enabled before inspected first work prompt; binding initially blocked by portability defects now addressed."
+          }
+        ]
+      },
+      "prefix_bytes": 1948996,
+      "prefix_sha256": "ecf817ae3a8c57f14f4e4876759d9620c47b90f34ba609454a0843298f5970ec",
+      "segment_path": "chronicles/20261112_071323_segment-01.md",
+      "original_started_at": "2026-11-12T07:13:23.478Z",
+      "closure_binding": {
+        "path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T09-13-23-01a1ce9a-a2c5-7972-9b45-ca95b6c465ae.jsonl",
+        "session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+        "start_position": 145,
+        "end_position": null,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+              "source_position": 145
+            },
+            "end": null,
+            "provenance": "Recording enabled before inspected first work prompt; binding initially blocked by portability defects now addressed."
+          }
+        ]
+      }
+    },
+    {
+      "binding": {
+        "path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T19-53-44-01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12.jsonl",
+        "session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+        "start_position": 69,
+        "end_position": 267,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+              "source_position": 69
+            },
+            "end": {
+              "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+              "source_position": 267
+            },
+            "provenance": "Recording enabled before current independent QA work request"
+          }
+        ]
+      },
+      "prefix_bytes": 870315,
+      "prefix_sha256": "ac268c87f9c2aedadae83b9def47413eaa61114ed9b02f42ea55c41468494bac",
+      "segment_path": "chronicles/20261112_175344_segment-01.md",
+      "original_started_at": "2026-11-12T17:53:44.957Z",
+      "closure_binding": {
+        "path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T19-53-44-01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12.jsonl",
+        "session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+        "start_position": 69,
+        "end_position": null,
+        "representation": "event_msg",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+              "source_position": 69
+            },
+            "end": null,
+            "provenance": "Recording enabled before current independent QA work request"
+          }
+        ]
+      }
+    },
+    {
+      "binding": {
+        "path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T19-58-22-01a1d0e9-2210-7810-b7ea-be0dae30e2f7.jsonl",
+        "session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+        "start_position": 12,
+        "end_position": 251,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+              "source_position": 12
+            },
+            "end": {
+              "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+              "source_position": 251
+            },
+            "provenance": "Chronicles enabled before observed native delegated QA assignment"
+          }
+        ]
+      },
+      "prefix_bytes": 804082,
+      "prefix_sha256": "95a893027910b917002ef443a2a6ab82411d0a90247225b4eb91602b986d9ad3",
+      "segment_path": "chronicles/20261112_175822_segment-01.md",
+      "original_started_at": "2026-11-12T17:58:22.205Z",
+      "closure_binding": {
+        "path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T19-58-22-01a1d0e9-2210-7810-b7ea-be0dae30e2f7.jsonl",
+        "session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+        "start_position": 12,
+        "end_position": null,
+        "representation": "response_item",
+        "enabled_intervals": [
+          {
+            "start": {
+              "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+              "source_position": 12
+            },
+            "end": null,
+            "provenance": "Chronicles enabled before observed native delegated QA assignment"
+          }
+        ]
+      }
+    }
+  ],
+  "artifact_hashes": {
+    "chronicles/20261112_071323_segment-01.md": "ebd2da79fe835fd266efee90ee353ba348ee745becf306c5517029c01ab1bc25",
+    "chronicles/20261112_175344_segment-01.md": "77bd6ef76b3fedddbc93bf53b7f89c5333004f703aab966074a5f4bbf3fd6607",
+    "chronicles/20261112_175822_segment-01.md": "3b92fda093d26ec5fbeb3bcb6d3e7cef1552ba3fc4cfcb5062bc2afc440005d9",
+    "chronicles/checkpoint.json": "8322ad2eb52c4ae90b59b6232a52732aedd3e30b71f3c58f84a68403666ac57c"
+  },
+  "provenance": {
+    "source": "User: close the activity, make a commit",
+    "reason": "Archive implemented portability work with verified Windows results and explicit remaining platform coverage limits"
+  },
+  "enablement_revision": 2
+}

@@ -159,7 +159,12 @@ class LayoutMigrationTests(unittest.TestCase):
     def test_links_are_rejected(self):
         source = self.root / LEGACY[STATE]
         source.rename(self.root / 'retained.json')
-        source.symlink_to(self.root / 'retained.json')
+        try:
+            source.symlink_to(self.root / 'retained.json')
+        except OSError as exc:
+            if getattr(exc, 'winerror', None) == 1314:
+                self.skipTest('Windows symlink privilege unavailable')
+            raise
         self.assertFalse(self.call(True)['ok'])
         self.assertTrue(source.is_symlink())
 
@@ -169,7 +174,12 @@ class LayoutMigrationTests(unittest.TestCase):
         canonical.unlink()
         for relative in (migration.MANIFEST, '.hai_env/config/migration-backups/instructions.md'):
             if relative != migration.MANIFEST: self.write(relative, b'Untrusted backup content')
-            canonical.symlink_to(self.root / relative)
+            try:
+                canonical.symlink_to(self.root / relative)
+            except OSError as exc:
+                if getattr(exc, 'winerror', None) == 1314:
+                    self.skipTest('Windows symlink privilege unavailable')
+                raise
             result = environment.startup.check(self.root)
             self.assertFalse(result['ok'])
             self.assertEqual(result['instructions_status'], 'invalid')

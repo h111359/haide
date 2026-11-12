@@ -104,7 +104,7 @@ def append(root, relative, activity_id, message, raw, expected):
     if fingerprint(path) != expected:
         raise SafetyError('Chat changed before append')
     record = (json.dumps(message, ensure_ascii=True, separators=(',', ':')) + '\n').encode('utf-8')
-    flags = os.O_WRONLY | os.O_APPEND | getattr(os, 'O_NOFOLLOW', 0)
+    flags = os.O_WRONLY | os.O_APPEND | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_BINARY', 0)
     flags |= os.O_CREAT | os.O_EXCL if expected is None else 0
     fd = None
     may_have_changed = False

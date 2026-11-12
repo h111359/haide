@@ -18,10 +18,10 @@ def snapshot(root, relative):
     result = {}
     for directory, dirs, files in os.walk(base, followlinks=False):
         for name in dirs + files:
-            p = Path(directory) / name; rel = str(p.relative_to(root)); checked_path(root, rel, allow_missing=False)
+            p = Path(directory) / name; rel = p.relative_to(root).as_posix(); checked_path(root, rel, allow_missing=False)
             mode = p.lstat().st_mode
             if not (stat.S_ISDIR(mode) or stat.S_ISREG(mode)): raise SafetyError('package contains nonregular entry')
-            if stat.S_ISREG(mode): result[str(p.relative_to(base))] = fingerprint(p)
+            if stat.S_ISREG(mode): result[p.relative_to(base).as_posix()] = fingerprint(p)
     if 'SKILL.md' not in result: raise SafetyError('package lacks SKILL.md')
     return result
 

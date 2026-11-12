@@ -26,10 +26,10 @@ class ChatTests(unittest.TestCase):
         (self.root / '.hai_env/config').mkdir()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(TOOLS.parent / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('', encoding='utf-8')
         (self.root / '.hai_env/config/state.json').write_text(json.dumps({
             'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
-            'features': {'chronicles': {'enabled': False, 'record_every_prompts': 5}}}))
+            'features': {'chronicles': {'enabled': False, 'record_every_prompts': 5}}}), encoding='utf-8')
         self.prov = {'source': 'fixture agent assignment', 'reason': 'verify chat behavior'}
         created = activities.handle('create', self.root, {'initial_input': 'Chat fixture', 'provenance': self.prov}, True)
         self.assertTrue(created['ok'], created)
@@ -144,7 +144,7 @@ class ChatTests(unittest.TestCase):
         with mock.patch.object(chat.os, 'write', side_effect=lambda fd, data: real_write(fd, data[:9])):
             result = self.post(text='Partial append')
         self.assertEqual(result['status'], 'partial', result)
-        self.assertIn(str(self.path.relative_to(self.root)), result['changed_files'])
+        self.assertIn(self.path.relative_to(self.root).as_posix(), result['changed_files'])
         self.assertTrue(self.path.read_bytes().startswith(raw))
         partial = self.path.read_bytes()
         self.assertFalse(self.post()['ok'])
@@ -174,23 +174,23 @@ class ChatTests(unittest.TestCase):
 
     def test_linked_history_is_rejected_without_touching_target(self):
         target = self.root / 'external.txt'
-        target.write_text('leave me alone')
+        target.write_text('leave me alone', encoding='utf-8')
         try:
             self.path.symlink_to(target)
         except (OSError, NotImplementedError):
             self.skipTest('Symlinks unavailable')
         self.assertFalse(self.post()['ok'])
         self.assertFalse(self.read()['ok'])
-        self.assertEqual(target.read_text(), 'leave me alone')
+        self.assertEqual(target.read_text(encoding='utf-8'), 'leave me alone')
 
     def test_custom_store_and_missing_instructions(self):
         destination = self.root / 'project/activities'
         destination.parent.mkdir()
         (self.root / '.hai_env/activities').rename(destination)
         state_path = self.root / '.hai_env/config/state.json'
-        state = json.loads(state_path.read_text())
+        state = json.loads(state_path.read_text(encoding='utf-8'))
         state['activities']['location'] = 'project/activities'
-        state_path.write_text(json.dumps(state))
+        state_path.write_text(json.dumps(state), encoding='utf-8')
         self.assertTrue(self.post()['ok'])
         result = self.read()
         self.assertTrue(result['result']['path'].startswith('project/activities/'))
@@ -198,7 +198,7 @@ class ChatTests(unittest.TestCase):
         self.assertFalse(self.post()['ok'])
 
     def test_startup_checks_type_without_loading_chat_content(self):
-        self.path.write_text('deliberately malformed chat content\n')
+        self.path.write_text('deliberately malformed chat content\n', encoding='utf-8')
         result = subprocess.run([sys.executable, '-B', str(TOOLS / 'hai.py'), 'startup',
                                  '--workspace', str(self.root)], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout)
@@ -228,7 +228,7 @@ class ChatTests(unittest.TestCase):
     def test_cli_preview_apply_read_and_read_apply_rejection(self):
         request = self.root / 'request.json'
         request.write_text(json.dumps({'activity_id': self.ident, 'author': 'host-coordinator',
-                                      'text': 'CLI message', 'provenance': self.prov}))
+                                      'text': 'CLI message', 'provenance': self.prov}), encoding='utf-8')
         args = [sys.executable, '-B', str(TOOLS / 'hai.py'), 'activity', 'chat-post',
                 '--workspace', str(self.root), '--request', str(request)]
         preview = subprocess.run(args, capture_output=True, text=True)
@@ -236,7 +236,7 @@ class ChatTests(unittest.TestCase):
         self.assertFalse(self.path.exists())
         applied = subprocess.run(args + ['--apply'], capture_output=True, text=True)
         self.assertEqual(applied.returncode, 0, applied.stdout)
-        request.write_text(json.dumps({'activity_id': self.ident}))
+        request.write_text(json.dumps({'activity_id': self.ident}), encoding='utf-8')
         args[4] = 'chat-read'
         read = subprocess.run(args, capture_output=True, text=True)
         self.assertEqual(read.returncode, 0, read.stdout)

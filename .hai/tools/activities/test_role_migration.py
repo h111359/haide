@@ -53,16 +53,16 @@ class CoreIsolationTests(unittest.TestCase):
             copy_core(stage)
             env = stage/'.hai_env'
             env.mkdir()
-            state = json.loads((stage/'.hai/templates/state.json').read_text())
+            state = json.loads((stage/'.hai/templates/state.json').read_text(encoding='utf-8'))
             state['state_format_version'] = 3
             state['features']['chronicles']['enabled'] = True
             (env/'config').mkdir()
-            (env/'config/state.json').write_text(json.dumps(state))
-            (env/'config/agent_instructions.md').write_text('')
+            (env/'config/state.json').write_text(json.dumps(state), encoding='utf-8')
+            (env/'config/agent_instructions.md').write_text('', encoding='utf-8')
             # Existing corrupt record data must not be scanned by startup validation.
             record = env/'activities/00000000_000000_active'
             record.mkdir(parents=True)
-            (record/'state.json').write_text('not a record; not read at startup')
+            (record/'state.json').write_text('not a record; not read at startup', encoding='utf-8')
             before = snapshot(stage)
             result = startup_check.check(stage)
             self.assertTrue(result['ok'], result)
@@ -73,7 +73,7 @@ class CoreIsolationTests(unittest.TestCase):
             self.assertEqual(snapshot(stage), before)
 
     def test_bootstrap_and_recording_have_separate_owners_and_prerequisites(self):
-        runtime = (ROOT/'.hai/tools/runtime/recording.py').read_text()
+        runtime = (ROOT/'.hai/tools/runtime/recording.py').read_text(encoding='utf-8')
         self.assertIn('unsupported', runtime)
         self.assertIn('unverified', runtime)
 
@@ -83,7 +83,7 @@ class CoreIsolationTests(unittest.TestCase):
             paths.extend(directory.rglob('*.md'))
         for path in paths:
             with self.subTest(path=path):
-                text = path.read_text()
+                text = path.read_text(encoding='utf-8')
                 self.assertNotRegex(text, r'(?i)activity-manager')
 
 
@@ -119,7 +119,7 @@ class SourceStagingTests(unittest.TestCase):
         # Source-package fixture syntax is literal only inside fenced examples.
         for base in (self.stage/'.hai', self.stage/'.hai_env/agents'):
             for path in base.rglob('*.md'):
-                text = re.sub(r'```.*?```', '', path.read_text(), flags=re.S)
+                text = re.sub(r'```.*?```', '', path.read_text(encoding='utf-8'), flags=re.S)
                 for target in re.findall(r'\[[^\]\n]+\]\(([^)\s]+)\)', text):
                     if target.startswith(('http:', 'https:', '#', 'mailto:')):
                         continue
@@ -130,14 +130,14 @@ class SourceStagingTests(unittest.TestCase):
 
     def test_domain_owners_return_record_evidence_and_preserve_specialist_ownership(self):
         for name in NAMES[:4]:
-            skill = (self.stage/f'.hai_env/agents/{name}/SKILL.md').read_text()
+            skill = (self.stage/f'.hai_env/agents/{name}/SKILL.md').read_text(encoding='utf-8')
             self.assertIn('MUST NOT invoke or coordinate other agents', skill)
             self.assertIn('rather than mutate Activity records', skill)
         package = self.stage/'.hai_env/agents/software-developer'
-        skill = (package/'SKILL.md').read_text()
+        skill = (package/'SKILL.md').read_text(encoding='utf-8')
         procedure_paths = re.findall(r'\]\((procedures/[^)]+\.md)\)', skill)
         self.assertTrue(procedure_paths, 'developer must index its execution procedures')
-        developer = '\n'.join((package/path).read_text() for path in procedure_paths)
+        developer = '\n'.join((package/path).read_text(encoding='utf-8') for path in procedure_paths)
         self.assertRegex(developer, r'original (?:Activity |runtime )?implementation-start (?:marker|evidence)')
         self.assertTrue((self.stage/'.hai/tools/hai.py').is_file())
         self.assertFalse((self.stage/'.hai/agents').exists())

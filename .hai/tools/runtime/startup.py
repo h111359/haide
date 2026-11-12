@@ -1,5 +1,7 @@
 from pathlib import Path
 import sys
+import os
+import platform
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'startup'))
 import startup_context
 
@@ -7,6 +9,11 @@ def handle(operation, workspace, request, apply):
     if operation not in ('', 'check', 'context') or request or apply:
         raise ValueError('startup accepts no operation, request, or apply')
     result = startup_context.context(workspace)
+    result['execution_context'] = {
+        'os': platform.system(), 'sys_platform': sys.platform, 'os_name': os.name,
+        'python_version': platform.python_version(), 'python_executable': sys.executable,
+        'workspace_path_format': 'posix-relative',
+    }
     if result['environment'] == 'valid' and result['instructions_status'] == 'loaded':
         from .source_discovery import readiness
         result['recording_context'] = readiness(workspace, result['activity_context'])

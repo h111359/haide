@@ -1,5 +1,10 @@
 # HAI runtime
 
+See [Windows and Linux execution](PORTABILITY.md) for path contracts, native
+interpreter invocation, recording representation, exact-byte handling and the
+workspace-contained regression runner. Startup includes observed
+`execution_context`; this is separate from core validity and recording readiness.
+
 Run `python -B .hai/tools/hai.py startup --workspace .` for core environment, Activity and separate read-only `recording_context` readiness. Required recording needs binding/synchronization before substantive recorded work, even when core `ok` is true. Common options may precede or follow the group. Commands emit JSON with `ok`, `status`, `operation`, `result`, `changed_files`, and `issues`. Exit codes are 0 for success or a valid plan, 1 for blocked, partial or unsupported work, and 2 for invalid invocation. Optional registration and model profile issues are reported separately from core environment validity.
 
 Use `--request PATH` for a UTF-8 JSON object within the workspace. Duplicate keys and nonstandard numeric constants are rejected. Mutations are previews by default; add `--apply` to perform them. Mutation requests include `"provenance": {"source": "...", "reason": "..."}` with nonblank values. A pre-existing `.hai_env/.runtime.lock` blocks writes and requires inspection; do not remove an unexplained lock automatically. Partial results identify paths that were changed and must be inspected before another attempt.

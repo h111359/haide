@@ -1,0 +1,29 @@
+EE.....s.....
+======================================================================
+ERROR: test_alias_with_other_agent_configuration_is_rejected (test_configuration_tools.ConfigurationTests.test_alias_with_other_agent_configuration_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\configuration\test_configuration_tools.py", line 181, in test_alias_with_other_agent_configuration_is_rejected
+    alias.symlink_to(path)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 1213, in symlink_to
+    os.symlink(target, self, target_is_directory)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 1314] A required privilege is not held by the client: 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai_configuration_kl9lew8u\\.hai_env\\config\\agents\\git-manager.json' -> 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai_configuration_kl9lew8u\\.hai_env\\config\\agents\\advisor.json'
+
+======================================================================
+ERROR: test_alias_with_reserved_and_configured_paths_is_rejected (test_configuration_tools.ConfigurationTests.test_alias_with_reserved_and_configured_paths_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\configuration\test_configuration_tools.py", line 165, in test_alias_with_reserved_and_configured_paths_is_rejected
+    path.symlink_to(self.root / ".hai_env/config/model_profiles.json")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 1213, in symlink_to
+    os.symlink(target, self, target_is_directory)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 1314] A required privilege is not held by the client: 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai_configuration_qa2j3499\\.hai_env\\config\\model_profiles.json' -> 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai_configuration_qa2j3499\\.hai_env\\config\\agents\\git-manager.json'
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.910s
+
+FAILED (errors=2, skipped=1)

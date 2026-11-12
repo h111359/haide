@@ -8,11 +8,13 @@ boundaries; session identity alone is not a unique segment. Multiple segments ma
 legitimately share one session/Activity. Identical message text can represent
 separate source occurrences.
 
-A normal filename derives from original session start in `Europe/Sofia`:
-`YYYYMMDD_HHMM_segment-01.md`, followed by unused increasing segment numbers per
-session and Activity. Seconds distinguish different sessions starting in the same
-minute. A name identifies only its assigned source/segment and cannot overwrite
-another. Authorized historical byte-preserving moves may retain original names.
+A new filename derives from original session start in UTC:
+`YYYYMMDD_HHMMSS_segment-01.md`, followed by unused increasing segment numbers per
+session and Activity. UTC naming requires no system timezone database or extra
+Python dependency on Windows or Linux. A name identifies only its assigned
+source/segment and cannot overwrite another. Existing ledger-assigned names,
+including historical `Europe/Sofia` names, remain unchanged; naming is not source
+identity or evidence of coverage. User-facing times can use the client's timezone.
 
 ## Metadata and exchange layout
 

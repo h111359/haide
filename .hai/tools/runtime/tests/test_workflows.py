@@ -19,8 +19,8 @@ class WorkflowTests(unittest.TestCase):
         (self.root / '.hai_env/config').mkdir()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(TOOLS.parent / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
-        (self.root / '.hai_env/config/state.json').write_text(json.dumps({'state_format_version': 3, 'activities': {'location': '.hai_env/activities'}, 'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}, 'integrations': {}}))
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('', encoding='utf-8')
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps({'state_format_version': 3, 'activities': {'location': '.hai_env/activities'}, 'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}, 'integrations': {}}), encoding='utf-8')
         self.prov = {'source': 'test', 'reason': 'exercise'}
     def tearDown(self):
         shutil.rmtree(self.root)
@@ -30,22 +30,22 @@ class WorkflowTests(unittest.TestCase):
         created = self.call('create', initial_input='exact\ninput', provenance=self.prov)
         self.assertTrue(created['ok'], created)
         ident = created['result']['state']['activity_id']; base = self.root / created['result']['path']
-        self.assertEqual((base/'input.md').read_text(), 'exact\ninput')
+        self.assertEqual((base/'input.md').read_text(encoding='utf-8'), 'exact\ninput')
         r = self.call('record', activity_id=ident, implementation_start=True, steps={'implementation':'in_progress'}, artifacts=[{'name':'plan.md','text':'first','reason':'initial'}], log='started', provenance=self.prov)
         self.assertTrue(r['ok'], r); marker = r['result']['state']['implementation_started_at']
         old = (base/'plan.md').read_bytes()
         r = self.call('record', activity_id=ident, implementation_start=True, steps={}, artifacts=[{'name':'plan.md','text':'second','reason':'revision'}], input_append='\nnext exact', log='changed', provenance=self.prov)
         self.assertTrue(r['ok'], r); self.assertEqual(r['result']['state']['implementation_started_at'], marker)
         self.assertEqual(next((base/'files/revisions/plan').iterdir()).read_bytes(), old)
-        self.assertEqual((base/'input.md').read_text(), 'exact\ninput\nnext exact')
-        state = json.loads((self.root / '.hai_env/config/state.json').read_text())
+        self.assertEqual((base/'input.md').read_text(encoding='utf-8'), 'exact\ninput\nnext exact')
+        state = json.loads((self.root / '.hai_env/config/state.json').read_text(encoding='utf-8'))
         state['features']['chronicles']['enabled'] = False
-        (self.root / '.hai_env/config/state.json').write_text(json.dumps(state))
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps(state), encoding='utf-8')
         closed = self.call('close', activity_id=ident, outcome='completed', archive_label='test', outcome_text='done', recording={'status':'disabled','details':'fixture recording disabled'}, provenance=self.prov)
         self.assertTrue(closed['ok'], closed)
         supplement = self.call('supplement', activity_id=ident, text='additional evidence', provenance=self.prov)
         self.assertTrue(supplement['ok'], supplement)
-        self.assertIn('additional evidence', (self.root/closed['result']['archive_path']/'log.md').read_text())
+        self.assertIn('additional evidence', (self.root/closed['result']['archive_path']/'log.md').read_text(encoding='utf-8'))
     def test_safety_and_recording(self):
         c = self.call('create', initial_input='x', provenance=self.prov); ident=c['result']['state']['activity_id']
         r = self.call('record', activity_id=ident, steps={'implementation':'in_progress'}, artifacts=[], log='x', provenance=self.prov)
@@ -58,8 +58,8 @@ class WorkflowTests(unittest.TestCase):
         self.assertFalse(host.handle('invoke',self.root,{},False)['ok'])
     def test_verified_closure_checks_actual_file_bytes(self):
         c = self.call('create',initial_input='x',provenance=self.prov); ident=c['result']['state']['activity_id']; base=c['result']['path']
-        (self.root/'source.txt').write_text('source')
-        (self.root/base/'segment.txt').write_text('artifact')
+        (self.root/'source.txt').write_text('source', encoding='utf-8')
+        (self.root/base/'segment.txt').write_text('artifact', encoding='utf-8')
         digest = lambda text: hashlib.sha256(text.encode()).hexdigest()
         sources={'session':digest('source')}; artifacts={'segment':digest('artifact')}
         occurrence={'source_session_id':'session','source_position':1}
@@ -68,9 +68,9 @@ class WorkflowTests(unittest.TestCase):
         evidence={**operation,'recording_requirement':requirement,'verification_id':'v1','verified_at':'2026-11-05T19:00:00Z','status':'verified','retained_source_complete':True,'gaps':[],'conflicts':[],'active_writes':False,'source_snapshots':sources,'artifact_snapshots':artifacts}
         proof={'recording_requirement':requirement,'operation':operation,'evidence':evidence,'current_sources':sources,'current_artifacts':artifacts,'writers_stopped':True}
         args={'activity_id':ident,'outcome':'completed','archive_label':'verified','outcome_text':'done','recording':{'status':'verified','details':'proof supplied'},'recording_proof':proof,'recording_paths':{'sources':{'session':'source.txt'},'artifacts':{'segment':base+'/segment.txt'}},'provenance':self.prov}
-        (self.root/'source.txt').write_text('changed')
+        (self.root/'source.txt').write_text('changed', encoding='utf-8')
         self.assertFalse(self.call('close',**args)['ok'])
-        (self.root/'source.txt').write_text('source')
+        (self.root/'source.txt').write_text('source', encoding='utf-8')
         result=self.call('close',**args)
         self.assertTrue(result['ok'],result)
 
@@ -78,7 +78,7 @@ class WorkflowTests(unittest.TestCase):
         (self.root/'.hai_env/config/agent_instructions.md').unlink()
         r = self.call('create', initial_input='x', provenance=self.prov)
         self.assertFalse(r['ok']); self.assertFalse((self.root/'.hai_env/activities/00000000_000000_active').exists())
-        (self.root/'.hai_env/config/agent_instructions.md').write_text('')
+        (self.root/'.hai_env/config/agent_instructions.md').write_text('', encoding='utf-8')
         c = self.call('create', initial_input='x', provenance=self.prov); ident = c['result']['state']['activity_id']
         original = activities.write_bytes
         def fail_log(root, path, data, expected=None):
@@ -105,7 +105,12 @@ class WorkflowTests(unittest.TestCase):
         self.assertTrue(result['ok'], result); self.assertEqual(result['changed_files'], [])
 
     def test_untrusted_packages_rejected(self):
-        (self.root/'src').mkdir(); (self.root/'src/pkg').mkdir(); (self.root/'src/pkg/SKILL.md').symlink_to('/etc/passwd')
+        try:
+            (self.root/'src').mkdir(); (self.root/'src/pkg').mkdir(); (self.root/'src/pkg/SKILL.md').symlink_to('/etc/passwd')
+        except OSError as exc:
+            if getattr(exc, 'winerror', None) == 1314:
+                self.skipTest('Windows symlink privilege unavailable')
+            raise
         (self.root/'.hai_env/agents').mkdir()
         r=packages.handle('install',self.root,{'source':'src/pkg','name':'pkg','provenance':self.prov},True)
         self.assertFalse(r['ok']); self.assertFalse((self.root/'.hai_env/agents/pkg').exists())

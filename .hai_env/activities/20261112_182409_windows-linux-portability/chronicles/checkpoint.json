@@ -1,0 +1,173 @@
+{
+  "checkpoint_format_version": 1,
+  "activity_id": "838322f7-62ca-48cf-a12a-7006f90a7709",
+  "sources": [
+    {
+      "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+      "durable_path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T09-13-23-01a1ce9a-a2c5-7972-9b45-ca95b6c465ae.jsonl",
+      "original_started_at": "2026-11-12T07:13:23.478Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+            "source_position": 145
+          },
+          "end": {
+            "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+            "source_position": 686
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+            "source_position": 145
+          },
+          "end": {
+            "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+            "source_position": 686
+          },
+          "provenance": "Recording enabled before inspected first work prompt; binding initially blocked by portability defects now addressed."
+        }
+      ],
+      "retained_source_complete": true
+    },
+    {
+      "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+      "durable_path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T19-53-44-01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12.jsonl",
+      "original_started_at": "2026-11-12T17:53:44.957Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+            "source_position": 69
+          },
+          "end": {
+            "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+            "source_position": 267
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+            "source_position": 69
+          },
+          "end": {
+            "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+            "source_position": 267
+          },
+          "provenance": "Recording enabled before current independent QA work request"
+        }
+      ],
+      "retained_source_complete": true
+    },
+    {
+      "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+      "durable_path": "C:\\Users\\hmhri\\.codex\\sessions\\2026\\11\\12\\rollout-2026-11-12T19-58-22-01a1d0e9-2210-7810-b7ea-be0dae30e2f7.jsonl",
+      "original_started_at": "2026-11-12T17:58:22.205Z",
+      "assigned_ranges": [
+        {
+          "start": {
+            "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+            "source_position": 187
+          },
+          "end": {
+            "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+            "source_position": 251
+          }
+        }
+      ],
+      "enabled_intervals": [
+        {
+          "start": {
+            "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+            "source_position": 12
+          },
+          "end": {
+            "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+            "source_position": 251
+          },
+          "provenance": "Chronicles enabled before observed native delegated QA assignment"
+        }
+      ],
+      "retained_source_complete": true
+    }
+  ],
+  "verified_ranges": [
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+          "source_position": 145
+        },
+        "end": {
+          "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+          "source_position": 686
+        }
+      },
+      "segment_path": "chronicles/20261112_071323_segment-01.md",
+      "verified_at": "2026-11-12T18:24:09Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+          "source_position": 69
+        },
+        "end": {
+          "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+          "source_position": 267
+        }
+      },
+      "segment_path": "chronicles/20261112_175344_segment-01.md",
+      "verified_at": "2026-11-12T18:24:09Z"
+    },
+    {
+      "range": {
+        "start": {
+          "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+          "source_position": 187
+        },
+        "end": {
+          "source_session_id": "01a1d0e9-2210-7810-b7ea-be0dae30e2f7",
+          "source_position": 251
+        }
+      },
+      "segment_path": "chronicles/20261112_175822_segment-01.md",
+      "verified_at": "2026-11-12T18:24:09Z"
+    }
+  ],
+  "pending_ranges": [],
+  "cadence_cursors": {
+    "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae": {
+      "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+      "source_position": 235
+    },
+    "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12": {
+      "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+      "source_position": 267
+    }
+  },
+  "last_attempt": {
+    "attempt_id": "6baee0cf-838c-4726-8e9f-186f432ee32e",
+    "dispatch_cursors": {
+      "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae": {
+        "source_session_id": "01a1ce9a-a2c5-7972-9b45-ca95b6c465ae",
+        "source_position": 235
+      },
+      "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12": {
+        "source_session_id": "01a1d0e4-e717-7bf1-baf0-d51ef5ba5c12",
+        "source_position": 267
+      }
+    },
+    "started_at": "2026-11-12T18:24:09Z",
+    "finished_at": "2026-11-12T18:24:09Z",
+    "status": "verified",
+    "error": null
+  },
+  "last_successful_at": "2026-11-12T18:24:09Z",
+  "in_flight": null
+}

@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import stat
 import uuid
+from path_contract import relative_parts, is_link_or_reparse
 
 class SafetyError(Exception):
     def __init__(self, message, changed_files=None):
@@ -30,11 +31,10 @@ def read_json(path):
 
 def checked_path(root, relative, *, allow_missing=True):
     root = Path(root).resolve(strict=True)
-    if not isinstance(relative, str) or not relative or '\\' in relative or ':' in relative or '\x00' in relative:
-        raise SafetyError('Expected a canonical workspace-relative path')
-    parts = relative.split('/')
-    if any(not p or p in ('.', '..') or p.endswith((' ', '.')) for p in parts):
-        raise SafetyError('Path contains unsafe or noncanonical components')
+    try:
+        parts = relative_parts(relative)
+    except ValueError as exc:
+        raise SafetyError(str(exc)) from exc
     path = root
     for part in parts:
         path = path / part
@@ -44,8 +44,8 @@ def checked_path(root, relative, *, allow_missing=True):
             if not allow_missing:
                 raise SafetyError(f'Missing path: {relative}')
             continue
-        if stat.S_ISLNK(info.st_mode):
-            raise SafetyError(f'Symlink prohibited: {relative}')
+        if is_link_or_reparse(info):
+            raise SafetyError(f'Symlink or reparse point prohibited: {relative}')
         if path != root / relative and not stat.S_ISDIR(info.st_mode):
             raise SafetyError(f'Non-directory parent: {relative}')
         if stat.S_ISREG(info.st_mode) and info.st_nlink != 1:
@@ -58,7 +58,7 @@ def fingerprint(path):
         s = path.lstat()
     except FileNotFoundError:
         return None
-    if not stat.S_ISREG(s.st_mode) or s.st_nlink != 1:
+    if is_link_or_reparse(s) or not stat.S_ISREG(s.st_mode) or s.st_nlink != 1:
         raise SafetyError(f'Expected an unaliased regular file: {path}')
     return (s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns, hashlib.sha256(path.read_bytes()).hexdigest())
 
@@ -90,7 +90,7 @@ def write_bytes(root, relative, content, expected=None):
             os.replace(candidate, path)
         return relative
     except Exception as exc:
-        changed = [str((candidate or path).relative_to(root))] if created else []
+        changed = [(candidate or path).relative_to(root).as_posix()] if created else []
         raise SafetyError(str(exc), changed) from exc
 
 def write_json(root, relative, value, expected=None):

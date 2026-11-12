@@ -36,6 +36,9 @@ separate explicitly authorized operation after layout migration.
 
 ## Work and output boundaries
 
+For Windows and Linux interpreter invocation, path formats, recording setup and
+verification, see [runtime portability](.hai/tools/runtime/PORTABILITY.md).
+
 Apply the shared [workspace boundary](.hai/conventions/workspace-boundary_conv.md)
 and [artifact placement contract](.hai/conventions/artifact-placement_conv.md).
 Outside file writes require explicit user location/purpose permission, including

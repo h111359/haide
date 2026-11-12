@@ -1,0 +1,35 @@
+...FF.........E.sss...ss......................................s..s
+======================================================================
+ERROR: test_core_destinations_cannot_overlap_agent_configuration_storage (test_startup_check.StartupTests.test_core_destinations_cannot_overlap_agent_configuration_storage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\startup\test_startup_check.py", line 507, in test_core_destinations_cannot_overlap_agent_configuration_storage
+    profiles.symlink_to(config_root)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 1213, in symlink_to
+    os.symlink(target, self, target_is_directory)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 1314] A required privilege is not held by the client: 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai_startup_v947tfgi\\.hai_env\\config' -> 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai_startup_v947tfgi\\.hai_env\\config\\model_profiles.json'
+
+======================================================================
+FAIL: test_interrupted_state_replace_preserves_partial_files_without_retry (test_migrate_specification_configuration.MigrationTests.test_interrupted_state_replace_preserves_partial_files_without_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\startup\test_migrate_specification_configuration.py", line 128, in test_interrupted_state_replace_preserves_partial_files_without_retry
+    self.assertTrue((self.root / ".hai_env/config/agents/specification-manager.json").exists())
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_rehearsal_is_read_only_and_apply_preserves_all_other_state (test_migrate_specification_configuration.MigrationTests.test_rehearsal_is_read_only_and_apply_preserves_all_other_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\startup\test_migrate_specification_configuration.py", line 77, in test_rehearsal_is_read_only_and_apply_preserves_all_other_state
+    self.assertTrue(applied["ok"], applied)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'ok': False, 'status': 'partial', 'source_state_format_version': 2, 'target_state_format_version': 3, 'specification': {'enabled': True, 'location': 'spec-data'}, 'configuration': {'path': '.hai_env/config/agents/specification-manager.json', 'created': False}, 'backup': {'path': '.hai_env/config/state.json.format2-backup', 'created': True}, 'state_updated': False, 'applied': True, 'issues': [{'code': 'migration', 'message': 'Recoverable backup verification failed; preserve the partial backup'}]}
+
+----------------------------------------------------------------------
+Ran 66 tests in 9.347s
+
+FAILED (failures=2, errors=1, skipped=7)

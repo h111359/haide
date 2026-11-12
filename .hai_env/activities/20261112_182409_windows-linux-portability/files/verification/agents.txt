@@ -1,0 +1,24 @@
+.......s..s........s.........F..........s......s......................s....
+======================================================================
+FAIL: test_legacy_registration_preserved_and_independent_entry_kept (test_agent_tools.AgentTests.test_legacy_registration_preserved_and_independent_entry_kept)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\agents\test_agent_tools.py", line 960, in test_legacy_registration_preserved_and_independent_entry_kept
+    self.assertEqual(path.read_text(), text)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '# Ag[98 chars]t cafÃ© &amp; pipes &#124; paths &#92; and rep[96 chars] |\n' != '# Ag[98 chars]t café &amp; pipes &#124; paths &#92; and repo[95 chars] |\n'
+  # Agents
+  
+  | Agent | Selection guide | Definition |
+  | --- | --- | --- |
+- | `worker` | Call to inspect cafÃ© &amp; pipes &#124; paths &#92; and report. | [SKILL.md](worker/SKILL.md) |
+?                                 ^^
++ | `worker` | Call to inspect café &amp; pipes &#124; paths &#92; and report. | [SKILL.md](worker/SKILL.md) |
+?                                 ^
+  | `old` | Call to help. | [knowledge.md](old/knowledge.md) |
+
+
+----------------------------------------------------------------------
+Ran 75 tests in 8.869s
+
+FAILED (failures=1, skipped=6)

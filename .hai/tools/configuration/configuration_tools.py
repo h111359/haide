@@ -9,6 +9,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from environment_paths import STATE, PROFILES, INSTRUCTIONS, LEGACY, legacy_entries
+from path_contract import relative_parts
 
 
 class ConfigurationError(ValueError):
@@ -94,16 +95,13 @@ def load_contract(path, expected_agent):
 
 
 def _safe_path(workspace: Path, relative: str) -> Path:
-    if (not isinstance(relative, str) or not relative.strip()
-            or any(char in relative for char in "\\:?#\x00\r\n")
-            or relative.startswith("/") or ".." in relative.split("/")):
-        raise ConfigurationError(f"Unsafe workspace-relative path: {relative!r}")
-    current = workspace
     try:
-        for part in Path(relative).parts:
-            if part.endswith((".", " ")) or re.fullmatch(
-                    r"(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?", part, re.IGNORECASE):
-                raise ConfigurationError(f"Nonportable path component: {part}")
+        parts = relative_parts(relative)
+    except ValueError as exc:
+        raise ConfigurationError(f"Unsafe workspace-relative path: {relative!r}; {exc}") from exc
+    try:
+        current = workspace
+        for part in parts:
             current = current / part
             try:
                 current.lstat()

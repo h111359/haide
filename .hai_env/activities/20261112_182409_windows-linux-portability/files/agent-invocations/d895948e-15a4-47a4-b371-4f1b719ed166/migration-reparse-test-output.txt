@@ -1,0 +1,6 @@
+test_specification_migration_rejects_reparse_ancestor (test_portability.PortabilityTests.test_specification_migration_rejects_reparse_ancestor) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+OK

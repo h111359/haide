@@ -9,6 +9,7 @@ import uuid
 
 from agent_tools import Invalid, load_json
 from startup_check import safe_path
+from path_contract import is_link_or_reparse
 
 CURRENT = '00000000_000000_active'
 STEPS = {'clarification', 'analysis', 'planning', 'implementation', 'verification'}
@@ -17,7 +18,7 @@ STEP_VALUES = {'not_started', 'in_progress', 'completed', 'skipped'}
 
 def _regular(path):
     info = path.lstat()
-    if not stat.S_ISREG(info.st_mode) or path.is_symlink() or info.st_nlink != 1:
+    if not stat.S_ISREG(info.st_mode) or is_link_or_reparse(info) or info.st_nlink != 1:
         raise Invalid('Expected a nonlinked regular file')
     with path.open('rb') as source:
         source.read(1)
@@ -105,10 +106,10 @@ def discover(workspace, location):
     ids = {}
     active = []
     for child in children:
-        relative = str(child.relative_to(workspace))
+        relative = child.relative_to(workspace).as_posix()
         try:
             info = child.lstat()
-            if not stat.S_ISDIR(info.st_mode) or child.is_symlink() or (hasattr(child, 'is_junction') and child.is_junction()):
+            if not stat.S_ISDIR(info.st_mode) or is_link_or_reparse(info):
                 raise Invalid('Activity store child must be a nonlinked directory')
             if child.resolve(strict=True).parent != store:
                 raise Invalid('Activity folder escapes store')
@@ -150,14 +151,14 @@ def discover(workspace, location):
         return result
     child, state = active[0]
     result.update(status='current', activity_id=state['activity_id'],
-                  path=str(child.relative_to(workspace)), state={key: state[key] for key in
+                  path=child.relative_to(workspace).as_posix(), state={key: state[key] for key in
                       ('activity_id', 'lifecycle', 'created_at', 'closed_at', 'outcome',
                        'implementation_started_at', 'steps')})
     result['state']['steps'] = {key: state['steps'][key] for key in sorted(STEPS)}
     for name, limit, tail in (('input.md', 384, False), ('plan.md', 768, True),
                                ('decisions.md', 512, True), ('log.md', 1024, True)):
         path = child / name
-        relative = str(path.relative_to(workspace))
+        relative = path.relative_to(workspace).as_posix()
         try:
             if not path.exists() and not path.is_symlink():
                 result['continuity'][name] = {'path': relative, 'status': 'absent'}

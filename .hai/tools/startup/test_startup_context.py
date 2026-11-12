@@ -60,12 +60,12 @@ class ContextTests(unittest.TestCase):
     def test_invalid_states_and_required_records(self):
         base = self.activity()
         statepath = self.root / base / 'state.json'
-        original = statepath.read_text()
+        original = statepath.read_text(encoding='utf-8')
         for bad in ('{', '{"activity_id": 1}', original.replace('"active"', '"unknown"')):
             with self.subTest(bad=bad):
-                statepath.write_text(bad)
+                statepath.write_text(bad, encoding='utf-8')
                 self.assertEqual(context.context(self.root)['activity_context']['status'], 'invalid')
-        statepath.write_text(original)
+        statepath.write_text(original, encoding='utf-8')
         (self.root / base / 'log.md').unlink()
         result = context.context(self.root)
         self.assertEqual(result['activity_context']['status'], 'invalid')

@@ -13,6 +13,7 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "agents"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "configuration"))
 import startup_check as startup
+from path_contract import is_link_or_reparse
 from agent_tools import Invalid, load_json
 from configuration_tools import (ConfigurationError, configuration_path,
                                  load_contract, workspace_directory_path)
@@ -29,7 +30,7 @@ def _bytes_json(value: dict) -> bytes:
 
 
 def _write_exclusive(path: Path, content: bytes) -> None:
-    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
     try:
         offset = 0
         while offset < len(content):
@@ -52,8 +53,8 @@ def _ensure_unaliased(workspace: Path, relative: str, *, kind: str,
             if must_exist and index == len(parts) - 1:
                 raise Invalid(f"Migration {kind} path is missing: {relative}")
             continue
-        if stat.S_ISLNK(info.st_mode):
-            raise Invalid(f"Migration {kind} path must not use symlinks: {relative}")
+        if is_link_or_reparse(info):
+            raise Invalid(f"Migration {kind} path must not use symlinks or reparse points: {relative}")
         if index < len(parts) - 1 and not stat.S_ISDIR(info.st_mode):
             raise Invalid(f"Migration {kind} parent must be a directory: {relative}")
     if not current.exists():

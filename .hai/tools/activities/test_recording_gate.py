@@ -106,11 +106,11 @@ class ClosureGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)/"request.json"
             raw = '{"recording_requirement":{"enabled":false,"enabled":true,"mandatory":false}}'
-            path.write_text(raw)
+            path.write_text(raw, encoding='utf-8')
             result = subprocess.run([sys.executable, "-B", str(Path(__file__).with_name("recording_gate.py")), str(path)], capture_output=True, text=True)
             self.assertEqual(result.returncode, 2)
             self.assertFalse(json.loads(result.stdout)["ok"])
-            self.assertEqual(path.read_text(), raw)
+            self.assertEqual(path.read_text(encoding='utf-8'), raw)
 
 
 if __name__ == "__main__":

@@ -139,7 +139,7 @@ class CodexSourceTests(unittest.TestCase):
             with self.subTest(record=record):
                 self.save([record])
                 self.assertFalse(read_source(self.source, "response_item" if record["type"]=="response_item" else "event_msg")["ok"])
-        self.source.write_text(json.dumps(self.record("event_msg", {"type": "user_message", "message": "no session"})))
+        self.source.write_text(json.dumps(self.record("event_msg", {"type": "user_message", "message": "no session"})), encoding='utf-8')
         self.assertFalse(read_source(self.source, "event_msg")["ok"])
 
     def test_duplicate_keys_and_blank_records_fail(self):

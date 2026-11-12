@@ -87,7 +87,7 @@ class MigrationTests(unittest.TestCase):
                                                                "record_every_prompts": 9})
         self.assertEqual(updated["features"]["future_feature"], {"opaque": "preserve"})
         self.assertEqual(updated["extension_data"], {"keep": [1, {"x": True}]})
-        configuration = json.loads((self.root / ".hai_env/config/agents/specification-manager.json").read_text())
+        configuration = json.loads((self.root / ".hai_env/config/agents/specification-manager.json").read_text(encoding='utf-8'))
         self.assertEqual(configuration, {"config_format_version": 1,
                                          "settings": {"enabled": True, "location": "spec-data",
                                                       "owner_note": "keep in migrated config"}})

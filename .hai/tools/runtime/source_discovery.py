@@ -6,16 +6,17 @@ import os
 from pathlib import Path
 import stat
 import uuid
+from path_contract import native_source_path, is_link_or_reparse
 
 from .storage import SafetyError, fingerprint, read_json, checked_path
 
 
 def canonical(path, *, directory=False):
-    path = Path(path).expanduser()
+    path = native_source_path(str(path)).expanduser()
     if not path.is_absolute() or '..' in path.parts:
         raise SafetyError('Source locations must be absolute and contain no traversal')
     for part in (path, *path.parents):
-        if part.is_symlink() or (hasattr(part, 'is_junction') and part.is_junction()):
+        if is_link_or_reparse(part.lstat()):
             raise SafetyError('Linked source locations are forbidden: ' + str(part))
     if path.resolve(strict=True) != path:
         raise SafetyError('Source location must be canonical: ' + str(path))
@@ -90,9 +91,8 @@ def resolve(workspace, request, environ=None):
         def failed(error):
             raise SafetyError('Cannot establish unique current-session source: ' + str(error))
         for directory, dirs, files in os.walk(sessions, followlinks=False, onerror=failed):
-            dirs[:] = [name for name in dirs if not (Path(directory) / name).is_symlink()
-                       and not (hasattr(Path(directory) / name, 'is_junction')
-                                and (Path(directory) / name).is_junction())]
+            dirs[:] = [name for name in dirs
+                       if not is_link_or_reparse((Path(directory) / name).lstat())]
             candidates.extend(Path(directory) / name for name in files
                               if name.startswith('rollout-') and name.endswith('-' + identity + '.jsonl'))
         if len(candidates) != 1:

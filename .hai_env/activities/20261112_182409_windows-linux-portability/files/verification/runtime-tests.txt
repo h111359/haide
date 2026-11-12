@@ -1,0 +1,168 @@
+.......s.....F...E......E...E....E..........s.FF..........E.......F.E............s.........s.............E.
+======================================================================
+ERROR: test_close_flushes_below_cadence_and_finalizes_bounds (test_chronicles.CoreChronicleTests.test_close_flushes_below_cadence_and_finalizes_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\storage.py", line 35, in checked_path
+    parts = relative_parts(relative)
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\path_contract.py", line 17, in relative_parts
+    raise ValueError(f'Expected a canonical workspace-relative path: {relative!r}')
+ValueError: Expected a canonical workspace-relative path: '.hai_env\\activities\\20261112_090111_core-chronicles/chronicles/core.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_chronicles.py", line 75, in test_close_flushes_below_cadence_and_finalizes_bounds
+    self.assertTrue(chronicles.verify(self.root, str(archive.relative_to(self.root)), self.ident)['status'] == 'verified')
+                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\chronicles.py", line 321, in verify
+    data, _ = load(root, base, ident)
+              ~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\chronicles.py", line 54, in load
+    ledger = checked_path(root, base + '/chronicles/core.json')
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\storage.py", line 37, in checked_path
+    raise SafetyError(str(exc)) from exc
+runtime.storage.SafetyError: Expected a canonical workspace-relative path: '.hai_env\\activities\\20261112_090111_core-chronicles/chronicles/core.json'
+
+======================================================================
+ERROR: test_explicit_sync_recovers_live_binding_after_interrupted_closure (test_chronicles.CoreChronicleTests.test_explicit_sync_recovers_live_binding_after_interrupted_closure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\storage.py", line 35, in checked_path
+    parts = relative_parts(relative)
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\path_contract.py", line 17, in relative_parts
+    raise ValueError(f'Expected a canonical workspace-relative path: {relative!r}')
+ValueError: Expected a canonical workspace-relative path: '.hai_env\\activities\\00000000_000000_active/chronicles/core.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_chronicles.py", line 165, in test_explicit_sync_recovers_live_binding_after_interrupted_closure
+    chronicles.synchronize(self.root, base, self.ident, {'provenance': self.prov}, activities.now(), True,
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        chronicles.fingerprint(self.base / 'state.json'), finalize=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\chronicles.py", line 205, in synchronize
+    old, ledger_fp = load(root, base, ident)
+                     ~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\chronicles.py", line 54, in load
+    ledger = checked_path(root, base + '/chronicles/core.json')
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\storage.py", line 37, in checked_path
+    raise SafetyError(str(exc)) from exc
+runtime.storage.SafetyError: Expected a canonical workspace-relative path: '.hai_env\\activities\\00000000_000000_active/chronicles/core.json'
+
+======================================================================
+ERROR: test_new_eligible_source_after_finalize_blocks_fresh_closure_verification (test_chronicles.CoreChronicleTests.test_new_eligible_source_after_finalize_blocks_fresh_closure_verification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\storage.py", line 35, in checked_path
+    parts = relative_parts(relative)
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\path_contract.py", line 17, in relative_parts
+    raise ValueError(f'Expected a canonical workspace-relative path: {relative!r}')
+ValueError: Expected a canonical workspace-relative path: '.hai_env\\activities\\00000000_000000_active/chronicles/core.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_chronicles.py", line 150, in test_new_eligible_source_after_finalize_blocks_fresh_closure_verification
+    chronicles.synchronize(self.root, base, self.ident, {'provenance': self.prov}, activities.now(), True,
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        chronicles.fingerprint(self.base / 'state.json'), finalize=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\chronicles.py", line 205, in synchronize
+    old, ledger_fp = load(root, base, ident)
+                     ~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\chronicles.py", line 54, in load
+    ledger = checked_path(root, base + '/chronicles/core.json')
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\storage.py", line 37, in checked_path
+    raise SafetyError(str(exc)) from exc
+runtime.storage.SafetyError: Expected a canonical workspace-relative path: '.hai_env\\activities\\00000000_000000_active/chronicles/core.json'
+
+======================================================================
+ERROR: test_symlink_source_and_report_targets_are_rejected (test_chronicles.CoreChronicleTests.test_symlink_source_and_report_targets_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_chronicles.py", line 227, in test_symlink_source_and_report_targets_are_rejected
+    link = self.root / 'alias.jsonl'; link.symlink_to(self.source)
+                                      ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 1213, in symlink_to
+    os.symlink(target, self, target_is_directory)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 1314] A required privilege is not held by the client: 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\tmp0q671o0v\\session.jsonl' -> 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\tmp0q671o0v\\alias.jsonl'
+
+======================================================================
+ERROR: test_links_are_rejected (test_layout_migration.LayoutMigrationTests.test_links_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_layout_migration.py", line 162, in test_links_are_rejected
+    source.symlink_to(self.root / 'retained.json')
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 1213, in symlink_to
+    os.symlink(target, self, target_is_directory)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 1314] A required privilege is not held by the client: 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai-layout-es3b2g49\\retained.json' -> 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai-layout-es3b2g49\\.hai_env\\state.json'
+
+======================================================================
+ERROR: test_startup_rejects_instruction_alias_to_manifest_or_backup (test_layout_migration.LayoutMigrationTests.test_startup_rejects_instruction_alias_to_manifest_or_backup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_layout_migration.py", line 172, in test_startup_rejects_instruction_alias_to_manifest_or_backup
+    canonical.symlink_to(self.root / relative)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 1213, in symlink_to
+    os.symlink(target, self, target_is_directory)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 1314] A required privilege is not held by the client: 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai-layout-2dckl_qx\\.hai_env\\config\\layout-migration.json' -> 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\tmp\\hai-layout-2dckl_qx\\.hai_env\\config\\agent_instructions.md'
+
+======================================================================
+ERROR: test_untrusted_packages_rejected (test_workflows.WorkflowTests.test_untrusted_packages_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_workflows.py", line 108, in test_untrusted_packages_rejected
+    (self.root/'src').mkdir(); (self.root/'src/pkg').mkdir(); (self.root/'src/pkg/SKILL.md').symlink_to('/etc/passwd')
+                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\hmhri\AppData\Local\Python\pythoncore-3.14-64\Lib\pathlib\__init__.py", line 1213, in symlink_to
+    os.symlink(target, self, target_is_directory)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 1314] A required privilege is not held by the client: '/etc/passwd' -> 'C:\\Users\\hmhri\\Desktop\\repos\\haide\\.hai_env\\activities\\00000000_000000_active\\files\\test-work\\fixture-200fdeb56ae2481eaf85c50ef5363f5a\\src\\pkg\\SKILL.md'
+
+======================================================================
+FAIL: test_short_write_is_partial_and_old_prefix_survives (test_chat.ChatTests.test_short_write_is_partial_and_old_prefix_survives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_chat.py", line 147, in test_short_write_is_partial_and_old_prefix_survives
+    self.assertIn(str(self.path.relative_to(self.root)), result['changed_files'])
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '.hai_env\\activities\\00000000_000000_active\\chat.jsonl' not found in ['.hai_env/activities/00000000_000000_active/chat.jsonl']
+
+======================================================================
+FAIL: test_partial_file_creation_is_included_in_report (test_invocations.InvocationTests.test_partial_file_creation_is_included_in_report)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_invocations.py", line 134, in test_partial_file_creation_is_included_in_report
+    self.assertIn(str(manifests[0].relative_to(self.root)), r['changed_files'])
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '.hai_env\\activities\\00000000_000000_active\\files\\agent-invocations\\b37f055e-1fe0-4f3f-8fe2-b8a34b1764a5\\invocation.json' not found in ['.hai_env/activities/00000000_000000_active/files', '.hai_env/activities/00000000_000000_active/files/agent-invocations', '.hai_env/activities/00000000_000000_active/files/agent-invocations/b37f055e-1fe0-4f3f-8fe2-b8a34b1764a5', '.hai_env/activities/00000000_000000_active/files/agent-invocations/b37f055e-1fe0-4f3f-8fe2-b8a34b1764a5/invocation.json']
+
+======================================================================
+FAIL: test_partial_metadata_failure_reports_and_preserves_directory (test_invocations.InvocationTests.test_partial_metadata_failure_reports_and_preserves_directory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_invocations.py", line 120, in test_partial_metadata_failure_reports_and_preserves_directory
+    self.assertIn(str(folders[0].relative_to(self.root)), r['changed_files'])
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '.hai_env\\activities\\00000000_000000_active\\files\\agent-invocations\\4b82cdf5-176e-4e15-a522-566b32625cd2' not found in ['.hai_env/activities/00000000_000000_active/files', '.hai_env/activities/00000000_000000_active/files/agent-invocations', '.hai_env/activities/00000000_000000_active/files/agent-invocations/4b82cdf5-176e-4e15-a522-566b32625cd2']
+
+======================================================================
+FAIL: test_schema_two_layout_then_schema_conversion_end_to_end (test_layout_migration.LayoutMigrationTests.test_schema_two_layout_then_schema_conversion_end_to_end)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\hmhri\Desktop\repos\haide\.hai\tools\runtime\tests\test_layout_migration.py", line 105, in test_schema_two_layout_then_schema_conversion_end_to_end
+    self.assertTrue(result['ok'], result)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'ok': False, 'status': 'partial', 'result': {'ok': False, 'status': 'partial', 'source_state_format_version': 2, 'target_state_format_version': 3, 'specification': {'enabled': False, 'location': 'specifications'}, 'configuration': {'path': '.hai_env/config/agents/specification-manager.json', 'created': True}, 'backup': {'path': '.hai_env/config/state.json.format2-backup', 'created': True}, 'state_updated': False, 'applied': True, 'issues': [{'code': 'migration', 'message': 'Configuration verification or source recheck failed; preserve partial results'}]}, 'changed_files': ['.hai_env/config/state.json.format2-backup', '.hai_env/config/agents/specification-manager.json'], 'issues': [{'code': 'migration', 'message': 'Configuration verification or source recheck failed; preserve partial results'}]}
+
+----------------------------------------------------------------------
+Ran 107 tests in 31.128s
+
+FAILED (failures=4, errors=7, skipped=4)

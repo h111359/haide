@@ -1,0 +1,4 @@
+# Chronicle and usage hashes cover exact bytes; checkout must not translate them.
+.hai_env/activities/**/chronicles/** -text
+.hai_env/activities/**/usage.md -text
+.hai_env/activities/**/usage.json -text

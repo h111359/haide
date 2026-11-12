@@ -1,0 +1,21 @@
+{
+  ".hai/tools/path_contract.py": "671d277445daf91640303aae07431981d325f4c16347dae39e4c522427f7764c",
+  ".hai/tools/runtime/storage.py": "e3d6697cceb74136640e30a62a186b724387e6d0e7a592e41da2bc062faced23",
+  ".hai/tools/runtime/activities.py": "31efc7780227c3c8b658010fda7e3921a7f5bbc07ebfdf93afc6f74031263362",
+  ".hai/tools/runtime/chronicles.py": "9c7a4d2c46f3caa2e819d389df40a0217f43d9810223b3d1c32875b112c93b1a",
+  ".hai/tools/runtime/usage.py": "7dd7be4dfa8eedbd2a849121ef3e1f6060d74fecfb380d3e5f761bb869790f54",
+  ".hai/tools/runtime/source_discovery.py": "282db0963b530f1b60ef09cf709a67573acaf41f6c7387e37df2f31500950dea",
+  ".hai/tools/runtime/chat.py": "e5683edef97a36728aa90818fdb17249baa3da7857c93f752da59901636f21d8",
+  ".hai/tools/runtime/packages.py": "756498aa4a9dd6b40f27c20f93ad8681877784e63ad0894531985e2f396af6bb",
+  ".hai/tools/runtime/startup.py": "9cf5947cb96c507ebd50d41348bb49ff54ecf35dfbc2e74de57ae34d8584813c",
+  ".hai/tools/activities/discovery.py": "7634f3fb4755a3a6c7d277c6143a57de7bf434e8a94c5c1b37d594c1e9c01ae0",
+  ".hai/tools/configuration/configuration_tools.py": "3ba766ccd24207e699ac6ddb401dbffd74403a02ad3d8148b700ac6f2e430db3",
+  ".hai/tools/startup/startup_check.py": "53f6ff0b61c83cded17e3d23f44bb9936845f07498a74bcb2f2fa10f05ec017f",
+  ".hai/tools/run_tests.py": "1bf33410b21c5f6758a3be8d4e993645c909771d07063b748fb25bb1296cf1c0",
+  ".github/workflows/portability.yml": "8868fd01d78b5916f677afa025449f384b04c3433f01b22876d816dccffc48d0",
+  ".gitattributes": "b05d0f1e4fe13f4dfa8f7d1cf1d9774d46741b38cf7eddd6a7f3643861eb7dab",
+  ".hai/tools/runtime/PORTABILITY.md": "641d13e5814c6103775bd9ec535807a3c0f0b202b16aec9f75a342156a245093",
+  ".hai/tools/startup/migrate_specification_configuration.py": "90cf1c17d04645bac6fb4bfd7b0717e406a95e1b9aca1d0e5c84d1e76c1a8462",
+  "INSTALL.md": "32a4ef2501ea208f9e4fed7a28468676acae6fbcba5f06d9cfc21aca7830fc56",
+  ".hai/tools/runtime/tests/test_portability.py": "3ed84a1353ca21020c7e6802e2ea6930f2145d1a168779eb0127cece80112185"
+}

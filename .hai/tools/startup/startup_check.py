@@ -10,6 +10,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from environment_paths import STATE, PROFILES, INSTRUCTIONS, LEGACY, legacy_entries
+from path_contract import relative_parts
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "agents"))
@@ -61,17 +62,13 @@ def overlaps(left: Path, right: Path) -> bool:
 
 def safe_path(workspace: Path, relative: str) -> Path:
     """Resolve all existing prefixes, including dangling links and junctions."""
-    if (not isinstance(relative, str) or not relative.strip()
-            or any(c in relative for c in "\\:?#\x00\r\n")
-            or relative.startswith("/") or ".." in relative.split("/")):
-        raise Invalid(f"Unsafe workspace-relative path: {relative!r}")
+    try:
+        parts = relative_parts(relative)
+    except ValueError as exc:
+        raise Invalid(f"Unsafe workspace-relative path: {relative!r}; {exc}") from exc
     try:
         current = workspace
-        for part in Path(relative).parts:
-            # Reject Windows aliases/device names on every OS for portable saved paths.
-            if (part.endswith((".", " ")) or re.fullmatch(
-                    r"(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?", part, re.IGNORECASE)):
-                raise Invalid(f"Nonportable path component: {part}")
+        for part in parts:
             current = current / part
             try:
                 current.lstat()

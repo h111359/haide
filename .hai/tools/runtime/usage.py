@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import re
 import stat
+from path_contract import source_path_string, native_source_path, is_link_or_reparse
 
 from .storage import SafetyError, _pairs, checked_path, fingerprint, read_json, write_bytes, write_json
 
@@ -91,11 +92,7 @@ def tokens(value):
 def binding(root, value):
     if not isinstance(value, dict) or not {'path', 'session_id', 'start_position'} <= value.keys() or set(value) - {'path', 'session_id', 'start_position', 'end_position'}:
         raise ValueError('A source needs path, session_id and start_position')
-    path = Path(nonblank(value['path'], 'source path'))
-    if '..' in path.parts:
-        raise ValueError('Source traversal is prohibited')
-    if not path.is_absolute():
-        path = root / path
+    path = source_path_string(root, nonblank(value['path'], 'source path'))
     start, end = value['start_position'], value.get('end_position')
     if type(start) is not int or start < 0 or (end is not None and (type(end) is not int or end < start)):
         raise ValueError('Invalid inclusive source positions')
@@ -105,8 +102,8 @@ def binding(root, value):
 
 def observe(b, previous):
     """Read only one explicitly assigned saved source; never discover sessions."""
-    path = Path(b['path'])
-    if path.resolve(strict=True) != path or any(p.is_symlink() for p in (path, *path.parents)):
+    path = native_source_path(b['path'])
+    if path.resolve(strict=True) != path or any(is_link_or_reparse(p.lstat()) for p in (path, *path.parents)):
         raise SafetyError('Usage source must be canonical and nonlinked')
     before = path.stat()
     if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:

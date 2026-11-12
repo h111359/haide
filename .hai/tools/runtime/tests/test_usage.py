@@ -23,9 +23,9 @@ class UsageTests(unittest.TestCase):
         (self.root / '.hai_env/config').mkdir()
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(TOOLS.parent / 'templates/state.json', self.root / '.hai/templates/state.json')
-        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('', encoding='utf-8')
         (self.root / '.hai_env/config/state.json').write_text(json.dumps({'state_format_version': 3,
-            'activities': {'location': '.hai_env/activities'}, 'features': {'chronicles': {'enabled': False}}}))
+            'activities': {'location': '.hai_env/activities'}, 'features': {'chronicles': {'enabled': False}}}), encoding='utf-8')
         self.prov = {'source': 'fixture host', 'reason': 'verify assigned usage'}
         c = activities.handle('create', self.root, {'initial_input': '', 'provenance': self.prov}, True)
         self.assertTrue(c['ok'], c)
@@ -54,7 +54,7 @@ class UsageTests(unittest.TestCase):
             'rate_limits': {'credits': {'balance': '98765'}, 'primary': {'used_percent': 50}}})
 
     def save(self):
-        self.source.write_text(''.join(json.dumps(r) + '\n' for r in self.lines))
+        self.source.write_text(''.join(json.dumps(r) + '\n' for r in self.lines), encoding='utf-8')
 
     def update(self, apply=True, **kw):
         return activities.handle('usage-update', self.root, {'activity_id': self.ident,
@@ -82,7 +82,7 @@ class UsageTests(unittest.TestCase):
         self.assertTrue(r['ok'], r)
         s = r['result']['summary']
         self.assertEqual(Decimal(s['estimated_credits']), Decimal('0.00139'))
-        text = (self.base / 'usage.md').read_text()
+        text = (self.base / 'usage.md').read_text(encoding='utf-8')
         self.assertIn('not actual debited credits', text)
         self.assertIn('Caller-reported credits | Unavailable', text)
 
@@ -99,16 +99,16 @@ class UsageTests(unittest.TestCase):
     def test_tokens_and_credits_only_and_null_legacy_checkpoint(self):
         self.assertTrue(self.update(sources=[self.assignment], pricing=self.rate)['ok'])
         ledger = self.base / 'usage.json'
-        data = json.loads(ledger.read_text())
+        data = json.loads(ledger.read_text(encoding='utf-8'))
         self.assertEqual(data['usage_format_version'], 2)
-        self.assertNotIn('money', (self.base / 'usage.md').read_text().lower())
+        self.assertNotIn('money', (self.base / 'usage.md').read_text(encoding='utf-8').lower())
         self.assertNotIn('currency', data['pricing'])
         data['usage_format_version'] = 1
         data['pricing'].update(currency=None, money_per_credit=None)
         data['summary'].update(estimated_money=None, reported_money=None)
-        ledger.write_text(json.dumps(data))
+        ledger.write_text(json.dumps(data), encoding='utf-8')
         self.assertTrue(self.update()['ok'])
-        self.assertEqual(json.loads(ledger.read_text())['usage_format_version'], 2)
+        self.assertEqual(json.loads(ledger.read_text(encoding='utf-8'))['usage_format_version'], 2)
         for extra in [{'currency': 'EUR'}, {'money_per_credit': '0.04'}]:
             self.assertFalse(self.update(pricing={**self.rate, **extra})['ok'])
         self.assertFalse(self.update(reported_spend={'credits': '1', 'money': None,
@@ -118,7 +118,7 @@ class UsageTests(unittest.TestCase):
         other = self.root / 'other.jsonl'
         records = [self.record('session_meta', {'id': 'other', 'timestamp': '2026-11-06T00:00:00Z'}),
                    self.record('turn_context', {'model': 'model-one'}), self.counter(10, 0, 5, 0)]
-        other.write_text(''.join(json.dumps(r) + '\n' for r in records))
+        other.write_text(''.join(json.dumps(r) + '\n' for r in records), encoding='utf-8')
         b = {'path': str(other), 'session_id': 'other', 'start_position': 0}
         r = self.update(sources=[self.assignment, b])
         self.assertEqual(r['result']['summary']['tokens']['total_tokens'], 145)
@@ -133,12 +133,12 @@ class UsageTests(unittest.TestCase):
         self.assertEqual(r['result']['summary']['tokens']['total_tokens'], 80)
         self.source.write_bytes(self.source.read_bytes() + b'{incomplete later record')
         self.assertEqual(self.update()['result']['summary']['tokens']['total_tokens'], 80)
-        raw = self.source.read_text().replace('model-one', 'model-bad')
-        self.source.write_text(raw)
+        raw = self.source.read_text(encoding='utf-8').replace('model-one', 'model-bad')
+        self.source.write_text(raw, encoding='utf-8')
         r = self.update()
         self.assertEqual(r['result']['summary']['coverage'], 'partial')
         self.assertEqual(r['result']['summary']['tokens']['total_tokens'], 80)
-        state = json.loads((self.base / 'usage.json').read_text())
+        state = json.loads((self.base / 'usage.json').read_text(encoding='utf-8'))
         self.assertEqual(state['sources'][0]['status'], 'stale')
 
     def test_missing_truncated_and_wrong_session_are_not_zero(self):
@@ -203,18 +203,18 @@ class UsageTests(unittest.TestCase):
     def test_close_without_assigned_sources_records_unavailable(self):
         closed = self.close()
         self.assertTrue(closed['ok'], closed)
-        ledger = json.loads((self.root / closed['result']['archive_path'] / 'usage.json').read_text())
+        ledger = json.loads((self.root / closed['result']['archive_path'] / 'usage.json').read_text(encoding='utf-8'))
         self.assertEqual(ledger['summary']['coverage'], 'unavailable')
         self.assertIsNone(ledger['summary']['tokens'])
 
     def test_invalid_existing_records_block_close_without_lifecycle_writes(self):
         self.update(sources=[self.assignment])
-        (self.base / 'usage.json').write_text('{invalid')
+        (self.base / 'usage.json').write_text('{invalid', encoding='utf-8')
         before = (self.base / 'log.md').read_bytes()
         r = self.close()
         self.assertFalse(r['ok'])
         self.assertEqual((self.base / 'log.md').read_bytes(), before)
-        self.assertEqual(json.loads((self.base / 'state.json').read_text())['lifecycle'], 'active')
+        self.assertEqual(json.loads((self.base / 'state.json').read_text(encoding='utf-8'))['lifecycle'], 'active')
         self.assertFalse((self.base / 'outcome.md').exists())
 
     def test_partial_report_failure_stops_closure_and_retains_checkpoint(self):
@@ -223,24 +223,24 @@ class UsageTests(unittest.TestCase):
         with mock.patch.object(usage, 'write_bytes', side_effect=OSError('injected report failure')):
             r = self.close()
         self.assertEqual(r['status'], 'partial', r)
-        ledger = json.loads((self.base / 'usage.json').read_text())
+        ledger = json.loads((self.base / 'usage.json').read_text(encoding='utf-8'))
         self.assertEqual(ledger['summary']['tokens']['total_tokens'], 210)
-        self.assertEqual(json.loads((self.base / 'state.json').read_text())['lifecycle'], 'active')
+        self.assertEqual(json.loads((self.base / 'state.json').read_text(encoding='utf-8'))['lifecycle'], 'active')
         self.assertFalse((self.base / 'outcome.md').exists())
 
     def test_user_report_without_checkpoint_is_preserved(self):
-        (self.base / 'usage.md').write_text('Existing human notes')
+        (self.base / 'usage.md').write_text('Existing human notes', encoding='utf-8')
         self.assertFalse(self.update()['ok'])
         self.assertFalse(self.close()['ok'])
-        self.assertEqual((self.base / 'usage.md').read_text(), 'Existing human notes')
+        self.assertEqual((self.base / 'usage.md').read_text(encoding='utf-8'), 'Existing human notes')
 
     def test_external_activity_change_during_update_is_partial(self):
         original = usage.write_bytes
         def changed(root, relative, content, expected=None):
             original(root, relative, content, expected)
             path = self.base / 'state.json'
-            data = json.loads(path.read_text()); data['external_change'] = True
-            path.write_text(json.dumps(data))
+            data = json.loads(path.read_text(encoding='utf-8')); data['external_change'] = True
+            path.write_text(json.dumps(data), encoding='utf-8')
         with mock.patch.object(usage, 'write_bytes', side_effect=changed):
             result = self.update(sources=[self.assignment])
         self.assertEqual(result['status'], 'partial', result)
@@ -262,11 +262,11 @@ class UsageTests(unittest.TestCase):
 
     def test_cli_update_then_read(self):
         request = self.root / 'request.json'
-        request.write_text(json.dumps({'activity_id': self.ident, 'sources': [self.assignment], 'provenance': self.prov}))
+        request.write_text(json.dumps({'activity_id': self.ident, 'sources': [self.assignment], 'provenance': self.prov}), encoding='utf-8')
         args = [sys.executable, '-B', str(TOOLS / 'hai.py'), 'activity', 'usage-update', '--workspace', str(self.root), '--request', str(request)]
         r = subprocess.run(args + ['--apply'], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout)
-        request.write_text(json.dumps({'activity_id': self.ident})); args[4] = 'usage-read'
+        request.write_text(json.dumps({'activity_id': self.ident}), encoding='utf-8'); args[4] = 'usage-read'
         r = subprocess.run(args, capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout)
         self.assertTrue(json.loads(r.stdout)['result']['available'])

@@ -1,0 +1,11 @@
+{
+  "invocation_format_version": 1,
+  "activity_id": "838322f7-62ca-48cf-a12a-7006f90a7709",
+  "invocation_id": "f830df6c-2484-4608-a682-5a288f40ead5",
+  "agent": "quality-assurance",
+  "created_at": "2026-11-12T08:56:31Z",
+  "provenance": {
+    "source": "User approved implementation with at least three independent QA agents",
+    "reason": "Allocate isolated QA working folders after minimal discovery path prerequisite fix"
+  }
+}

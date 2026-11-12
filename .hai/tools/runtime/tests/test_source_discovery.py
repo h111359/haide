@@ -6,6 +6,8 @@ import shutil
 import sys
 import tempfile
 import unittest
+import stat
+from types import SimpleNamespace
 from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
@@ -31,7 +33,7 @@ class SourceDiscoveryTests(unittest.TestCase):
         (self.root / '.hai/templates').mkdir(parents=True)
         shutil.copy(Path(__file__).resolve().parents[3] / 'templates/state.json', self.root / '.hai/templates/state.json')
         (self.root / '.hai_env/config').mkdir(parents=True)
-        (self.root / '.hai_env/config/agent_instructions.md').write_text('')
+        (self.root / '.hai_env/config/agent_instructions.md').write_text('', encoding='utf-8')
         self.state = {'state_format_version': 3, 'activities': {'location': '.hai_env/activities'},
                       'features': {'chronicles': {'enabled': True, 'record_every_prompts': 5}}}
         self.save_state()
@@ -50,7 +52,7 @@ class SourceDiscoveryTests(unittest.TestCase):
         self.source.write_text(''.join(json.dumps(r) + '\n' for r in self.records), encoding='utf-8')
 
     def save_state(self):
-        (self.root / '.hai_env/config/state.json').write_text(json.dumps(self.state))
+        (self.root / '.hai_env/config/state.json').write_text(json.dumps(self.state), encoding='utf-8')
 
     def call(self, op, request, apply=False):
         with mock.patch.dict(os.environ, self.env, clear=True):
@@ -63,11 +65,11 @@ class SourceDiscoveryTests(unittest.TestCase):
                 'provenance': self.prov}
 
     def snapshot(self):
-        return {str(p.relative_to(self.root)): p.read_bytes() for p in self.root.rglob('*') if p.is_file()}
+        return {p.relative_to(self.root).as_posix(): p.read_bytes() for p in self.root.rglob('*') if p.is_file()}
 
     def test_exact_identity_discovery_and_no_content_disclosure_or_writes(self):
         unrelated = self.source.with_name('rollout-other-' + OTHER + '.jsonl')
-        unrelated.write_text('not JSON; must never be opened')
+        unrelated.write_text('not JSON; must never be opened', encoding='utf-8')
         before = self.snapshot()
         result = self.call('discover', {})
         self.assertTrue(result['ok'], result)
@@ -83,6 +85,20 @@ class SourceDiscoveryTests(unittest.TestCase):
         result = self.call('discover', {'source_path': str(self.source)})
         self.assertTrue(result['ok'], result)
         self.assertEqual(result['result']['discovery_method'], 'host_supplied_path')
+
+    def test_discovery_prunes_reparse_directories_without_is_junction_api(self):
+        ignored = self.home / 'sessions/ignored'
+        ignored.mkdir()
+        (ignored / self.source.name).write_bytes(self.source.read_bytes())
+        original = Path.lstat
+        def lstat(path, *args, **kwargs):
+            if path == ignored:
+                return SimpleNamespace(st_mode=stat.S_IFDIR, st_file_attributes=0x400)
+            return original(path, *args, **kwargs)
+        with mock.patch.object(Path, 'lstat', autospec=True, side_effect=lstat):
+            result = self.call('discover', {})
+        self.assertTrue(result['ok'], result)
+        self.assertEqual(result['result']['path'], str(self.source))
 
     def test_current_thread_preferred_to_inherited_parent_session(self):
         env = {**self.env, 'CODEX_SESSION_ID': OTHER}
@@ -145,7 +161,7 @@ class SourceDiscoveryTests(unittest.TestCase):
         self.assertEqual(before, self.snapshot())
         req = self.binding(); req['mandatory'] = True
         self.assertTrue(self.call('bind', req, True)['ok'])
-        self.assertFalse(json.loads((self.root / '.hai_env/config/state.json').read_text())['features']['chronicles']['enabled'])
+        self.assertFalse(json.loads((self.root / '.hai_env/config/state.json').read_text(encoding='utf-8'))['features']['chronicles']['enabled'])
 
     def test_observed_occurrence_preview_first_bind_resume_and_exact_duplicate_text(self):
         before = self.snapshot(); result = self.call('bind', self.binding(), False)
@@ -154,7 +170,7 @@ class SourceDiscoveryTests(unittest.TestCase):
         self.assertFalse(self.call('bind', self.binding(True), True)['ok'])
         result = self.call('bind', self.binding(), True); self.assertTrue(result['ok'], result)
         segment = self.base / result['result']['segments'][0]
-        self.assertEqual(segment.read_text().count('same question'), 2)  # Occurrences, not text deduplication.
+        self.assertEqual(segment.read_text(encoding='utf-8').count('same question'), 2)  # Occurrences, not text deduplication.
         first = segment.read_bytes()
         self.assertTrue(self.call('bind', self.binding(), True)['ok'])
         self.assertEqual(first, segment.read_bytes())
@@ -220,14 +236,14 @@ class SourceDiscoveryTests(unittest.TestCase):
                        'content': [{'type': 'text', 'text': 'Native assignment; not a human prompt'}]}),
                    self.record('response_item', {'type': 'message', 'role': 'assistant', 'phase': 'final_answer',
                        'content': [{'type': 'output_text', 'text': 'Verified reviewer outcome'}]})]
-        child.write_text(''.join(json.dumps(r) + '\n' for r in records))
+        child.write_text(''.join(json.dumps(r) + '\n' for r in records), encoding='utf-8')
         assignment = {'path': str(child), 'session_id': OTHER, 'representation': 'response_item', 'start_position': 2,
                       'enabled_intervals': [{'start': {'source_session_id': OTHER, 'source_position': 2}, 'end': None,
                                             'provenance': 'host verified native assignment author/recipient and exact occurrence'}]}
         result = self.call('synchronize', {'activity_id': self.ident, 'sources': [assignment], 'provenance': self.prov}, True)
         self.assertTrue(result['ok'], result)
         self.assertEqual(result['result']['source_count'], 2)
-        segments = '\n'.join((self.base / p).read_text() for p in result['result']['segments'])
+        segments = '\n'.join((self.base / p).read_text(encoding='utf-8') for p in result['result']['segments'])
         self.assertIn('Verified reviewer outcome', segments)
         self.assertNotIn('environment_context', segments)
         self.assertNotIn('Native assignment;', segments)
